@@ -1,0 +1,27 @@
+can't read "_aereport(root)": no such element in array
+    while executing
+"$_aereport(root) selectNodes  "//aereport/testsuite/initinfo/name""
+    (procedure "::aereport::stopTestSuite" line 38)
+    invoked from within
+"::aereport::stopTestSuite "
+    (procedure "_atsJobExitCleanup" line 14)
+    invoked from within
+"_atsJobExitCleanup"
+    (procedure "_atsSetJobInfo" line 55)
+    invoked from within
+"_atsSetJobInfo $cmdargs"
+    (procedure "_atsGetJobNames" line 20)
+    invoked from within
+"_atsGetJobNames $cmdargs $images_dir"
+    (procedure "_atsStartMainRun" line 24)
+    invoked from within
+"_atsStartMainRun $argv"
+    ("uplevel" body line 539)
+    invoked from within
+"uplevel #0 {
+		set autoeasy_rcsid {$Id: autoeasy,v 1.74 2006/10/16 18:40:54 qmac Exp $}
+		set csccon_rcsid {$Id: csccon_core.exp,v 1.100 2006/10/03 16..."
+    (procedure "_autoeasyMain" line 2)
+    invoked from within
+"_autoeasyMain"
+    (file "/auto/stg-devtest/joaofer/bin/autoeasy" line 81)

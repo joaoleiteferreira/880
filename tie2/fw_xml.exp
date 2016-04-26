@@ -1,0 +1,364 @@
+###############################################################################
+#
+# Filename: 
+# --------
+# fw_xml.exp
+#
+# Date:
+# ----
+#
+#
+# Author: 
+# ------
+# Kangwarn Chinthammit <kchinth@cisco.com>
+# Greg Peterson <grepeter@cisco.com>
+# 
+# Description: 
+# -----------
+# This library file contains procedure calls for parsing xml files
+#
+# Prerequisites: 
+# -------------
+# N/A
+#
+###############################################################################
+
+global _fw_xml_ixia_AlreadySourced
+if [info exists _fw_xml_AlreadySourced] {
+    return
+}
+set _fw_xml_ixia_AlreadySourced 1
+
+###############################################################################
+
+#Recursively process an xml tree (already parsed into DOM). The
+#parent node (which is the TestPlan node) is initially passed
+#into this proc. 
+proc fw_parse_xml_recurse_node {parentNode keyString topNode} {
+    global xml_kl
+
+    #dynamically build a string to be used for generating keylist
+    #entries for each dom tree path:
+    if {$topNode == 0} {
+	append keyString "."
+    }
+    # Figure out the correct key name for this node
+    append keyString [fw_parse_xml_determine_nodename $parentNode]
+
+    #Go through the child nodes of the passed in parent node:
+    foreach node [::dom::node children $parentNode] {
+	#get the child's type and name:
+	set nodeType [::dom::node configure $node -nodeType]
+	#see if this is an element type of node:
+	if {[string compare $nodeType "element"] == 0} {
+	    # If this is an element, then we need to find out if it has 
+	    # child node. This is to take care of empty element.
+	    if [::dom::node hasChildNodes $node] {
+		# Get a list of all child nodes and check if they are all text
+		# nodes. If they are, capture them all into a list.
+		set is_text 1
+		set childValue {}
+		foreach childNode [::dom::node children $node] {
+		    set childType [::dom::node configure $childNode -nodeType]
+		    if ![string match $childType {textNode}] { 
+			set is_text 0
+			break
+		    } else {
+			lappend childValue \
+			    [::dom::node configure $childNode -nodeValue]
+		    }
+		}
+		# If is_text is TRUE, it means we have captured the value of
+		# all child nodes into a list childValue. This is our element
+		# data. We can proceed to set them in the keyed list.
+		if { $is_text } {
+		    set localString $keyString
+		    set childName [fw_parse_xml_determine_nodename $node]
+		    set localString [join [list $localString $childName] .]
+		    keylset xml_kl $localString [join $childValue {}]
+		} elseif [llength [::dom::node children $node]] {
+		    # Since this element has child element, the node name
+		    # will be determined at the beginning of 
+		    # fw_parse_xml_recurse_node, so we do not have to 
+		    # figure out the current node name here but pass just
+		    # the parent keylist key name to the recursed proc.
+		    fw_parse_xml_recurse_node $node $keyString 0
+		}
+	    } else {
+		# If it does not have child node, we will parse all the 
+		# supported attributes and set the keylist accordingly.
+		fw_parse_xml_empty_node $node $keyString
+	    }
+	} 
+    }
+}
+
+#This proc parses the input xml. The input xml defines static
+#attributes of the test to be run. Examples would be:
+#  1. Client profile attribute values (e.g. max connections,
+#     repeat access count, etc.).
+#  2. Protocols to be run (e.g. HTTP, FTP, SMTP, etc.). These are
+#     also known as bricks.
+#  3. The attributes and values of each protocol to be executed.
+proc fw_parse_xml_ixia { xmlfile args } {
+    global xml_kl env
+
+    if [catch {package require Tclx} errmsg] {
+	return -code error "fail to load Tclx package: $errmsg"
+    }
+    if [catch {package require dom::tcl} errmsg] {
+	return -code error "fail to load dom package: $errmsg"
+    }
+    set xml_path [file dirname $xmlfile]
+    set xml_name [file tail $xmlfile]
+    if ![info exists env(NEO_SW_PATH)] {
+	set sw_path /auto/ios-fw-devtest/software
+    } else {
+	set sw_path $env(NEO_SW_PATH)
+    }
+    set tmp_file $xmlfile.[pid]
+
+    if { ![file exists $tmp_file] } {
+		set tmp_file $xmlfile
+	}
+    if {[catch {exec java -jar $sw_path/validateXML-1.1-bin.jar \
+		    -in $tmp_file} result]} {
+	if {[string match OK* $result] == 0} {
+	    # Try to delete the temp file created first
+	}
+    }
+    #Read the entire xml file into a string:
+    if {[catch {set xmlfd [open $tmp_file r]} errmsg]} {
+	close $xmlfd
+	return -code error \
+	    "Unexpected error reading file data for: $tmp_file: $errmsg"
+    }
+    #Parse each line and skip over blank line and remove \r\n
+    set xmlTree {}
+    while { [gets $xmlfd line] != -1 } {
+	if [lempty [set line [string trim $line]]] { continue }
+	lappend xmlTree $line
+    }
+    set xmlTree [join $xmlTree "\r"]
+    close $xmlfd
+    #Remove the temporary file
+    #We allow option -node to be specified. In this case, if -node <node> is
+    #specified, we will only return the child node under FwPerformance node.
+    #Otherwise, we will return the whole keylist.
+    while { [llength $args] > 0 } {
+	if [lempty [set att [lvarpop args]]] { break }
+	regsub -- {^-} $att {} att
+	switch -exact -- $att {
+	    node {
+		set $att [lvarpop args]
+	    }
+	    default {
+		return -code error "Unrecognized argument: $att"
+	    }
+	}
+    }    
+
+    #Now that we have the xml in a string, parse and process it
+    #using the Document Object Model (i.e. DOM):
+    set doc [::dom::DOMImplementation parse $xmlTree]
+
+    #Get the first child that is below the document object. This
+    #should be the TestPlan node:
+    set pNode [::dom::node configure $doc -firstChild]
+
+    #Recursively process every node in the xml tree using DOM:
+    fw_parse_xml_recurse_node $pNode "" 1
+
+    #Comment this out for now, need to discuss how to do this. We may just
+    #add a new node at the same level as NpTestPlan to store the test
+    #specified information. Then, we will ignore the one in client profile.
+
+    #Return the information parsed from XML in keylist
+    if ![info exists node] {
+	return $xml_kl
+    } else {
+	set child_list [keylkeys xml_kl FwPerformance]
+	if { [lsearch $child_list $node] == -1 } {
+	    return {}
+	} else {
+	    return [list [list $node [keylget xml_kl FwPerformance.$node]]]
+	}
+    }
+}
+
+# This proc looks in current node and return the key name to be used for the
+# keylist. It will also handle attributes here.
+proc fw_parse_xml_determine_nodename { node } {
+
+    set keyString {}
+
+    # Get the node name first
+    set nodename [::dom::node configure $node -nodeName]
+    #Handle possible non-unique node entries by qualifying them
+    #with there name. For example the ClientProfile node would
+    #be further qualified with its name (e.g. clientprofile1:0):
+    #
+    #This is handle by adding Attribute Name="<value>" to the node
+    #that is non-unique. Then, <value> will be appended to the key
+    #name as we build our keylist structure. Example is,
+    #<NetworkConfig Name="http-client"> .. </NetworkConfig>. We also need
+    #to handle attributes "KeyName" which will contain the key name to
+    #be overridden for the element name.
+    set aname [::dom::node configure $node -attributes]
+    if [is_array $aname] {
+	# Assign the value of array aname to temp_array for processing
+	array set temp_array [array get $aname]
+	# If attribute KeyName exists, use its value as key name instead of
+	# the element tag name. 
+	if [info exists temp_array(KeyName)] {
+	    append keyString "$temp_array(KeyName)"
+	} else {
+	    append keyString $nodename
+	}
+	# If any of this attributes exist, we will push a keylist one level
+	# down with that attribute 's value as keylist key name. The order
+	# in sup_attr_list is in the order of preference.
+	set sup_attr_list {Name SeqNum}
+	set attr_list [array name temp_array]
+	foreach sup_attr $sup_attr_list {
+	    if { [lsearch -exact $attr_list $sup_attr] != -1 } {
+		append keyString "."
+		append keyString "$temp_array($sup_attr)"
+	    }
+	}	
+    } else {
+	append keyString $nodename
+    }
+    return $keyString
+
+}
+
+# This proc parses an empty node for all its attributes and set the keylist
+# accordingly, it then returns the whole keylist value. For example, if a 
+# node is in following format
+#
+# <nodename attr1="value1" attr2="value2"/> or
+# <nodename attr1="value1" attr2="value2"></nodename> 
+# 
+# will produce following keylist
+#
+# { nodename {
+#     { attr1 {value1} }
+#     { attr2 {value2} }
+# }}
+# 
+# but if it does not contain attribute, it will return a keylist with nodename
+# as a key but with empty value, for example
+#
+# <nodename/> or <nodename></nodename>
+#
+# will produce following keylist
+#
+# { nodename {} }
+#
+proc fw_parse_xml_empty_node { node keyString } {
+    global xml_kl
+
+    # Get the node name first    
+    set nodename [fw_parse_xml_determine_nodename $node]
+
+    set keyString "$keyString.$nodename"
+    # Make sure this node is empty, i.e. has no child node
+    if [::dom::node hasChildNodes $node] {
+	return -code error "invalid state: node: $nodename contains childs"
+    }
+
+    # Now, find all the attributes and parses their values
+    set aname [::dom::node configure $node -attributes]
+    if [is_array aname] {
+	array set temp_array [array get $aname]
+	foreach attr [array name temp_array] {
+	    # Skip the reserved attribute names
+	    if { [lsearch {Name KeyName SeqNum} $attr] != -1 } { continue }
+	    keylset xml_kl $keyString.$attr $temp_array($attr)
+	}
+    } else {
+	keylset xml_kl $keyString {}
+    }
+
+}
+
+# This proc parses the xml file that holds statistics attributes. All
+# of the stats recognized by our performance test engine are in an xml
+# file. Each stat has its attributes (e.g. its label, if it is chartable,
+# if its cumulatvie, etc.). 
+#
+# A key list is returned from this proc. The key list has the stat names
+# as the primary keys. Subkeys of each name contain the attributes.
+#
+proc fw_parse_stats_xml { } {
+    global xml_kl
+
+    if [catch {package require Tclx} errmsg] {
+	return -code error "fail to load Tclx package: $errmsg"
+    }
+    if [catch {package require dom::tcl} errmsg] {
+	return -code error "fail to load dom package: $errmsg"
+    }
+
+    #Read the entire xml file into a string:
+    if {[catch {set xmlfd \
+        [open "/auto/ios-fw-devtest/www/cgi-bin/stats.xml" r]} errmsg]} {
+	close $xmlfd
+	return -code error \
+	    "Unexpected error reading file data for: $xmlfile: $errmsg"
+    }
+    #Parse each line and skip over blank line and remove \r\n
+    set xmlTree {}
+    while { [gets $xmlfd line] != -1 } {
+	if [lempty [set line [string trim $line]]] { continue }
+	lappend xmlTree $line
+    }
+    set xmlTree [join $xmlTree "\r"]
+    close $xmlfd
+
+    #Now that we have the xml in a string, parse and process it
+    #using the Document Object Model (i.e. DOM):
+    set doc [::dom::DOMImplementation parse $xmlTree]
+
+    #Get the first child that is below the document object. This
+    #should be the Stats node:
+    set pNode [::dom::node configure $doc -firstChild]
+
+    #Now process each child node (individual stats) and build the
+    #key list:
+    set stats_kl {}
+    foreach cNode [::dom::node children $pNode] {
+        set xml_kl {}
+
+        #Recursively process every node in the xml tree using DOM:
+        fw_parse_xml_recurse_node $cNode "" 1
+
+        if { [keylget xml_kl Stat dummy] } {
+            set name [keylget xml_kl Stat.Name]
+            set label [keylget xml_kl Stat.Label]
+            set pd [keylget xml_kl Stat.PositiveDegradation]
+            set std [keylget xml_kl Stat.Standard]
+            set cumul [keylget xml_kl Stat.Cumulative]
+
+            keylset stats_kl stats.$name.label $label
+            keylset stats_kl stats.$name.pd $pd
+            keylset stats_kl stats.$name.std $std
+            keylset stats_kl stats.$name.cumul $cumul
+        }
+    }
+
+    #Return the information parsed from XML in keylist
+    return $stats_kl
+}
+
+#==============================================================================
+# This proc takes a keylist, and look for a node <node>. If a <node> is found,
+# it returns {{$node} {[keylget keyl node]}}, or else it returns empty string.
+#------------------------------------------------------------------------------
+proc xml_get_node { name node } {
+    upvar 1 $name keyl
+
+    if ![keylget keyl $node node_kl] { return {} }
+    return [list [list $node $node_kl]]    
+}

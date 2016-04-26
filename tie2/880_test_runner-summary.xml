@@ -1,0 +1,20 @@
+<jobSummary archiveFilename="joaofer/archive/13-04/880_test_runner.2013Apr17_17:29:11.zip" atsTreePath="/auto/stg-devtest/joaofer">
+ <jobName>880_test_runner</jobName>
+ <image>NA</image>
+ <passed>0</passed>
+ <failed>0</failed>
+ <errored>0</errored>
+ <aborted>0</aborted>
+ <blocked>0</blocked>
+ <skipped>0</skipped>
+ <unknown>0</unknown>
+ <starttime>2013-04-17T17:29:11</starttime>
+ <stoptime>2013-04-17T17:29:12</stoptime>
+ <runtime>00:01</runtime>
+ <testbed/>
+ <release/>
+ <submitter>joaofer</submitter>
+ <debugProfile>0</debugProfile>
+ <host>joao-lnx</host>
+</jobSummary>
+

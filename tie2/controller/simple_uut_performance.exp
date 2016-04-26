@@ -1,0 +1,1403 @@
+proc simple_uut_performance_init {uut} {
+
+
+global env uut_data key_list
+global _device
+global RESULT FAILED_REASON
+
+    if [info exists uut_data($uut,init)] {
+	test_output "$uut already initiated"
+	return 1 
+    } else {
+        test_output "Initiating $uut"
+	set uut_data($uut,init) 1
+    }
+
+    # Set up normal things necessary for the UUT
+    # set interfaces variables as $uut.LAN/WAN and so on
+    # open console
+
+   #####
+   ## Lets start by opening console
+   #####
+
+  if {![keylget key_list Test.Equipment.$uut.console console]} {
+	if [keylget key_list Test.Equipment Equipment] {
+		foreach equipment [keylkeys Equipment] {
+			if { [ regexp {uut} $equipment gargabe ] && [keylget key_list Test.Equipment.$equipment.rule rule]  } {
+				if { $rule == $uut } {
+					set uut_name $uut
+					set uut $equipment
+					break
+				}
+			}
+		}
+	}
+  } else {
+	set uut_name $uut
+  }
+
+  keylget key_list Test.Equipment.$uut.console console
+  keylget key_list Test.Equipment.$uut.hostname hostname
+  keylget key_list Test.Equipment.$uut.enable_pwd enable_pwd
+
+  test_output "Setting connection for $hostname with console $console"
+  set uut_data($uut_name,rtr) $hostname
+  set _device($uut_data($uut_name,rtr)) "$console"
+  EnablePw $enable_pwd
+  if { [catch {console $uut_data($uut_name,rtr)} fid] } {
+	test_output "#### WARNING: NOT ABLE TO OPEN CONSOLE TO $uut_data($uut_name,rtr) sleep 300 $fid"
+	sleep 300
+	if { [catch {console $uut_data($uut_name,rtr) -noreuse} fid] } {
+		test_output "#### WARNING: NOT ABLE TO OPEN CONSOLE TO $uut_data($uut_name,rtr) sleep 600"
+		sleep 600
+		if { [catch {console $uut_data($uut_name,rtr) -noreuse} fid] } {
+			test_output "#### WARNING: NOT ABLE TO OPEN CONSOLE TO $uut_data($uut_name,rtr) sleep 900"
+			sleep 900
+			if { [catch {console $uut_data($uut_name,rtr) -noreuse} fid] } {
+				test_output "#############################################################################"
+				test_output "#### ERROR: NOT ABLE TO OPEN CONSOLE TO $uut_data($uut_name,rtr)"
+				test_output "#############################################################################"
+				set RESULT "FAIL"
+				set FAILED_REASON "UUT ABLE TO OPEN CONSOLE"
+				return 0
+			}
+		}
+	}
+  }
+
+
+   #####
+   ## set up Shortcuts for Connections
+   #####
+
+        if [keylget key_list Test.Equipment.$uut.Connection connetions] {
+		foreach connection [keylkeys connetions] {
+			  keylget key_list Test.Equipment.$uut.Connection.${connection}.Name Name 
+			  keylget key_list Test.Equipment.$uut.Connection.${connection}.Interface Interface
+			  set uut_data($uut_name,$Name) $Interface
+		}
+         }
+
+   #####
+   ## set up Shortcuts for variables
+   #####
+
+        if [keylget key_list Test.UUT.$uut.proto_pack proto_pack] {
+		set uut_data($uut_name,proto_pack) $proto_pack
+	}
+
+  #####
+  ## Start with Disabled monitor in UUT
+  #####
+  set uut_data($uut_name,monitor) "Disabled"
+
+
+}
+
+proc simple_uut_performance_config {uut} {
+
+ global RESULT FAILED_REASON
+
+global env uut_data key_list
+global _device
+
+keylget key_list Test.UUT.$uut.Config CONFIG 
+set CONFIG [subst -nobackslashes $CONFIG]
+
+    test_config_error reset
+    test_config_error enable
+    if { [catch {set result [$uut_data($uut,rtr) config $CONFIG]} fid] } {
+	test_output "#############################################################################"
+	test_output "#### ERROR: Found error configuring $uut"
+	test_output "#############################################################################"
+	set RESULT "FAIL"
+	set FAILED_REASON "CONFIG OF $uut FAILED"
+	return 0
+    }
+    test_output "######CONFIG RESUT $result"
+    set error_list [lindex [test_config_error] 2]
+    test_config_error disable
+    test_config_error reset
+    set pat {%}
+    foreach error $error_list {
+        regsub -all "% A profile is deemed incomplete until" $error "" error
+        regsub -all "% Already found same" $error "" error
+	regsub -all "% Profile already contains this keyring" $error "" error
+	if [regexp $pat $error] {
+		test_output "#############################################################################"
+		test_output "#### ERROR: Found error configuring at $error"
+		test_output "#############################################################################"
+		set RESULT "FAIL"
+		set FAILED_REASON "CONFIG OF $uut FAILED"
+		return 0
+	}
+    }
+    set rtr_ver [$uut_data($uut,rtr) exec "show version | i Version"]
+    set rtr_version $rtr_ver
+    set ver_mat $rtr_ver
+    $uut_data($uut,rtr) exec "show run"
+    $uut_data($uut,rtr) exec "show ip interface brief"
+
+if { [regexp "System Bootstrap,\[0-9a-zA-Z:\\s\\t\]+" $rtr_ver match] } {
+	puts "removing $match from $rtr_ver"
+	regsub -all "$match" $rtr_ver "" ver_mat
+}
+    regexp {Version ([a-z\(\):A-Z0-9._]+)[, ]} $ver_mat all version
+	global key_list
+	keylset key_list Test.UUT.$uut.VERSION $version
+	test_diag "keylset key_list Test.UUT.$uut.VERSION $version"
+
+}
+
+proc simple_uut_performance_add_config {uut CONFIG} {
+
+global env uut_data key_list
+global _device
+set CONFIG [subst -nobackslashes $CONFIG]
+$uut_data($uut,rtr) config $CONFIG
+
+}
+
+proc simple_uut_performance_add_complex_config {args} {
+
+    set man_args {
+	-router_name                      ANY
+	-config                          ANY
+    } ; # end mandatory args
+
+    set opt_args {
+    	-flag                   ANY
+    } ; # end optional args
+
+    parse_dashed_args                      \
+        -args $args                        \
+        -mandatory_args $man_args          \
+        -optional_args $opt_args
+
+global env uut_data key_list
+global _device
+
+if { [info exists flag]  } {
+        global matrix_data column
+        set max_row [matrix_data rows] 
+	set max_row [expr $max_row - 1 ]
+	set max_cols [matrix_data columns] 
+	set max_cols [expr $max_cols -1 ]
+	set probe_name "${router_name}:flags"
+	if { ![info exists column($probe_name)]  } {
+		puts "Adding row $probe_name"
+		matrix_data add column $probe_name
+		set column($probe_name) [expr $max_cols  + 1 ]
+		set max_cols [expr $max_cols  + 1 ]
+		matrix_data set cell $column($probe_name) 0 "$probe_name"
+	}
+	matrix_data set cell $column(${router_name}:flags) $max_row "#$flag"
+}
+
+
+set CONFIG [subst -nobackslashes $config]
+$uut_data($router_name,rtr) config $config
+
+}
+
+
+proc simple_uut_asr_license {args} {
+
+     global csccon_default
+     global _device 
+global env uut_data key_list
+global _device
+
+    set man_args {
+	-router_name                      ANY
+	-license                          ANY
+    } ; # end mandatory args
+
+    set opt_args {
+    	-future                   ANY
+    } ; # end optional args
+
+    parse_dashed_args                      \
+        -args $args                        \
+        -mandatory_args $man_args          \
+        -optional_args $opt_args
+
+set router_name $uut_data($router_name,rtr) 
+set version [$router_name exec "show version"]
+set output [$router_name exec "show license"]
+
+
+if { [regexp "cisco ASR1006" $version] || [regexp "cisco ASR1004" $version] || [regexp "cisco ASR1002" $version] || [regexp "cisco ASR1013" $version] } {
+	puts "No license is needed for these models"
+	return 1
+}
+
+if { [regexp "license boot level $license" $output] && [regexp "license accept end user agreement" $output] } {
+	puts "License is present return1"
+	return 1
+} elseif { [ regexp "license accept end user agreement" $output] } {
+	puts "License missing "
+	$router_name config "license boot level $license"
+	$router_name exec "write"
+	$router_name reload
+	set output [$router_name exec "show running | i license"]
+	if { [regexp "license boot level $license" $output] && [regexp "license accept end user agreement" $output]} {
+		puts "License is present return1"
+		return 1
+	} else {
+		puts "something failed"
+		return 0
+	}
+} elseif { [ regexp "license boot level $license" $output] } {
+	puts "license aggreement missing"
+	$router_name send "config terminal\n"
+	$router_name send "license accept end user agreement\n"
+        sleep 1
+	$router_name receive "ACCEPT?"
+	sleep 1
+	$router_name send "yes\n exit\n"
+	$router_name exec "write"
+	$router_name reload
+	set output [$router_name exec "show running | i license"]
+	if { [regexp "license boot level $license" $output] && [regexp "license accept end user agreement" $output]} {
+		puts "License is present return1"
+		return 1
+	} else {
+		puts "something failed"
+		return 0
+	}
+} else {
+	puts "everything missing"
+	$router_name send "config terminal\n"
+	$router_name send "license boot level $license\n"
+	$router_name send "license accept end user agreement\n"
+        sleep 1
+	$router_name receive "ACCEPT?"
+	sleep 1
+	$router_name send "yes\n exit\n"
+	$router_name exec "write"
+	$router_name reload
+	set output [$router_name exec "show running | i license"]
+	if { [regexp "license boot level $license" $output] && [regexp "license accept end user agreement" $output]} {
+		puts "License is present return1"
+		return 1
+	} else {
+		puts "something failed"
+		return 0
+	}
+}
+
+puts "Something failed"
+return 0
+}
+
+
+
+
+proc simple_uut_license {args} {
+     global csccon_default
+     global _device 
+global env uut_data key_list
+global _device
+
+    set man_args {
+	-router_name                      ANY
+	-license                          ANY
+    } ; # end mandatory args
+
+    set opt_args {
+    	-future                   ANY
+    } ; # end optional args
+
+    parse_dashed_args                      \
+        -args $args                        \
+        -mandatory_args $man_args          \
+        -optional_args $opt_args
+
+set router_name $uut_data($router_name,rtr) 
+set version [$router_name exec "show version"]
+set output [$router_name exec "show license"]
+
+if { [regexp "$license\[0-9a-zA-Z:\\s\\t\]+Active, In Use" $output] || [regexp "$license\[0-9a-zA-Z:\\s\\t\]+Active, Not in Use, EULA accepted" $output] } {
+	puts "License is present return1"
+	return 1
+} elseif { [regexp "$license\[0-9a-zA-Z:\\s\\t\]+ Not in Use, EULA not accepted" $output ] || [regexp "$license\[0-9a-zA-Z:\\s\\t\]+Active, Not in Use, EULA not accepted" $output ] } {
+	puts "License $license not in use let's enable it"
+	if { [regexp "C3900-SPE250/K9" $version]  } {
+		$router_name send "config terminal \n"
+		$router_name send "license boot c3900e technology-package $license \n"
+		sleep 2 
+		$router_name receive "ACCEPT?"
+		$router_name send "yes\n exit\n"
+		$router_name exec "write"
+                $router_name boot_image flash:tftp_image
+		$router_name reload
+		set version [$router_name exec "show version"]
+		set output [$router_name exec "show license"]
+		if { [regexp "$license\[0-9a-zA-Z:\\s\\t\]+ Active, In Use" $output] || [regexp "$license\[0-9a-zA-Z:\\s\\t\]+ Active, Not in Use, EULA accepted" $output] } {
+			puts "License is present return1"
+			return 1
+		} else {
+			puts "something failed"
+			return 0
+		}
+	}
+	if { [regexp "C3900-SPE150/K9" $version]  } {
+		$router_name send "config terminal \n"
+		$router_name send "license boot module c3900 technology-package $license \n"
+		sleep 2 
+		$router_name receive "ACCEPT?"
+		$router_name send "yes\n exit\n"
+		$router_name exec "write"
+		$router_name boot_image flash:tftp_image
+		$router_name reload
+		set version [$router_name exec "show version"]
+		set output [$router_name exec "show license"]
+		if { [regexp "$license\[0-9a-zA-Z:\\s\\t\]+ Active, In Use" $output] || [regexp "$license\[0-9a-zA-Z:\\s\\t\]+ Active, Not in Use, EULA accepted" $output] } {
+			puts "License is present return1"
+			return 1
+		} else {
+			puts "something failed"
+			return 0
+		}
+	}
+	if { [regexp "C892FSP-K9" $version]  } {
+		$router_name send "config terminal \n"
+		$router_name send "license boot module c800 level $license\n"
+		sleep 2
+		$router_name receive "ACCEPT?"
+		$router_name send "yes\n exit\n"
+		$router_name exec "write"
+		$router_name boot_image flash:tftp_image
+		$router_name reload
+		set version [$router_name exec "show version"]
+		set output [$router_name exec "show license"]
+		if { [regexp "$license\[0-9a-zA-Z:\\s\\t\]+ Active, In Use" $output] || [regexp "$license\[0-9a-zA-Z:\\s\\t\]+ Active, Not in Use, EULA accepted" $output] } {
+			puts "License is present return1"
+			return 1
+		} else {
+			puts "something failed"
+			return 0
+		}
+	}
+	if { [regexp "CISCO2951/K9" $version]  } {
+		$router_name send "config terminal \n"
+		$router_name send "license boot module c2951 technology-package $license\n"
+		sleep 2
+		$router_name receive "ACCEPT?"
+		$router_name send "yes\n exit\n"
+		$router_name exec "write"
+		$router_name boot_image flash:tftp_image
+		$router_name reload
+		set version [$router_name exec "show version"]
+		set output [$router_name exec "show license"]
+		if { [regexp "$license\[0-9a-zA-Z:\\s\\t\]+ Active, In Use" $output] || [regexp "$license\[0-9a-zA-Z:\\s\\t\]+ Active, Not in Use, EULA accepted" $output] } {
+			puts "License is present return1"
+			return 1
+		} else {
+			puts "something failed"
+			return 0
+		}
+	}
+} 
+
+puts "Something failed"
+return 0
+}
+
+
+
+
+
+proc simple_uut_performance_exec {uut EXEC} {
+
+
+
+global env uut_data key_list
+global _device csccon_default
+set csccon_default(exec_timeout) 60
+set EXEC [subst -nobackslashes -nocommands $EXEC]
+set output [$uut_data($uut,rtr) exec $EXEC]
+test_output $output
+
+}
+
+proc simple_uut_performance_send {uut EXEC} {
+
+
+
+global env uut_data key_list
+global _device
+set EXEC [subst -nobackslashes -nocommands $EXEC]
+$uut_data($uut,rtr) send $EXEC
+
+}
+
+
+proc simple_uut_performance_monitor_enable {uut} {
+
+
+global env uut_data key_list
+global _device
+global matrix_data column
+
+
+  if [info exists uut_data($uut,monitor)] {
+     if {$uut_data($uut,monitor) == "Enabled"} {
+	test_output "Already enabled"
+	return 1
+     } 
+  } else {
+     test_output " You need to enable uut first\n"
+     return 1
+  }
+  set uut_data($uut,monitor) "Enabled"
+  #
+  # Launch prob collector
+  #
+  after 1 [simple_uut_performance_probe_colletor $uut]
+  return
+}
+
+proc simple_uut_performance_probe_colletor {uut} {
+
+
+global env uut_data key_list
+global _device
+global matrix_data column csccon_default
+
+
+  if [info exists uut_data($uut,monitor)] {
+     if {$uut_data($uut,monitor) == "Disabled"} {
+	return 1
+     } 
+  } else {
+     test_output " You need to enable uut first\n"
+     return 1
+  }
+
+   
+
+
+
+ # If exec_timeout is not empty, we will need to save the current value
+    # and change the current timeout in CSCCON.
+   
+    set cur_exec_timeout $csccon_default(exec_timeout)
+    set csccon_default(exec_timeout) 4
+    # Need to rename to use econ_sendline_lite for csccon_exec
+    if ![fw_define_econ_sendline_lite 3] {
+	return -code error \
+	    "fail to define ecd_sendline_lite with timeout of 3"
+    }
+
+
+    if [catch {
+	rename econ_sendline my_temp_proc
+	} error] {
+	puts "error: $error"
+	set result [list 100 {}]	
+    }
+
+    if [catch {
+	rename econ_sendline_lite econ_sendline
+	} error] {
+	puts "error: $error"
+    }
+
+
+if [keylget key_list Test.UUT.$uut.Probes Probes] {
+		foreach Probe [keylkeys Probes] {
+			keylget key_list Test.UUT.$uut.Probes.$Probe.show_command show_command
+			keylget key_list Test.UUT.$uut.Probes.$Probe.regex regex
+
+			set cmd [subst {$uut_data($uut,rtr) exec {$show_command}}]
+			if [catch {eval $cmd} error] {
+				puts " got here2 $error"
+				if {$Probe == "CPU"} {
+					set cmd [subst {$uut_data($uut,rtr) exec {$show_command}}]
+					if [catch {eval $cmd} error] {
+						set uut_data($uut,$Probe) 100
+					} else {
+						if [regexp "$regex" $error all value] {
+							set uut_data($uut,$Probe) $value
+						}
+					}
+				} else {
+					if [info exists uut_data($uut,$Probe)] {
+					unset uut_data($uut,$Probe)
+					}
+				}
+			} else {	
+				puts " got here $error"
+				if [regexp "$regex" $error all value] {
+				    set uut_data($uut,$Probe) $value
+				}
+			}
+		}
+	}
+
+    # Recover the original timeout value
+    set csccon_default(exec_timeout) $cur_exec_timeout
+
+    # Restore the econ_sendline proc name back to original
+     if [catch {
+	rename econ_sendline econ_sendline_lite
+	} error] {
+	puts "error: $error"
+    }
+     if [catch {
+	rename my_temp_proc econ_sendline
+	} error] {
+	puts "error: $error"
+    }
+
+set csccon_default(exec_timeout) 30
+set time_seconds2 [clock seconds]
+if [keylget key_list Test.UUT.$uut.Show Show] {
+	set time_seconds [clock seconds]
+	foreach Show [keylkeys Show] {
+		keylget key_list Test.UUT.$uut.Show.$Show.show_command show_command
+		keylget key_list Test.UUT.$uut.Show.$Show.time_seconds time_delay
+		keylget key_list Test.UUT.$uut.Show.$Show.display_main_log display_main_log
+		if [keylget key_list Test.UUT.$uut.$Show.time time] {
+			if { [expr $time + $time_delay ] >= $time_seconds } {
+				#no need to do anything
+			} else {
+				set cmd [subst {$uut_data($uut,rtr) exec {$show_command}}]
+				if [catch {eval $cmd} error] {
+					puts "Unable to execute command $cmd $error"
+					} else {
+					set time_seconds [clock seconds]
+					keylset key_list Test.UUT.$uut.$Show.time $time_seconds
+					if { $display_main_log == "yes" || $display_main_log == "YES" } {
+						test_output "$uut $cmd \n $error "
+					}
+				}
+				if { [expr $time_seconds2 + 30 ] <= $time_seconds } {
+					set time_seconds [expr $time_seconds + 120 ]
+					keylset key_list Test.UUT.$uut.$Show.time $time_seconds
+					break
+				}
+			}
+		} else {
+			set cmd [subst {$uut_data($uut,rtr) exec {$show_command}}]
+			if [catch {eval $cmd} error] {
+				puts "Unable to execute command $cmd $error"
+				} else {
+				keylset key_list Test.UUT.$uut.$Show.time $time_seconds
+				if { $display_main_log == "yes" || $display_main_log == "YES" } {
+					test_output "$uut $cmd \n $error"
+				}
+			}
+			break
+		}
+	}
+}
+
+
+  return
+}
+
+
+proc simple_uut_performance_callback {uut} {
+
+
+global env uut_data key_list
+global _device
+global matrix_data column
+
+
+  if [info exists uut_data($uut,monitor)] {
+     if {$uut_data($uut,monitor) == "Disabled"} {
+	return 1
+     } 
+  } else {
+     return 1
+  }
+
+after 5000 [simple_uut_performance_probe_colletor $uut]
+
+set max_row [matrix_data rows] 
+set max_row [expr $max_row - 1 ]
+set max_cols [matrix_data columns] 
+set max_cols [expr $max_cols -1 ]
+
+	set probe_name "${uut}:flags"
+	if { ![info exists column($probe_name)]  } {
+		test_output "Adding row $probe_name"
+		matrix_data add column $probe_name
+		set column($probe_name) [expr $max_cols  + 1 ]
+		set max_cols [expr $max_cols  + 1 ]
+		matrix_data set cell $column($probe_name) 0 "$probe_name"
+	}
+
+
+
+	if [keylget key_list Test.UUT.$uut.Probes Probes] {
+		foreach Probe [keylkeys Probes] {
+		# Need to verify if probe exist
+			set probe_name "${uut}:${Probe}"
+			if { ![info exists column($probe_name)]  } {
+				test_output "Adding row $probe_name"
+				matrix_data add column $probe_name
+				set column($probe_name) [expr $max_cols  + 1 ]
+				set max_cols [expr $max_cols  + 1 ]
+				matrix_data set cell $column($probe_name) 0 "$probe_name"
+			}
+			if { [info exists uut_data($uut,$Probe)]  } {
+			set data $uut_data($uut,$Probe)
+			if {[keylget key_list Test.UUT.$uut.Probes.$Probe.divider divider]} {
+				set data [expr $data  / $divider ]
+			}	
+			matrix_data set cell $column($probe_name) $max_row $data 
+			}
+		}
+	}
+}
+
+
+#==============================================================================
+# This proc is a "lite" version of proc econ_sendline in 
+# $AUTOTEST/ats_lib/cisco/lib/econ.exp. Since the original econ_sendline has
+# many timeout checks and retries, it cannot support the task where exec
+# command must take no longer than 5 seconds to finish which is the case in
+# our performance project. Below is just a "lite" version of econ_sendline
+# proc which we will then hook into our callback when getting CPU stats. I get
+# rid of all the retries and set the echo and cr timeout to 1 second, and then
+# we will return with error condition upon hitting the expect timeout case. The
+# calling proc need to wrap the call to csccon_exec with catch and handle
+# the error case accordingly.
+#------------------------------------------------------------------------------
+proc fw_define_econ_sendline_lite { echo_timeout } {
+
+    set proc_str [format {
+	set _econ_cur_spawn_id [econ_state_get spawn_id]
+
+	# the user can optional supply how long sendline should wait for
+	# the line's \r to be echo'ed.  Used for config commands that can
+	# take a while to complete.  The same can be done for the line's
+	# echo with $echo_timeout.
+	#
+	if {[string length $cr_timeout] == 0} {
+	    set cr_timeout 1
+	    # set cr_timeout [econ_get_def sendline_cr_echo_timeout]
+	}
+	if {[string length $echo_timeout] == 0} {
+	    set echo_timeout %s
+	    # set echo_timeout [econ_get_def sendline_echo_timeout]
+	}
+	
+	set return_sequence [econ_get_def return_sequence]
+	
+	# make a regular expression that will match all
+	# characters up to those of $line, inclusive
+	#
+	set line_pat "(.*)[string_to_regexp $line]\$"
+	
+	# send the line
+	econ_send $line
+
+	set erase_char [econ_get_def erase_character]
+
+	# check that the router echoed the line back correctly
+	set spawn_id $_econ_cur_spawn_id
+
+	set timeout $echo_timeout
+	
+	expect {
+	    -re $line_pat {
+		# the line was echo'd back correctly
+		
+		# save the output before $line to return as sendline's 
+		# result
+		set return_value $expect_out(1,string)
+		set pattern "^[string_to_regexp $pattern]$return_sequence"
+		
+		# send \r and wait for an echo back to complete the line
+		set timeout $cr_timeout
+		
+		econ_send \r
+		
+		expect {
+		    -re "$return_sequence" {
+			# found the \r, so we're done.
+			return $return_value
+		    }
+		    -re $pattern {
+			# found pattern\r, so we're done.
+			return $return_value
+		    }
+		    timeout {
+			econ_send "$erase_char"
+			error "econ_sendline_lite: ($line) cr_timeout"
+		    }
+		}
+	    }
+	    timeout {
+		# the line has not been echoed back right (dropped 
+		# characters, or output from the router, maybe debug, is 
+		# mixed in with our line). No need to retry but just delete
+		# the line and return an error
+		econ_send "$erase_char"
+		error "econ_sendline_lite: ($line) echo_timeout"
+	    }
+	}
+    } $echo_timeout]
+    # Define the proc econ_sendline_lite
+    proc econ_sendline_lite \
+	{line {cr_timeout {}} {echo_timeout {}} {pattern {}}} $proc_str
+    # When getting to here, return
+    return 1
+
+}
+
+proc simple_uut_reload_with_tftpdnld {args} {
+     global csccon_default
+     global env uut_data key_list
+     global _device TFTPSERVERADDR
+
+    set man_args {
+	-router_name                      ANY
+	-tftp_server                  ANY
+    } ; # end mandatory args
+
+    set opt_args {
+    	-future                   ANY
+    } ; # end optional args
+
+    parse_dashed_args                      \
+        -args $args                        \
+        -mandatory_args $man_args          \
+        -optional_args $opt_args
+
+   ########################################
+   ## Set console to router
+   ##########################################
+   set router $uut_data($router_name,rtr)
+
+
+   ########################################
+   ## Save config
+   ##########################################
+
+	test_output "########################################\n"
+	test_output "####Config that router arrived from Narra######\n"
+	test_output "########################################\n"
+   
+   $router exec "show run"
+
+   ########################################
+   ## Find a device to save the file
+   ##########################################
+   set directories [$router exec "dir | i Directory"]
+   # lock for bootflash:
+   if {[regexp -nocase "bootflash" $directories]} {
+	set device "bootflash"
+   } elseif {[regexp -nocase "flash0" $directories]} {
+	set device "flash0"
+   } elseif {[regexp -nocase "flash" $directories]} {
+	set device "flash"
+   }
+
+
+   ########################################
+   ## Set image from keylist
+   ##########################################
+
+   keylget key_list Test.UUT.$router_name.IMAGE src_img
+   set TFTPSERVERADDR $tftp_server
+   set target_img "tftp_image"
+
+    test_output "INFO - $router:  Calling  clean_just_reload_JR"
+            if { [clean_just_reload_copy $router $device $src_img \
+               $target_img "COPY"]} {
+               #Copying success moving to clean
+               set res [clean_just_reload_JR $router $device \
+                   $target_img $src_img $router_name]
+            } else {
+               test_output "$:ERROR - $router: image copy failed"
+	}
+    return 1
+}
+
+proc connectivity_check {router}  {
+
+    global _device 
+    test_output "INFO - $router: checking connectivity to tftpserver"   
+	
+    set ping_pass 0
+    set showrun [$router exec "show run | i vrf"]
+    # Check if the device is configured for vrf ping
+    set vrf_enable [regexp "ip +route +vrf.*" $showrun match]
+    if {$vrf_enable} {
+        set vrf [lindex $match 3]
+    } else {
+        set vrf none
+    }
+    if { [check_ping $router $vrf] } {
+        set ping_pass 1
+        test_output "INFO - $router:  Ping check : success"
+    }
+
+    # If ping does not pass this could be due to left over configs.
+    # Do a clean of the router and reapply the default configs
+
+    if {!$ping_pass} {
+	exit
+    }
+    return 1
+}
+
+#----------------------------------------------------------------------
+#
+# Checks ping on the router to the tftp server
+# router: router name
+
+proc check_ping {router {vrf none}} {
+
+    global TFTPSERVERADDR
+
+    set count 0
+
+    if {$vrf == "none"} {
+        set cmd "$router ping -addr $TFTPSERVERADDR"
+    } else {
+        set cmd "$router ping -vrf $vrf -addr $TFTPSERVERADDR"
+    }
+    while {$count <= 4} {
+
+        set ping_out [eval $cmd]
+        regexp {([0-9]+) percent} $ping_out dummy_arg percent
+
+        if {$percent > 80} {
+            return 1
+        }
+       incr count
+    }
+    return 0
+}
+
+
+#----------------------------------------------------------------
+# Proc to check if the image version loaded and
+# the version of the image from unix match
+#
+# router: router name
+# src_img: image name as in the unix box
+
+proc check_version_loaded {router src_img router_name} {
+
+    global TFTPSERVERADDR 
+
+
+
+
+
+    set rtr_ver [$router exec "show version"]
+    set rtr_version $rtr_ver
+    set ver_mat $rtr_ver
+
+
+if { [regexp "System Bootstrap,\[0-9a-zA-Z:\\s\\t\]+" $rtr_ver match] } {
+	puts "removing $match from $rtr_ver"
+	regsub -all "$match" $rtr_ver "" ver_mat
+}
+
+    #foreach line [split $rtr_ver \n] {
+    #  if {[regexp  "Version" $line] } {
+    #      set ver_mat $line
+    #      break
+    #  }
+    #}
+
+    set stat [ regexp "Version (.*)" $ver_mat full rt_ver]
+    regexp {Version ([a-z\(\):A-Z0-9._]+)[, ]} $ver_mat all version
+	global key_list
+	keylset key_list Test.UUT.$router_name.VERSION $version
+	test_diag "keylset key_list Test.UUT.$router_name.VERSION $version"
+    set rt_ver [string trim $rt_ver]
+
+    if { [catch { set img_ver [exec grep Version $src_img]} err] } {
+            test_output "WARNING - exec command \
+                    'exec grep Version $src_img\"'\
+                    failed, ignoring image check. Error is \"$err\""            
+            return 1
+    } 
+    
+    if { $img_ver == ""} {
+         test_output "WARNING - $router: Version check is not possible \
+            as there is no version output from unix box"
+         return 1
+    }
+
+    #Work around for c10k dual strings in unix version check
+    if {[regexp "10000 Software" $img_ver]} {
+       foreach line [split $img_ver \n] {
+           if {[regexp "10000 Software" $line] } {
+               set img_ver $line
+               break
+           }
+       }
+    }
+    #End Work around
+
+    set res [regexp "Version (.*)" $img_ver full ver_str]
+
+    #Work around for the dual strings in unix version check for RSP
+    if {[regexp "RSP" $img_ver]} {
+       set res [regexp "RSP (.*) Version (.*)" $ver_str full first second]
+       set ver_str $second
+    }
+    set ver_str [string trim $ver_str]
+    #End work around
+
+    if {$ver_str != $rt_ver } {
+        #Workaround to handle other multi line version outputs.
+        set fnd 0
+        set ver_list [split ver_str \n]
+        if {[llength $ver_str] != 1} {
+            set new_ver_str ""
+            foreach newline  $ver_str {
+                set newres [regexp "Version (.*)" $newline full new_ver_str]
+                if {$new_ver_str != $rt_ver} {
+                    set fnd 1
+                    break
+                }
+           }
+        }
+        if {!$fnd} {
+            test_output "ERROR - $router: Image Version Mismatch!!\n
+                 $ver_str \n $rt_ver\n"
+            return 0
+        }
+    }
+
+    #rsreedha hot fix for Compile issue with s72033 images where they 
+    #do not match.
+    #talagars: Added RSP-7600 too
+    #trichaba: Modified "s72033" to "s720" to account for 6500 Sup5 also
+    if { [regexp "s720" $ver_mat] || [regexp "rsp720" $ver_mat]} {
+         test_output "WARNING - $router: Compile tag check skipped as \
+                    the platform is 7600/6500"
+         return 1
+    } 
+
+    #checking compile info
+    set ver_mat ""
+    set img_comp [exec rsh $TFTPSERVERADDR -n -l usr_cln \
+        "grep Compiled /tftpboot/$src_img"]
+    
+   if { $img_comp == ""} {
+         test_output "WARNING - $router: Compile info check is not possible \
+            as there is no version output from unix box"
+         return 1
+    }
+
+    
+    set res [regexp "Compiled (.*)" $img_comp full  comp_str]
+    set comp_str [string trim $comp_str]
+
+    foreach line1 [split $rtr_version \n] {
+        if {[regexp "Compiled" $line1]} {
+           set ver_mat $line1
+           break
+        }
+    }
+    set res [regexp "Compiled (.*)" $ver_mat full rtr_comp_str]
+    set rtr_comp_str [string trim $rtr_comp_str]
+    if { [ regexp $rtr_comp_str $comp_str]} {
+        test_output "INFO - $router: Version and Compile info Matches"
+        return 1
+    }
+    test_output "ERROR - $router: Image compile info do not match!!\n \
+        $rtr_comp_str \n $comp_str \n"
+    return 0
+}
+
+
+proc copy_image_rtr_device {router device src_img target_img } {
+
+    global TFTPSERVERADDR 
+
+    test_output "INFO - $router: Copying image $src_img to $device on $router \
+               as $target_img"
+    set return_val ""
+
+    # Check if the tftpserver is setup for rcp
+    catch { set return_val [exec rsh $TFTPSERVERADDR -n  -l usr_cln 'date'] } {
+        test_output "INFO - $router: not able to use RCP. Trying out TFTP copy"
+    }
+    # copy with rcp
+    if {$return_val != "" } {
+        catch { [$router copy rcp://usr_cln@$TFTPSERVERADDR/$src_img \
+              $device:$target_img -server $TFTPSERVERADDR -image $src_img \
+              -writeto $target_img -erase n] error_msg } {
+                  test_output "WARNING - $router: rcp image copy Failed.\n \
+                             $error_msg"
+                  set return_val ""
+        }
+    }
+    # copy with tftp
+    if { $return_val == ""} {
+        catch { [$router copy tftp://$TFTPSERVERADDR/$src_img \
+            $device:$target_img -server $TFTPSERVERADDR -image $src_img \
+            -writeto $target_img -erase n] error_msg } {
+            test_output "$:ERROR - $router: tftp image copy Failed.\n $error_msg"
+            return 0
+        }
+    }
+    return 1
+}
+
+proc clean_just_reload_JR {router device tar_img src_img router_name} {
+ global RESULT FAILED_REASON
+
+	if { ![file exists "$src_img"] } {
+	test_output "#############################################################################"
+        test_output "#### ERROR: File $src_img was not found, how did we get this far???"
+	test_output "#############################################################################"
+	set RESULT "FAIL"
+	set FAILED_REASON "UUT IMAGE NOT FOUND $src_img"
+	return 0
+	}
+    set version [$router exec "show version"]
+
+    if { [regexp -nocase {CSR1000V} $version] } {
+        $router config "config-reg 0x2102"
+	$router config "no boot system flash"
+	$router config "boot system flash $device:$tar_img"
+	$router config "boot system flash $device:/taas/${router}_Golden_Image"
+	$router exec "write"
+    } else {
+	$router config "config-reg 0x0"
+    }
+    $router exec "write"
+    $router boot_image $device:$tar_img
+    $router boot_server ""
+    $router reload
+    #Wait 120 seconds to give time for ASR drivers to come up
+    sleep 120
+    return [check_version_loaded $router $src_img $router_name]
+
+}
+
+#----------------------------------------------------------------------
+#
+# Procedure called for copy feature for copying images to the router
+# Base procedure called for copy of images .
+# All clean procs call this first as a setup procedure
+# to ensure the needed images are present in the media
+#
+# router - current device
+# device - device in router to be used
+# src_img - source image
+# target_img - image name to be used in the router media
+# copy_tag  - tag that tells the procedure what kind of copy is needed
+
+proc clean_just_reload_copy {router device src_img target_img copy_tag} {
+
+    global TFTPSERVERADDR IMAGE env
+
+    test_output "INFO - $router: In clean_just_reload_copy router: $router \
+               device: $device target_image: $target_img \
+               source_image: $src_img"
+    #initialize
+
+    set img_pres 0
+    test_output "INFO - $router:  Check and copy test image to tftpserver"
+
+    if {$copy_tag == "COPY_ISSU_ASR"} {
+      set src_img1 ""
+      set src_img2 ""
+
+      set src_img1 [lindex [split $src_img "/"] 0]
+      set src_img2 [lindex [split $src_img "/"] 1]
+      
+      if {$src_img1 == "" || $src_img2 == ""} {
+         test_output "$:ERROR - $router:Aborting as two images needed for \
+                    ISSU is not provided with / between them"
+         set ABORT_FLAG 1  
+         return 0
+      }
+      set img_pres [check_and_copy_tftp $src_img1]
+      if {!$img_pres} {
+          test_output "$:ERROR - $router: Aborting as image $src_img1 not found in \
+                     aux_images and tftpserver"
+          set ABORT_FLAG 1
+          return $img_pres
+      }
+
+      set img_pres [check_and_copy_tftp $src_img2] 
+      if {!$img_pres} { 
+          test_output "$:ERROR - $router: Aborting as image $src_img2 not found in \
+                     aux_images and tftpserver"
+          set ABORT_FLAG 1
+          return $img_pres
+      }
+
+      #set img_list "not_found"
+	set img_list [get_rtr_img_list $router $device]	
+    
+      if {![clean_just_reload_copy_ha_support $router $device $src_img \
+            $target_img $copy_tag $img_list] } {
+
+            test_output "\n#### $:ERROR - $router: Unable to load image with \
+                       HA/ISSU support. Aborting! ##### \n"
+            set ABORT_FLAG 1
+            return 0
+      }
+       test_output "INFO - $router: Copy of image $src_img into\
+                  $device successful!!"
+
+     
+      return 1
+
+
+    } else {
+
+      #copy the image if missing, to tftp do this later
+      #set img_pres [check_and_copy_tftp $src_img]
+      set img_pres 1
+      if {!$img_pres} {
+          test_output "$:ERROR - $router: Aborting as image not found in \
+                     aux_images and tftpserver"
+          set ABORT_FLAG 1
+          return $img_pres
+      }
+
+
+   if { [regexp -nocase "HA" $copy_tag] || [regexp -nocase "ISSU" $copy_tag] } {
+
+        test_output "INFO -  $router:  needs HA / ISSU clean. \n \
+                    Iniitiating HA/ISSU Support \n"
+
+        if {![clean_just_reload_copy_ha_support $router $device $src_img \
+            $target_img $copy_tag $img_list] } {
+
+            test_output "\n#### $:ERROR - $router: Unable to load image with \
+                       HA/ISSU support. Aborting! ##### \n"
+            set ABORT_FLAG 1
+            return 0
+        }
+        test_output "INFO - $router: Copy of image $src_img into\
+                  $device successful!!"
+	
+        return 1
+    }
+
+
+    test_output "INFO - $router:  Image not present in $device: Initiating \
+               copy from tftpserver"
+    if { ![connectivity_check $router]} {
+        return 0
+    }
+
+
+    test_output "INFO - $router: Copying the image $src_img into $device"
+    if {![copy_image_rtr_device $router $device $src_img $target_img] } {
+       test_output "ERROR - $router: copy of the test image $src_img failed.
+       Try netbooting!"
+       return 0
+    }
+    test_output "INFO - $router: Copy of image $src_img into $device successful!!"
+
+   
+    return 1
+  }
+}
+
+
+#----------------------------------------------------------------
+#
+# Procedure to check and copy images from aux_images to tftp
+# srcImg: Image name as in aux_images or tftpboot
+
+proc check_and_copy_tftp {srcImg} {
+
+    global TFTPDIR TFTPSERVERNAME env
+
+    clean_log "INFO -  check if the image is present in tftpboot \
+               location of the TFTPSERVER $TFTPSERVERNAME"
+    # Needs to handle TFTPDIR also ?
+    # TFTPDIR is normally set in the CONFIG file and points
+    # to a custom TFTP directory [equivalent to /tftpboot]
+
+    set targetImg ""
+    set targetImg /tftpboot/$srcImg
+
+    clean_log "INFO - Image to copy is: $srcImg from TFTPSERVER: \
+               $TFTPSERVERNAME"
+    set returnval ""
+    catch {
+        set returnval [remote_tftp_ls $TFTPSERVERNAME /tftpboot/$srcImg]
+    }
+
+    clean_log "INFO - return value from image availability check \
+               is:  ## $returnval ##"
+
+    if { $returnval != ""} {
+       clean_log "INFO: Image $srcImg is present in /tftpboot location"
+        return 1
+    }
+    clean_log "INFO - Image $srcImg not present in tftpboot server. \
+               Need to copy from aux_images"
+    set returnval ""
+    catch {
+        set returnval [remote_tftp_ls $TFTPSERVERNAME \
+            $env(AUTOTEST)/local/images/aux_images/$srcImg]
+    }
+    if { $returnval == ""} {
+        clean_log "$AAP_TAG:ERROR -  Image $srcImg not found in \
+                   $env(AUTOTEST)/local/images/aux_images/"
+        return 0
+    }
+    # after checking aux - copying image
+    catch { [remote_tftp_copyto $TFTPSERVERNAME \
+        $env(AUTOTEST)/local/images/aux_images/$srcImg $targetImg] } {
+        return 0
+    }
+    clean_log "INFO - Copying of image $srcImg to the \
+               tftpserver successful"
+    return 1
+}
+
+proc get_rtr_img_list {router device} {
+
+    # Using dir command below as this works on most router prompts
+    set mod_out [$router exec "dir $device:"]
+
+    if { ![regexp -nocase {Directory} $mod_out] } {
+        set mod_out [$router exec "show $device"]
+
+        if {![regexp -nocase {bytes} $mod_out]} {
+            # Not able to get the router image list
+            set mod_out "not_found"
+        }
+    }
+    return $mod_out
+}
+
+proc simple_uut_regex {args} {
+     global csccon_default
+     global env uut_data key_list
+     global _device TFTPSERVERADDR
+global RESULT FAILED_REASON
+
+    set man_args {
+	-router_name                      ANY
+	-name                             ANY
+        -show_command                     ANY
+        -regex                            ANY
+        -retry                            ANY
+        -sleep				  ANY
+    } ; # end mandatory args
+
+    set opt_args {
+    	-future                   ANY
+    } ; # end optional args
+
+    parse_dashed_args                      \
+        -args $args                        \
+        -mandatory_args $man_args          \
+        -optional_args $opt_args
+
+set pat $regex
+set cmd $show_command
+set re_cmd {regexp}
+set pat_match_flag 0
+set rtr_name $uut_data($router_name,rtr)
+set var_list {}
+for { set i 1 } { $i <= $retry } { incr i } {
+        set output [$rtr_name exec $cmd]
+       if [eval $re_cmd [list $pat] [list $output] - $var_list] {
+		 set pat_match_flag 1
+		# If var_list is not empty, then we store the output
+		# of these matches in fw_aval_topo keyed list, under
+		# runtime section
+		#if ![lempty $var_list] {
+		#    foreach var $var_list {
+		#        keylset fw_uut_topo \
+		#            runtime.stored_var.$var [set $var]
+		#    }
+		#}
+            break
+        }
+       sleep $sleep
+}
+if { !$pat_match_flag } {
+	test_output "#############################################################################"
+        test_output "#### FAILED CHECK FOR $name"
+	test_output "#############################################################################"
+	set RESULT "FAIL"
+	set FAILED_REASON "FAILED CHECK FOR $name"
+	return 0
+       set result 0 
+} else {
+        test_output "#### PASSED CHECK FOR $name"
+}
+
+}
+
+proc simple_uut_regex_neg {args} {
+     global csccon_default
+     global env uut_data key_list
+     global _device TFTPSERVERADDR
+global RESULT FAILED_REASON
+
+    set man_args {
+	-router_name                      ANY
+	-name                             ANY
+        -show_command                     ANY
+        -regex                            ANY
+        -retry                            ANY
+        -sleep				  ANY
+    } ; # end mandatory args
+
+    set opt_args {
+    	-future                   ANY
+    } ; # end optional args
+
+    parse_dashed_args                      \
+        -args $args                        \
+        -mandatory_args $man_args          \
+        -optional_args $opt_args
+
+set pat $regex
+set cmd $show_command
+set re_cmd {regexp}
+set pat_match_flag 0
+set rtr_name $uut_data($router_name,rtr)
+set var_list {}
+for { set i 1 } { $i <= $retry } { incr i } {
+        set output [$rtr_name exec $cmd]
+       if [eval $re_cmd [list $pat] [list $output] - $var_list] {
+		 set pat_match_flag 1
+		# If var_list is not empty, then we store the output
+		# of these matches in fw_aval_topo keyed list, under
+		# runtime section
+		#if ![lempty $var_list] {
+		#    foreach var $var_list {
+		#        keylset fw_uut_topo \
+		#            runtime.stored_var.$var [set $var]
+		#    }
+		#}
+            break
+        }
+       sleep $sleep
+}
+if { $pat_match_flag } {
+	test_output "#############################################################################"
+        test_output "#### FAILED CHECK FOR $name"
+	test_output "#############################################################################"
+	set RESULT "FAIL"
+	set FAILED_REASON "FAILED CHECK FOR $name"
+	return 0
+       set result 0 
+} else {
+        test_output "#### PASSED CHECK FOR $name"
+}
+
+}
+

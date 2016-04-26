@@ -1,0 +1,340 @@
+
+proc 880_Analyse_avg { args } {
+
+
+	set man_args {
+	-monitor	      CHOICES TRUE FALSE
+	-probe		      ANY
+	-store_variable	      ANY
+    } ; # end mandatory args
+
+    set opt_args {
+	-automation           CHOICES TRUE FALSE
+	DEFAULT		      FALSE
+    } ; # end optional args
+
+
+    parse_dashed_args                     \
+        -args $args                       \
+        -mandatory_args $man_args         \
+        -optional_args $opt_args
+
+
+
+global key_list Analyse_variables
+global matrix_data column
+
+    if { ![info exists Analyse_variables] } {
+	array set Analyse_variables {}
+    }
+
+set max_row [matrix_data rows] 
+set max_row [expr $max_row - 1 ]
+set max_cols [matrix_data columns] 
+set max_cols [expr $max_cols -1 ]
+
+set i 0
+set counter 0
+while { $i <= $max_row } {
+	set value [matrix_data get cell $column($probe) $i]
+	set running [matrix_data get cell $column(Measuring) $i]
+	if { $monitor == "TRUE"} {
+		if { $running == 1 && $value >= 0} {
+			if {![info exists avg_value]} {
+			set avg_value $value
+			} else {
+				set avg_value [expr (double($avg_value * $counter) + $value) / ($counter + 1)]
+			}
+			incr counter
+		}
+	} 
+
+	if { $monitor == "FALSE"} {
+		if {![info exists avg_value]} {
+			set avg_value $value
+		} else {
+			set avg_value [expr (double($avg_value * $counter) + $value) / ($counter + 1)]
+		}
+		incr counter
+	} 
+	incr i
+}
+# Lets round the number
+set avg_value [expr double(round($avg_value * 100)) / (100)]
+set Analyse_variables($store_variable) $avg_value
+test_output " Average value for $probe is $avg_value"
+return 1
+}
+
+proc 880_Analyse_common { args } {
+
+
+	set man_args {
+	-monitor	      CHOICES TRUE FALSE
+	-probe		      ANY
+	-store_variable	      ANY
+    } ; # end mandatory args
+
+    set opt_args {
+	-automation           CHOICES TRUE FALSE
+	DEFAULT		      FALSE
+    } ; # end optional args
+
+
+    parse_dashed_args                     \
+        -args $args                       \
+        -mandatory_args $man_args         \
+        -optional_args $opt_args
+
+
+
+global key_list Analyse_variables
+global matrix_data column
+
+    if { ![info exists Analyse_variables] } {
+	array set Analyse_variables {}
+    }
+
+set max_row [matrix_data rows] 
+set max_row [expr $max_row - 1 ]
+set max_cols [matrix_data columns] 
+set max_cols [expr $max_cols -1 ]
+
+array set most_common {}
+
+set i 0
+set counter 0
+test_output "got here 0"
+while { $i <= $max_row } {
+	set value [matrix_data get cell $column($probe) $i]
+	set running [matrix_data get cell $column(Measuring) $i]
+	test_output "value $value i $i running $running"
+	if { $monitor == "TRUE"} {
+		if { $running == 1 && [info exists value]} {
+			if {![info exists most_common($value)]} {
+				set most_common($value) 1
+			} else {
+				incr most_common($value)
+				test_output "got here 5 $value"
+			}
+		}
+	} 
+
+	if { $monitor == "FALSE" } {
+		if { ![info exists most_common($value)] } {
+			set most_common($value) 1
+		} else {
+			incr most_common($value)
+		}
+	} 
+	incr i
+}
+test_output "got here"
+set start_value 0
+set value ""
+foreach item [array names most_common] {
+	test_output "got here 3 $item and $most_common($item)"
+	if { $most_common($item) > $start_value && $item != "" } {
+		test_output "got here23 $item and $most_common($item)"
+		set value $item
+		set start_value $most_common($item)
+	}
+	
+}
+
+
+set Analyse_variables($store_variable) $value
+test_output " Most common value for  $probe is $value"
+return 1
+}
+
+proc 880_Analyse_last { args } {
+
+
+	set man_args {
+	-monitor	      CHOICES TRUE FALSE
+	-probe		      ANY
+	-store_variable	      ANY
+    } ; # end mandatory args
+
+    set opt_args {
+	-automation           CHOICES TRUE FALSE
+	DEFAULT		      FALSE
+    } ; # end optional args
+
+
+    parse_dashed_args                     \
+        -args $args                       \
+        -mandatory_args $man_args         \
+        -optional_args $opt_args
+
+
+
+global key_list Analyse_variables
+global matrix_data column
+
+    if { ![info exists Analyse_variables] } {
+	array set Analyse_variables {}
+    }
+
+set max_row [matrix_data rows] 
+set max_row [expr $max_row - 1 ]
+set max_cols [matrix_data columns] 
+set max_cols [expr $max_cols -1 ]
+
+set i 0
+set counter 0
+while { $i <= $max_row } {
+	set value [matrix_data get cell $column($probe) $i]
+	set running [matrix_data get cell $column(Measuring) $i]
+	if { $monitor == "TRUE"} {
+		if { $running == 1 && $value >= 0} {
+			if {![info exists final_value]} {
+			set final_value $value
+			} else {
+				set final_value $value
+			}
+			incr counter
+		}
+	} 
+
+	if { $monitor == "FALSE"} {
+		if {![info exists final_value]} {
+			set final_value $value
+		} else {
+			set final_value $value
+		}
+		incr counter
+	} 
+	incr i
+}
+# Lets round the number
+set final_value [expr double(round($final_value * 100)) / (100)]
+set Analyse_variables($store_variable) $final_value
+test_output " Average value for $probe is $final_value"
+return 1
+}
+proc 880_Analyse_last { args } {
+
+
+	set man_args {
+	-monitor	      CHOICES TRUE FALSE
+	-probe		      ANY
+	-store_variable	      ANY
+    } ; # end mandatory args
+
+    set opt_args {
+	-automation           CHOICES TRUE FALSE
+	DEFAULT		      FALSE
+    } ; # end optional args
+
+
+    parse_dashed_args                     \
+        -args $args                       \
+        -mandatory_args $man_args         \
+        -optional_args $opt_args
+
+
+
+global key_list Analyse_variables
+global matrix_data column
+
+    if { ![info exists Analyse_variables] } {
+	array set Analyse_variables {}
+    }
+
+set max_row [matrix_data rows] 
+set max_row [expr $max_row - 1 ]
+set max_cols [matrix_data columns] 
+set max_cols [expr $max_cols -1 ]
+
+set i 0
+set counter 0
+while { $i <= $max_row } {
+	set value [matrix_data get cell $column($probe) $i]
+	set running [matrix_data get cell $column(Measuring) $i]
+	if { $monitor == "TRUE"} {
+		if { $running == 1 && $value >= 0} {
+			if {![info exists first_value]} {
+			set first_value [expr double($value)]
+			} 
+			incr counter
+		}
+	} 
+
+	if { $monitor == "FALSE"} {
+		if {![info exists first_value]} {
+			set first_value [expr double($value)]
+		} 
+		incr counter
+	} 
+	incr i
+}
+# Lets round the number
+set first_value [expr double(round($first_value * 100)) / (100)]
+set Analyse_variables($store_variable) $first_value
+test_output " Average value for $probe is $first_value"
+return 1
+}
+
+
+proc 880_Analyse_compare { args } {
+
+
+	set man_args {
+	-variable1	      ANY
+	-compare	      CHOICES EQ NEQ GT GE LT LE
+	-name                 ANY
+    } ; # end mandatory args
+
+    set opt_args {
+	-variable2	      ANY
+	-fix_variable2	      ANY
+	-variable2_adjust     ANY
+    } ; # end optional args
+
+
+    parse_dashed_args                     \
+        -args $args                       \
+        -mandatory_args $man_args         \
+        -optional_args $opt_args
+
+   array set op_map_array {
+	EQ        ==
+	NEQ       !=
+	GT        >
+	GE        >=
+	LT        <
+	LE        <=
+    }
+
+global key_list Analyse_variables RESULT
+global matrix_data column RESULT
+
+    if { ![info exists Analyse_variables] } {
+	array set Analyse_variables {}
+    }
+
+if { ![info exists variable2_adjust] } {
+	set variable2_adjust 1
+}
+
+if { [info exists variable1] && [info exists variable2] && [info exists compare] } {
+	if { ![expr $Analyse_variables($variable1) $op_map_array($compare) ($Analyse_variables($variable2) * $variable2_adjust)] } {
+	    test_output "condition check: $name failed with operation: $compare" 
+	    set RESULT FAIL
+	} else {
+	    test_output "condition check: $name passed with operation: $compare" 
+	}
+}
+
+if { [info exists variable1] && [info exists fix_variable2] && [info exists compare] } {
+	if { ![expr $Analyse_variables($variable1) $op_map_array($compare) $fix_variable2] } {
+	    test_output "condition check: $name failed with operation: $compare"
+	    set RESULT FAIL
+	} else {
+	    test_output "condition check: $name passed with operation: $compare" 
+	}
+}
+
+}

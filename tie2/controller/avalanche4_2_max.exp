@@ -1,0 +1,1762 @@
+
+
+proc fw_aval_add_array {key_string value NAME} {
+    global fw_aval_array
+    global newApiFlag
+
+    # This list maps avalanche xml tags to avalanche array key naming
+    # conventions:   
+    set fw_aval_key_map {
+        { {AvalTestPlan,} {} }
+        { {Client,} {Wa} }
+        { {Server,} {Wr} }
+        { {InterfaceProfile} {Interface} }
+        { {InterfaceProfileName} {Name} }
+        { {Entry,} {} }
+	{ {SAPEESERVER} {Server} }
+	{ {SAPEECLIENT} {Client} }
+    }
+
+	
+
+    # This list maps avalanche xml element values to avalanche array config
+    # value naming conventions:
+    set fw_aval_value_map {
+        { {true} {on} }
+        { {false} {off} }
+	{ {av_true} {true} }
+	{ {av_false} {false} }
+    }
+
+    # Add Info to Replace in Keyed list
+    set i 1
+    while { $i < 99  && ( [avalanche_get_server_port $i $NAME] >= 0 || [avalanche_get_client_port $i $NAME] >= 0 )  } {
+	if { [avalanche_get_server_port $i $NAME] >= 0 } {
+		set server_port [avalanche_get_server_port $i $NAME]
+		set server_ifport [avalanche_get_server_ifport $i $NAME]
+		set mgt_IP [avalanche_get_mgt_IP $NAME]
+		lappend fw_aval_value_map  "\"SERVER${i}_avalanche_mgt_IP\" \"$mgt_IP\""
+		lappend fw_aval_value_map  "\"SERVER${i}\" \"$server_port\""
+		lappend fw_aval_value_map  "\"SERVER${i}_InterfaceDisplayString\" \"$server_ifport\""
+	 }
+	if { [avalanche_get_client_port $i $NAME] >= 0 } {
+		set client_port [avalanche_get_client_port $i $NAME]
+		set client_ifport [avalanche_get_client_ifport $i $NAME]
+		set mgt_IP [avalanche_get_mgt_IP $NAME]
+		lappend fw_aval_value_map  "\"CLIENT${i}_avalanche_mgt_IP\" \"$mgt_IP\""
+		lappend fw_aval_value_map  "\"CLIENT${i}\" \"$client_port\""
+		lappend fw_aval_value_map  "\"CLIENT${i}_InterfaceDisplayString\" \"$client_ifport\""
+	 }
+	incr i
+    }
+
+
+    # First, change the '.' values in a key string to ',' (needed
+    # for the array):
+    regsub -all {\.} $key_string {,} array_string
+
+    # Map any keys in the key_string that need to be mapped:
+    foreach key [keylkeys fw_aval_key_map] {
+        if [regexp "$key" $array_string] {
+            set map_value [keylget fw_aval_key_map $key]
+            regsub $key $array_string $map_value array_string
+        }
+    }
+
+    # Map any values that need to be mapped:
+    foreach key [keylkeys fw_aval_value_map] {
+        if {$key == $value} {
+            set value [keylget fw_aval_value_map $key]
+        }
+    }
+
+    # Map network address
+   ## set new_client [avalanche_new_client_address $NAME]
+   ## set new_server [avalanche_new_server_address $NAME]
+
+   ## set old_client [avalanche_old_client_address $NAME]
+   ## set old_server [avalanche_old_server_address $NAME]
+
+     # regsub -all "$old_client" $value $new_client value
+	# regsub -all "$old_server" $value $new_server value
+
+
+
+    # This is to handle special case when we just cannot directly map the
+    # XML to array. It requires additional processing. This is indicated by
+    # dash in the element name, i.e. <TagName->value</TagName->
+    set special_case_symbol {-}
+    if [string match [string index $array_string end] $special_case_symbol] {
+	set array_string [string trimright $array_string $special_case_symbol]
+	fw_aval_add_array_handle_special_case $array_string $value
+    } else {
+	array set fw_aval_array "$array_string {$value}"
+    }
+
+}
+
+
+
+#==============================================================================
+# This proc recurses the avalanche key list that was generated from
+# the xml and builds the avalanche array needed for the TCL config:
+#------------------------------------------------------------------------------
+proc fw_aval_recurse_keylist {key_string NAME} {
+    global fw_aval_static
+    #puts "key string $key_string "
+    if [catch {set keys [keylkeys fw_aval_static $key_string]}] {
+        set value [keylget fw_aval_static $key_string]
+        # add the key and value to the avalanche array:
+        fw_aval_add_array $key_string $value $NAME
+    } else {
+	if [lempty $keys] {
+	    # Meaning it's empty node
+	    fw_aval_add_array $key_string "" $NAME
+	} else {
+	    # Now recurse these keys:
+	    foreach key $keys {
+		set new_key_string $key_string
+		append new_key_string {.} $key
+		fw_aval_recurse_keylist $new_key_string $NAME
+	    }
+	}
+    }
+    return
+
+}
+
+
+proc fw_aval_gen_array { NAME } {
+     global fw_aval_array
+
+    # Build the xml specified portions of the array;
+    fw_aval_recurse_keylist "AvalTestPlan" $NAME
+
+    return 1
+}
+
+proc Avalanche4_2_cleanup {} {
+	global avalanche_4_2_already_init env
+	SPI_AV::CleanUp
+
+}
+
+proc Avalanche4_2_reboot {$NAME} {
+	global avalanche_4_2_already_init env key_list
+
+         if [keylget key_list Test.Equipment Equipment] {
+	foreach equipment [keylkeys Equipment] {
+		if { [ regexp {Avalanche} $equipment gargabe ] && [keylget key_list Test.Equipment.$equipment.rule rule] } {
+		    if {$rule == $NAME} {
+			keylget key_list Test.Equipment.$equipment.mgt_ip mgt_ip
+			SPI_AV::Reboot $mgt_ip
+		    }
+		}
+	
+	   }
+        }
+}
+
+
+
+proc Avalanche4_2_init {} {
+
+global avalanche_4_2_already_init env
+
+    if [info exists avalanche_4_2_already_init] { 
+	if { $avalanche_4_2_already_init } { return 1 }
+    } else {
+	set avalanche_4_2_already_init 0
+    }
+
+puts "Avalanche Equipment was detected, load 4.2 ENV"
+
+set env(SPIRENT_TCLAPI_ROOT) "/auto/td-devtest/avalanche/Layer_4_7_Auto_Linux_4.20/Layer_4_7_Application_Linux/TclAPI/"
+set env(LD_LIBRARY_PATH) "/auto/td-devtest/avalanche/Layer_4_7_Auto_Linux_4.20/Layer_4_7_Application_Linux/STC:$env(AUTOTEST)/lib/dload.linux2:/usr/local/lib"
+set env(SPIRENT_TCLAPI_LICENSEROOT) "/auto/td-devtest/avalanche/licenses/"
+
+    # Verify that the Avalanche TclAPI is installed
+    if ![info exists env(SPIRENT_TCLAPI_ROOT)] { 
+	puts "env: SPIRENT_TCLAPI_ROOT not set, must point to tcl api dir" \
+	    error
+    }
+    # Make sure the path exists
+    set tcl_root $env(SPIRENT_TCLAPI_ROOT)
+    if { ![file isdirectory $tcl_root] } {
+	puts "SPIRENT_TCLAPI_ROOT path invalid: $tcl_root" error
+	error
+    }
+    puts "Using Spirent TCLAPI: $tcl_root"
+
+    global auto_path
+    set auto_path [linsert $auto_path 0 $tcl_root]
+    if [catch {
+		package forget SPI_AV
+		package require SPI_AV
+		SPI_AV::CleanUp
+		package forget SPI_AV
+		package require SPI_AV
+		} error] {
+	puts "fail to load SPI_AV package" 
+    } 
+
+	puts "Succeding Loading Avalanche 4.2 env"
+	
+	
+	    # Load the license
+    if ![fw_aval_add_license] {
+	fw_diag "fail to add license from directory $lic_root" error
+	return 0
+    }
+   # Load the testcenter license
+   # if ![fw_aval_add_license_stc] {
+   #     fw_diag "fail to add stc license" error
+   #	return 0
+   #    }
+
+
+}
+
+proc Avalanche4_2_done { NAME } {
+
+global env Avalanche_running key_list
+
+   if { ![info exists Avalanche_running] } {
+	array set Avalanche_running {}
+    }
+    set i 0
+    set found False
+    while { $i < 10 } {
+	if { $Avalanche_running($i) == "$NAME" } {
+		array set Avalanche_running [list $i $NAME]
+		set found TRUE
+		puts "Found $NAME at $i"
+		break
+	}
+	incr i
+    }
+
+     if { $found == "False" } {
+	puts " Not able to find a slot for this new avalanche module"
+	return 0
+    }
+         if [keylget key_list Test.Equipment Equipment] {
+	foreach equipment [keylkeys Equipment] {
+		if { [ regexp {Avalanche} $equipment gargabe ] && [keylget key_list Test.Equipment.$equipment.rule rule] } {
+		    if {$rule == $NAME} {
+			keylget key_list Test.Equipment.$equipment.mgt_ip mgt_ip
+		    }
+		}
+	
+	   }
+        }
+
+    set test_complete "false"
+    if { [catch {
+	 set clientClusterID [keylget key_list Test.Avalanche.$NAME.client.id]
+    	 if { [SPI_AV::ClusterController::IsClusteredTestRunning $clientClusterID] } {
+		puts "Test Still Running"
+		set test_complete "false"
+		} else {
+		set test_complete "true"
+		set testDirectory "[pwd]/Avalanche$i/"
+		test_diag "transferring the server cluster results" 
+		set testId "${NAME}"
+                SPI_AV::ClusterController::GetClusteredTestResults $clientClusterID $testId [file join $testDirectory $testId "results"]
+	}
+     } result] } {
+        return 
+	}
+
+if { $test_complete == "true" } {
+	return 1
+}
+return 0
+
+}
+
+proc Avalanche4_2_start { NAME } {
+ 
+global key_list Avalanche_running Avalanche_position Avalanche_throttle Avalanche_test_directory
+
+global fw_aval_array fw_aval_static
+
+    if { ![info exists Avalanche_running] } {
+	array set Avalanche_running {}
+    }
+    if { ![info exists Avalanche_throttle] } {
+	array set Avalanche_throttle {}
+    }
+    if { ![info exists Avalanche_test_directory] } {
+	array set Avalanche_test_directory {}
+    }
+
+    # We will allow 20 Avalanche to run, with port agrecation this is about 80G	
+    set i 0
+    set found False
+    while { $i < 10 } {
+	if { ![info exists Avalanche_running($i) ] } {
+		set Avalanche_running($i) $NAME
+		set found TRUE
+		break
+	}
+	incr i
+    }
+
+    if { $found == "False" } {
+	puts " Not able to find a slot for this new avalanche module"
+	return 0
+    }
+
+
+    puts "Placing Module $NAME at $i"
+
+    if ![keylget key_list Test.Avalanche.$NAME.AvalTestPlan AvalTestPlan] { puts "error" }
+    set fw_aval_static [list [list AvalTestPlan $AvalTestPlan]]  
+
+    #puts $fw_aval_static
+
+    array unset fw_aval_array
+    if ![fw_aval_gen_array $NAME] {
+        puts "cannot start test due to avalanche array config failure"
+        return 0
+    } else {
+	#puts "Able to generate array life is good"
+    }
+    
+    
+    #Map Baseline folder and Baseline working folder
+    # Set working folder regarding the Avalanche Process
+    	set path "[pwd]/Avalanche$i"
+    if ![file exists $path] {
+    	file mkdir $path
+    } 
+        if [keylget key_list Test.Avalanche.$NAME.Base_Content_Folder base_folder] {
+        #puts "Create a link of files to $base_folder"
+	if { [catch {
+			file delete -force "$path/files"
+	} result]} {
+		puts "Strange error removing $path/files" 
+		return 0
+	}
+	if { [catch {
+		file link -symbolic "$path/files" "$base_folder"
+		} result]} {
+		puts "Error creating link from $path/files to $base_folder"
+		return 0
+	}
+    }
+    
+      set callback {avalanche_callback_$i}
+     keylset key_list Test.Avalanche.$NAME.flags "Starting Avalanche $NAME"
+     fw_aval_config $callback $i $NAME
+    
+
+return 1
+
+}
+
+
+proc Avalanche4_2_duo_start { NAME NAME2 } {
+ 
+global key_list Avalanche_running Avalanche_position Avalanche_throttle Avalanche_test_directory
+
+global fw_aval_array fw_aval_static
+
+    if { ![info exists Avalanche_running] } {
+	array set Avalanche_running {}
+    }
+    if { ![info exists Avalanche_throttle] } {
+	array set Avalanche_throttle {}
+    }
+    if { ![info exists Avalanche_test_directory] } {
+	array set Avalanche_test_directory {}
+    }
+
+    # We will allow 20 Avalanche to run, with port agrecation this is about 80G	
+    set i 0
+    set found False
+    while { $i < 10 } {
+	if { ![info exists Avalanche_running($i) ] } {
+		set Avalanche_running($i) $NAME
+		set found TRUE
+		break
+	}
+	incr i
+    }
+
+    if { $found == "False" } {
+	puts " Not able to find a slot for this new avalanche module"
+	return 0
+    }
+
+
+    puts "Placing Module $NAME and $NAME2 at $i"
+
+    if ![keylget key_list Test.Avalanche.$NAME.AvalTestPlan AvalTestPlan] { puts "error" }
+    set fw_aval_static [list [list AvalTestPlan $AvalTestPlan]]  
+
+    #puts $fw_aval_static
+
+    array unset fw_aval_array
+    if ![fw_aval_gen_array $NAME] {
+        puts "cannot start test due to avalanche array config failure"
+        return 0
+    } else {
+	#puts "Able to generate array life is good"
+    }
+
+    if ![keylget key_list Test.Avalanche.$NAME2.AvalTestPlan AvalTestPlan] { puts "error" }
+    set fw_aval_static [list [list AvalTestPlan $AvalTestPlan]]  
+
+    if ![fw_aval_gen_array $NAME2] {
+        puts "cannot start test due to avalanche array config failure"
+        return 0
+    } else {
+	#puts "Able to generate array life is good"
+    }
+    
+    #Map Baseline folder and Baseline working folder
+    # Set working folder regarding the Avalanche Process
+    	set path "[pwd]/Avalanche$i"
+    if ![file exists $path] {
+    	file mkdir $path
+    } 
+        if [keylget key_list Test.Avalanche.$NAME.Base_Content_Folder base_folder] {
+        #puts "Create a link of files to $base_folder"
+	if { [catch {
+			file delete -force "$path/files"
+	} result]} {
+		puts "Strange error removing $path/files" 
+		return 0
+	}
+	if { [catch {
+		file link -symbolic "$path/files" "$base_folder"
+		} result]} {
+		puts "Error creating link from $path/files to $base_folder"
+		return 0
+	}
+    }
+    
+      set callback {avalanche_callback_$i}
+     keylset key_list Test.Avalanche.$NAME.flags "Starting Avalanche $NAME"
+     fw_aval_config $callback $i $NAME $NAME2
+    
+
+return 1
+
+}
+
+
+
+#==============================================================================
+# ip2hex
+#------------------------------------------------------------------------------
+procDescr ip2hex {
+  Usage:
+  
+  ip2hex <ip address string>
+
+  Description:
+
+  This procedure takes an ip address in string format (eg: "90.0.0.1") and
+  returns its numeric value in long interger format.
+}
+proc ip2hex { str } {
+  foreach octet [split $str {.}] {
+    append add [format {%02x} $octet]
+  }
+  return "0x$add"
+}
+
+#==============================================================================
+# hex2ip
+#------------------------------------------------------------------------------
+procDescr hex2ip {
+  Usage:
+
+  hex2ip <ip address>
+
+  Description:
+
+  This procedure takes an ip address in numeric long interger format and 
+  returns it in string format.
+}
+proc hex2ip { add } {
+  for {set i 3} {$i > 0} {incr i -1} {
+    append str [format "%d." [expr 0x000000ff & [expr $add >> [expr $i * 8]]]]
+  }
+  append str [format "%d" [expr 0x000000ff & $add]]
+  return $str
+}
+
+#==============================================================================
+# This proc adds the test options from the xml into the avalanche array. Note
+# that all test options are NOT applicable to the array:
+#------------------------------------------------------------------------------
+proc fw_aval_add_test_options { args } {
+    global key_list
+    global fw_aval_array
+
+
+	set update_rate 10
+    
+    array set fw_aval_array [list \
+        WaTestProfile,RunTimeStatistics,TimeInterval $update_rate]
+    array set fw_aval_array [list \
+        WrTestProfile,RunTimeStatistics,TimeInterval $update_rate]
+
+    return 1
+}
+
+
+
+#==============================================================================
+# This proc takes care of adding license
+#------------------------------------------------------------------------------
+proc fw_aval_add_license { args } {
+global env
+    # Make sure the license path is specified
+    if ![info exists env(SPIRENT_TCLAPI_LICENSEROOT)] {
+	puts"env: SPIRENT_TCLAPI_LICENSEROOT not set, must point to\
+                 directory with license files" 
+	return 0
+    }
+    set lic_root $env(SPIRENT_TCLAPI_LICENSEROOT)
+    if { ![file isdirectory $lic_root] } {
+	puts "SPIRENT_TCLAPI_LICENSEROOT path invalid: $lic_root" 
+	return 0
+    }
+    # Make sure we load all the licenses
+    set files_list [::fileutil::find $lic_root {regexp {.*\.xml}}]
+    if [lempty $files_list] {
+	fw_diag "no license exist, cannot proceed with the test" 
+	return 0
+    }
+    foreach file $files_list {
+	puts "loading license file: $file"
+        if [catch {SPI_AV::AddLicense $file} err] {
+	    puts "fail to load license file: $file" 
+            return 0
+        }
+    }
+    return 1
+
+}
+
+#==============================================================================
+# This proc takes care of configuring the avalanche and running the test
+#------------------------------------------------------------------------------
+proc fw_aval_config { callback i NAME NAME2 } {
+    global fw_aval_array key_list
+
+
+ 	set testId "${NAME}"
+ 
+ 	#Set Callbacks
+	puts "Setting the Callbacks with $i"
+	switch $i {
+ 		"0" {
+		set server_callback "callback_server0"
+		set client_callback "callback_client0"
+		}
+ 		"1" {
+		set server_callback "callback_server1"
+		set client_callback "callback_client1"
+		}
+		"2" {
+		set server_callback "callback_server2"
+		set client_callback "callback_client2"
+		}
+ 		"3" {
+		set server_callback "callback_server3"
+		set client_callback "callback_client3"
+		}
+ 		"4" {
+		set server_callback "callback_server4"
+		set client_callback "callback_client4"
+		}
+ 		"5" {
+		set server_callback "callback_server5"
+		set client_callback "callback_client5"
+		}
+ 		"6" {
+		set server_callback "callback_server6"
+		set client_callback "callback_client6"
+		}
+ 		"7" {
+		set server_callback "callback_server7"
+		set client_callback "callback_client7"
+		}
+ 		"8" {
+		set server_callback "callback_server8"
+		set client_callback "callback_client8"
+		}
+ 		"9" {
+		set server_callback "callback_server9"
+		set client_callback "callback_client9"
+		}		
+	}
+         if [keylget key_list Test.Equipment Equipment] {
+	foreach equipment [keylkeys Equipment] {
+		if { [ regexp {Avalanche} $equipment gargabe ] && [keylget key_list Test.Equipment.$equipment.rule rule] } {
+		    if {$rule == $NAME} {
+			keylget key_list Test.Equipment.$equipment.mgt_ip mgt_ip
+		    }
+		}
+	
+	   }
+        }
+ 
+    array set configArray [array get fw_aval_array]
+ 	set searchToken [array startsearch configArray]
+
+ while { [array anymore configArray $searchToken] } {
+	set key [array nextelement configArray $searchToken]
+	set empty ""	
+	#test_output "$key $configArray($key)" 
+    }
+
+	
+
+        set reserve_units_list {}
+	set client_list [list]
+	set server_list [list]
+	set d 1
+	set tenGigPerfModeIpList ""
+	set tenGigMaxModeIpList ""
+
+	set Model [avalanche_get_model $NAME]
+
+	while { $d < 99  && ([avalanche_get_server_port_reserve $d $NAME] >= 0 || [avalanche_get_client_port_reserve $d $NAME] >= 0 )  } {
+		if { [avalanche_get_client_port_reserve $d $NAME] >= 0 } {
+		set client_port [avalanche_get_client_port_reserve $d $NAME]
+		set unit_ids_list "$mgt_ip;$client_port"
+		if { $Model == "CEE-3100-2X10G/1" } {
+		set tenGigPerfModeIpList "$tenGigPerfModeIpList $mgt_ip;$client_port"
+		}
+		if { $Model == "CEE-3100-4X10G/1" } {
+		set tenGigMaxModeIpList "$tenGigMaxModeIpList $mgt_ip;$client_port"
+		}
+		lappend reserve_units_list $unit_ids_list
+		lappend client_list $unit_ids_list
+		}
+		if { [avalanche_get_server_port_reserve $d $NAME] >= 0 } {
+		set server_port [avalanche_get_server_port_reserve $d $NAME]
+		set unit_ids_list "$mgt_ip;$server_port"
+		if { $Model == "CEE-3100-2X10G/1" } {
+		set tenGigPerfModeIpList "$tenGigPerfModeIpList $mgt_ip;$server_port"
+		}
+		if { $Model == "CEE-3100-4X10G/1" } {
+		set tenGigMaxModeIpList "$tenGigMaxModeIpList $mgt_ip;$server_port"
+		}
+
+		lappend reserve_units_list $unit_ids_list
+		lappend server_list $unit_ids_list
+		}
+		incr d
+	}
+	set d 1
+	set Model [avalanche_get_model $NAME2]
+
+        if [keylget key_list Test.Equipment Equipment] {
+	foreach equipment [keylkeys Equipment] {
+		if { [ regexp {Avalanche} $equipment gargabe ] && [keylget key_list Test.Equipment.$equipment.rule rule] } {
+		    if {$rule == $NAME2} {
+			keylget key_list Test.Equipment.$equipment.mgt_ip mgt_ip
+		    }
+		}
+	
+	   }
+        }
+
+	while { $d < 99  && ([avalanche_get_server_port_reserve $d $NAME2] >= 0 || [avalanche_get_client_port_reserve $d $NAME2] >= 0 )  } {
+		if { [avalanche_get_client_port_reserve $d $NAME2] >= 0 } {
+		set client_port [avalanche_get_client_port_reserve $d $NAME2]
+		set unit_ids_list "$mgt_ip;$client_port"
+		if { $Model == "CEE-3100-2X10G/1" } {
+		set tenGigPerfModeIpList "$tenGigPerfModeIpList $mgt_ip;$client_port"
+		}
+		if { $Model == "CEE-3100-4X10G/1" } {
+		set tenGigMaxModeIpList "$tenGigMaxModeIpList $mgt_ip;$client_port"
+		}
+		lappend reserve_units_list $unit_ids_list
+		lappend client_list $unit_ids_list
+		}
+		if { [avalanche_get_server_port_reserve $d $NAME2] >= 0 } {
+		set server_port [avalanche_get_server_port_reserve $d $NAME2]
+		set unit_ids_list "$mgt_ip;$server_port"
+		if { $Model == "CEE-3100-2X10G/1" } {
+		set tenGigPerfModeIpList "$tenGigPerfModeIpList $mgt_ip;$server_port"
+		}
+		if { $Model == "CEE-3100-4X10G/1" } {
+		set tenGigMaxModeIpList "$tenGigMaxModeIpList $mgt_ip;$server_port"
+		}
+
+		lappend reserve_units_list $unit_ids_list
+		lappend server_list $unit_ids_list
+		}
+		incr d
+	}
+
+array set configArray2 [array get configArray]
+puts "THIS IS THE END \n\n\n"
+array unset configArray
+        source "/tmp/config.tcl"
+foreach key [lsort -dictionary [array names configArray]] {
+puts "$key $configArray($key)"
+#if {[info exists configArray2($key)]} {
+#	if {$configArray2($key) != $configArray($key)} {
+		#puts "$key $configArray($key) $configArray2($key)" 
+	#}
+#}
+}
+
+
+
+		puts "Creating cluster for client with $client_list" 
+		set cluster_id [SPI_AV::ClusterController::CreateCluster {client} $NAME $client_list]
+		keylset key_list Test.Avalanche.$NAME.client.id $cluster_id
+		set clientClusterID [keylget key_list Test.Avalanche.$NAME.client.id]
+
+		puts "Creating cluster for server with $server_list"
+		set cluster_id [SPI_AV::ClusterController::CreateCluster {server} $NAME2 $server_list]
+		keylset key_list Test.Avalanche.$NAME.server.id $cluster_id
+		set serverClusterID [keylget key_list Test.Avalanche.$NAME.server.id]
+		
+		puts " We are going to reserve 1 $reserve_units_list 2  $tenGigPerfModeIpList  3$tenGigMaxModeIpList \n"
+                set reserve_status [SPI_AV::Appliance::ReserveAppPortGroups $reserve_units_list $tenGigPerfModeIpList $tenGigMaxModeIpList]
+
+                keylset key_list Test.Avalanche.$NAME.reserve_status $reserve_status
+      
+
+        puts "generating the test..." 
+	if {[info exists clientClusterID] } {
+        puts "Client Cluster ID: $clientClusterID"
+	} 
+	if {[info exists serverClusterID] } {
+        puts "Server Cluster ID: $serverClusterID"
+	}
+	set testDirectory "[pwd]/Avalanche$i/"
+        puts "Test Directory: $testDirectory" 
+	puts "Execution Directory: $testDirectory" 
+        puts "TestID: $testId"
+	cd $testDirectory
+
+	SPI_AV::DebugLogFile off
+	puts "Enabled debbuging mode off" 
+
+        SPI_AV::ClusterController::GenerateClusteredTest configArray $testDirectory $testId
+
+	if {[info exists clientClusterID] } {
+	puts "stopping client cluster..."
+        SPI_AV::ClusterController::StopClusteredTest $clientClusterID
+        SPI_AV::ClusterController::WaitForClusteredTestCompletion  $clientClusterID
+	}
+
+	if {[info exists serverClusterID] } {
+        puts "stopping server cluster..." 
+        SPI_AV::ClusterController::StopClusteredTest $serverClusterID
+        SPI_AV::ClusterController::WaitForClusteredTestCompletion $serverClusterID
+	}
+
+	if {[info exists clientClusterID] } {
+        puts "removing test from the client cluster..." 
+        SPI_AV::ClusterController::RemoveClusteredTest $clientClusterID $testId
+	}
+
+	if {[info exists serverClusterID] } {
+	puts "removing test from the server cluster..." 
+        SPI_AV::ClusterController::RemoveClusteredTest $serverClusterID $testId
+	}
+
+        # Upload the test to the clusters
+	if {[info exists clientClusterID] } {
+        puts "uploading the test to the client cluster..." 
+        SPI_AV::ClusterController::UploadClusteredTest $clientClusterID $testDirectory $testId
+	}
+
+	if {[info exists serverClusterID] } {
+        puts "uploading the test to the server cluster..." 
+        SPI_AV::ClusterController::UploadClusteredTest $serverClusterID $testDirectory $testId
+	}
+	
+	set client_list {}
+	
+
+	if {[info exists clientClusterID] } {
+        puts "registering stat callback $client_callback..." 
+        set clientClusterStatsCallbackID [SPI_AV::ClusterController::RegisterStatsCallback $clientClusterID $client_callback]
+ 	puts "return from callbase $clientClusterStatsCallbackID" 
+	}
+
+	if {[info exists serverClusterID] } {
+        puts "registering stat callback $server_callback..." 
+        set serverClusterStatsCallbackID [SPI_AV::ClusterController::RegisterStatsCallback $serverClusterID $server_callback]
+ 	puts "return from callbase $serverClusterStatsCallbackID" 
+	}
+
+	if {[info exists clientClusterID] } {
+        puts "clearing event logs of the client cluster..." 
+        SPI_AV::ClusterController::ClearEventLogs $clientClusterID
+   	}
+
+	if {[info exists serverClusterID] } {
+        puts "clearing event logs of the server cluster..." 
+        SPI_AV::ClusterController::ClearEventLogs $serverClusterID
+	}
+
+	if {[info exists serverClusterID] } {
+        puts "starting server cluster..." 
+        SPI_AV::ClusterController::StartClusteredTest $serverClusterID $testId   
+	}
+
+	if {[info exists clientClusterID] } {
+        puts "starting client cluster" 
+        SPI_AV::ClusterController::StartClusteredTest $clientClusterID $testId
+	}
+  
+
+    # Return the result
+    return 1
+
+}
+
+#==============================================================================
+# This proc adds an entry to the avalanche array needed for its TCL
+# config. The array key and value are obtained from the avalanche
+# portion of the xml (which has been previously converted to a key
+# list). Note that in some instances the xml tags and values need to
+# be mapped to become compatible with the avalanche array naming
+# conventions:
+#------------------------------------------------------------------------------
+proc fw_aval_add_array_handle_special_case { array_string value} {
+    global fw_aval_array key_list
+    set temp_dir "/tmp/"
+    set fw_pid [pid]
+
+    switch -regexp $array_string {
+	{^Wa|rFormDatabase,\S*,Content$} {
+	    # Save the file first - note that this file may contain variables
+	    # but we do not know the value of these variables at this point.
+	    # So, we will save it as is and come back and modify later.
+	    lassign [split $array_string ,] prefix form_name -	    
+	    # Create a temporary file
+	    set temp_file [file join $temp_dir $form_name.$fw_pid]
+	    set fd [open $temp_file w]
+	    foreach line [split [string trim $value] "\r\n"] {
+		if [lempty [set line [string trim $line]]] { continue }
+		puts $fd $line
+	    }
+	    close $fd
+	    array set fw_aval_array \
+		"$prefix,$form_name,FdbFileLocation $temp_file"		
+	    if ![keylget key_list runtime.subst_file_list file_list] {
+		set file_list $temp_file
+	    } else { lappend file_list $temp_file }
+	    keylset key_list runtime.subst_file_list $file_list
+	}
+    }
+
+}
+
+
+proc callback_client0 {clusterID data} {
+global avalanche_client_array0 
+#puts "client_callback done here $data\n"
+array set avalanche_client_array0 $data
+}
+
+proc callback_client1 {clusterID data} {
+global avalanche_client_array1 
+
+array set avalanche_client_array1 $data
+}
+
+proc callback_client2 {clusterID data} {
+global avalanche_client_array2 
+
+array set avalanche_client_array2 $data
+}
+
+proc callback_client3 {clusterID data} {
+global avalanche_client_array3 
+
+array set avalanche_client_array3 $data
+}
+
+proc callback_client4 {clusterID data} {
+global avalanche_client_array4 
+
+array set avalanche_client_array4 $data
+}
+
+proc callback_client5 {clusterID data} {
+global avalanche_client_array5 
+
+array set avalanche_client_array5 $data
+}
+
+proc callback_client6 {clusterID data} {
+global avalanche_client_array6 
+
+array set avalanche_client_array6 $data
+}
+
+proc callback_client7 {clusterID data} {
+global avalanche_client_array7 
+
+array set avalanche_client_array7 $data
+}
+
+proc callback_client8 {clusterID data} {
+global avalanche_client_array8 
+
+array set avalanche_client_array8 $data
+}
+
+proc callback_client9 {clusterID data} {
+global avalanche_client_array9 
+
+array set avalanche_client_array9 $data
+}
+    
+proc callback_server0 {clusterID data} {
+global avalanche_server_array0 
+#puts "server_callback done here $data\n"
+array set avalanche_server_array0 $data
+}
+    
+proc callback_server1 {clusterID data} {
+global avalanche_server_array1 
+
+array set avalanche_server_array1 $data
+}
+    
+proc callback_server2 {clusterID data} {
+global avalanche_server_array2 
+
+array set avalanche_server_array2 $data
+}
+    
+proc callback_server3 {clusterID data} {
+global avalanche_server_array3 
+
+array set avalanche_server_array3 $data
+}
+    
+proc callback_server4 {clusterID data} {
+global avalanche_server_array4 
+
+array set avalanche_server_array4 $data
+}
+    
+proc callback_server5 {clusterID data} {
+global avalanche_server_array5 
+
+array set avalanche_server_array5 $data
+}
+    
+proc callback_server6 {clusterID data} {
+global avalanche_server_array6 
+
+array set avalanche_server_array6 $data
+}
+    
+proc callback_server7 {clusterID data} {
+global avalanche_server_array7 
+
+array set avalanche_server_array7 $data
+}
+    
+proc callback_server8 {clusterID data} {
+global avalanche_server_array8 
+
+array set avalanche_server_array8 $data
+}
+    
+proc callback_server9 {clusterID data} {
+global avalanche_server_array9 
+
+array set avalanche_server_array9 $data
+}
+
+
+
+
+proc avalanche_get_client_port { i NAME } {
+global key_list
+
+
+if [keylget key_list Test.Equipment Equipment] {
+	foreach equipment [keylkeys Equipment] {
+		if { [ regexp {Avalanche} $equipment gargabe ] && [keylget key_list Test.Equipment.$equipment.rule rule] } {
+		    if {$rule == $NAME} {
+    			   if [keylget key_list Test.Equipment.$equipment.Connection connetions] {
+				foreach connection [keylkeys connetions] {
+					keylget key_list Test.Equipment.$equipment.Connection.${connection}.Name Name 
+					if {$Name == "CLIENT$i"} {
+						keylget key_list Test.Equipment.$equipment.Connection.${connection}.Interface Interface
+						#Note in Avalanche 3100B ports 12 uses 0-5 and 13/14 uses 6-12 Exception is needed
+						if { $Interface == "12" } {
+							return "0"
+						} 
+						if { $Interface == "13" || $Interface == "14" } {
+							return "6"
+						} 
+						return $Interface
+					}
+				}
+       			  }
+		    }
+		}
+	
+	}
+#puts " port $i not found avalanche_get_client_port"
+return "-1"
+}
+
+
+}
+
+proc avalanche_get_client_port_reserve { i NAME } {
+global key_list
+
+
+if [keylget key_list Test.Equipment Equipment] {
+	foreach equipment [keylkeys Equipment] {
+		if { [ regexp {Avalanche} $equipment gargabe ] && [keylget key_list Test.Equipment.$equipment.rule rule] } {
+		    if {$rule == $NAME} {
+    			   if [keylget key_list Test.Equipment.$equipment.Connection connetions] {
+				foreach connection [keylkeys connetions] {
+					keylget key_list Test.Equipment.$equipment.Connection.${connection}.Name Name 
+					if {$Name == "CLIENT$i"} {
+						keylget key_list Test.Equipment.$equipment.Connection.${connection}.Interface Interface
+						#Note in Avalanche 3100B ports 12 uses 0-5 and 13/14 uses 6-12 Exception is needed
+
+						return $Interface
+					}
+				}
+       			  }
+		    }
+		}
+	
+	}
+#puts " port $i not found avalanche_get_client_port"
+return "-1"
+}
+
+
+}
+
+
+proc avalanche_get_mgt_IP { NAME } {
+global key_list
+
+
+if [keylget key_list Test.Equipment Equipment] {
+	foreach equipment [keylkeys Equipment] {
+		if { [ regexp {Avalanche} $equipment gargabe ] && [keylget key_list Test.Equipment.$equipment.rule rule] } {
+		    if {$rule == $NAME} {
+			keylget key_list Test.Equipment.$equipment.mgt_ip mgt_ip
+			return $mgt_ip
+		    }
+		}
+	
+	}
+}
+
+#puts "ERROR avalanche_get_mgt_IP not found"
+return "-1"
+}
+
+proc avalanche_get_server_port { i NAME } {
+global key_list
+
+
+if [keylget key_list Test.Equipment Equipment] {
+	foreach equipment [keylkeys Equipment] {
+		if { [ regexp {Avalanche} $equipment gargabe ] && [keylget key_list Test.Equipment.$equipment.rule rule] } {
+		    if {$rule == $NAME} {
+    			   if [keylget key_list Test.Equipment.$equipment.Connection connetions] {
+				foreach connection [keylkeys connetions] {
+					keylget key_list Test.Equipment.$equipment.Connection.${connection}.Name Name 
+					if {$Name == "SERVER$i"} {
+						keylget key_list Test.Equipment.$equipment.Connection.${connection}.Interface Interface
+						if { $Interface == "12" } {
+							return "0"
+						} 
+						if { $Interface == "13" || $Interface == "14" } {
+							return "6"
+						} 
+						return $Interface
+					}
+				}
+       			  }
+		    }
+		}
+	
+	}
+}
+#puts "avalanche_get_server_port $i port not found"
+return "-1"
+
+}
+
+proc avalanche_get_server_port_reserve { i NAME } {
+global key_list
+
+
+if [keylget key_list Test.Equipment Equipment] {
+	foreach equipment [keylkeys Equipment] {
+		if { [ regexp {Avalanche} $equipment gargabe ] && [keylget key_list Test.Equipment.$equipment.rule rule] } {
+		    if {$rule == $NAME} {
+    			   if [keylget key_list Test.Equipment.$equipment.Connection connetions] {
+				foreach connection [keylkeys connetions] {
+					keylget key_list Test.Equipment.$equipment.Connection.${connection}.Name Name 
+					if {$Name == "SERVER$i"} {
+						keylget key_list Test.Equipment.$equipment.Connection.${connection}.Interface Interface
+						return $Interface
+					}
+				}
+       			  }
+		    }
+		}
+	
+	}
+}
+#puts "avalanche_get_server_port $i port not found"
+return "-1"
+
+}
+
+proc avalanche_get_model { NAME } {
+global key_list
+
+
+if [keylget key_list Test.Equipment Equipment] {
+	foreach equipment [keylkeys Equipment] {
+		if { [ regexp {Avalanche} $equipment gargabe ] && [keylget key_list Test.Equipment.$equipment.rule rule] } {
+		    if {$rule == $NAME} {
+    			   keylget key_list Test.Equipment.$equipment.Model Model
+			   return $Model
+		    }
+		}
+	
+	}
+}
+puts "not able to get model"
+return "-1"
+
+}
+
+proc avalanche_get_client_ifport { i NAME } {
+global key_list
+if [keylget key_list Test.Equipment Equipment] {
+	foreach equipment [keylkeys Equipment] {
+		if { [ regexp {Avalanche} $equipment gargabe ] && [keylget key_list Test.Equipment.$equipment.rule rule] } {
+		    if {$rule == $NAME} {
+    			   if [keylget key_list Test.Equipment.$equipment.Connection connetions] {
+				foreach connection [keylkeys connetions] {
+					keylget key_list Test.Equipment.$equipment.Connection.${connection}.Name Name 
+					if {$Name == "CLIENT$i"} {
+						keylget key_list Test.Equipment.$equipment.Connection.${connection}.Interface Interface
+						return "${Interface}_${Interface}"
+					}
+				}
+       			  }
+		    }
+		}
+	
+	}
+}
+
+#puts "avalanche_get_client_ifport port $i not found"
+return "-1"
+}
+
+proc avalanche_get_server_ifport { i NAME } {
+global key_list
+if [keylget key_list Test.Equipment Equipment] {
+	foreach equipment [keylkeys Equipment] {
+		if { [ regexp {Avalanche} $equipment gargabe ] && [keylget key_list Test.Equipment.$equipment.rule rule] } {
+		    if {$rule == $NAME} {
+    			   if [keylget key_list Test.Equipment.$equipment.Connection connetions] {
+				foreach connection [keylkeys connetions] {
+					keylget key_list Test.Equipment.$equipment.Connection.${connection}.Name Name 
+					if {$Name == "SERVER$i"} {
+						keylget key_list Test.Equipment.$equipment.Connection.${connection}.Interface Interface
+						return "${Interface}_${Interface}"
+					}
+				}
+       			  }
+		    }
+		}
+	
+	}
+}
+
+#puts "avalanche_get_server_ifport port $i not found"
+return "-1"
+}
+
+proc avalanche_new_client_address { NAME } {
+global key_list
+
+if [keylget key_list Test.Avalanche.$NAME.new_Client1_Network Network_address] {
+	keylget key_list Test.Avalanche.$NAME.new_NetmaskBits NetmaskBits
+	if {$NetmaskBits == "8"} {
+		if { [ regexp {([0-9]+).[0-9]+.[0-9]+.[0-9]+} $Network_address all dest_ip] } {
+			#puts $dest_ip
+			return $dest_ip
+		}
+	} 
+	if {$NetmaskBits == "16"} {
+		if { [ regexp {([0-9]+.[0-9]+).[0-9]+.[0-9]+} $Network_address all dest_ip] } {
+			#puts $dest_ip
+			return $dest_ip
+		}
+	} 
+	if {$NetmaskBits == "24"} {
+		if { [ regexp {([0-9]+.[0-9]+.[0-9]+).[0-9]+} $Network_address all dest_ip] } {
+			#puts $dest_ip
+			return $dest_ip
+		}
+	} 
+}
+#puts "ERROR port not found"
+return "-1"
+}
+
+proc avalanche_new_server_address { NAME } {
+global key_list
+
+
+
+if [keylget key_list Test.Avalanche.$NAME.new_Server1_Network Network_address] {
+	keylget key_list Test.Avalanche.$NAME.new_NetmaskBits NetmaskBits	
+	if {$NetmaskBits == "8"} {
+		if { [ regexp {([0-9]+).[0-9]+.[0-9]+.[0-9]+} $Network_address all dest_ip] } {
+			#puts $dest_ip
+			return $dest_ip
+		}
+	} 
+	if {$NetmaskBits == "16"} {
+		if { [ regexp {([0-9]+.[0-9]+).[0-9]+.[0-9]+} $Network_address all dest_ip] } {
+			#puts $dest_ip
+			return $dest_ip
+		}
+	} 
+	if {$NetmaskBits == "24"} {
+		if { [ regexp {([0-9]+.[0-9]+.[0-9]+).[0-9]+} $Network_address all dest_ip] } {
+			#puts $dest_ip
+			return $dest_ip
+		}
+	} 
+}
+#puts "ERROR port not found"
+return "-1"
+}
+
+
+proc avalanche_old_client_address { NAME } {
+global key_list
+
+if [keylget key_list Test.Avalanche.$NAME.Client1_Network Network_address] {
+	keylget key_list Test.Avalanche.$NAME.NetmaskBits NetmaskBits	
+	if {$NetmaskBits == "8"} {
+		if { [ regexp {([0-9]+).[0-9]+.[0-9]+.[0-9]+} $Network_address all dest_ip] } {
+			#puts $dest_ip
+			return $dest_ip
+		}
+	} 
+	if {$NetmaskBits == "16"} {
+		if { [ regexp {([0-9]+.[0-9]+).[0-9]+.[0-9]+} $Network_address all dest_ip] } {
+			#puts $dest_ip
+			return $dest_ip
+		}
+	} 
+	if {$NetmaskBits == "24"} {
+		if { [ regexp {([0-9]+.[0-9]+.[0-9]+).[0-9]+} $Network_address all dest_ip] } {
+			#puts $dest_ip
+			return $dest_ip
+		}
+	} 
+}
+
+#puts "ERROR port not found"
+return "-1"
+}
+
+proc avalanche_old_server_address { NAME } {
+global key_list
+
+if [keylget key_list Test.Avalanche.$NAME.Server1_Network Network_address] {
+	keylget key_list Test.Avalanche.$NAME.NetmaskBits NetmaskBits	
+	if {$NetmaskBits == "8"} {
+		if { [ regexp {([0-9]+).[0-9]+.[0-9]+.[0-9]+} $Network_address all dest_ip] } {
+			#puts $dest_ip
+			return $dest_ip
+		}
+	} 
+	if {$NetmaskBits == "16"} {
+		if { [ regexp {([0-9]+.[0-9]+).[0-9]+.[0-9]+} $Network_address all dest_ip] } {
+			#puts $dest_ip
+			return $dest_ip
+		}
+	} 
+	if {$NetmaskBits == "24"} {
+		if { [ regexp {([0-9]+.[0-9]+.[0-9]+).[0-9]+} $Network_address all dest_ip] } {
+			#puts $dest_ip
+			return $dest_ip
+		}
+	} 
+}
+
+#puts "ERROR port not found"
+
+}
+
+proc avalanche_call_back { NAME } {
+
+global avalanche_client_array0 avalanche_client_array1 avalanche_client_array2 avalanche_client_array3 
+global avalanche_client_array4 avalanche_client_array5 avalanche_client_array6 avalanche_client_array7 
+global avalanche_client_array8 avalanche_client_array9 
+global avalanche_server_array0 avalanche_server_array1 avalanche_server_array2 avalanche_server_array3 
+global avalanche_server_array4 avalanche_server_array5 avalanche_server_array6 avalanche_server_array7 
+global avalanche_server_array8 avalanche_server_array9 
+
+global key_list Avalanche_running 
+global matrix_data column
+
+puts "Callback:$NAME with proc: avalanche_call_back"
+
+    if { ![info exists Avalanche_running] } {
+	array set Avalanche_running {}
+    }
+    if { ![info exists Avalanche_throttle] } {
+	array set Avalanche_throttle {}
+    }
+    if { ![info exists Avalanche_test_directory] } {
+	array set Avalanche_test_directory {}
+    }
+
+    # We will allow 20 Avalanche to run, with port agrecation this is about 80G	
+    set i 0
+    set found False
+    while { $i < 10 } {
+	if { [info exists Avalanche_running($i) ] } {
+		if {$Avalanche_running($i) == "$NAME"} {
+			set found TRUE
+			break
+		}
+	}
+	incr i
+    }
+
+    if { $found == "False" } {
+	puts " Not able to find this Avalanche Running"
+	return 0
+    }
+
+	switch $i {
+ 		"0" {
+		array set client_array [array get avalanche_client_array0]
+		array set server_array [array get avalanche_server_array0]
+		}
+ 		"1" {
+		array set client_array [array get avalanche_client_array1]
+		array set server_array [array get avalanche_server_array1]
+		}
+		"2" {
+		array set client_array [array get $avalanche_client_array2]
+		array set server_array [array get $avalanche_server_array2]
+		}
+ 		"3" {
+		array set client_array [array get $avalanche_client_array3]
+		array set server_array [array get $avalanche_server_array3]
+		}
+ 		"4" {
+		array set client_array [array get $avalanche_client_array4]
+		array set server_array [array get $avalanche_server_array4]
+		}
+ 		"5" {
+		array set client_array [array get $avalanche_client_array5]
+		array set server_array [array get $avalanche_server_array5]
+		}
+ 		"6" {
+		array set client_array [array get $avalanche_client_array6]
+		array set server_array [array get $avalanche_server_array6]
+		}
+ 		"7" {
+		array set client_array [array get $avalanche_client_array7]
+		array set server_array [array get $avalanche_server_array7]
+		}
+ 		"8" {
+		array set client_array [array get $avalanche_client_array8]
+		array set server_array [array get $avalanche_server_array8]
+		}
+ 		"9" {
+		array set client_array [array get $avalanche_client_array9]
+		array set server_array [array get $avalanche_server_array9]
+		}		
+	}
+
+        set time $client_array(timeElapsed)
+	set suc_conn $client_array(http,successfulTxns)
+        # See if the elapsed time has already been seen in a previous
+        # callback. Throw this out if it has been seen:
+        if [keylget key_list Test.Avalanche.$NAME.time_elased previous_time_elapsed] {
+            if {$previous_time_elapsed >= $time} {
+                puts "This sample already exists: $time"
+                return 1
+            }
+	    keylset key_list Test.Avalanche.$NAME.time_elased $time
+        } else {
+		keylset key_list Test.Avalanche.$NAME.time_elased $time
+	}
+	#This is a work around for multiaggregation error
+        # See if the elapsed time has already been seen in a previous
+        # callback. Throw this out if it has been seen:
+        if [keylget key_list Test.Avalanche.$NAME.suc_conn previous_suc_conn] {
+            if {$previous_suc_conn > $suc_conn} {
+                puts "New scufffesful conetion have to be same or higher $suc_conn and $previous_suc_conn"
+                return 1
+            }
+	    keylset key_list Test.Avalanche.$NAME.suc_conn $suc_conn
+        } else {
+		keylset key_list Test.Avalanche.$NAME.suc_conn $suc_conn
+	}
+
+
+set max_row [matrix_data rows] 
+set max_row [expr $max_row - 1 ]
+set max_cols [matrix_data columns] 
+set max_cols [expr $max_cols -1 ]
+
+set probe_name "${NAME}:flags"
+if { ![info exists column($probe_name)]  } {
+	puts "Adding row $probe_name"
+	matrix_data add column $probe_name
+	set column($probe_name) [expr $max_cols  + 1 ]
+	set max_cols [expr $max_cols  + 1 ]
+	matrix_data set cell $column($probe_name) 0 "$probe_name"
+}
+
+if [keylget key_list Test.Avalanche.$NAME.flags flag] {
+	if { $flag != "None" } {
+		matrix_data set cell $column(${NAME}:flags) $max_row "#$flag"
+		keylset key_list Test.Avalanche.$NAME.flags "None"
+	}
+}
+
+if [keylget key_list Test.Avalanche.$NAME.Probes Probes] {
+	foreach Probe [keylkeys Probes] {
+	# Need to verify if probe exist
+		set probe_name "${NAME}:${Probe}"
+		if { ![info exists column($probe_name)]  } {
+			puts "Adding row $probe_name"
+			matrix_data add column $probe_name
+			set column($probe_name) [expr $max_cols  + 1 ]
+			set max_cols [expr $max_cols  + 1 ]
+			matrix_data set cell $column($probe_name) 0 "$probe_name"
+		}
+		keylget key_list Test.Avalanche.$NAME.Probes.$Probe.Type Type
+		keylget key_list Test.Avalanche.$NAME.Probes.$Probe.Array Array	
+		if {$Type == "Client"} {
+			if { [info exists client_array($Array)]  } {
+			set data $client_array($Array)
+			if {[keylget key_list Test.Avalanche.$NAME.Probes.$Probe.divider divider]} {
+				set data [expr double($data)  / $divider ]
+			}	
+			matrix_data set cell $column($probe_name) $max_row $data 
+			}
+		}
+		if {$Type == "Server"} {
+			puts "got here for probe $Array and $probe_name"
+			if { [info exists server_array($Array)]  } {
+			puts "got here2 for probe $Array and $probe_name"
+			set data $server_array($Array)
+			if {[keylget key_list Test.Avalanche.$NAME.Probes.$Probe.divider divider]} {
+				set data [expr double($data)  / $divider ]
+			}
+			puts "got here 4for probe $Array and $probe_name"
+			matrix_data set cell $column($probe_name) $max_row $data 
+			}
+		}
+	}
+}
+
+if [keylget key_list Test.Avalanche.$NAME.Complex_Probes Probes] {
+	foreach Probe [keylkeys Probes] {
+	# Need to verify if probe exist
+		set probe_name "${NAME}:${Probe}"
+		if { ![info exists column($probe_name)]  } {
+			puts "Adding row $probe_name"
+			matrix_data add column $probe_name
+			set column($probe_name) [expr $max_cols  + 1 ]
+			set max_cols [expr $max_cols  + 1 ]
+			matrix_data set cell $column($probe_name) 0 "$probe_name"
+		}
+		keylget key_list Test.Avalanche.$NAME.Complex_Probes.$Probe.function function
+		puts " got here 2 \n"
+		if {$function == "packet_loss" && [info exists client_array(streaming,packetLossRate_0_P1pct)] } {
+			puts " got here 1 \n"
+			set packet_loss1 $client_array(streaming,packetLossRate_0_P1pct)
+			set packet_loss2 $client_array(streaming,packetLossRate_P1_P5pct)
+			set packet_loss3 $client_array(streaming,packetLossRate_P5_2pct)
+			set packet_loss4 $client_array(streaming,packetLossRate_2_5pct)
+			set packet_loss5 $client_array(streaming,packetLossRate_GT5pct)
+			set total_packet_loss [expr  $packet_loss1 + $packet_loss2 + $packet_loss3 + $packet_loss4 + $packet_loss5 ]
+			if { $total_packet_loss != 0 } {
+			set total_packet_loss_percentage [expr double($packet_loss1)*0 + double($packet_loss2)*0.5+ double($packet_loss3)*1+ double($packet_loss4)*3+ double($packet_loss5)*10 / double($total_packet_loss) ]
+				matrix_data set cell $column($probe_name) $max_row $total_packet_loss_percentage
+			} else {
+				matrix_data set cell $column($probe_name) $max_row "0"
+			}
+
+		}
+		if {$function == "Total_Bandwitdh" && [info exists client_array(driver,rxBandwidth)] } {
+			puts " got here 1 \n"
+			set upload $client_array(driver,rxBandwidth)
+			set download $client_array(driver,txBandwidth)
+			set total [expr double($upload + $download)/1000]
+			matrix_data set cell $column($probe_name) $max_row $total
+		}
+	}
+}
+
+if [keylget key_list Test.Avalanche.$NAME.Throttle.runtime.measuring status] {
+	set probe_name "Measuring"
+	if { ![info exists column($probe_name)]  } {
+		puts "Adding row $probe_name"
+		matrix_data add column $probe_name
+		set column($probe_name) [expr $max_cols  + 1 ]
+		set max_cols [expr $max_cols  + 1 ]
+		matrix_data set cell $column($probe_name) 0 "$probe_name"
+	}
+	if {$status == "Enabled"} {
+		matrix_data set cell $column($probe_name) $max_row "1"
+
+
+		keylget key_list Test.Avalanche.$NAME.Throttle.runtime.Samples_done samples
+		incr samples
+		keylset key_list Test.Avalanche.$NAME.Throttle.runtime.Samples_done $samples
+		keylget key_list Test.Avalanche.$NAME.Throttle.Settings.Number_of_Samples Number_of_Samples
+		if {$Number_of_Samples <= $samples} {
+			puts "We got enough samples lets end the test"
+			set clientClusterID [keylget key_list Test.Avalanche.$NAME.client.id]
+			after 60000 [SPI_AV::ClusterController::StopClusteredTest $clientClusterID]
+			matrix_data set cell $column(${NAME}:flags) $max_row "#Ending the test got enough samples ${NAME}"
+			keylset key_list Test.Avalanche.$NAME.Throttle.runtime.measuring "Disabled"
+			keylset key_list Test.Avalanche.$NAME.Throttle.runtime.scale "0.00001"
+			matrix_data set cell $column($probe_name) $max_row "0"
+		}
+	} else {
+		matrix_data set cell $column($probe_name) $max_row "0"
+	}
+}
+
+
+# DO THROTTLE LAST BECAUSE WE WILL EXIT IF NOT ENOUGH TIME AS PASSED
+if [keylget key_list Test.Avalanche.$NAME.Throttle.Enable Enable] {
+	puts "Throttle $Enable and $client_array(driver,txBandwidth)"
+	if { $Enable == "True" && $client_array(driver,txBandwidth) > 500 } {
+	puts "Throttle for $NAME enabled starting \n"
+		if [keylget key_list Test.Avalanche.$NAME.Throttle.first_time garbage] {
+			keylget key_list Test.Avalanche.$NAME.Throttle.runtime.attempt attempt
+			keylget key_list Test.Avalanche.$NAME.Throttle.runtime.step step
+			keylget key_list Test.Avalanche.$NAME.Throttle.runtime.direction direction
+			keylget key_list Test.Avalanche.$NAME.Throttle.runtime.scale scale
+			keylget key_list Test.Avalanche.$NAME.Throttle.runtime.BW BW
+			keylget key_list Test.Avalanche.$NAME.Throttle.runtime.last_time last_time
+			keylget key_list Test.Avalanche.$NAME.Throttle.runtime.measuring measuring
+			keylget key_list Test.Avalanche.$NAME.Throttle.Settings.Accuracy accuracy
+			keylget key_list Test.Avalanche.$NAME.Throttle.Settings.minimum_step minimum_step
+			keylget key_list Test.Avalanche.$NAME.Throttle.Settings.Number_of_Samples Number_of_Samples
+			keylget key_list Test.Avalanche.$NAME.Throttle.Settings.Update_Rate Update_Rate
+
+			set low_end [expr $BW - $BW * $accuracy ]
+			set low_end_down [expr $BW]
+			
+			set time_seconds [clock seconds]
+			if { [expr $last_time + $Update_Rate ] >= $time_seconds } {
+				puts "Not enough time $last_time gone $time_seconds"
+				return 0
+			} else {
+				puts "Enoguth time $last_time time gone $time_seconds update rate is $Update_Rate"
+				keylset key_list Test.Avalanche.$NAME.Throttle.runtime.last_time [clock seconds]
+			}
+			set received_throughput $client_array(driver,txBandwidth)
+			set transmited_throughput $client_array(driver,rxBandwidth)
+			set total_throughput [expr  $received_throughput + $transmited_throughput ]
+	
+			set quality_of_service 1
+			#check if any router variables are too high 
+			if [keylget key_list Test.Avalanche.$NAME.Throttle.UUT UUT] {
+				foreach UUT_NAME [keylkeys UUT] {
+					keylget key_list Test.Avalanche.$NAME.Throttle.UUT.$UUT_NAME items
+					foreach item [keylkeys items] {
+						set probe_name "${UUT_NAME}:${item}"
+						set value [matrix_data get cell $column($probe_name) $max_row]
+						keylget key_list Test.Avalanche.$NAME.Throttle.UUT.$UUT_NAME.$item value2
+						puts " I am comparing $value2 with $value for $item"
+						if { $value2 < $value }	{
+							set quality_of_service 0
+							puts "UUT:$UUT_NAME $value of $item is too high, going down on traffic"
+							if { $direction == "UP" } {
+							matrix_data set cell $column(${NAME}:flags) $max_row "#System limit ${UUT_NAME}:${item}"
+							}
+						}
+					}
+				}
+			}
+
+
+			keylget key_list Test.Avalanche.$NAME.Throttle.Avalanche items
+			foreach item [keylkeys items] {
+				set probe_name "${NAME}:${item}"
+				set value [matrix_data get cell $column($probe_name) $max_row]
+				keylget key_list Test.Avalanche.$NAME.Throttle.Avalanche.$item value2
+				puts " I am comparing $value2 with $value for $item"
+				if { $value2 < $value }	{
+					set quality_of_service 0
+					puts "Avalanche:$NAME $value of $item is too high, going down on traffic"
+					if { $direction == "UP" } {
+					matrix_data set cell $column(${NAME}:flags) $max_row "#System limit $NAME:$item"
+					}
+				}
+			}
+	
+			if { $direction == "UP" } {
+				#Note Failed sessions is the old capture, new one is
+				# We need to add little set here for error of avalanche
+				if { $total_throughput >= $low_end_down && $quality_of_service == 1 } {
+					keylset fw_perf_topt_kl runtime.throttle.point0.BW $total_throughput
+					set changed_direction 0
+					set new_scale [expr ($scale + $step)]
+					keylset key_list Test.Avalanche.$NAME.Throttle.runtime.scale $new_scale
+					keylset key_list Test.Avalanche.$NAME.Throttle.runtime.BW $BW
+				} else {
+					puts "Changed direction going down"
+					set changed_direction 1
+					set direction "DOWN"
+					keylset key_list Test.Avalanche.$NAME.Throttle.runtime.direction "DOWN"
+	
+					#if we just changed to down, and step is at the lowest then finish
+					if { $step == $minimum_step } {
+						keylset key_list Test.Avalanche.$NAME.Throttle.runtime.measuring "Enabled"
+					} 
+	
+					set step [expr $step/2]
+					# if new step is smaller that the minimum step keep it at the minimum
+					# this is needed because of the natural noise of avalanche, no point
+					# on very small steps
+					if { $step < $minimum_step } { set step $minimum_step }
+					set new_scale [expr ($scale - $step)]
+					if { $new_scale < $step } {
+						set new_scale $step
+					}
+					keylset key_list Test.Avalanche.$NAME.Throttle.runtime.scale $new_scale
+					keylset key_list Test.Avalanche.$NAME.Throttle.runtime.BW $BW
+				}
+			} else {
+				if { $total_throughput >= $low_end && $quality_of_service == 0   } {
+					set changed_direction 0
+					set new_scale [expr ($scale - $step)]
+					if { $new_scale < $step } {
+						set new_scale $step
+					}
+					keylset key_list Test.Avalanche.$NAME.Throttle.runtime.scale $new_scale
+					keylset key_list Test.Avalanche.$NAME.Throttle.runtime.BW $BW
+				} else {
+					puts "Changed direction going UP"
+					set changed_direction 1
+					set direction "UP"
+					keylset key_list Test.Avalanche.$NAME.Throttle.runtime.direction  "UP"
+					set step [expr $step/2]
+					# if new step is smaller that the minimum step keep it at the minimum
+					# this is needed because of the natural noise of avalanche, no point
+					# on very small steps
+					if { $step < $minimum_step } { set step $minimum_step }
+					set new_scale [expr ($scale + $step)]
+					keylset key_list Test.Avalanche.$NAME.Throttle.runtime.scale $new_scale
+					keylset key_list Test.Avalanche.$NAME.Throttle.runtime.BW $BW
+				}
+			}
+			puts "new scale is $new_scale"
+			set hostname_info [exec uname -n]
+			set username_user [exec whoami]
+			set user "${username_user}@${hostname_info}"
+			set mgt_IP [avalanche_get_mgt_IP $NAME]
+			if [keylget key_list Test.Avalanche.$NAME.Throttle.Load Loads] {
+				foreach Load [keylkeys Loads] {
+					keylget key_list Test.Avalanche.$NAME.Throttle.Load.$Load.Value value
+					keylget key_list Test.Avalanche.$NAME.Throttle.Load.$Load.Position number
+					keylget key_list Test.Avalanche.$NAME.Throttle.Load.$Load.Network client
+					set empty ""
+					regsub -all "CLIENT" $client $empty client
+						puts "asking fir $client $NAME"
+					    set client_port [avalanche_get_client_port $client $NAME]
+					set new_value [expr round($value * $new_scale)]
+					if { $new_value < 1 } {
+						#Avalanche does not allow this also it should not happen
+						set new_value "1"
+					}
+					puts "Changing to $new_value on $client_port $new_value $user $number"
+					set result [SPI_AV::AdjustLoad "$mgt_IP" "$client_port" $new_value $user $number]
+					set client_port [expr $client_port + 1]
+					set result [SPI_AV::AdjustLoad "$mgt_IP" "$client_port" $new_value $user $number]
+					set client_port [expr $client_port + 1]
+					set result [SPI_AV::AdjustLoad "$mgt_IP" "$client_port" $new_value $user $number]
+					set client_port [expr $client_port + 1]
+					set result [SPI_AV::AdjustLoad "$mgt_IP" "$client_port" $new_value $user $number]
+					set client_port [expr $client_port + 1]
+					set result [SPI_AV::AdjustLoad "$mgt_IP" "$client_port" $new_value $user $number]
+					set client_port [expr $client_port + 1]
+					set result [SPI_AV::AdjustLoad "$mgt_IP" "$client_port" $new_value $user $number]
+					set client_port [expr $client_port + 1]
+					set result [SPI_AV::AdjustLoad "$mgt_IP" "$client_port" $new_value $user $number]
+					set client_port [expr $client_port + 1]
+					set result [SPI_AV::AdjustLoad "$mgt_IP" "$client_port" $new_value $user $number]
+					set client_port [expr $client_port + 1]
+					set result [SPI_AV::AdjustLoad "$mgt_IP" "$client_port" $new_value $user $number]
+					set client_port [expr $client_port + 1]
+					set result [SPI_AV::AdjustLoad "$mgt_IP" "$client_port" $new_value $user $number]
+					set client_port [expr $client_port + 1]
+					set result [SPI_AV::AdjustLoad "$mgt_IP" "$client_port" $new_value $user $number]
+					set client_port [expr $client_port + 1]
+					set result [SPI_AV::AdjustLoad "$mgt_IP" "$client_port" $new_value $user $number]
+					puts "Result was $result"
+				}
+			}
+			keylset key_list Test.Avalanche.$NAME.Throttle.runtime.step $step
+		} else {
+			keylset key_list Test.Avalanche.$NAME.Throttle.runtime.last_time [clock seconds]
+			keylset key_list Test.Avalanche.$NAME.Throttle.runtime.attempt 0
+			keylset key_list Test.Avalanche.$NAME.Throttle.runtime.step "0.5"
+			keylset key_list Test.Avalanche.$NAME.Throttle.runtime.direction "UP"
+			keylset key_list Test.Avalanche.$NAME.Throttle.runtime.scale "1"
+			keylset key_list Test.Avalanche.$NAME.Throttle.runtime.BW "20"
+			keylset key_list Test.Avalanche.$NAME.Throttle.runtime.Samples_done "0"
+			keylset key_list Test.Avalanche.$NAME.Throttle.first_time "DONE"
+			keylset key_list Test.Avalanche.$NAME.Throttle.runtime.measuring "Disabled"
+		}
+	}
+}
+
+
+
+}
+proc Avalanche4_2_trottle_enable { NAME } {
+global key_list
+
+keylset key_list Test.Avalanche.$NAME.Throttle.Enable "True"
+}
+
+proc Avalanche4_2_trottle_disable { NAME } {
+global key_list
+
+keylset key_list Test.Avalanche.$NAME.Throttle.Enable "False"
+}
+

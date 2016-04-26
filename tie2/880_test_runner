@@ -1,0 +1,512 @@
+#!/bin/sh
+#\
+exec $AUTOTEST/bin/expect "$0" "$@" #
+set env(EARMS_SOURCING_CONFIG) 1
+package require Csccon
+package require mysqltcl
+package require struct::matrix 
+package require fileutil
+package require report 
+package require csv
+
+##########################
+### GLOBAL VARIABLES  ####
+##########################
+
+# This variable will have all XML INFO
+global key_list statlist env global _device
+
+#-----------------------------------------------------------------------
+# Define the Global Stats we want to colect
+#-----------------------------------------------------------------------
+package require struct::matrix 
+package require topomap
+# Files to source
+
+source /auto/stg-devtest/joaofer/stg_reg/utils/880/fw_xml.exp
+source /auto/stg-devtest/joaofer/stg_reg/utils/880/880_test_runner.exp
+# Define and set global Variables
+
+global 880_next_command_position 880_monitor_enabled RESULT FAILED_REASON 880_monitor_bypass
+set 880_monitor_enabled TRUE
+set 880_monitor_bypass FALSE
+set 880_next_command_position 0
+
+global original_pwd time_started running_pwd resource_id
+
+set RESULT PASS
+
+#change pwd to temporary diretory
+set pid [pid]
+
+test_output "#######################################################"
+test_output "################ Starting test ########################" 
+test_output "#######################################################"
+test_output "### LOGS/STATS ###"
+
+set path "/tmp/880$pid"
+set running_pwd $path
+file delete -force  $path
+file mkdir $path
+cd $path
+
+set original_pwd [pwd]
+set RUNNING_LOG_DIR [ats_log -getlogdir]
+set LOG_DIR [ats_get_keyword ARCHIVE_DIR]
+set LOG_FILE [ats_get_keyword ARCHIVE_FILE]
+set RUNNING_LOG_FILE [ats_log -getlogfile]
+set PERMANENT_STAT_FILE ${LOG_DIR}.$pid
+test_output "LOG DIRECTORY:        $LOG_DIR"
+test_output "LOG FILE:             $LOG_FILE"
+test_output "RUNNING LOG FILE:     $RUNNING_LOG_FILE"
+test_output "RUNNING LOG DIRECTORY:$RUNNING_LOG_DIR"
+test_output "RUNNING LOCATION:     $path"
+test_output "RUNNING STATS_FILE:   $path/test_cvs"
+test_output "PERMANENT STATS_FILE: $PERMANENT_STAT_FILE"
+
+
+
+set time_started [clock seconds]
+
+##############################
+## Load Parsed Variables
+##############################
+
+    set man_args {
+	-titan_file           ANY
+	-xml_file             ANY
+        -user                 ANY
+        -run_parameters_file  ANY
+	-test_id              ANY
+	-date_submitted       ANY
+    } ; # end mandatory args
+
+    set opt_args {
+	-resource_id          ANY
+	-password             ANY
+	DEFAULT		      OFF
+    } ; # end optional args
+
+    set args [lrange $argv 1 $argc]
+
+    parse_dashed_args                     \
+        -args $args                       \
+        -mandatory_args $man_args         \
+        -optional_args $opt_args
+
+
+test_output "#######################"
+test_output "### INPUT VARIABLES ###"
+test_output " titan_file:          $titan_file"
+test_output " xml_file:            $xml_file"
+test_output " user:                $user"
+test_output " run_parameters_file: $run_parameters_file"
+test_output " test_id:             $test_id"
+test_output " pid:                 $pid"
+test_output " date_submitted:      $date_submitted"
+test_output "#######################################################"
+
+
+
+
+test_output "############# Start Matrix Variable ###################" 
+test_output "# Started the global matrix matrix_data variable      #"
+test_output "# This will contain all data with timestamps          #"
+test_output "#######################################################"
+
+global matrix_data column
+::struct::matrix  matrix_data
+
+matrix_data add row 
+matrix_data add column time
+set column(time) 0
+matrix_data set cell $column(time) 0 "Time"
+
+matrix_data add row 
+matrix_data add column system_time
+set column(system_time) 1
+matrix_data set cell $column(system_time) 0 "System Time"
+
+# Static variables
+::report::defstyle simpletable {} {
+	data	set [split "[string repeat "| "   [columns]]|"]
+	top	set [split "[string repeat "+ - " [columns]]+"]
+	bottom	set [top get]
+	top	enable
+	bottom	enable
+}
+
+# Check All files exists
+if { ![file exists $xml_file]  } {
+	test_output "XML file $xml_file is missing \n"
+        880_abort -test_id $test_id -run_parameters_file $run_parameters_file -xml_file $xml_file -user $user -LOG $LOG_FILE -ABORT "FILES MISSING"
+	ats_results -result abort -write
+	return 1
+}
+if { ![file exists $run_parameters_file] } {
+	test_output "Run parameter file $run_parameters_file is missing \n"
+        880_abort -test_id $test_id -run_parameters_file $run_parameters_file -xml_file $xml_file -user $user -LOG $LOG_FILE -ABORT "FILES MISSING"
+	ats_results -result abort -write
+	return 1
+}
+if { ![file exists $titan_file] } {
+	test_output "Titan file $titan_file is missing \n"
+        880_abort -test_id $test_id -run_parameters_file $run_parameters_file -xml_file $xml_file -user $user -LOG $LOG_FILE -ABORT "FILES MISSING"
+	ats_results -result abort -write
+	return 1
+}
+
+
+test_output "#######################################################"
+test_output "##   First Setp lets parse the XML provided        ####" 
+test_output "#######################################################"
+
+if { [catch {
+	set key_list [fw_parse_xml_ixia "$xml_file"]
+	test_output "- Success in loading the XML, debug can be added here"
+	#test_output "$key_list"
+	}  result] }  {
+	test_output "#############################################################################"
+        test_output "#### ERROR:Bad  XML file report to database and exit $result"
+	test_output "#############################################################################"
+        880_abort -test_id $test_id -run_parameters_file $run_parameters_file -xml_file $xml_file -user $user -LOG $LOG_FILE -ABORT "BAD XML"
+	ats_results -result abort -write
+	if {[info exists resource_id] && [info exists password] }  {
+		test_output "########################################\n"
+		test_output "####Canceling reservation in Narra######\n"
+		test_output "########################################\n"
+		880_cancel_reservation -resource_id $resource_id -password $password -user $user
+	}
+	return 1
+ }
+
+
+test_output "#######################################################"
+test_output "#### INSERT INTO DATABASE AS RUNNING       ############" 
+test_output "#######################################################"
+test_output "# INFO INSERTED PID CLASS RUNNING_LOG RUNNING_STATS              "
+test_output "# USERNAME XML_FILE RUN_PARAMETERS DATE_SUBMITTED  DATE_STARTED  "
+
+
+set RUN_PARAMETERS [exec cat $run_parameters_file]
+keylget key_list Test.DATABASE.CLASS CLASS
+regexp {([a-z_A-Z0-9]+\.xml)} $xml_file garbage xml_name
+
+if { [ regexp {MANUAL_DEBUG} $RUN_PARAMETERS gargabe ] } {
+	return
+}
+
+ if { [catch {
+        set conn [mysqlconnect -host joao-lnx -user tie -db 880  ]
+	mysqluse $conn 880
+	test_output "-CONNECTED successfully to 880 database"
+    } result]} {
+	test_output "#############################################################################"
+        test_output "#### ERROR: FAILED to connect to database error: $result"
+	test_output "#############################################################################"
+    }
+
+if { [catch {
+		mysqlexec $conn "INSERT INTO running (PID,CLASS,RUNNING_LOG,RUNNING_STATS,USERNAME,XML_FILE,RUN_PARAMETERS,DATE_SUBMITTED) VALUES ( '$pid' , '$CLASS' , '$RUNNING_LOG_FILE', '$running_pwd/test_cvs' ,'$user', '$xml_name', '$RUN_PARAMETERS', '$date_submitted');"
+		test_output "-INSERTED into RUNNING"
+	} result]} {
+	test_output "#############################################################################"
+        test_output "#### ERROR: FAILED to insert running info: $result"
+	test_output "#############################################################################"
+	}
+
+##################
+## Search for RUN PARAMETERS on XML to be substituted
+##################
+
+  set fp [open $run_parameters_file r]
+  set file_data [read $fp]
+  close $fp
+
+     #  Process data file
+     set data [split $file_data "\n"]
+     foreach line $data {
+	  set empty ""
+	  regsub -all {[\s\t\n\r]+} $line $empty line
+	  print "new line $line"
+          set sub_line [split $line ";"]
+          foreach sub_data $sub_line {
+          set Key_Data [split $sub_data "="]
+		set Key [lindex $Key_Data 0]
+		set Value [lindex $Key_Data 1]
+		if { $Key != "" } {
+	        print "This is the $Key this is the $Value\n"
+                keylset key_list "Test.$Key" $Value
+		}
+          }
+     }
+
+if { [ regexp {FROM_RUN_PARAMETERS} $key_list gargabe ] } {
+	test_output "Some of the required arguments are still present in keylist, Abortin run"
+        880_abort -test_id $test_id -run_parameters_file $run_parameters_file -xml_file $xml_file -user $user -LOG $LOG_FILE -ABORT "INCORRECT RUN PARAMETERS"
+	ats_results -result abort -write
+	if {[info exists resource_id] && [info exists password] }  {
+	test_output "########################################\n"
+	test_output "####Canceling reservation in Narra######\n"
+	test_output "########################################\n"
+	880_cancel_reservation -resource_id $resource_id -password $password -user $user
+	}
+	return 1
+
+}
+
+test_output "Done with run parameters subtituition. all worked \n"
+
+test_output "############# TITAN FILE            ###################"
+test_output "# TITAN FILE GIVEN TO NARRA                           #"
+test_output "#######################################################"
+
+if { [keylget key_list Test.Equipment.Titan_File titan_file_content] } {
+	test_output $titan_file_content
+}
+
+test_output "######################################################" 
+test_output "# TITAN Returned by NARRA                             #"
+test_output "#######################################################"
+
+
+  set fp [open $titan_file r]
+  set file_data [read $fp]
+  close $fp
+  test_output $file_data
+
+test_output "#######################################################"
+test_output "Do subtituition of Given TITAN FILE \n"
+     #  Process data file
+  set data [split $file_data "\n"]
+ foreach line $data {
+  puts $line
+  if { [ regexp {([a-zA-Z0-9]+)\(device,([a-zA-Z0-9_]+)\)[ \t\r]+([0-9\.a-zA-Z_\- /\"]+)} $line all device key value ] } {
+    puts "mateched $device key $key and $value \n"
+    set empty {}
+    regsub -all "\"" $value $empty value
+    puts "mateched $device key $key and $value \n"
+    if { [ regexp {uut} $device garbage ]} {
+        keylset key_list "Test.Equipment.$device.$key" $value
+    }
+    if { [ regexp {Avalanche} $device garbage ]} {
+        keylset key_list "Test.Equipment.$device.$key" $value
+    }
+  }
+  if { [ regexp {([a-zA-Z0-9]+)\(([a-zA-Z0-9]+)([a-zA-Z0-9.]+).intf\)[ \t\r]+([0-9\.a-zA-Z_ /\"]+)} $line all device peer ethernet interface] } {
+
+    if { [ regexp "${device}\\($peer$ethernet,conn_id\\)\[ \\t\\r\]\+\(\[0-9\]\+\)" $file_data all conn_id  ]} {
+        puts "devoce $device peer $peer coon_id $conn_id interface $interface \n"
+        if [keylget key_list Test.Equipment.$device.Connection connetions] {
+		foreach connection [keylkeys connetions] {
+			puts "going after ${connection} \n"
+			if { [ keylget key_list Test.Equipment.$device.Connection.${connection}.conn_id CONN_ID ] && [keylget key_list Test.Equipment.$device.Connection.${connection}.Peer PEER ] } {
+				puts "$peer == $PEER && $CONN_ID == $conn_id \n"
+				if { $peer == $PEER && $CONN_ID == $conn_id } {
+					puts "setting something \n"
+					if { $device == "Avalanche" } {
+						#if {$interface == "1"} {set interface 0} 
+						#if {$interface == "2"} {set interface 1} 
+						#if {$interface == "3"} {set interface 2} 
+						#if {$interface == "4"} {set interface 3} 
+						#if {$interface == "5"} {set interface 4} 
+						#if {$interface == "6"} {set interface 5} 
+						#if {$interface == "7"} {set interface 6} 
+						#if {$interface == "8"} {set interface 7} 
+					}
+					keylset key_list Test.Equipment.$device.Connection.${connection}.Interface $interface
+				}
+			}
+		}
+         }
+    }
+  }
+}
+test_output " ############## FINAL EQUIPMENT ################"
+if [keylget key_list Test.Equipment Equipment] {
+test_output [tclUtils::keylprint Equipment]
+}
+
+
+if { [ regexp {FROM_TITAN} $key_list gargabe ] } {
+	test_output "Some of the required arguments are still present in keylist, Abortin run"
+        880_abort -test_id $test_id -run_parameters_file $run_parameters_file -xml_file $xml_file -user $user -LOG $LOG_FILE -ABORT "BAD TITAN"
+	ats_results -result abort -write
+	if {[info exists resource_id] && [info exists password] }  {
+	test_output "########################################\n"
+	test_output "####Canceling reservation in Narra######\n"
+	test_output "########################################\n"
+	880_cancel_reservation -resource_id $resource_id -password $password -user $user
+	}
+	return 1
+
+}
+
+# Test will load Env based on XML
+
+# Check to see if routers are present load Csccon if present
+
+# Check to see if Avalanche is present load Avalanche if present
+if [keylget key_list Test.Equipment Equipment] {
+	foreach equipment [keylkeys Equipment] {
+
+		if { [ regexp {vm} $equipment gargabe ] } {
+			test_output " this is not supported at this time"
+			exit
+		}
+
+		if { [ regexp {Avalanche} $equipment gargabe ] && [keylget key_list Test.Equipment.$equipment.rule rule] } {
+			test_output " Avalanche are being used for this test. Loading necessary EXP, not advised to use multiple versions"
+			if [keylget key_list Test.Avalanche.$rule.CONTROLLER CONTROLLER] {
+				if [file exists $CONTROLLER] {
+					test_output "Loading $CONTROLLER"
+					source $CONTROLLER
+				} else {
+					test_output "warning file for controller not found $CONTROLLER]"
+				}
+			} else {
+				test_output " Warning no controller defined for this Avalanche.$rule"
+			}
+		}
+
+		if { [ regexp {uut} $equipment gargabe ] && [keylget key_list Test.Equipment.$equipment.rule rule]  } {
+			test_output " UUT are being used for this test. Loading necessary EXP, not advised to use multiple versions"
+			if [keylget key_list Test.UUT.$rule.CONTROLLER CONTROLLER] {
+				if [file exists $CONTROLLER] {
+					test_output "Loading $CONTROLLER"
+					source $CONTROLLER
+				} else {
+					test_output "warning file for controller not found $CONTROLLER]"
+				}
+			} else {
+				test_output " Warning no controller defined for this uut:$rule"
+			}
+		}
+
+
+	}
+} else {
+	test_output "It's not possible to run a test with no Equipment, exiting..."
+	exit
+}
+
+
+set test_complete FALSE
+set 880_monitor_enabled TRUE
+set call_back_time 10
+
+
+880_Monitor_Proc
+
+while { $test_complete == "FALSE" && $RESULT == "PASS"} {
+
+  cd $original_pwd
+  set time_epoc [clock seconds]
+  sleep 1
+  set test_command [880_next_command]
+  test_output $test_command
+  if { $test_command == "Test_done" } {
+	test_output "Done Running the main test, going to next section"
+        set test_complete "TRUE"
+  }
+  if { [regexp {880_while} $test_command result] } {
+    if { [catch {
+      set empty "" 
+      regsub -all "880_while" $test_command $empty test_command
+      set val1 [subst -nobackslashes $test_command]
+      if { $val1 == "0" } { decr 880_next_command_position }
+    } result] } {
+        test_output "Running command did not work $result"
+    }
+  } else {
+    set 880_monitor_bypass "TRUE" 
+    if { [catch {
+      set val1 [subst -nobackslashes $test_command]
+    } result] } {
+        test_output "fail to run command: $result"
+    }
+    set 880_monitor_bypass "FALSE"
+  }
+
+}
+
+
+
+if { $RESULT == "FAIL" } {
+    ats_results -result fail -write
+    880_fail -test_id $test_id -run_parameters_file $run_parameters_file -xml_file $xml_file -user $user -LOG $LOG_FILE
+	if {[info exists resource_id] && [info exists password] }  {
+	test_output "########################################\n"
+	test_output "####Canceling reservation in Narra######\n"
+	test_output "########################################\n"
+	880_cancel_reservation -resource_id $resource_id -password $password -user $user
+	}
+    return 0
+} 
+
+set analyse_complete "FALSE"
+
+ test_output "Starting Analyse of Test \n"
+
+if { [keylget key_list Test.Analyse.CONTROLLER CONTROLLER]  } {
+	if [file exists $CONTROLLER] {
+		test_output "Loading $CONTROLLER"
+		source $CONTROLLER
+	} else {
+		test_output "warning file for controller not found $CONTROLLER]"
+	}
+
+}
+
+while { $analyse_complete == "FALSE" && $RESULT == "PASS"} {
+
+  cd $original_pwd
+  set time_epoc [clock seconds]
+  sleep 1
+  set test_command [880_next_analyse_command]
+  test_output $test_command
+  if { $test_command == "Test_done" } {
+	test_output "Done Running the main test, going to next section"
+        set analyse_complete "TRUE"
+  }
+    if { [catch {
+      set val1 [subst -nobackslashes $test_command]
+    } result] } {
+        test_output "fail to run command: $result"
+    }
+
+}
+
+if { [keylget key_list Test.Report.CONTROLLER CONTROLLER]  } {
+	if [file exists $CONTROLLER] {
+		test_output "Loading $CONTROLLER"
+		source $CONTROLLER
+	} else {
+		test_output "warning file for controller not found $CONTROLLER]"
+	}
+	if { [keylget key_list Test.Report.Exec Exec]  } {
+   		if { [catch {
+		   test_output "running proc $Exec"
+             	   set val1 [subst -nobackslashes $Exec]
+		} result] } {
+     		   test_output "fail to run command: $result"
+    		}
+
+	}
+}
+
+if {[info exists resource_id] && [info exists password] }  {
+	test_output "########################################\n"
+	test_output "####Canceling reservation in Narra######\n"
+	test_output "########################################\n"
+	880_cancel_reservation -resource_id $resource_id -password $password -user $user
+}
+
+
+
+file delete -force $running_pwd
+return
+
+
+
+

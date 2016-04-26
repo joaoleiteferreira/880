@@ -1,0 +1,69 @@
+#!/bin/sh
+#\
+exec $AUTOTEST/bin/expect "$0" "$@" #
+set env(EARMS_SOURCING_CONFIG) 1
+package require tls
+package require NarraAPI2
+package require AtsAuto
+package require mysqltcl
+global debug_dump
+package require Tclx
+package require dom::tcl
+
+
+    set man_args {
+    } ; # end mandatory args
+
+    set opt_args {
+	-tree		      CHOICES baseline testing solid auto custom
+	DEFAULT		      testing
+	-CFLOW                CHOICES TRUE FALSE
+	DEFAULT 	      FALSE
+	-TIMS		      CHOICES TRUE FALSE
+	DEFAULT		      FALSE
+	-EMAIL_WARN           ANY
+	DEFAULT 	      "none"
+	-DEBUG		      CHOICES ON OFF
+	DEFAULT		      OFF
+	-MODE		      CHOICES NORMAL VERTICAL NORMAL_NOSOLID
+	DEFAULT		      NORMAL
+	-test_clean	      CHOICES baseline testing solid auto custom no
+	DEFAULT		      no
+	-router_clean         ANY
+	DEFAULT		      no
+    } ; # end optional args
+
+    set args [lrange $argv 1 $argc]
+
+    parse_dashed_args                     \
+        -args $args                       \
+        -mandatory_args $man_args         \
+        -optional_args $opt_args
+
+
+source $env(AUTOTEST)/stg_reg/utils/880/880.exp
+source $env(AUTOTEST)/stg_reg/utils/880/fw_xml.exp
+set debug_dump [open "/tmp/880.debug" w+]
+
+global first_time
+set first_time 0
+
+
+# While Loop run every 5 seconds
+while (1) {
+puts " Sleep for 1 seconds"
+sleep 1
+####################################
+## Data Care of the Database
+## 1- The files control the Database
+## 1.1 No file exists for the entry (delete it)
+## 1.2 Add entris for files that exist and are valid XML files
+## 1.3 Fix anything from the files to the XML entry
+####################################
+if { [catch {
+	sync_folder_w_database
+	}  result] }  {
+	 puts "some issues updating $result"
+ }
+set first_time 1
+}

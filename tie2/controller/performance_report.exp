@@ -1,0 +1,140 @@
+
+
+
+
+proc 880_performance_report { args } {
+
+	set man_args {
+	-UUT                  ANY
+	-Avalanche	      ANY
+	-test_id	      ANY
+	-run_parameters_file  ANY
+        -xml_file             ANY
+	-user                 ANY
+	-LOG		      ANY
+	-STATS		      ANY
+    } ; # end mandatory args
+
+    set opt_args {
+
+    } ; # end optional args
+
+
+    parse_dashed_args                     \
+        -args $args                       \
+        -mandatory_args $man_args         \
+        -optional_args $opt_args
+
+
+global key_list Analyse_variables RESULT
+global matrix_data column RESULT running_pwd
+global time_started env
+#############################################
+#### FOR PERFORMANCE DATABASE IN 880 for results performance this are the values
+#### ID,XML_FILE,TOPOLOGY,RUN_PARAMETERS,SUBMITTER,DURATION,MODEL,TRAFFIC,CONFIG,TIME_FINISH,RESULT
+#### BANDWITDH,LIMIT_FACTOR,VERSION,NOTES
+################################################
+#### To remove from running, we just need the test_submit_id
+################################################
+
+if { $RESULT == "PASS" } {
+	ats_results -result pass -write
+} else {
+	ats_results -result fail -write
+}
+	set ID $test_id
+	set XML_FILE $xml_file
+	keylget key_list Test.DATABASE.TOPOLOGY TOPOLOGY 
+	set RUN_PARAMETERS [exec cat $run_parameters_file]
+	set SUBMITTER $user
+	set time_ended [clock seconds]
+	set DURATION [expr ($time_ended - $time_started) / 60]
+	keylget key_list Test.DATABASE.MODEL MODEL
+	keylget key_list Test.DATABASE.CLASS CLASS
+	keylget key_list Test.DATABASE.CONFIG CONFIG
+	keylget key_list Test.DATABASE.TRAFFIC TRAFFIC
+	set LOG_FILE [ats_get_keyword ARCHIVE_FILE]
+
+	if { ![info exists Analyse_variables(Total_Bandwitdh)] } {
+		test_output "Total_Bandwitdh file is missing test didn't run properly\n"
+		880_abort -test_id $test_id -run_parameters_file $run_parameters_file -xml_file $xml_file -user $user -LOG $LOG_FILE -ABORT "No total_bandwitdh from avalanche"
+		ats_results -result abort -write
+		return 1
+	}
+
+	set BANDWIDTH $Analyse_variables(Total_Bandwitdh)
+
+	if { ![info exists Analyse_variables(main_limit)] } {
+		test_output "Main info is missing test didn't run properly\n"
+		880_abort -test_id $test_id -run_parameters_file $run_parameters_file -xml_file $xml_file -user $user -LOG $LOG_FILE -ABORT "No main limit detected"
+		ats_results -result abort -write
+		return 1
+	}
+	set LIMIT_FACTOR $Analyse_variables(main_limit)
+	keylget key_list Test.UUT.$UUT.VERSION VERSION
+	set NOTES "no notes for now"
+
+############# Copy The stat files to permanent directory
+set LOG_DIR [ats_get_keyword ARCHIVE_DIR]
+set stat_file "$LOG_DIR/STAT_FILE.$time_ended"
+
+if { [catch { system "cp -f -p $running_pwd/test_cvs $stat_file"} fid] } {
+	#something went wrong with the copy don't remove other file
+	} else {
+	set empty ""
+	regsub -all "$env(AUTOTEST)" $stat_file $empty STATS
+}
+
+regexp {/([A-Za-z_0-9]+[.]xml)} $xml_file all XML_FILE
+
+# SET HTTP LOG
+if { [catch {
+	if { [ regexp {([0-9][0-9])-([0-9][0-9])/(.+)} $LOG all month year file ] } {
+		set dash "http://earms-trade.cisco.com/tradeui/CLResults.jsp?archive="
+		set ats "&ats="
+		puts " $month $year $file "
+		if { [ regexp {([0-9][0-9][0-9][0-9])[A-Za-z]+([0-9][0-9]).([0-9][0-9]):([0-9][0-9])} $file all yearcomplete day hour minutes ] } {
+			puts "this should be it $yearcomplete/$month/$day/$hour/$minutes/$file"
+			set log "$dash$yearcomplete/$month/$day/$hour/$minutes/$file$ats$env(AUTOTEST)"
+		}
+	} 
+    } result] } {
+        set log " "
+    }
+
+
+
+ if { [catch {
+        set conn [mysqlconnect -host joao-lnx -user tie -db 880  ]
+	mysqluse $conn 880
+	test_output "autotie_running_info-connected to database"
+    } result]} {
+        test_output "autotie_running_info-Cannot connect to database: $result"
+    }
+
+if { [catch {
+		mysqlexec $conn "INSERT INTO resuts_performance (ID,XML_FILE,TOPOLOGY,RUN_PARAMETERS,SUBMITTER,DURATION,MODEL,TRAFFIC,CONFIG,RESULT,BANDWIDTH,LIMIT_FACTOR,VERSION,NOTES,LOG,STATS,CLASS) VALUES ( '$ID' , '$XML_FILE' , '$TOPOLOGY', '$RUN_PARAMETERS' ,'$SUBMITTER', '$DURATION', '$MODEL', '$TRAFFIC','$CONFIG', '$RESULT', '$BANDWIDTH', '$LIMIT_FACTOR', '$VERSION', '$NOTES','$log', '$STATS', '$CLASS');"
+		test_output "autotie_running_info-inserted results "
+	} result]} {
+		test_output "autotie_running_info-not able to insert results $result"
+	}
+
+if { [catch {
+		set pid [pid]
+		mysqlexec $conn "delete from running WHERE PID='$pid'"
+		test_output "DELETED FROM RUNNING"
+	} result]} {
+		test_output "NOT ABLE TO DELETE FROM RUNNING $result"
+	}
+
+if { [catch {
+        mysqlclose $conn
+	test_output "autotie_running_info-able to disconnect from database"
+    } result]} {
+        test_output "autotie_running_info-CONFIG no able to disconnect to database: $result"
+    }
+
+return 0
+
+}
+

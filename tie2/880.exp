@@ -1,0 +1,493 @@
+
+proc sync_folder_w_database {args} {
+
+     global debug_dump
+     global env 
+
+    set man_args {
+    } ; # end mandatory args
+
+    set opt_args {
+    } ; # end optional args
+
+
+    parse_dashed_args                      \
+        -args $args                        \
+        -mandatory_args $man_args          \
+        -optional_args $opt_args
+
+#####################################
+# 1-check that all directories exist to start
+#####################################
+
+
+## Create a List of files available at the directory
+
+set listoffiles [glob -nocomplain -directory /var/www/html/site_pro/XML *.xml]
+
+## Connect to database
+
+
+
+    if { [catch {
+        set conn [mysqlconnect -host joao-lnx -user tie -db 880]
+	mysqluse $conn 880
+	puts  "connected to database"
+    } result] } {
+        puts  "Cannot connect to database: $result"
+    }
+
+    if { [catch {
+	set query [mysqlquery $conn "SELECT ID,XML_FILE FROM tests"]
+					#puts "We found it life is good"
+	set current [mysqlresult $query current]
+		while { [set row [mysqlnext $query]]!="" } {
+			set id [lindex $row 0]
+			set xml_file [lindex $row 1]
+			#puts "this ix the xml_file $xml_file\n"
+			set found 0
+			foreach xml_folder_file $listoffiles {
+				#puts "The file is $xml_file the file in folder is $xml_folder_file \n"
+				if { [regexp "/var/www/html/site_pro/XML/$xml_file" $xml_folder_file garbage] } {
+					set found 1
+				}
+			}
+			if { $found == 0 } {
+				puts "Not able to found it, delete test"
+				mysqlexec $conn "delete from tests WHERE ID='$id';"
+				puts $debug_dump "deletet entry $id"
+			}
+		}
+	puts $debug_dump "BugaBuga2 done\n"
+    } result] }  {
+        puts $debug_dump "not able to get time $result"
+    }
+    
+	foreach xml_folder_file $listoffiles {
+		#puts "Searching for $xml_folder_file \n"
+		set found 0
+	        mysqlseek $query 0
+		while { [set row [mysqlnext $query]]!="" } {
+			set id [lindex $row 0]
+			set xml_file [lindex $row 1]
+			#puts "this ix the xml_file $xml_file\n"
+			if { [regexp "/var/www/html/site_pro/XML/$xml_file" $xml_folder_file garbage] } {
+				set found 1
+				set var [expr rand()]
+                                global first_time
+				if { $var > "0.99999"  || $first_time == 0} {
+					
+					#puts "trying to update"
+					global xml_kl
+					if [info exists xml_kl] {unset xml_kl}
+					set key_list [fw_parse_xml_ixia "$xml_folder_file"]
+					keylget key_list Test.DATABASE.CLASS CLASS		
+					keylget key_list Test.DATABASE.TOPOLOGY TOPOLOGY
+					keylget key_list Test.DATABASE.MODEL MODEL
+					keylget key_list Test.DATABASE.TRAFFIC TRAFFIC
+					keylget key_list Test.DATABASE.NOTES NOTES
+					keylget key_list Test.DATABASE.FILTER FILTER
+					keylget key_list Test.DATABASE.RUN_PARAMETERS RUN_PARAMETERS
+					keylget key_list Test.DATABASE.CONFIG CONFIG
+					mysqlexec $conn "update tests set CONFIG='$CONFIG',CLASS='$CLASS',TOPOLOGY='$TOPOLOGY',MODEL='$MODEL',TRAFFIC='$TRAFFIC',NOTES='$NOTES',FILTER='$FILTER',RUN_PARAMETERS='$RUN_PARAMETERS' WHERE ID='$id'"
+				}
+			}
+		}
+		if { $found == 0 } {
+			puts "We need to add it"
+			puts "PARSE XML"
+			if { [catch {
+			global xml_kl
+			if [info exists xml_kl] {unset xml_kl}
+			set key_list [fw_parse_xml_ixia "$xml_folder_file"]
+			puts "$key_list"
+			keylget key_list Test.DATABASE.CLASS CLASS		
+			keylget key_list Test.DATABASE.TOPOLOGY TOPOLOGY
+			keylget key_list Test.DATABASE.MODEL MODEL
+			keylget key_list Test.DATABASE.TRAFFIC TRAFFIC
+			keylget key_list Test.DATABASE.NOTES NOTES
+			keylget key_list Test.DATABASE.FILTER FILTER
+			keylget key_list Test.DATABASE.RUN_PARAMETERS RUN_PARAMETERS
+			keylget key_list Test.DATABASE.CONFIG CONFIG
+			set empty ""
+			regsub -all "/var/www/html/site_pro/XML/" $xml_folder_file $empty xml_file_truncated
+			puts "all info is $CLASS $TOPOLOGY $MODEL $TRAFFIC $NOTES $FILTER $xml_file_truncated \n"
+			mysqlexec $conn "INSERT INTO tests (CLASS,TOPOLOGY,MODEL,TRAFFIC, NOTES, FILTER, XML_FILE,CONFIG,RUN_PARAMETERS) VALUES ( '$CLASS' , '$TOPOLOGY' , '$MODEL', '$TRAFFIC' ,'$NOTES', '$FILTER', '$xml_file_truncated','$CONFIG','$RUN_PARAMETERS');"
+	
+			}  result] }  {
+       			 puts $debug_dump "Bad file we should move it away $result $xml_folder_file"
+			 exec mv $xml_folder_file /tmp/
+   			 }
+		}
+	}
+
+if { [catch {
+        mysqlclose $conn
+    } result] } {
+
+    }
+}
+
+proc submit_tests_in_queue {} {
+
+###
+## Connect to database
+###
+    if { [catch {
+        set conn [mysqlconnect -host joao-lnx -user tie -db 880]
+	mysqluse $conn 880
+	puts "connected to database"
+    } result] } {
+        puts "Cannot connect to database: $result"
+    }
+
+#####
+## Connect to NARRA
+#####
+
+     connectToServer -ipaddress 172.27.40.171
+
+
+###
+# QUERY the queue
+###
+
+    if { [catch {
+	set query [mysqlquery $conn "select ID,XML_FILE,DATE_SUBMITTED,RUN_PARAMETERS,USERNAME,PASSWORD,QUEUE_ID from queue order by PRIORITY asc,DATE_SUBMITTED asc"]
+	set current [mysqlresult $query current]
+		while { [set row [mysqlnext $query]]!="" } {
+			set id [lindex $row 0]
+			set xml_file [lindex $row 1]
+			set DATE_SUBMITTED [lindex $row 2]
+			set RUN_PARAMETERS [lindex $row 3]
+			set USERNAME [lindex $row 4]
+			set PASSWORD [lindex $row 5]
+			set QUEUE_ID [lindex $row 6]
+			puts "$id $xml_file $DATE_SUBMITTED $RUN_PARAMETERS $USERNAME $PASSWORD \n"
+
+			submit_to_narra -id $id -xml_file $xml_file -DATE_SUBMITTED $DATE_SUBMITTED -RUN_PARAMETERS $RUN_PARAMETERS -USERNAME $USERNAME -PASSWORD $PASSWORD -QUEUE_ID $QUEUE_ID -conn $conn
+       		}
+
+		
+	}  result] }  {
+       		puts "error at $result"
+		update_queue_status -queue_id $QUEUE_ID -status "NARRA API ERROR" -conn $conn
+   	}
+
+
+#####
+## Disconnect to NARRA
+#####
+logout
+disconnectToServer 
+
+#####
+## Disconnect from database
+#####
+
+if { [catch {
+        mysqlclose $conn
+    } result] } {
+
+    }
+
+
+}
+
+proc update_queue_status { args } {
+
+
+	set man_args {
+	-queue_id	      ANY
+	-status		      ANY
+	-conn		      ANY
+    } ; # end mandatory args
+
+    set opt_args {
+
+    } ; # end optional args
+
+
+    parse_dashed_args                     \
+        -args $args                       \
+        -mandatory_args $man_args         \
+        -optional_args $opt_args
+
+
+## Connect to database
+puts " \nupdating queue status $queue_id  $status \n "
+
+if { [catch {
+	puts  "connected to database update STATUS='$status' WHERE QUEUE_ID='$queue_id" 
+	mysqlexec $conn "update queue set STATUS='$status' WHERE QUEUE_ID='$queue_id'"
+    } result] } {
+
+    }
+
+}
+
+proc delete_from_queue { args } {
+
+
+
+
+	set man_args {
+	-queue_id	      ANY
+	-conn		      ANY
+    } ; # end mandatory args
+
+    set opt_args {
+
+    } ; # end optional args
+
+    parse_dashed_args                     \
+        -args $args                       \
+        -mandatory_args $man_args         \
+        -optional_args $opt_args
+
+
+if { [catch {
+	mysqlexec $conn "delete from queue where QUEUE_ID='$queue_id'"
+    } result] } {
+
+    }
+
+
+
+
+}
+
+
+proc submit_to_narra { args } {
+
+
+	set man_args {
+	-id	      ANY
+	-xml_file	      ANY
+	-DATE_SUBMITTED ANY 
+	-RUN_PARAMETERS ANY
+	-USERNAME ANY
+	-PASSWORD ANY
+	-QUEUE_ID ANY
+	-conn	ANY
+    } ; # end mandatory args
+
+    set opt_args {
+
+    } ; # end optional args
+
+    parse_dashed_args                     \
+        -args $args                       \
+        -mandatory_args $man_args         \
+        -optional_args $opt_args
+	global xml_kl
+	if [info exists xml_kl] {unset xml_kl}
+
+set done FALSE
+while { $done == "FALSE" } {
+        sleep 30
+	set XML_FILE "/var/www/html/site_pro/XML/$xml_file"
+	if { ![file exists $XML_FILE] } {
+		update_queue_status -queue_id $QUEUE_ID -status "XML File doesn't exit" -conn $conn
+	break
+	}
+	
+
+	set key_list [fw_parse_xml_ixia "$XML_FILE"]
+	update_queue_status -queue_id $QUEUE_ID -status "Submiting to Narra" -conn $conn
+	keylget key_list Test.Equipment.Reserve_time Reserve_time 	
+	if { $Reserve_time > 0 } {
+		puts "Reserve time of $Reserve_time hours"
+	} else {
+		update_queue_status -queue_id $QUEUE_ID -status "Reserve time incorrect" -conn $conn		
+		break
+	}
+	puts "Lets try to reserver narra for $Reserve_time"
+	set time_now [clock seconds]
+	set time_now [expr $time_now + 300]
+	set time_after [expr $time_now + $Reserve_time * 60 * 60]
+	set string_now [clock format $time_now -format {%Y-%m-%d,%H:%M:00}]
+	set string_finish [clock format $time_after -format {%Y-%m-%d,%H:%M:00}]
+	set var [expr rand()]
+ 	if [keylget key_list Test.Equipment.Titan_File titan_file] {
+		puts "############################################# \n"
+		puts "### LOADING DYNAMIC FILE for $XML_FILE \n"
+		set lf [open "/var/tmp/TITAN_FILE_$var.titan" w+]
+		puts $lf $titan_file
+		close $lf
+		sleep 1
+		if { [catch {
+			set does2unix [exec dos2unix /var/tmp/TITAN_FILE_${var}.titan]
+		} result] } {	
+			puts "fail to run command: $result"
+		}
+		
+
+
+		set titan [exec cat /var/tmp/TITAN_FILE_${var}.titan]
+		puts "\n\n the final is $titan \n\n"
+		#### login to narra using user info
+		set login_success [login -username $USERNAME -password $PASSWORD]
+		if { $login_success == "0" } {
+			update_queue_status -queue_id $QUEUE_ID -status "Wrong Username/Password" -conn $conn
+			break
+		}
+		set titan_file [loadTitan -path "/var/tmp/TITAN_FILE_${var}.titan"]
+		if { $titan_file == "0" } {
+			update_queue_status -queue_id $QUEUE_ID -status "Error Loading Titan File" -conn $conn
+			logout
+			break
+		}
+		### LETS MAKE SURE IMAGE FILE EXISTS
+		if {[regexp {UUT.uut.IMAGE=([-A-Za-z_0-9//.]+)} $RUN_PARAMETERS all src_img] } {
+			if { ![file exists "$src_img"] } {
+			update_queue_status -queue_id $QUEUE_ID -status "Image file does not exist $src_img" -conn $conn
+			logout
+			break
+			}
+			file stat "$src_img" stats
+			if {$stats(mode) != "33279" } {
+				update_queue_status -queue_id $QUEUE_ID -status "Image file not 777 $src_img" -conn $conn
+				logout
+				break
+			}
+			if { ![file readable "$src_img"] } {
+			update_queue_status -queue_id $QUEUE_ID -status "Image file not redable $src_img" -conn $conn
+			logout
+			break
+			}
+
+			if {![regexp {tftp} "$src_img" all] } {
+				update_queue_status -queue_id $QUEUE_ID -status "Image file not in tftp $src_img" -conn $conn
+				logout
+				break
+			}
+		} 
+
+		set commit [directCommit -starttime $string_now -endtime $string_finish]
+		if { $commit == "0" } {
+			update_queue_status -queue_id $QUEUE_ID -status "Unable to Reserve" -conn $conn
+			logout
+			break
+		}
+
+		#CREATE TITAN FILE
+		set var [expr int(rand()*1000)]
+		set final_titan_file "/var/tmp/FINAL_TITAN_FILE_$var.titan"
+		set titan_return_file [returnTitanFile]
+		puts "this is the returned TITAN FILE $titan_return_file"
+		sleep 5
+
+		if { $titan_return_file == "0" } {
+			update_queue_status -queue_id $QUEUE_ID -status "No Titan file returned" -conn $conn
+			logout
+			break
+		}
+		set lf [open $final_titan_file w+]
+		puts $lf $titan_return_file
+		close $lf
+
+		#Get resource_id
+		global resourceid
+
+		sleep 300
+                set check_provision [checkProvision]
+		if { $check_provision == "0" } {
+			sleep 120
+			set check_provision [checkProvision]
+		}
+		if { $check_provision == "0" } {
+			update_queue_status -queue_id $QUEUE_ID -status "Topology sanity failed" -conn $conn
+			cancelReservation
+		     	sleep 300
+			logout
+			break
+		}
+		#CREATE RUN PARAMETERES FILE
+		set final_run_parameteres_file "/var/tmp/RUN_PARAMETERES_$var"
+		set lf [open $final_run_parameteres_file w+]
+		puts $lf $RUN_PARAMETERS
+		close $lf
+		#CREATE JOB FILE
+		set final_job_file "/auto/stg-devtest/joaofer/local/images/$xml_file${var}.job"
+		set lf [open $final_job_file w+]
+		puts $lf "ats_run -tid $xml_file /auto/stg-devtest/joaofer/stg_reg/utils/880/880_test_runner -titan_file $final_titan_file -user $USERNAME -run_parameters_file $final_run_parameteres_file -xml_file $XML_FILE -test_id $id -date_submitted $DATE_SUBMITTED -resource_id $resourceid -password $PASSWORD"
+		close $lf
+		cd /auto/stg-devtest/joaofer/local/images/
+		puts "system autoeasy $xml_file${var}.job  > /dev/null 2>&1 &"
+		system "nohup autoeasy $xml_file${var}.job > /dev/null 2>&1 & "
+		delete_from_queue -queue_id $QUEUE_ID -conn $conn
+		puts "\n launched"
+		sleep 60
+		set done "TRUE"
+		logout
+	}  
+	set done "TRUE"
+}
+
+
+
+}
+
+proc cancel_from_narra {} {
+
+###
+## Connect to database
+###
+    if { [catch {
+        set conn [mysqlconnect -host joao-lnx -user tie -db 880]
+	mysqluse $conn 880
+	puts "connected to database"
+    } result] } {
+        puts "Cannot connect to database: $result"
+    }
+
+#####
+## Connect to NARRA
+#####
+
+     connectToServer -ipaddress 172.27.40.171
+
+
+###
+# QUERY the queue
+###
+
+    if { [catch {
+	set query [mysqlquery $conn "select resource_id,username,password from cancel_narra"]
+	set current [mysqlresult $query current]
+		while { [set row [mysqlnext $query]]!="" } {
+			set resource_id [lindex $row 0]
+			mysqlexec $conn "delete from cancel_narra WHERE resource_id='$resource_id'"
+			set username [lindex $row 1]
+			set password [lindex $row 2]
+			login -username $username -password $password
+			cancelReservation -resourceid $resource_id
+			logout
+			sleep 100
+       		}
+
+		
+	}  result] }  {
+       		puts "error at $result"
+   	}
+
+
+#####
+## Disconnect to NARRA
+#####
+
+disconnectToServer 
+
+#####
+## Disconnect from database
+#####
+
+if { [catch {
+        mysqlclose $conn
+    } result] } {
+
+    }
+
+
+}

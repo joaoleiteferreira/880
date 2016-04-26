@@ -1,0 +1,1410 @@
+
+
+proc fw_aval_add_array {key_string value NAME} {
+    global fw_aval_array
+    global newApiFlag
+
+    # This list maps avalanche xml tags to avalanche array key naming
+    # conventions:   
+    set fw_aval_key_map {
+        { {AvalTestPlan,} {} }
+        { {Client,} {Wa} }
+        { {Server,} {Wr} }
+        { {InterfaceProfile} {Interface} }
+        { {InterfaceProfileName} {Name} }
+        { {Entry,} {} }
+	{ {SAPEESERVER} {Server} }
+	{ {SAPEECLIENT} {Client} }
+    }
+
+	
+
+    # This list maps avalanche xml element values to avalanche array config
+    # value naming conventions:
+    set fw_aval_value_map {
+        { {true} {on} }
+        { {false} {off} }
+	{ {av_true} {true} }
+	{ {av_false} {false} }
+    }
+
+    # Add Info to Replace in Keyed list
+    set server_port [avalanche_get_server_port $NAME]
+    set client_port [avalanche_get_client_port $NAME]
+    
+    lappend fw_aval_value_map  "\"avalanche_client_port1\" \"$client_port\""
+    lappend fw_aval_value_map  "\"avalanche_server_port1\" \"$server_port\""
+
+    set server_ifport [avalanche_get_server_ifport $NAME]
+    set client_ifport [avalanche_get_client_ifport $NAME]
+    #puts "server if port $server_ifport"
+    lappend fw_aval_value_map  "\"avalanche_server_InterfaceDisplayString1\" \"$server_ifport\""
+    lappend fw_aval_value_map  "\"avalanche_client_InterfaceDisplayString1\" \"$client_ifport\""
+
+    # First, change the '.' values in a key string to ',' (needed
+    # for the array):
+    regsub -all {\.} $key_string {,} array_string
+
+    # Map any keys in the key_string that need to be mapped:
+    foreach key [keylkeys fw_aval_key_map] {
+        if [regexp "$key" $array_string] {
+            set map_value [keylget fw_aval_key_map $key]
+            regsub $key $array_string $map_value array_string
+        }
+    }
+
+    # Map any values that need to be mapped:
+    foreach key [keylkeys fw_aval_value_map] {
+        if {$key == $value} {
+            set value [keylget fw_aval_value_map $key]
+        }
+    }
+
+    # Map network address
+    set new_client [avalanche_new_client_address $NAME]
+    set new_server [avalanche_new_server_address $NAME]
+
+   set old_client [avalanche_old_client_address $NAME]
+   set old_server [avalanche_old_server_address $NAME]
+
+        regsub -all "$old_client" $value $new_client value
+	regsub -all "$old_server" $value $new_server value
+
+
+
+    # This is to handle special case when we just cannot directly map the
+    # XML to array. It requires additional processing. This is indicated by
+    # dash in the element name, i.e. <TagName->value</TagName->
+    set special_case_symbol {-}
+    if [string match [string index $array_string end] $special_case_symbol] {
+	set array_string [string trimright $array_string $special_case_symbol]
+	fw_aval_add_array_handle_special_case $array_string $value
+    } else {
+	array set fw_aval_array "$array_string {$value}"
+    }
+
+}
+
+
+
+#==============================================================================
+# This proc recurses the avalanche key list that was generated from
+# the xml and builds the avalanche array needed for the TCL config:
+#------------------------------------------------------------------------------
+proc fw_aval_recurse_keylist {key_string NAME} {
+    global fw_aval_static
+    #puts "key string $key_string "
+    if [catch {set keys [keylkeys fw_aval_static $key_string]}] {
+        set value [keylget fw_aval_static $key_string]
+        # add the key and value to the avalanche array:
+        fw_aval_add_array $key_string $value $NAME
+    } else {
+	if [lempty $keys] {
+	    # Meaning it's empty node
+	    fw_aval_add_array $key_string "" $NAME
+	} else {
+	    # Now recurse these keys:
+	    foreach key $keys {
+		set new_key_string $key_string
+		append new_key_string {.} $key
+		fw_aval_recurse_keylist $new_key_string $NAME
+	    }
+	}
+    }
+    return
+
+}
+
+
+proc fw_aval_gen_array { NAME } {
+     global fw_aval_array
+
+    # Build the xml specified portions of the array;
+    fw_aval_recurse_keylist "AvalTestPlan" $NAME
+
+    # Add the topology specific portions to the array:
+    #if {[fw_aval_add_topo_client $NAME] == 0} {
+    #    return 0
+    #}
+
+
+    # Perform any required URL list ip address substitutions:
+    #if {[fw_aval_substitute_urls] == 0} {
+    #    return 0
+    #} 
+    return 1
+}
+
+proc Avalanche3_9_init {} {
+
+global avalanche_3_9_already_init env
+
+    if [info exists avalanche_3_9_already_init] { 
+	if { $avalanche_3_9_already_init } { return 1 }
+    } else {
+	set avalanche_3_9_already_init 0
+    }
+
+puts "Avalanche Equipment was detected, load 3.9 ENV"
+
+set env(SPIRENT_TCLAPI_ROOT) "/home/devtest/avalanche/Spirent_TestCenter_3.90/TclAPI/"
+set env(LD_LIBRARY_PATH) "/home/devtest/avalanche/Spirent_TestCenter_3.90/STC:$env(AUTOTEST)/lib/dload.linux2:/usr/local/lib"
+set env(SPIRENT_TCLAPI_LICENSEROOT) "/home/devtest/avalanche/licenses"
+
+    # Verify that the Avalanche TclAPI is installed
+    if ![info exists env(SPIRENT_TCLAPI_ROOT)] { 
+	puts "env: SPIRENT_TCLAPI_ROOT not set, must point to tcl api dir" \
+	    error
+    }
+    # Make sure the path exists
+    set tcl_root $env(SPIRENT_TCLAPI_ROOT)
+    if { ![file isdirectory $tcl_root] } {
+	puts "SPIRENT_TCLAPI_ROOT path invalid: $tcl_root" error
+	error
+    }
+    puts "Using Spirent TCLAPI: $tcl_root"
+
+    global auto_path
+    set auto_path [linsert $auto_path 0 $tcl_root]
+    if [catch {
+		package forget SPI_AV
+		package require SPI_AV
+		} error] {
+	puts "fail to load SPI_AV package" 
+    } 
+
+	puts "Succeding Loading Avalanche 3.9 env"
+	
+	
+	    # Load the license
+    if ![fw_aval_add_license] {
+	fw_diag "fail to add license from directory $lic_root" error
+	return 0
+    }
+    # Load the testcenter license
+   # if ![fw_aval_add_license_stc] {
+   #     fw_diag "fail to add stc license" error
+#	return 0
+#    }
+
+
+}
+
+proc Avalanche3_9_done { NAME } {
+
+global avalanche_3_9_already_init env
+
+return 0
+
+}
+
+proc Avalanche3_9_start { NAME } {
+ 
+global xml_kl Avalanche_running Avalanche_position Avalanche_throttle Avalanche_test_directory
+
+global fw_aval_array fw_aval_static
+
+    if { ![info exists Avalanche_running] } {
+	array set Avalanche_running {}
+    }
+    if { ![info exists Avalanche_throttle] } {
+	array set Avalanche_throttle {}
+    }
+    if { ![info exists Avalanche_test_directory] } {
+	array set Avalanche_test_directory {}
+    }
+
+    # We will allow 20 Avalanche to run, with port agrecation this is about 80G	
+    set i 0
+    set found False
+    while { $i < 10 } {
+	if { ![info exists Avalanche_running($i) ] } {
+		array set Avalanche_running [list $i $NAME]
+		set found TRUE
+		break
+	}
+	incr i
+    }
+
+    if { $found == "False" } {
+	puts " Not able to find a slot for this new avalanche module"
+	return 0
+    }
+
+
+    puts "Placing Module $NAME at $i"
+
+    if ![keylget xml_kl Test.Avalanche.$NAME.AvalTestPlan AvalTestPlan] { puts "error" }
+    set fw_aval_static [list [list AvalTestPlan $AvalTestPlan]]  
+
+    #puts $fw_aval_static
+
+    array set fw_aval_array {}
+    if ![fw_aval_gen_array $NAME] {
+        puts "cannot start test due to avalanche array config failure"
+        return 0
+    } else {
+	#puts "Able to generate array life is good"
+    }
+    
+    
+    #Map Baseline folder and Baseline working folder
+    # Set working folder regarding the Avalanche Process
+    	set path "[pwd]/Avalanche$i"
+    if ![file exists $path] {
+    	file mkdir $path
+    } 
+        if [keylget xml_kl Test.Avalanche.$NAME.Base_Content_Folder base_folder] {
+        #puts "Create a link of files to $base_folder"
+	if { [catch {
+			file delete -force "$path/files"
+	} result]} {
+		puts "Strange error removing $path/files" 
+		return 0
+	}
+	if { [catch {
+		file link -symbolic "$path/files" "$base_folder"
+		} result]} {
+		puts "Error creating link from $path/files to $base_folder"
+		return 0
+	}
+    }
+    
+      set callback {avalanche_callback_$i}
+     
+     fw_aval_config $callback $i $NAME
+    
+
+return 1
+
+}
+
+
+#==============================================================================
+# This proc adds the topology portions of the avalanche array from the
+# avalanche topology:
+#------------------------------------------------------------------------------
+proc fw_aval_add_topo_client { NAME } {
+    global xml_kl fw_aval_array
+ 
+
+    # Build topology for client (Wa) and reflector (Wr):
+
+    keylget xml_kl Test.Equipment.Avalanche.$NAME.Model Model
+    if { $Model == "testcenter"} {
+        set tc 1
+    } else {
+        set tc 0
+    }
+
+    #Create addressing for the Client Side
+    set prepend "Wa"
+    set box_addr "172.25.221.205"
+    set profile_idx 0
+    set unit_id [keylget xml_kl Test.Equipment.Avalanche.$NAME.Unit_ID]
+    set physif  5
+    set test_profile [format {%sTestProfile} $prepend]
+    set match $test_profile,Interface,$profile_idx
+    set unit "Unit$unit_id"
+    set if_id "0"
+
+		foreach key [array names fw_aval_array] {
+		    #puts "debug $fw_aval_array($key)"
+                 }
+
+    #puts "debug Setting 3_60 and later array parameters"
+    #puts "debug $test_profile, $unit, $physif"
+    array set fw_aval_array [list $test_profile,$unit,AdminIPAddress $box_addr]
+    if {$tc == 1} {
+      set myMac [keylget xml_kl $keystr.$physif.macaddr]
+      set convertResult [regsub -all {,} $physif "_" convertPhysIf]
+      if {!$convertResult} {
+      puts "Warning: was not able to convert PhysIf for InterfaceDisplayString"
+      }
+    } else {
+    set convertPhysIf [format {%s_%s} $physif $physif]
+    }
+    array set fw_aval_array [list $test_profile,$unit,Interface,$profile_idx,InterfaceDisplayString $convertPhysIf]
+
+    foreach key [array names fw_aval_array -regexp $match] {
+    	#puts "debug  "Something matching"
+	set value $fw_aval_array($key)
+	array unset fw_aval_array $key
+	# Insert the unit information in the array name
+	regsub "$test_profile,Interface,$profile_idx," $key \
+	"$test_profile,$unit,Interface,$if_id," adj_key
+	array set fw_aval_array [list $adj_key $value]
+    }
+
+    regsub "$test_profile,Interface,$profile_idx" $match \
+    "$test_profile,$unit,Interface,$profile_idx" root_key
+     array set fw_aval_array [list "$root_key,PhysIf" $physif]
+    
+     set net_block [lindex [split "21.0.0.0" /] 0]
+
+     set if_profile_name $fw_aval_array($root_key,Name)
+     set if_profile [format {%sInterface,%s} $prepend $if_profile_name]
+     set subnet_names $fw_aval_array($if_profile,Subnets)
+
+
+     foreach subnet_name $subnet_names {
+      set subnet_profile [format {%sSubnet} $prepend]
+
+      # Enable default gateway for the subnet:
+      set array_ele1 "$subnet_profile,$subnet_name"
+      array set fw_aval_array [list $array_ele1,DefaultGatewayEnabled {on}]
+
+      # Get the mask (or prefix length) from the array:
+      set network_mask $fw_aval_array($array_ele1,NetmaskBits)
+
+
+      # Grab a mask sized network from the virtual ip net and
+      # load the subnet network value.
+      if { ![keylget xml_kl Test.Avalance.$NAME.$physif.last_alloc_net cur_net] } {
+       # This is the first network being allocated from pool
+       regsub {\/.*} [join [list $net_block $network_mask] /] {} cur_net
+      } else {
+       regsub {\/.*} [fw_get_next_net $cur_net $network_mask]  {} cur_net
+      }
+      #puts "debug cur_net: $cur_net"
+      array set fw_aval_array [list "$array_ele1,Network" $cur_net]
+  
+      keylset xmk_kl Test.Avalance.$NAME.$physif.last_alloc_net $cur_net
+
+      # Generate and load the IP address ranges:			
+      set size $fw_aval_array($array_ele1,Size)
+      array unset fw_aval_array $array_ele1,Size
+			    
+      set range [join [fw_get_addr_range $cur_net 2 $size] -]
+      set range [string toupper $range]
+      #puts "debug Client range: $range"
+      array set fw_aval_array [list $array_ele1,IpAddressRanges,IpAddressRange $range]
+     }
+     
+    #puts "debug Create addressing for the Server Side"
+    set prepend "Wr"
+    set box_addr "172.25.221.205"
+    set profile_idx 0
+    set unit_id [keylget xml_kl Test.Equipment.Avalanche.$NAME.Unit_ID]
+    set physif  6
+    set test_profile [format {%sTestProfile} $prepend]
+    set match $test_profile,Interface,$profile_idx
+    set unit "Unit$unit_id"
+    set if_id "0"
+
+
+    #puts "debug Setting 3_60 and later array parameters"
+    #puts "debug $test_profile, $unit, $physif"
+    array set fw_aval_array [list $test_profile,$unit,AdminIPAddress $box_addr]
+    if {$tc == 1} {
+      set myMac [keylget xml_kl $keystr.$physif.macaddr]
+      set convertResult [regsub -all {,} $physif "_" convertPhysIf]
+      if {!$convertResult} {
+      puts "Warning: was not able to convert PhysIf for InterfaceDisplayString"
+      }
+    } else {
+    set convertPhysIf [format {%s_%s} $physif $physif]
+    }
+    array set fw_aval_array [list $test_profile,$unit,Interface,$profile_idx,InterfaceDisplayString $convertPhysIf]
+
+    foreach key [array names fw_aval_array -regexp $match] {
+    	puts "Something matching"
+	set value $fw_aval_array($key)
+	array unset fw_aval_array $key
+	# Insert the unit information in the array name
+	regsub "$test_profile,Interface,$profile_idx," $key \
+	"$test_profile,$unit,Interface,$if_id," adj_key
+	array set fw_aval_array [list $adj_key $value]
+    }
+
+    regsub "$test_profile,Interface,$profile_idx" $match \
+    "$test_profile,$unit,Interface,$profile_idx" root_key
+     array set fw_aval_array [list "$root_key,PhysIf" $physif]
+    
+     set net_block [lindex [split "22.0.0.0" /] 0]
+
+     set if_profile_name $fw_aval_array($root_key,Name)
+     set if_profile [format {%sInterface,%s} $prepend $if_profile_name]
+     set subnet_names $fw_aval_array($if_profile,Subnets)
+
+
+     foreach subnet_name $subnet_names {
+      set subnet_profile [format {%sSubnet} $prepend]
+
+      # Enable default gateway for the subnet:
+      set array_ele1 "$subnet_profile,$subnet_name"
+      array set fw_aval_array [list $array_ele1,DefaultGatewayEnabled {on}]
+
+      # Get the mask (or prefix length) from the array:
+      set network_mask $fw_aval_array($array_ele1,NetmaskBits)
+
+
+      # Grab a mask sized network from the virtual ip net and
+      # load the subnet network value.
+      if { ![keylget xml_kl Test.Avalance.$NAME.$physif.last_alloc_net cur_net] } {
+       # This is the first network being allocated from pool
+       regsub {\/.*} [join [list $net_block $network_mask] /] {} cur_net
+      } else {
+       regsub {\/.*} [fw_get_next_net $cur_net $network_mask]  {} cur_net
+      }
+     #puts "debug cur_net: $cur_net"
+      array set fw_aval_array [list "$array_ele1,Network" $cur_net]
+  
+      keylset xmk_kl Test.Avalance.$NAME.$physif.last_alloc_net $cur_net
+
+      # Generate and load the IP address ranges:			
+      set match "$array_ele1,ServerProfile"
+      set offset 2
+      foreach sp [lsort [array names fw_aval_array  -regexp "$match.*Size"]] {
+	regexp {ServerProfile,([0-9]+),Size} $sp dummy sp_seq_num
+	set size $fw_aval_array($sp)
+	array unset fw_aval_array $sp
+        set range [join [fw_get_addr_range $cur_net $offset $size] -]
+     	set range [string toupper $range]
+        #puts "debug Server range: $range"
+	array set fw_aval_array [list "$array_ele1,ServerProfile,$sp_seq_num,IpAddressRange" $range]
+	set offset [expr $offset + $size]
+      }
+      
+     }
+  	# After we go through all the interfaces available in our topology,
+	# need to check if there is still anything left in the profile
+	set match $test_profile,Interface,
+	if {[array names fw_aval_array -regexp $match] != {}} {
+	    fw_diag "Not enough physical interfaces for $type intf profile" \
+		error
+	    return 0
+	}
+      
+    return 1
+}
+
+proc fw_get_next_net { cur_addr next_mask_len } {
+
+    lassign [parse_addr $cur_addr] cur_addr cur_mask
+    # Need to know the current mask length
+    set cur_mask_len [fw_get_mask_len $cur_mask]
+    if { $cur_mask_len >= $next_mask_len } {
+	# New subnet is bigger than current one. Mask length is smaller.
+	set next_mask_num \
+	    [expr 0xFFFFFFFF & ( 0xFFFFFFFF << ( 32 - $next_mask_len ) )]
+	set cur_net_num [expr [ip2hex $cur_addr] & $next_mask_num]
+	set next_net_num \
+	    [expr $cur_net_num + [fw_get_subnet_size $next_mask_len]]
+    } else {
+	# New subnet is smaller than current one. Mask length is bigger.
+	set cur_net_num [expr [ip2hex $cur_addr] & [ip2hex $cur_mask]]
+	set next_net_num \
+	    [expr $cur_net_num + [fw_get_subnet_size $cur_mask_len]]
+    }
+    return [join [list [hex2ip $next_net_num] $next_mask_len] /]
+
+}
+
+#==============================================================================
+# This proc takes a network range and return the range of IP addresses for
+# this network. For example, fw_get_addr_range 10.0.0.0/29 returns
+# {10.0.0.1 10.0.0.6}.
+#
+# An optional offset and size argument allow setting the starting point and
+# limits the network range returned. For example an offset of 8 with a size
+# of 16 on the 10.0.0.0 net would yield {10.0.0.8 10.0.0.23} as the returned
+# value.
+#------------------------------------------------------------------------------
+proc fw_get_addr_range { net {offset 0} {size -1} } {
+
+    lassign [parse_addr $net] cur_net cur_mask
+    # To be sure that cur_net is really a network address
+    set cur_net_num [expr [ip2hex $cur_net] & [ip2hex $cur_mask]]
+    if {$size == -1} {
+        set size [fw_get_subnet_size $cur_mask]
+        return [list [hex2ip [expr $cur_net_num + 1]] \
+                    [hex2ip [expr $cur_net_num - 2 + $size]]]
+    } else {
+        if {$size == 1} {
+            return [hex2ip [expr $cur_net_num + $offset + 1]]
+        } else {
+            return [list [hex2ip [expr $cur_net_num + 1 + $offset]] \
+                        [hex2ip [expr $cur_net_num + $offset + $size]]]
+        }
+    }
+}
+
+#==============================================================================
+# This proc returns subnet size for a particular mask length. Note that
+# mask_len can be either decimal or dot decimal format, i.e. 24 or 
+# 255.255.255.0 are the same.
+#------------------------------------------------------------------------------
+proc fw_get_subnet_size { mask_len } {
+    
+    if { ![is_number $mask_len] && \
+	     ![regexp {^(\d{1,3}\.){3}\d{1,3}$} $mask_len] } {
+	return -code error "invalid format for mask_len: $mask_len"	
+    } elseif ![is_number $mask_len] {
+	set mask_len [fw_get_mask_len $mask_len]
+    }
+    return [expr 1 + [expr 0xFFFFFFFF >> $mask_len]]
+
+}
+
+#==============================================================================
+# This proc returns mask length for a particular netmask, i.e. 255.255.255.0
+# returns 24.
+#------------------------------------------------------------------------------
+proc fw_get_mask_len { mask } {
+    
+    set mask_num [ip2hex $mask]
+    set mask_len 1
+    while { [set mask_num [expr 0xFFFFFFFF & ($mask_num << 1)]] > 0 } {
+	incr mask_len
+	if { $mask_len > 32 } { return -code error "invalid netmask: $mask" }
+    }
+    return $mask_len
+}
+
+#==============================================================================
+# This proc is a reverse of fw_get_mask_len, where we pass in the mask len and
+# netmask in dot notation format is returned, i.e. 24 returns 255.255.255.0
+#------------------------------------------------------------------------------
+proc fw_get_mask { mask_len } {
+    
+    return [hex2ip [expr 0xFFFFFFFF & ( 0xFFFFFFFF << ( 32 - $mask_len ) )]]
+}
+
+
+#==============================================================================
+# parse_addr
+#------------------------------------------------------------------------------
+procDescr parse_addr {
+    Usage:
+    
+    parse_addr <ip address> [<mask>]
+    
+    Description:
+    
+    This procedure takes an ip address string with an optional prefix length 
+    mask notation (eg: 90.0.0.2/24) and return the ip address and the mask in 
+    dotted format as a pair.
+
+    if mask is specified, i.e. 255.255.255.0, it will be used even though
+    address contains /<n> mask designation.
+    
+    Return Values:
+    
+    failure: throws and error exception
+    success: ip address and ip mask pair (eg: {90.0.0.2 255.255.255.0})
+}
+
+proc parse_addr { addr { mask {} } } {
+    if [lempty $mask] {
+	lassign [split $addr {/}] addr mask
+    } else {
+	lassign [split $addr {/}] addr -
+	if ![is_ipaddr $mask] {
+	    error "$mask: not a proper mask format"
+	}
+    }
+    if ![is_ipaddr $addr] {
+        error "$addr: not a proper ip address"
+    }
+    scan $addr %d.%d.%d.%d a b c d
+    if [lempty $mask] {
+        if { $a >= 0 && $a < 128 } {
+            return "$a.$b.$c.$d 255.0.0.0"
+        } elseif { $a >= 128 && $a < 192 } {
+            return "$a.$b.$c.$d 255.255.0.0"
+        } elseif { $a >= 192 && $a <= 255 } {
+            return "$a.$b.$c.$d 255.255.255.0"
+        }
+    } elseif { ![lempty $mask] && [is_ipaddr $mask] } {
+	return "$a.$b.$c.$d $mask"
+    } else {
+	set mask [expr 0xFFFFFFFF & ( 0xFFFFFFFF << ( 32 - $mask) )]
+        return "$a.$b.$c.$d [hex2ip $mask]"
+    }
+}
+
+#==============================================================================
+# ip2hex
+#------------------------------------------------------------------------------
+procDescr ip2hex {
+  Usage:
+  
+  ip2hex <ip address string>
+
+  Description:
+
+  This procedure takes an ip address in string format (eg: "90.0.0.1") and
+  returns its numeric value in long interger format.
+}
+proc ip2hex { str } {
+  foreach octet [split $str {.}] {
+    append add [format {%02x} $octet]
+  }
+  return "0x$add"
+}
+
+#==============================================================================
+# hex2ip
+#------------------------------------------------------------------------------
+procDescr hex2ip {
+  Usage:
+
+  hex2ip <ip address>
+
+  Description:
+
+  This procedure takes an ip address in numeric long interger format and 
+  returns it in string format.
+}
+proc hex2ip { add } {
+  for {set i 3} {$i > 0} {incr i -1} {
+    append str [format "%d." [expr 0x000000ff & [expr $add >> [expr $i * 8]]]]
+  }
+  append str [format "%d" [expr 0x000000ff & $add]]
+  return $str
+}
+
+#==============================================================================
+# This proc adds the test options from the xml into the avalanche array. Note
+# that all test options are NOT applicable to the array:
+#------------------------------------------------------------------------------
+proc fw_aval_add_test_options { args } {
+    global xml_kl
+    global fw_aval_array
+
+
+	set update_rate 10
+    
+    array set fw_aval_array [list \
+        WaTestProfile,RunTimeStatistics,TimeInterval $update_rate]
+    array set fw_aval_array [list \
+        WrTestProfile,RunTimeStatistics,TimeInterval $update_rate]
+
+    return 1
+}
+
+
+proc fw_aval_substitute_urls {  } {
+    global fw_aval_array
+
+    # Go through the array and handle each array entry that is a URL list entry and
+    # has a substitution keyword in its value:
+    puts "Substituting URLs changed" 
+    foreach key [lsort [array names fw_aval_array]] {
+	
+        if { [regexp {^WaUrlList} $key ] ||  [ regexp {^WrTransactionProfile} $key ]  || [ regexp {^WrSapeePlaylist} $key ] || [ regexp {^WaSapeePlaylist} $key ] || [ regexp {^WaSIPNGPhonebook} $key ] } {
+            set value $fw_aval_array($key)
+	    puts "matched key:$key value: $value" 
+	    if {![fw_aval_subst_subnet_var value]} {
+		puts "substitution of $value: key $key: failed" 
+		return 0
+	    }
+	    array set fw_aval_array [list $key $value]    
+        }
+    }
+    return 1
+
+}
+
+proc fw_aval_subst_subnet_var {str_name } {
+    global fw_aval_array
+    global xml_kl
+
+    upvar 1 $str_name str
+
+    set RE {\$(Subnet\d+)_(\d+)_ip\((\d+)\)}
+    while { 1 } {
+	if [regexp $RE $str varname subnet_name seqnum index] { 
+	    # Look up the range for the specified subnet
+	    set format_str {WrSubnet,%s,ServerProfile,%s,IpAddressRange}
+	    set array_key [format $format_str $subnet_name $seqnum]
+	    if [info exists fw_aval_array($array_key)] {
+		set range $fw_aval_array($array_key)
+	    } else {
+		puts "cannot subst server subnet var: $key not found" puts
+		return 0
+	    }
+            puts "range: $range"
+
+                # Get the first IPv4 address from the range:
+                regexp {((?:\d+\.){3}\d+)} $range first_ip
+                set target_ip [hex2ip [expr [ip2hex $first_ip] + $index]]
+
+            puts "Target IP: $target_ip"
+            regsub $RE $str $target_ip str
+	    
+	    # Need to store this variable so we can reuse later as well
+	    # known variables
+	    set varname [string trimleft $varname {$}]
+	    if ![keylget xml_kl runtime.variables.$varname -] {
+		keylset xml_kl runtime.variables.$varname $target_ip
+	    }
+	} else { break }
+    }
+    return 1
+
+}
+
+#==============================================================================
+# This proc takes care of adding license
+#------------------------------------------------------------------------------
+proc fw_aval_add_license { args } {
+global env
+    # Make sure the license path is specified
+    if ![info exists env(SPIRENT_TCLAPI_LICENSEROOT)] {
+	puts"env: SPIRENT_TCLAPI_LICENSEROOT not set, must point to\
+                 directory with license files" 
+	return 0
+    }
+    set lic_root $env(SPIRENT_TCLAPI_LICENSEROOT)
+    if { ![file isdirectory $lic_root] } {
+	puts "SPIRENT_TCLAPI_LICENSEROOT path invalid: $lic_root" 
+	return 0
+    }
+    # Make sure we load all the licenses
+    set files_list [::fileutil::find $lic_root {regexp {.*\.xml}}]
+    if [lempty $files_list] {
+	fw_diag "no license exist, cannot proceed with the test" 
+	return 0
+    }
+    foreach file $files_list {
+	puts "loading license file: $file"
+        if [catch {SPI_AV::AddLicense $file} err] {
+	    puts "fail to load license file: $file" 
+            return 0
+        }
+    }
+    return 1
+
+}
+
+#==============================================================================
+# This proc takes care of configuring the avalanche and running the test
+#------------------------------------------------------------------------------
+proc fw_aval_config { callback i NAME } {
+    global fw_aval_array
+    global clientClusterID 
+    global serverClusterID 
+ 	set testId "${NAME}"
+ 
+ 	#Set Callbacks
+	puts "Setting the Callbacks with $i"
+	switch $i {
+ 		"0" {
+		set server_callback "callback_server0"
+		set client_callback "callback_client0"
+		}
+ 		"1" {
+		set server_callback "callback_server1"
+		set client_callback "callback_client1"
+		}
+		"2" {
+		set server_callback "callback_server2"
+		set client_callback "callback_client2"
+		}
+ 		"3" {
+		set server_callback "callback_server3"
+		set client_callback "callback_client3"
+		}
+ 		"4" {
+		set server_callback "callback_server4"
+		set client_callback "callback_client4"
+		}
+ 		"5" {
+		set server_callback "callback_server5"
+		set client_callback "callback_client5"
+		}
+ 		"6" {
+		set server_callback "callback_server6"
+		set client_callback "callback_client6"
+		}
+ 		"7" {
+		set server_callback "callback_server7"
+		set client_callback "callback_client7"
+		}
+ 		"8" {
+		set server_callback "callback_server8"
+		set client_callback "callback_client8"
+		}
+ 		"9" {
+		set server_callback "callback_server9"
+		set client_callback "callback_client9"
+		}		
+	}
+ 
+ 
+    array set configArray [array get fw_aval_array]
+ 	set searchToken [array startsearch configArray]
+
+ while { [array anymore configArray $searchToken] } {
+	set key [array nextelement configArray $searchToken]
+	set empty ""	
+	puts "$key $configArray($key)" 
+    }
+
+
+    set reserve_units_list {}
+	set client_port [avalanche_get_client_port $NAME]
+     set unit_ids_list "172.25.221.205;$client_port"
+            #puts "Creating cluster for client with $unit_ids_list" 
+            set cluster_id [SPI_AV::ClusterController::CreateCluster {client} $NAME $unit_ids_list]
+            keylset xml_kl Test.Avalanche.$NAME.client.id $cluster_id
+            lappend reserve_units_list $unit_ids_list
+
+	    set server_port [avalanche_get_server_port $NAME]
+            set unit_ids_list "172.25.221.205;$server_port"
+            #puts "Creating cluster for server with $unit_ids_list"
+            set cluster_id [SPI_AV::ClusterController::CreateCluster {server} $NAME $unit_ids_list]
+            keylset xml_kl Test.Avalanche.$NAME.server.id $cluster_id
+		lappend reserve_units_list $unit_ids_list
+		
+            set clientClusterID [keylget xml_kl Test.Avalanche.$NAME.client.id]
+            set serverClusterID [keylget xml_kl Test.Avalanche.$NAME.server.id]
+
+            #puts "Using the new API to reserve" 
+                set reserve_status [SPI_AV::Appliance::ReserveAppPortGroups $reserve_units_list]
+                puts "reserved status: $reserve_status"
+                keylset xml_kl Test.Avalanche.$NAME.reserve_status $reserve_status
+
+
+        puts "generating the test..." 
+
+        puts "Client Cluster ID: $clientClusterID" 
+        puts "Server Cluster ID: $serverClusterID" 
+	set testDirectory "[pwd]/Avalanche$i/"
+        puts "Test Directory: $testDirectory" 
+	puts "Execution Directory: $testDirectory" 
+        puts "TestID: $testId"
+	cd $testDirectory
+
+	SPI_AV::DebugLogFile on
+	puts "Enabled debbuging mode" 
+
+        SPI_AV::ClusterController::GenerateClusteredTest  configArray $testDirectory $testId
+
+	puts "stopping client cluster..."
+        SPI_AV::ClusterController::StopClusteredTest $clientClusterID
+        SPI_AV::ClusterController::WaitForClusteredTestCompletion  $clientClusterID
+
+        puts "stopping server cluster..." 
+        SPI_AV::ClusterController::StopClusteredTest $serverClusterID
+        SPI_AV::ClusterController::WaitForClusteredTestCompletion $serverClusterID
+
+        puts "removing test from the client cluster..." 
+        SPI_AV::ClusterController::RemoveClusteredTest $clientClusterID $testId
+	
+	puts "removing test from the server cluster..." 
+        SPI_AV::ClusterController::RemoveClusteredTest $serverClusterID $testId
+
+
+        # Upload the test to the clusters
+        puts "uploading the test to the client cluster..." 
+        SPI_AV::ClusterController::UploadClusteredTest $clientClusterID $testDirectory $testId
+
+        puts "uploading the test to the server cluster..." 
+        SPI_AV::ClusterController::UploadClusteredTest $serverClusterID $testDirectory $testId
+	
+	
+        puts "registering stat callback $client_callback..." 
+        set clientClusterStatsCallbackID [SPI_AV::ClusterController::RegisterStatsCallback $clientClusterID $client_callback]
+ 	puts "return from callbase $clientClusterStatsCallbackID" 
+	
+        puts "registering stat callback $server_callback..." 
+        set serverClusterStatsCallbackID [SPI_AV::ClusterController::RegisterStatsCallback $serverClusterID $server_callback]
+ 	puts "return from callbase $serverClusterStatsCallbackID" 
+
+        puts "clearing event logs of the client cluster..." 
+        SPI_AV::ClusterController::ClearEventLogs $clientClusterID
+   
+        puts "clearing event logs of the server cluster..." 
+        SPI_AV::ClusterController::ClearEventLogs $serverClusterID
+
+        puts "starting server cluster..." 
+        SPI_AV::ClusterController::StartClusteredTest $serverClusterID $testId   
+        puts "starting client cluster" 
+        SPI_AV::ClusterController::StartClusteredTest $clientClusterID $testId
+  
+
+    # Return the result
+    return 1
+
+}
+
+#==============================================================================
+# This proc adds an entry to the avalanche array needed for its TCL
+# config. The array key and value are obtained from the avalanche
+# portion of the xml (which has been previously converted to a key
+# list). Note that in some instances the xml tags and values need to
+# be mapped to become compatible with the avalanche array naming
+# conventions:
+#------------------------------------------------------------------------------
+proc fw_aval_add_array_handle_special_case { array_string value} {
+    global fw_aval_array xml_kl
+    set temp_dir "/tmp/"
+    set fw_pid [pid]
+
+    switch -regexp $array_string {
+	{^Wa|rFormDatabase,\S*,Content$} {
+	    # Save the file first - note that this file may contain variables
+	    # but we do not know the value of these variables at this point.
+	    # So, we will save it as is and come back and modify later.
+	    lassign [split $array_string ,] prefix form_name -	    
+	    # Create a temporary file
+	    set temp_file [file join $temp_dir $form_name.$fw_pid]
+	    set fd [open $temp_file w]
+	    foreach line [split [string trim $value] "\r\n"] {
+		if [lempty [set line [string trim $line]]] { continue }
+		puts $fd $line
+	    }
+	    close $fd
+	    array set fw_aval_array \
+		"$prefix,$form_name,FdbFileLocation $temp_file"		
+	    if ![keylget xml_kl runtime.subst_file_list file_list] {
+		set file_list $temp_file
+	    } else { lappend file_list $temp_file }
+	    keylset xml_kl runtime.subst_file_list $file_list
+	}
+    }
+
+}
+
+
+proc callback_client0 {clusterID data} {
+global avalanche_client_array0 
+
+array set avalanche_client_array0 $data
+}
+
+proc callback_client1 {clusterID data} {
+global avalanche_client_array1 
+
+array set avalanche_client_array1 $data
+}
+
+proc callback_client2 {clusterID data} {
+global avalanche_client_array2 
+
+array set avalanche_client_array2 $data
+}
+
+proc callback_client3 {clusterID data} {
+global avalanche_client_array3 
+
+array set avalanche_client_array3 $data
+}
+
+proc callback_client4 {clusterID data} {
+global avalanche_client_array4 
+
+array set avalanche_client_array4 $data
+}
+
+proc callback_client5 {clusterID data} {
+global avalanche_client_array5 
+
+array set avalanche_client_array5 $data
+}
+
+proc callback_client6 {clusterID data} {
+global avalanche_client_array6 
+
+array set avalanche_client_array6 $data
+}
+
+proc callback_client7 {clusterID data} {
+global avalanche_client_array7 
+
+array set avalanche_client_array7 $data
+}
+
+proc callback_client8 {clusterID data} {
+global avalanche_client_array8 
+
+array set avalanche_client_array8 $data
+}
+
+proc callback_client9 {clusterID data} {
+global avalanche_client_array9 
+
+array set avalanche_client_array9 $data
+}
+    
+proc callback_server0 {clusterID data} {
+global avalanche_server_array0 
+
+array set avalanche_server_array0 $data
+}
+    
+proc callback_server1 {clusterID data} {
+global avalanche_server_array1 
+
+array set avalanche_server_array1 $data
+}
+    
+proc callback_server2 {clusterID data} {
+global avalanche_server_array2 
+
+array set avalanche_server_array2 $data
+}
+    
+proc callback_server3 {clusterID data} {
+global avalanche_server_array3 
+
+array set avalanche_server_array3 $data
+}
+    
+proc callback_server4 {clusterID data} {
+global avalanche_server_array4 
+
+array set avalanche_server_array4 $data
+}
+    
+proc callback_server5 {clusterID data} {
+global avalanche_server_array5 
+
+array set avalanche_server_array5 $data
+}
+    
+proc callback_server6 {clusterID data} {
+global avalanche_server_array6 
+
+array set avalanche_server_array6 $data
+}
+    
+proc callback_server7 {clusterID data} {
+global avalanche_server_array7 
+
+array set avalanche_server_array7 $data
+}
+    
+proc callback_server8 {clusterID data} {
+global avalanche_server_array8 
+
+array set avalanche_server_array8 $data
+}
+    
+proc callback_server9 {clusterID data} {
+global avalanche_server_array9 
+
+array set avalanche_server_array9 $data
+}
+
+
+
+
+proc avalanche_get_client_port { NAME } {
+global xml_kl
+
+if [keylget xml_kl Test.Topology.Avalanche.$NAME.Port PORTS] {
+	foreach port [keylkeys PORTS] {
+		if [keylget xml_kl Test.Topology.Avalanche.$NAME.Port.${port}.Type type] {
+			if {$type == "Client1"} {
+				return $port
+			}
+		} 
+	}
+}
+puts "ERROR port not found"
+
+}
+
+proc avalanche_get_server_port { NAME } {
+global xml_kl
+
+if [keylget xml_kl Test.Topology.Avalanche.$NAME.Port PORTS] {
+	foreach port [keylkeys PORTS] {
+		puts $port
+		if [keylget xml_kl Test.Topology.Avalanche.$NAME.Port.${port}.Type type] {
+			if {$type == "Server1"} {
+				return $port
+			}
+		} 
+	}
+}
+puts "ERROR port not found"
+
+}
+
+proc avalanche_get_client_ifport { NAME } {
+global xml_kl
+
+if [keylget xml_kl Test.Topology.Avalanche.$NAME.Port PORTS] {
+	foreach port [keylkeys PORTS] {
+		if [keylget xml_kl Test.Topology.Avalanche.$NAME.Port.${port}.Type type] {
+			if {$type == "Client1"} {
+				return "${port}_${port}"
+			}
+		} 
+	}
+}
+puts "ERROR port not found"
+
+}
+
+proc avalanche_get_server_ifport { NAME } {
+global xml_kl
+
+if [keylget xml_kl Test.Topology.Avalanche.$NAME.Port PORTS] {
+	foreach port [keylkeys PORTS] {
+		puts $port
+		if [keylget xml_kl Test.Topology.Avalanche.$NAME.Port.${port}.Type type] {
+			if {$type == "Server1"} {
+				return "${port}_${port}"
+			}
+		} 
+	}
+}
+puts "ERROR port not found"
+
+}
+
+proc avalanche_new_client_address { NAME } {
+global xml_kl
+
+if [keylget xml_kl Test.Topology.Avalanche.$NAME.Port PORTS] {
+	foreach port [keylkeys PORTS] {
+		if [keylget xml_kl Test.Topology.Avalanche.$NAME.Port.${port}.Type type] {
+			if {$type == "Client1"} {
+				keylget xml_kl Test.Topology.Avalanche.$NAME.Port.${port}.Network_address Network_address
+				keylget xml_kl Test.Topology.Avalanche.$NAME.Port.${port}.NetmaskBits NetmaskBits
+				if {$NetmaskBits == "8"} {
+					if { [ regexp {([0-9]+).[0-9]+.[0-9]+.[0-9]+} $Network_address all dest_ip] } {
+						#puts $dest_ip
+						return $dest_ip
+					}
+				} 
+				if {$NetmaskBits == "16"} {
+					if { [ regexp {([0-9]+.[0-9]+).[0-9]+.[0-9]+} $Network_address all dest_ip] } {
+						#puts $dest_ip
+						return $dest_ip
+					}
+				} 
+				if {$NetmaskBits == "24"} {
+					if { [ regexp {([0-9]+.[0-9]+.[0-9]+).[0-9]+} $Network_address all dest_ip] } {
+						#puts $dest_ip
+						return $dest_ip
+					}
+				} 
+			}
+		} 
+	}
+}
+puts "ERROR port not found"
+
+}
+
+proc avalanche_new_server_address { NAME } {
+global xml_kl
+
+if [keylget xml_kl Test.Topology.Avalanche.$NAME.Port PORTS] {
+	foreach port [keylkeys PORTS] {
+		if [keylget xml_kl Test.Topology.Avalanche.$NAME.Port.${port}.Type type] {
+			if {$type == "Server1"} {
+				keylget xml_kl Test.Topology.Avalanche.$NAME.Port.${port}.Network_address Network_address
+				keylget xml_kl Test.Topology.Avalanche.$NAME.Port.${port}.NetmaskBits NetmaskBits
+				if {$NetmaskBits == "8"} {
+					if { [ regexp {([0-9]+).[0-9]+.[0-9]+.[0-9]+} $Network_address all dest_ip] } {
+						#puts $dest_ip
+						return $dest_ip
+					}
+				} 
+				if {$NetmaskBits == "16"} {
+					if { [ regexp {([0-9]+.[0-9]+).[0-9]+.[0-9]+} $Network_address all dest_ip] } {
+						#puts $dest_ip
+						return $dest_ip
+					}
+				} 
+				if {$NetmaskBits == "24"} {
+					if { [ regexp {([0-9]+.[0-9]+.[0-9]+).[0-9]+} $Network_address all dest_ip] } {
+						#puts $dest_ip
+						return $dest_ip
+					}
+				} 
+			}
+		} 
+	}
+}
+puts "ERROR port not found"
+
+}
+
+
+proc avalanche_old_client_address { NAME } {
+global xml_kl
+
+if [keylget xml_kl Test.Avalanche.$NAME.Client1_Network Network_address] {
+	keylget xml_kl Test.Avalanche.$NAME.NetmaskBits NetmaskBits	
+	if {$NetmaskBits == "8"} {
+		if { [ regexp {([0-9]+).[0-9]+.[0-9]+.[0-9]+} $Network_address all dest_ip] } {
+			#puts $dest_ip
+			return $dest_ip
+		}
+	} 
+	if {$NetmaskBits == "16"} {
+		if { [ regexp {([0-9]+.[0-9]+).[0-9]+.[0-9]+} $Network_address all dest_ip] } {
+			#puts $dest_ip
+			return $dest_ip
+		}
+	} 
+	if {$NetmaskBits == "24"} {
+		if { [ regexp {([0-9]+.[0-9]+.[0-9]+).[0-9]+} $Network_address all dest_ip] } {
+			#puts $dest_ip
+			return $dest_ip
+		}
+	} 
+}
+
+puts "ERROR port not found"
+
+}
+
+proc avalanche_old_server_address { NAME } {
+global xml_kl
+
+if [keylget xml_kl Test.Avalanche.$NAME.Server1_Network Network_address] {
+	keylget xml_kl Test.Avalanche.$NAME.NetmaskBits NetmaskBits	
+	if {$NetmaskBits == "8"} {
+		if { [ regexp {([0-9]+).[0-9]+.[0-9]+.[0-9]+} $Network_address all dest_ip] } {
+			#puts $dest_ip
+			return $dest_ip
+		}
+	} 
+	if {$NetmaskBits == "16"} {
+		if { [ regexp {([0-9]+.[0-9]+).[0-9]+.[0-9]+} $Network_address all dest_ip] } {
+			#puts $dest_ip
+			return $dest_ip
+		}
+	} 
+	if {$NetmaskBits == "24"} {
+		if { [ regexp {([0-9]+.[0-9]+.[0-9]+).[0-9]+} $Network_address all dest_ip] } {
+			#puts $dest_ip
+			return $dest_ip
+		}
+	} 
+}
+
+puts "ERROR port not found"
+
+}
+
+proc avalanche_call_back { NAME } {
+
+global avalanche_client_array0 avalanche_client_array1 avalanche_client_array2 avalanche_client_array3 
+global avalanche_client_array4 avalanche_client_array5 avalanche_client_array6 avalanche_client_array7 
+global avalanche_client_array8 avalanche_client_array9 
+global avalanche_server_array0 avalanche_server_array1 avalanche_server_array2 avalanche_server_array3 
+global avalanche_server_array4 avalanche_server_array5 avalanche_server_array6 avalanche_server_array7 
+global avalanche_server_array8 avalanche_server_array9 
+
+global xml_kl Avalanche_running 
+global matrix_data column
+
+puts "Callback:$NAME with proc: avalanche_call_back"
+
+    if { ![info exists Avalanche_running] } {
+	array set Avalanche_running {}
+    }
+    if { ![info exists Avalanche_throttle] } {
+	array set Avalanche_throttle {}
+    }
+    if { ![info exists Avalanche_test_directory] } {
+	array set Avalanche_test_directory {}
+    }
+
+    # We will allow 20 Avalanche to run, with port agrecation this is about 80G	
+    set i 0
+    set found False
+    while { $i < 10 } {
+	if { [info exists Avalanche_running($i) ] } {
+		if {$Avalanche_running($i) == "$NAME"} {
+			set found TRUE
+			break
+		}
+	}
+	incr i
+    }
+
+    if { $found == "False" } {
+	puts " Not able to find this Avalanche Running"
+	return 0
+    }
+
+	switch $i {
+ 		"0" {
+		array set client_array [array get avalanche_client_array0]
+		array set server_array [array get avalanche_server_array0]
+		}
+ 		"1" {
+		array set client_array [array get avalanche_client_array1]
+		array set server_array [array get avalanche_server_array1]
+		}
+		"2" {
+		array set client_array [array get $avalanche_client_array2]
+		array set server_array [array get $avalanche_server_array2]
+		}
+ 		"3" {
+		array set client_array [array get $avalanche_client_array3]
+		array set server_array [array get $avalanche_server_array3]
+		}
+ 		"4" {
+		array set client_array [array get $avalanche_client_array4]
+		array set server_array [array get $avalanche_server_array4]
+		}
+ 		"5" {
+		array set client_array [array get $avalanche_client_array5]
+		array set server_array [array get $avalanche_server_array5]
+		}
+ 		"6" {
+		array set client_array [array get $avalanche_client_array6]
+		array set server_array [array get $avalanche_server_array6]
+		}
+ 		"7" {
+		array set client_array [array get $avalanche_client_array7]
+		array set server_array [array get $avalanche_server_array7]
+		}
+ 		"8" {
+		array set client_array [array get $avalanche_client_array8]
+		array set server_array [array get $avalanche_server_array8]
+		}
+ 		"9" {
+		array set client_array [array get $avalanche_client_array9]
+		array set server_array [array get $avalanche_server_array9]
+		}		
+	}
+
+
+set max_row [matrix_data rows] 
+set max_row [expr $max_row - 1 ]
+set max_cols [matrix_data columns] 
+set max_cols [expr $max_cols -1 ]
+
+if [keylget xml_kl Test.Avalanche.$NAME.Probes Probes] {
+	foreach Probe [keylkeys Probes] {
+	# Need to verify if probe exist
+		set probe_name "${NAME}:${Probe}"
+		if { ![info exists column($probe_name)]  } {
+			puts "Adding row $probe_name"
+			matrix_data add column $probe_name
+			set column($probe_name) [expr $max_cols  + 1 ]
+			set max_cols [expr $max_cols  + 1 ]
+			matrix_data set cell $column($probe_name) 0 "$probe_name"
+		}
+		keylget xml_kl Test.Avalanche.$NAME.Probes.$Probe.Type Type
+		keylget xml_kl Test.Avalanche.$NAME.Probes.$Probe.Array Array	
+		if {$Type == "Client"} {
+			if { [info exists client_array($Array)]  } {
+			set data $client_array($Array)
+			matrix_data set cell $column($probe_name) $max_row $data 
+			}
+		}
+		if {$Type == "Server"} {
+			if { [info exists server_array($Array)]  } {
+			set data $server_array($Array)
+			matrix_data set cell $column($probe_name) $max_row $data 
+			}
+		}
+	}
+}
+
+}

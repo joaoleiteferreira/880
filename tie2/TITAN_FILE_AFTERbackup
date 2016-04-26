@@ -1,0 +1,21 @@
+Avalanche(device,mgt_ip) 		"172.27.63.186"
+
+uut(device,hostname) 		"R1_R9"
+uut(device,console) 		"telnet 172.27.40.47 2007"
+uut(device,chassis_type) 		"isr4451/k9"
+
+uut(Avalanche.ethernet.1,intf)		GigabitEthernet0/0/0
+uut(Avalanche.ethernet.1,speed)		ether1000
+uut(Avalanche.ethernet.1,media)		RJ45 
+uut(Avalanche.ethernet.1,conn_id)		1
+uut(Avalanche.ethernet.2,intf)		GigabitEthernet0/0/1
+uut(Avalanche.ethernet.2,speed)		ether1000
+uut(Avalanche.ethernet.2,media)		RJ45 
+uut(Avalanche.ethernet.2,conn_id)		2
+
+Avalanche(uut.ethernet.1,intf)		0
+Avalanche(uut.ethernet.1,speed)		ether1000
+Avalanche(uut.ethernet.1,conn_id)		1
+Avalanche(uut.ethernet.2,intf)		1
+Avalanche(uut.ethernet.2,speed)		ether1000
+Avalanche(uut.ethernet.2,conn_id)		2

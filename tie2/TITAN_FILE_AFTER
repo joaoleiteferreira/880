@@ -1,0 +1,35 @@
+Avalanche(device,mgt_ip) 		"172.27.63.186"
+
+uut(device,hostname) 		"R1_R12"
+uut(device,console) 		"telnet 172.27.40.49 2007"
+uut(device,chassis_type) 		"isr4451/k9"
+
+uut(Avalanche.ethernet.1,intf)		GigabitEthernet0/0/0
+uut(Avalanche.ethernet.1,speed)		ether1000
+uut(Avalanche.ethernet.1,media)		RJ45 
+uut(Avalanche.ethernet.1,conn_id)		1
+uut(Avalanche.ethernet.2,intf)		GigabitEthernet0/0/1
+uut(Avalanche.ethernet.2,speed)		ether1000
+uut(Avalanche.ethernet.2,media)		RJ45 
+uut(Avalanche.ethernet.2,conn_id)		2
+uut(Avalanche.ethernet.3,intf)		GigabitEthernet0/0/2
+uut(Avalanche.ethernet.3,speed)		ether1000
+uut(Avalanche.ethernet.3,media)		RJ45 
+uut(Avalanche.ethernet.3,conn_id)		3
+uut(Avalanche.ethernet.4,intf)		GigabitEthernet0/0/3
+uut(Avalanche.ethernet.4,speed)		ether1000
+uut(Avalanche.ethernet.4,media)		RJ45 
+uut(Avalanche.ethernet.4,conn_id)		4
+
+Avalanche(uut.ethernet.1,intf)		0
+Avalanche(uut.ethernet.1,speed)		ether1000
+Avalanche(uut.ethernet.1,conn_id)		1
+Avalanche(uut.ethernet.2,intf)		1
+Avalanche(uut.ethernet.2,speed)		ether1000
+Avalanche(uut.ethernet.2,conn_id)		2
+Avalanche(uut.ethernet.3,intf)		2
+Avalanche(uut.ethernet.3,speed)		ether1000
+Avalanche(uut.ethernet.3,conn_id)		3
+Avalanche(uut.ethernet.4,intf)		3
+Avalanche(uut.ethernet.4,speed)		ether1000
+Avalanche(uut.ethernet.4,conn_id)		4

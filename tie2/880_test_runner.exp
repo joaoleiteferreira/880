@@ -1,0 +1,469 @@
+
+proc 880_next_command {} {
+	global 880_next_command_position key_list
+	if { ![info exists 880_next_command_position] } {
+		set 880_next_command_position 0
+	}
+	set i 0
+	if [keylget key_list Test.Run.Exec EXEC] {
+		foreach number [keylkeys EXEC] {
+			if [keylget key_list Test.Run.Exec.$number test_command] {
+				if { ${880_next_command_position} == $i } {
+					incr 880_next_command_position 
+					return $test_command
+				}
+				incr i
+			}
+		}
+	}
+	return "Test_done"
+}
+
+proc 880_next_analyse_command {} {
+	global 880_next_analyse_command_position key_list
+	if {![info exists 880_next_analyse_command_position]} {
+		set 880_next_analyse_command_position 0
+	}
+	set i 0
+	if [keylget key_list Test.Analyse.Exec EXEC] {
+		foreach number [keylkeys EXEC] {
+			if [keylget key_list Test.Analyse.Exec.$number test_command] {
+				if { ${880_next_analyse_command_position} == $i } {
+					incr 880_next_analyse_command_position 
+					return $test_command
+				}
+				incr i
+			}
+		}
+	}
+	return "Test_done"
+}
+
+proc 880_Monitor_enabled {} {
+	global 880_monitor_enabled key_list
+	if {${880_monitor_enabled} == "TRUE"} {
+	   puts "Monitor already enabled"
+	   return 1
+	}
+	set 880_monitor_enabled "TRUE"
+	880_Monitor_Proc
+	puts "Enable monitor"
+	return 1
+}
+
+
+proc 880_Monitor_disable {} {
+	global 880_monitor_enabled key_list
+
+	set 880_monitor_enabled "FALSE"
+	puts "Disabled monitor"
+	return 1
+}
+
+proc 880_Monitor_Proc {} {
+	global 880_monitor_enabled key_list matrix_data column running_pwd time_elapsed 880_monitor_bypass
+	if {![info exists time_elapsed]} {
+		set time_elapsed 0
+	}
+  if { ${880_monitor_bypass} == "TRUE" } {
+      after 1000 880_Monitor_Proc
+  }
+	
+  if { ${880_monitor_enabled} == "TRUE" && ${880_monitor_bypass} == "FALSE"  } {
+        set time_epoc [clock seconds]
+	if { $time_epoc <= $time_elapsed } {
+		puts "Duplicate callback return"
+		return
+	} else {
+		set time_elapsed $time_epoc
+	}
+        puts "10 seconds callback, run necessary call backs"
+        matrix_data add row
+      	set max_row [matrix_data rows] 
+	set max_row [expr $max_row - 1 ]
+	set max_cols [matrix_data columns] 
+        set max_cols [expr $max_cols -1 ]
+	matrix_data set cell $column(time)  $max_row $time_epoc
+	matrix_data set cell $column(system_time)  $max_row [clock format $time_epoc -format %H:%M:%S]
+
+       # Check to see if Avalanche is present load Avalanche if present
+         if [keylget key_list Test.Equipment Equipment] {
+            foreach equipment [keylkeys Equipment] {
+		if { $equipment == "Avalanche" } {
+		   if [keylget key_list Test.Equipment.Avalanche AVALANCHE] {
+			foreach avalanche [keylkeys AVALANCHE] {
+				if [keylget key_list Test.Avalanche.${avalanche}.Callback_function Callback_function] {
+    					if { [catch {
+					  puts "running callback $Callback_function"
+    					  set val1 [subst -nobackslashes $Callback_function]
+   					} result] } {
+     					   puts "fail to run command: $result"
+    					}
+				}
+			}
+		    }
+		}
+	    }
+     	 }
+
+	if [keylget key_list Test.Equipment Equipment] {
+		foreach equipment [keylkeys Equipment] {
+
+			if { [ regexp {uut} $equipment gargabe ] && [keylget key_list Test.Equipment.$equipment.rule rule] } {
+				if [keylget key_list Test.UUT.$rule.Callback_function Callback_function] {
+    					if { [catch {
+						 puts "running callback $Callback_function"
+    			          		 set val1 [subst -nobackslashes $Callback_function]
+	   				} result] } {
+     						  puts "fail to run command: $result"
+    					}
+				}
+			}
+		}
+	}
+	if [keylget key_list Test.Equipment Equipment] {
+		foreach equipment [keylkeys Equipment] {
+			if { [ regexp {Avalanche} $equipment gargabe ] && [keylget key_list Test.Equipment.$equipment.rule rule] } {
+				if [keylget key_list Test.Avalanche.$rule.Callback_function Callback_function] {
+    					if { [catch {
+						 puts "running callback $Callback_function"
+    			          		 set val1 [subst -nobackslashes $Callback_function]
+	   				} result] } {
+     						  puts "fail to run command: $result"
+    					}
+				}
+			}
+		}
+	}	 
+	 
+      test_output "====================================="
+      set max_cols [matrix_data columns]
+      set max_row [matrix_data rows] 
+      set max_row_one [expr $max_row - 1 ]
+      
+      # Display Latest info
+      ::struct::matrix  matrix_data_latest
+      matrix_data_latest add rows $max_cols
+      matrix_data_latest add columns 2
+      
+      matrix_data_latest set column 0 [matrix_data get row 0]
+      matrix_data_latest set column 1 [matrix_data get row $max_row_one]
+      matrix_data_latest serialize
+      set max_row_latest [matrix_data_latest rows] 
+      set max_cols_latest [matrix_data_latest columns] 
+      ::report::report r $max_cols_latest style simpletable
+      test_output [matrix_data_latest format 2string r]
+      r destroy
+      matrix_data_latest destroy
+      
+      # End of Display
+      
+
+      # If collumns do not match write everyting      
+      set lf [open "$running_pwd/test_cvs" w+]
+      puts $lf [::csv::joinmatrix matrix_data]
+      close $lf
+      
+       #Addepend latest information
+            set append [open "$running_pwd/test_cvs_append" w+]
+          
+            ::struct::matrix  matrix_data_append
+            matrix_data_append add row
+            matrix_data_append add row
+            matrix_data_append add columns $max_cols
+	    matrix_data_append set row 0 [matrix_data get row 0]
+	    matrix_data_append set row 1 [matrix_data get row $max_row_one]
+	    puts $append [::csv::joinmatrix matrix_data_append]
+            close $append
+            matrix_data_append destroy
+      set time_to_sleep [expr ($time_elapsed % 10) * 1000]
+      if { $time_to_sleep < 1000 } {
+           set time_to_sleep 10000
+      }
+      after $time_to_sleep 880_Monitor_Proc
+  } 
+
+}
+
+proc test_output {message} {
+	puts $message
+	test_diag $message
+}
+
+proc 880_abort { args } {
+	global running_pwd
+	set man_args {
+	-test_id	      ANY
+	-run_parameters_file  ANY
+        -xml_file             ANY
+	-user                 ANY
+	-LOG		      ANY
+	-ABORT		      ANY
+    } ; # end mandatory args
+
+    set opt_args {
+
+    } ; # end optional args
+
+
+    parse_dashed_args                     \
+        -args $args                       \
+        -mandatory_args $man_args         \
+        -optional_args $opt_args
+
+
+global key_list Analyse_variables RESULT
+global matrix_data column RESULT running_pwd
+global time_started env
+#############################################
+#### FOR PERFORMANCE DATABASE IN 880 for results performance this are the values
+#### ID,XML_FILE,TOPOLOGY,RUN_PARAMETERS,SUBMITTER,DURATION,MODEL,TRAFFIC,CONFIG,TIME_FINISH,RESULT
+#### BANDWITDH,LIMIT_FACTOR,VERSION,NOTES
+################################################
+#### To remove from running, we just need the test_submit_id
+################################################
+
+	set ID $test_id
+	set XML_FILE $xml_file
+	set RUN_PARAMETERS [exec cat $run_parameters_file]
+	set SUBMITTER $user
+	set time_ended [clock seconds]
+	set DURATION [expr ($time_ended - $time_started) / 60]
+	if {[info exists key_list]} {
+        keylget key_list Test.DATABASE.TOPOLOGY TOPOLOGY 
+	keylget key_list Test.DATABASE.MODEL MODEL
+	keylget key_list Test.DATABASE.CLASS CLASS
+	keylget key_list Test.DATABASE.CONFIG CONFIG
+	keylget key_list Test.DATABASE.TRAFFIC TRAFFIC
+	} else {
+	set TOPOLOGY ""
+	set MODEL ""
+	set CLASS ""
+	set TRAFFIC ""
+	set CONFIG ""
+	}
+	set NOTES "ABORT REASON: $ABORT"
+
+set RESULT "ABORT"
+
+if { [catch {
+	if { [ regexp {([0-9][0-9])-([0-9][0-9])/(.+)} $LOG all month year file ] } {
+		set dash "http://earms-trade.cisco.com/tradeui/CLResults.jsp?archive="
+		set ats "&ats="
+		puts " $month $year $file "
+		if { [ regexp {([0-9][0-9][0-9][0-9])[A-Za-z]+([0-9][0-9]).([0-9][0-9]):([0-9][0-9])} $file all yearcomplete day hour minutes ] } {
+			puts "this should be it $yearcomplete/$month/$day/$hour/$minutes/$file"
+			set log "$dash$yearcomplete/$month/$day/$hour/$minutes/$file$ats$env(AUTOTEST)"
+		}
+	} 
+    } result] } {
+        set log " "
+    }
+
+
+regexp {/([A-Za-z_0-9]+[.]xml)} $xml_file all XML_FILE
+
+ if { [catch {
+        set conn [mysqlconnect -host joao-lnx -user tie -db 880  ]
+	mysqluse $conn 880
+	test_output "autotie_running_info-connected to database"
+    } result]} {
+        test_output "autotie_running_info-Cannot connect to database: $result"
+    }
+
+if { [catch {
+		mysqlexec $conn "INSERT INTO resuts_performance (ID,XML_FILE,TOPOLOGY,RUN_PARAMETERS,SUBMITTER,DURATION,MODEL,TRAFFIC,CONFIG,RESULT,NOTES,LOG,CLASS) VALUES ( '$ID' , '$XML_FILE' , '$TOPOLOGY', '$RUN_PARAMETERS' ,'$SUBMITTER', '$DURATION', '$MODEL', '$TRAFFIC','$CONFIG', '$RESULT', '$NOTES','$log', '$CLASS');"
+		test_output "autotie_running_info-inserted results "
+	} result]} {
+		test_output "autotie_running_info-not able to insert results $result"
+	}
+
+if { [catch {
+		set pid [pid]
+		mysqlexec $conn "delete from running WHERE PID='$pid'"
+		test_output "DELETED FROM RUNNING"
+	} result]} {
+		test_output "NOT ABLE TO DELETE FROM RUNNING $result"
+	}
+
+if { [catch {
+        mysqlclose $conn
+	test_output "autotie_running_info-able to disconnect from database"
+    } result]} {
+        test_output "autotie_running_info-CONFIG no able to disconnect to database: $result"
+    }
+
+
+file delete -force $running_pwd
+return 0
+
+}
+
+
+proc 880_fail { args } {
+	global running_pwd
+	set man_args {
+	-test_id	      ANY
+	-run_parameters_file  ANY
+        -xml_file             ANY
+	-user                 ANY
+	-LOG		      ANY
+    } ; # end mandatory args
+
+    set opt_args {
+
+    } ; # end optional args
+
+
+    parse_dashed_args                     \
+        -args $args                       \
+        -mandatory_args $man_args         \
+        -optional_args $opt_args
+
+
+global key_list Analyse_variables RESULT
+global matrix_data column RESULT running_pwd
+global time_started env FAILED_REASON
+#############################################
+#### FOR PERFORMANCE DATABASE IN 880 for results performance this are the values
+#### ID,XML_FILE,TOPOLOGY,RUN_PARAMETERS,SUBMITTER,DURATION,MODEL,TRAFFIC,CONFIG,TIME_FINISH,RESULT
+#### BANDWITDH,LIMIT_FACTOR,VERSION,NOTES
+################################################
+#### To remove from running, we just need the test_submit_id
+################################################
+
+	set ID $test_id
+	set XML_FILE $xml_file
+	set RUN_PARAMETERS [exec cat $run_parameters_file]
+	set SUBMITTER $user
+	set time_ended [clock seconds]
+	set DURATION [expr ($time_ended - $time_started) / 60]
+	if {[info exists key_list]} {
+        keylget key_list Test.DATABASE.TOPOLOGY TOPOLOGY 
+	keylget key_list Test.DATABASE.MODEL MODEL
+	keylget key_list Test.DATABASE.CLASS CLASS
+	keylget key_list Test.DATABASE.CONFIG CONFIG
+	keylget key_list Test.DATABASE.TRAFFIC TRAFFIC
+	} else {
+	set TOPOLOGY ""
+	set MODEL ""
+	set CLASS ""
+	set TRAFFIC ""
+	set CONFIG ""
+	}
+	set NOTES "FAIL REASON REASON: $FAILED_REASON"
+
+
+if { [catch {
+	if { [ regexp {([0-9][0-9])-([0-9][0-9])/(.+)} $LOG all month year file ] } {
+		set dash "http://earms-trade.cisco.com/tradeui/CLResults.jsp?archive="
+		set ats "&ats="
+		puts " $month $year $file "
+		if { [ regexp {([0-9][0-9][0-9][0-9])[A-Za-z]+([0-9][0-9]).([0-9][0-9]):([0-9][0-9])} $file all yearcomplete day hour minutes ] } {
+			puts "this should be it $yearcomplete/$month/$day/$hour/$minutes/$file"
+			set log "$dash$yearcomplete/$month/$day/$hour/$minutes/$file$ats$env(AUTOTEST)"
+		}
+	} 
+    } result] } {
+        set log " "
+    }
+
+
+regexp {/([A-Za-z_0-9]+[.]xml)} $xml_file all XML_FILE
+
+ if { [catch {
+        set conn [mysqlconnect -host joao-lnx -user tie -db 880  ]
+	mysqluse $conn 880
+	test_output "autotie_running_info-connected to database"
+    } result]} {
+        test_output "autotie_running_info-Cannot connect to database: $result"
+    }
+
+if { [catch {
+		mysqlexec $conn "INSERT INTO resuts_performance (ID,XML_FILE,TOPOLOGY,RUN_PARAMETERS,SUBMITTER,DURATION,MODEL,TRAFFIC,CONFIG,RESULT,NOTES,LOG,CLASS) VALUES ( '$ID' , '$XML_FILE' , '$TOPOLOGY', '$RUN_PARAMETERS' ,'$SUBMITTER', '$DURATION', '$MODEL', '$TRAFFIC','$CONFIG', '$RESULT', '$NOTES','$log', '$CLASS');"
+		test_output "autotie_running_info-inserted results "
+	} result]} {
+		test_output "autotie_running_info-not able to insert results $result"
+	}
+
+if { [catch {
+		set pid [pid]
+		mysqlexec $conn "delete from running WHERE PID='$pid'"
+		test_output "DELETED FROM RUNNING"
+	} result]} {
+		test_output "NOT ABLE TO DELETE FROM RUNNING $result"
+	}
+
+if { [catch {
+        mysqlclose $conn
+	test_output "autotie_running_info-able to disconnect from database"
+    } result]} {
+        test_output "autotie_running_info-CONFIG no able to disconnect to database: $result"
+    }
+
+
+file delete -force $running_pwd
+return 0
+
+}
+
+
+
+proc 880_cancel_reservation { args } {
+
+	set man_args {
+	-resource_id	      ANY
+	-user                 ANY
+        -password             ANY
+    } ; # end mandatory args
+
+    set opt_args {
+
+    } ; # end optional args
+
+
+    parse_dashed_args                     \
+        -args $args                       \
+        -mandatory_args $man_args         \
+        -optional_args $opt_args
+
+
+global key_list Analyse_variables RESULT
+global matrix_data column RESULT running_pwd
+global time_started env
+
+ if { [catch {
+        set conn [mysqlconnect -host joao-lnx -user tie -db 880  ]
+	mysqluse $conn 880
+	test_output "autotie_running_info-connected to database"
+    } result]} {
+        test_output "autotie_running_info-Cannot connect to database: $result"
+    }
+
+if { [catch {
+		mysqlexec $conn "INSERT INTO cancel_narra (resource_id,username,password) VALUES ( '$resource_id' , '$user' , '$password');"
+		test_output "autotie_running_info-inserted cancel "
+	} result]} {
+		test_output "autotie_running_info-not able to insert cancel $result"
+	}
+
+
+if { [catch {
+        mysqlclose $conn
+	test_output "autotie_running_info-able to disconnect from database"
+    } result]} {
+        test_output "autotie_running_info-CONFIG no able to disconnect to database: $result"
+    }
+
+return 
+
+}
+
+proc sleep {time} {
+      global end 880_monitor_bypass
+      set 880_monitor_bypass FALSE
+      set end 0
+      set time [expr $time*1000]
+      after $time set end 1
+      vwait end
+  }
