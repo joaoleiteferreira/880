@@ -1,2647 +1,0 @@
-Script started on Tue May 08 11:53:40 2001
-mak[vineet-u5:/auto/vwsdsd/sisu-reg/arms_tools][35C  % make map ipsec1[K2
-Telnetting to ipsec-p4... succeeded.
-Applying postconfig to ipsec-p4... succeeded.
-Searching for interfaces on ipsec-p4... done.
-Bringing up all interfaces on ipsec-p4...
-ATM0                Ethernet0           Ethernet1           Ethernet2           Ethernet3           Ethernet4           Ethernet5           Ethernet6           Ethernet7           Ethernet8           Ethernet9           Ethernet10          Ethernet11          
-
-Telnetting to ipsec-p5... succeeded.
-Applying postconfig to ipsec-p5... succeeded.
-Searching for interfaces on ipsec-p5... done.
-Bringing up all interfaces on ipsec-p5...
-Ethernet0           Ethernet1           Ethernet2           Ethernet3           Ethernet4           Ethernet5           Ethernet6           Ethernet7           Ethernet8           Ethernet9           Ethernet10          Ethernet11          Ethernet12          Ethernet13          Ethernet14          Ethernet15          Ethernet16          Ethernet17          
-
-Telnetting to ipsec-p6... succeeded.
-Applying postconfig to ipsec-p6... succeeded.
-Searching for interfaces on ipsec-p6... done.
-Bringing up all interfaces on ipsec-p6...
-Ethernet0           Ethernet1           Ethernet2           Ethernet3           Ethernet4           Ethernet5           FastEthernet0       
-
-Telnetting to ipsec-36b... succeeded.
-Applying postconfig to ipsec-36b... succeeded.
-Searching for interfaces on ipsec-36b... done.
-Bringing up all interfaces on ipsec-36b...
-Ethernet0/0         Serial0/0           TokenRing0/0        Serial0/1           Serial1/0           Serial1/1           Serial1/2           Serial1/3           Serial1/4           Serial1/5           Serial1/6           Serial1/7           Ethernet2/0         Serial2/0           TokenRing2/0        Serial2/1           
-
-Telnetting to ipsec-45a... succeeded.
-Applying postconfig to ipsec-45a... succeeded.
-Searching for interfaces on ipsec-45a... done.
-Bringing up all interfaces on ipsec-45a...
-Ethernet0           Ethernet1           Ethernet2           Ethernet3           Ethernet4           Ethernet5           Fddi0               TokenRing0          TokenRing1          
-
-Telnetting to ipsec-45b... succeeded.
-Applying postconfig to ipsec-45b... succeeded.
-Searching for interfaces on ipsec-45b... done.
-Bringing up all interfaces on ipsec-45b...
-Ethernet0           Ethernet1           Ethernet2           Ethernet3           Ethernet4           Ethernet5           Serial0             Serial1             Serial2             Serial3             
-
-Telnetting to ipsec-72a... succeeded.
-Applying postconfig to ipsec-72a... succeeded.
-Searching for interfaces on ipsec-72a... done.
-Bringing up all interfaces on ipsec-72a...
-FastEthernet0/0     Ethernet1/0         Ethernet1/1         Ethernet1/2         Ethernet1/3         Ethernet1/4         Ethernet1/5         Ethernet1/6         Ethernet1/7         TokenRing2/0        TokenRing2/1        TokenRing2/2        TokenRing2/3        Serial3/0           Serial3/1           Serial3/2           Serial3/3           Fddi6/0             
-
-Telnetting to ipsec-75a... succeeded.
-Applying postconfig to ipsec-75a... succeeded.
-Searching for interfaces on ipsec-75a... done.
-Bringing up all interfaces on ipsec-75a...
-Ethernet0/0         Ethernet0/1         Ethernet0/2         Ethernet0/3         Ethernet0/4         Ethernet0/5         TokenRing1/0        TokenRing1/1        TokenRing1/2        TokenRing1/3        Serial4/0           Serial4/1           Serial4/2           Serial4/3           Serial4/4           Serial4/5           Serial4/6           Serial4/7           Fddi5/0             
-
-Telnetting to ipsec-71a... succeeded.
-Applying postconfig to ipsec-71a... succeeded.
-Searching for interfaces on ipsec-71a... done.
-Bringing up all interfaces on ipsec-71a...
-FastEthernet0/0     FastEthernet0/1     Serial4/0           Serial4/1           Serial4/2           Serial4/3           
-
-Telnetting to ipsec-71b... succeeded.
-Applying postconfig to ipsec-71b... succeeded.
-Searching for interfaces on ipsec-71b... done.
-Bringing up all interfaces on ipsec-71b...
-FastEthernet0/0     FastEthernet0/1     Serial1/0           Serial1/1           Serial1/2           Serial1/3           
-
-Telnetting to ipsec-17c... succeeded.
-Applying postconfig to ipsec-17c... succeeded.
-Searching for interfaces on ipsec-17c... done.
-Bringing up all interfaces on ipsec-17c...
-BRI0                FastEthernet0       
-
-Sleeping for 120 seconds for CDP information to percolate... 
-
-can't read "INT(ipsec-45b.cisco.com)": no such element in array
-    while executing
-"foreach interface $INT($rtr) {
-        regsub {^([^0-9/]+)([0-9](.*[0-9])?)$} $int {^\1[^0-9/]*\2$} tint
-        if { [regexp $tint $interface] } {
-  ..."
-    (procedure "matchInt" line 3)
-    invoked from within
-"matchInt $neigh  [lindex $line 2]"
-    ("foreach" body line 9)
-    invoked from within
-"foreach line [split $ifLines "\n"] {
-        if { ![regexp "^($rtrRegexp)" $line] } {
-            continue
-        }
-        regsub { ([^ ]+)$} $line ..."
-    ("foreach" body line 12)
-    invoked from within
-"foreach router $ROUTERS($testbed) {
-
-    #==========================================================================
-    # Find out the neighbours of ..."
-    (file "/auto/vwsdsd/sisu-reg/arms_tools//makemap" line 221)
-[vineet-u5:/auto/vwsdsd/sisu-reg/arms_tools][35C  % expect
-expect1.1> info procs
-dp_DistributeObject dp_objectFree unknown dp_GetTriggers dp_SetTrigger auto_import tkerror.tk auto_execok auto_load_all pkg_mkIndex get_platform auto_mkindex auto_reset dp_downsetf dp_atclose cisco_argv_compatability local ldelete dp_atexit_clear cisco_init_done cisco_show_info dp_atexit_prepend cisco_init_main dp_ClearTriggers dp_SlotNames tclMacPkgSearch ext_dynamic_load dp_CloseRPC auto_load_index dp_objectSlotAppend dp_DeleteRemoteObject auto_qualify dp_objectConfigure tclPkgUnknown AclCheck dp_ShutdownServer dp_objectSlots dp_CleanupRPC ext_source Acl+ Acl- dp_objectSlotFree tkerror dp_objectCreateProc dp_Host history dp_atexit dp_atexit_insert dp_CreateRemoteObject dp_ReleaseTrigger dp_objectSlot dp_AppendTriggerUnique dp_getf dp_atexit_delete auto_load dp_atexit_install_exit tclx_findinit dp_MakeRPCServer LoadLib tcl_findLibrary dp_atexit_appendUnique dp_atexit_append dp_objectExists tclLog dp_setf packageRequire dp_CloseRPCFile dp_RPROC cisco_source bgerror dp_CheckHost dp_MakeRPCClient static pkg_compareExtension dp_AcceptRPCConnection destroy auto_mkindex_old dp_AppendTrigger dp_objectSlotSet tclPkgSetup dp_UndistributeObject
-expect1.2> info procs l*
-local ldelete
-expect1.3> info args destroy
-args
-expect1.4> info args dp_CheckHost
-file inetAddr
-expect1.5> info boy destroy
-bad option "boy": must be args, body, cmdcount, commands, complete, default, exists, globals, hostname, level, library, loaded, locals, nameofexecutable, patchlevel, procs, script, sharedlibextension, tclversion, or vars
-    while executing
-"info boy destroy"
-expect1.6> info body destroy
- 
-expect1.7> info body dp_CheckHost
-
-    global dp_Acl
-    if {[AclCheck $dp_Acl $inetAddr] == 0} {
-	error "Host not authorized"
-    }
-
-expect1.8> exit
-[vineet-u5:/auto/vwsdsd/sisu-reg/arms_tools][35C  % [H[2J[vineet-u5:/auto/vwsdsd/sisu-reg/arms_tools][35C  % fct
-]0;/auto/vwsdsd/sisu-reg/ats/regression/tests/functionality[vineet-u5:/auto/vwsdsd/sisu-reg/ats/regression/tests/functionality][11C  % ls
-3810/             dial/             ipxnaccl/         resource_pooling/
-6400/             dial_ip_watch/    ire/              rip/
-AS/               dialer/           isdn/             rpm/
-AnsSup/           dns/              isdn_pri/         rsm/
-CMDM/             eigrp/            isis/             rsvp-conform/
-CVS/              ezip/             isl_hsrp/         rsvp-mib/
-aaa/              fib/              iso-igrp/         rsvp/
-aaa_acct/         fr-switch/        kerberos/         rtp/
-aaa_lsdialout/    fr-tunnel/        l2cos/            sbm/
-aaa_misc/         fr/               lane/             server-groups/
-aaa_radius/       frame-relay/      ldap/             set/
-access_profile/   frf/              lfi/              smds/
-acq/              fspr/             llq/              smrp/
-aoc/              gsr_scripts/      lock-key/         snmp/
-aodi/             h323/             lsdial/           sntp/
-ascendr/          hairpinning/      misc/             special/
-ascendr2/         hp/               mls/              ssh/
-at/               hsrp/             mobileip/         stack/
-atm/              http/             nat/              stub_routing/
-bgp/              ibm/              netflow/          tac_plus/
-bgpv6/            ids/              nextport/         tacacs+/
-cablemodem/       idspo/            nhrp/             tagswitching/
-call_tracker/     ifs/              nitro/            tcp/
-caller_id/        igrp/             nlsp/             tcp_intercept/
-car/              igrp_nt/          novell-mib/       tnex/
-cat5000/          imux/             ntp/              traffic-shaping/
-cbwfq/            intello/          ospf/             tunnel/
-cbwfq_in_gts/     ios-fw/           papchap/          udptn/
-cdp/              iosfw/            pat/              vccbwfqwred/
-cef/              iosfw2/           per_user/         vcwred/
-clns/             ip_general/       pgm/              vines/
-cmf/              ipaccess/         pim/              vlan_bridging/
-commserver/       ipcp/             policer/          vlan_routing/
-cops/             ipeacl/           policy/           voip/
-cq/               ipgrelefs/        potent/           vpdn/
-crypto/           ipmod/            pq/               vpn/
-customer-found/   ipmulticast/      pqwfq/            wccp/
-dd/               ipnacl/           qos_performance/  wfq/
-ddr/              ipsec/            r2/               x25/
-decnet/           ipv6/             rac/              
-delay/            ipx/              red/              
-dhcp/             ipxeacl/          redistribution/   
-[vineet-u5:/auto/vwsdsd/sisu-reg/ats/regression/tests/functionality][11C  % cd ipsec
-]0;/auto/vwsdsd/sisu-reg/ats/regression/tests/functionality/ipsec[vineet-u5:/auto/vwsdsd/sisu-reg/ats/regression/tests/functionality/ipsec][5C  % ls
-2peer_mipsecSAs*               ipsec_dfbit.exp*
-2peer_mipsecSAs.suite*         ipsec_dfbit.suite.ipsec1*
-CVS/                           ipsec_dfbit.suite.ipsec2*
-README.vpn-interop             ipsec_dnacl*
-bin/                           ipsec_dnacl.exp 
-certs/                         ipsec_dnacl.suite 
-cisco_mib.exp                  ipsec_error_message*
-common.exp                     ipsec_error_message.suite*
-crypto_map_local_addr*         ipsec_gre*
-crypto_map_local_addr.suite*   ipsec_gre.exp*
-crypto_map_local_addr_intc*    ipsec_gre.suite 
-dcrmap.exp*                    ipsec_hsrp 
-dcrmap.exp.intc*               ipsec_hsrp.exp 
-dynamic_3des_crypto_map_intc*  ipsec_hsrp.suite 
-dynamic_crypto_map*            ipsec_manual_key*
-dynamic_crypto_map.suite*      ipsec_manual_key.suite*
-dynamic_crypto_map_intc*       ipsec_mib*
-entrust_lib.exp                ipsec_mib.exp 
-ipse_ca.cfg.vdixit             ipsec_msdf 
-ipsec-reg.suite.xauth          ipsec_msdf.cfg 
-ipsec.exp*                     ipsec_msdf.exp 
-ipsec.exp.bck*                 ipsec_msdf.params*
-ipsec.exp.intc*                ipsec_msdf.suite 
-ipsec1.cert                    ipsec_msdf1.cfg 
-ipsec1.exp                     ipsec_msdf2.cfg 
-ipsec1.key                     ipsec_redundant_ted*
-ipsec3.exp*                    ipsec_redundant_ted.suite*
-ipsecK.Test3                   ipsec_rsa_encr 
-ipsecK3.suite                  ipsec_rsa_encr.cfg 
-ipsecKP.Test3                  ipsec_rsa_encr.suite 
-ipsecKP3.suite                 ipsec_rsa_lib.exp 
-ipsec_2peer_trans_mode*        ipsec_ssl*
-ipsec_2peer_trans_mode_intc*   ipsec_ted*
-ipsec_2peer_transport.suite*   ipsec_ted.README*
-ipsec_2peer_tunnel_mode*       ipsec_ted.exp*
-ipsec_2peer_tunnel_mode.suite* ipsec_ted.suite 
-ipsec_ca                       ipsec_vpn.exp*
-ipsec_ca.README                ipsec_xauth*
-ipsec_ca.cfg.CA                ipsec_xauth.exp 
-ipsec_ca.cfg.xauth             ipsec_xauth.suite 
-ipsec_ca_arf.cfg*              kaosdcrmap.exp*
-ipsec_ca_asnani.cfg*           mib_lib.exp 
-ipsec_ca_lib.exp               microsoft_lib.exp 
-ipsec_ca_reg.cfg*              netscape_lib.exp 
-ipsec_ca_util.exp              suites/
-ipsec_compression*             tresa_dynamic_crypto_map*
-ipsec_core*                    tresa_ipsec_2peer_trans_mode*
-ipsec_core.README              version.exp*
-ipsec_core.exp*                voice_ipsec_core*
-ipsec_core.suite*              vpn.exp*
-ipsec_core_garble*             vpn.suite*
-ipsec_core_intc*               vpn.suite.dt7*
-ipsec_ddr*                     vpn.suite.no-rta*
-ipsec_ddr.exp*                 vpn.suite.partial-rta*
-ipsec_ddr.suite*               vpn.suite.regression*
-ipsec_ddr.use*                 vpn.test*
-ipsec_dfbit*                   
-[vineet-u5:/auto/vwsdsd/sisu-reg/ats/regression/tests/functionality/ipsec][5C  % ls
-2peer_mipsecSAs*               ipsec_dfbit.exp*
-2peer_mipsecSAs.suite*         ipsec_dfbit.suite.ipsec1*
-CVS/                           ipsec_dfbit.suite.ipsec2*
-README.vpn-interop             ipsec_dnacl*
-bin/                           ipsec_dnacl.exp 
-certs/                         ipsec_dnacl.suite 
-cisco_mib.exp                  ipsec_error_message*
-common.exp                     ipsec_error_message.suite*
-crypto_map_local_addr*         ipsec_gre*
-crypto_map_local_addr.suite*   ipsec_gre.exp*
-crypto_map_local_addr_intc*    ipsec_gre.suite 
-dcrmap.exp*                    ipsec_hsrp 
-dcrmap.exp.intc*               ipsec_hsrp.exp 
-dynamic_3des_crypto_map_intc*  ipsec_hsrp.suite 
-dynamic_crypto_map*            ipsec_manual_key*
-dynamic_crypto_map.suite*      ipsec_manual_key.suite*
-dynamic_crypto_map_intc*       ipsec_mib*
-entrust_lib.exp                ipsec_mib.exp 
-ipse_ca.cfg.vdixit             ipsec_msdf 
-ipsec-reg.suite.xauth          ipsec_msdf.cfg 
-ipsec.exp*                     ipsec_msdf.exp 
-ipsec.exp.bck*                 ipsec_msdf.params*
-ipsec.exp.intc*                ipsec_msdf.suite 
-ipsec1.cert                    ipsec_msdf1.cfg 
-ipsec1.exp                     ipsec_msdf2.cfg 
-ipsec1.key                     ipsec_redundant_ted*
-ipsec3.exp*                    ipsec_redundant_ted.suite*
-ipsecK.Test3                   ipsec_rsa_encr 
-ipsecK3.suite                  ipsec_rsa_encr.cfg 
-ipsecKP.Test3                  ipsec_rsa_encr.suite 
-ipsecKP3.suite                 ipsec_rsa_lib.exp 
-ipsec_2peer_trans_mode*        ipsec_ssl*
-ipsec_2peer_trans_mode_intc*   ipsec_ted*
-ipsec_2peer_transport.suite*   ipsec_ted.README*
-ipsec_2peer_tunnel_mode*       ipsec_ted.exp*
-ipsec_2peer_tunnel_mode.suite* ipsec_ted.suite 
-ipsec_ca                       ipsec_vpn.exp*
-ipsec_ca.README                ipsec_xauth*
-ipsec_ca.cfg.CA                ipsec_xauth.exp 
-ipsec_ca.cfg.xauth             ipsec_xauth.suite 
-ipsec_ca_arf.cfg*              kaosdcrmap.exp*
-ipsec_ca_asnani.cfg*           mib_lib.exp 
-ipsec_ca_lib.exp               microsoft_lib.exp 
-ipsec_ca_reg.cfg*              netscape_lib.exp 
-ipsec_ca_util.exp              suites/
-ipsec_compression*             tresa_dynamic_crypto_map*
-ipsec_core*                    tresa_ipsec_2peer_trans_mode*
-ipsec_core.README              version.exp*
-ipsec_core.exp*                voice_ipsec_core*
-ipsec_core.suite*              vpn.exp*
-ipsec_core_garble*             vpn.suite*
-ipsec_core_intc*               vpn.suite.dt7*
-ipsec_ddr*                     vpn.suite.no-rta*
-ipsec_ddr.exp*                 vpn.suite.partial-rta*
-ipsec_ddr.suite*               vpn.suite.regression*
-ipsec_ddr.use*                 vpn.test*
-ipsec_dfbit*                   
-[vineet-u5:/auto/vwsdsd/sisu-reg/ats/regression/tests/functionality/ipsec][5C  % vi ipsec_core
-[60;1H[?1h="ipsec_core" 1112 lines, 35474 characters [H[2J[19B#!$env(AUTOTEST)/local/bin/expect -f
-#$Id
-#$Log
-#
-# Program:	ipsec_core
-# Author:	Sujana Lattupalli
-#
-# Supporting Group:
-#    IOS Development Test - sujana
-#
-# Test History:
-#   This can be run on any version of IPSEC image
-#
-# Special Library Files:
-#    ipsec_core.exp
-#    ipsec.exp (pre-existing lib)
-#    dcrmap.exp (pre-existing lib)
-#    crypto.exp (pre-existing lib)
-#    crypto_ip_encaps.exp (pre-existing lib)
-#
-# Date: 1/7/99
-#
-# Testplan: ENG-24147
-#
-# Description:
-#   This script tests the below func. of STATIC crypto maps
-#
-#	1. IF A STATIC CRYPTO MAP ENTRY SPECIFIES EITHER NO ACL, AN EMPTY OR
-#		NON-EXISTANT ACL
-#
-#	Outbound behaviour: Traffic will be dropped
-#	Inbound behaviour:  Both IKe and CLEARTEXT traffic will be dropped
-#
-#	(This case indirectly tests the fact that crypto map entries
-#	 associated with a interface aresearched in order)
-#
-#	2. CRYPTO MAP ACL FILTERTING
-#		Outbound behaviour: "DENY" traffic sent in CLEAR
-#		    "PERMIT" traffic is ipsec-protected by the
-#			corresponding SA[20;1H[40B"ipsec_core" 1112 lines, 35474 characters[20;1H[40B[K
-[A#		Inbound behaviour:  "DENY" traffic - unprotected traffic is allo
-
-[Awed
-
-[A#		    "PERMIT" traffic - must be ipsec protected else
-
-[A#		    dropped and logged
-
-[A#
-
-[A#	3. SA NEGOTIATION
-
-[A#	- IKE negotiation should be successfull before IPSEC can proceed
-
-[A#	- if a flow matches a permit in	 crypto map entry's ACL, that entry
-
-[A#	  is used for policy neg.
-
-[A#	- Outbound neg.:  granularity of ACL entry is used for QM IDs
-
-[A#
-
-[A# NOTE1: Script will check if the ipsec image on the UUTs is DES or 3DES
-
-[A#	 and  if images on the UUts can do only DES then it accordingly
-
-[A#	 converts a 3DES testcase into equivalent DES testcase and executes it.
-
-[A#	 Look at the report file generated by AUTOTEST to se what cases
-
-[A#	 got executed and what got aborted. Alos read the explanation in the
-
-[A#	 suitefile for more info
-
-[A#
-
-[A# NOTE: To test all of the above, use keyword "all" in the suite
-
-[A#   For step1, use "cmapacl_empty"
-
-[A#	step2, use "cmapacl_filter"
-
-[A#	step3, use "sa_nego"
-
-[A#
-
-[A# Topology:
-
-[A#
-
-[A# --------		-------			 --------		---------
-
-[A#|	  |		|		|			|	 |	    |	[6C|
-
-[A#| PAGEN1 |--UUT1Int1|	UUT1 |UUT1Int2--UUT2Int1| UUT2	 |UUT2Int2--| PAGNE2  |
-
-[A#| (GEN)  |		|		|			|	 |	    | (REF)   |
-
-[A# --------		-------			 --------		---------[19;1H[41B
-[A#
-
-[A# The physical link between UUT1 and UUT2 can be either LAN or WAN.
-
-[A# (as of now only Ethernet, Serila,Tokenring and FDDi are tested)
-
-[A# The physical link between the routers (UUT1 and UUT2) and the PAGENT routers
-
-[A# is Ethernet(or can be tokering, Fddi, Serial with HDLC: support for these
-
-[A# will be added later)
-
-[A#
-
-[A# Test Case Explanation:
-
-[A#
-
-[A#  1. Clear IKE/IPSEC SAs. Configure interfaces , switching, encapsulation
-
-[A#	and routing
-
-[A#  2. configure pagent1 for flows P11, P12 and P13 and pagent2 for
-
-[A#	P21, P22 and P23.
-
-[A#	on Pagent1:
-
-[A#   P11: 12.0.0.2 --> 13.0.0.2
-
-[A#   P12: 12.0.0.3 --> 13.0.0.2
-
-[A#   P13: 12.0.0.4 --> 13.0.0.2
-
-[A#
-
-[A#	on Pagent2:
-
-[A#   P21: 13.0.0.2 --> 12.0.0.2
-
-[A#   P22: 13.0.0.2 --> 12.0.0.3
-
-[A#   P23: 13.0.0.2 --> 12.0.0.4
-
-[A#
-
-[A#  3. test analyse section test the all or selected items of
-
-[A#	the above listed functionalities.
-
-[A#  4. Unconfigure all the routers
-
-[A#
-
-[A#########################################################################
-
-[A[20;1H[40B
-[A
-
-[Aglobal expect_library device_attribute table_array argv
-
-[A
-
-[Asource $expect_library/common.exp
-
-[Asource $expect_library/csccon.exp
-
-[Asource $expect_library/control.exp
-
-[Asource $expect_library/test.exp
-
-[Asource $expect_library/utilities.exp
-
-[Asource $expect_library/misc_con.exp
-
-[Asource $expect_library/more_utilities.exp
-
-[Asource $expect_library/contrib/keylib.exp
-
-[Asource $expect_library/contrib/pktgen.exp
-
-[Asource $expect_library/contrib/pagentlib.exp
-
-[Asource $expect_library/contrib/pktdecoder.tcl
-
-[Asource $env(AUTOTEST)/regression/tests/bridging/br_pagent_utils.exp
-
-[Asource $env(AUTOTEST)/regression/tests/functionality/ipsec/ipsec.exp
-
-[Asource $env(AUTOTEST)/regression/tests/functionality/ipsec/dcrmap.exp
-
-[Asource $env(AUTOTEST)/regression/tests/functionality/ipsec/ipsec_core.exp
-
-[Asource $expect_library/crypto.exp
-
-[Asource $expect_library/crypto_ip_encaps.exp
-
-[A
-
-[A# Extract the tacacs and enable passwords from the config file if defined
-
-[Aif {[catch {set tacacspw [test_passwd tacacs]}] == 1} {
-
-[59;5Hset tacacspw {}
-
-[A}
-
-[Aif {[catch {set enablepw [test_passwd enable]}] == 1 || $enablepw == {}} {
-
-[59;5Hset enablepw lab
-
-[A}
-
-[A[20;1H[40B
-[ATacacsPw $tacacspw
-
-[AEnablePw $enablepw
-
-[A
-
-[A# Log the terminal session (to the router consoles)
-
-[A# to /dev/null instead of stdout.
-
-[Alog_user 0
-
-[A
-
-[A
-
-[A#Sample Suitefile Entry
-
-[A#----------------------
-
-[A#
-
-[A# Eg:
-
-[A#	functionality/ipsec/dynamic_crypto_map 1 {{dt3-4kb 0 4ksw	 Ethernet1 fast
-
-[A#	TokenRing0 fast } {dt3-45a 0 45sw TokenRing0 fast Ethernet1
-
-[A#	fast }} {{dt3-75b ethernet1/0} {dt3-72a ethernet3/0}} {{{ tcp udp tcp}
-
-[A#	100 2000 noencap}} {{address pre-share des md5 {esp-des ah-sha-hmac}
-
-[A#	tunnel}} {{ospf}} {{filtering empty_dacl}}
-
-[A#
-
-[A#    functionality/ipsec/dynamic_crypto_map  testname
-
-[A#
-
-[A#    1 test-id
-
-[A#
-
-[A#    { # List of routers - UUT1 and UUT2.
-
-[A#	<routername, slot# doing crypto, test type, Interface1,
-
-[A#	switching method on interface1, Interface2,
-
-[A#	switching method on interface2 >
-
-[A#	{ dt3-4kb 0 4ksw  Ethernet1 fast TokenRing0 fast   }
-
-[A#	{dt3-45a 0 45sw TokenRing0 fast Ethernet1 fast }
-
-[A#   NOTE: for UUT1, Interface1 is connected to pagent1[20;1H[40B
-[A#	    Interface2 does ipsec
-
-[A#	  for UUT2, Interface2 is connected to pagent2
-
-[A#	    Interface1 does ipsec
-
-[A#    }
-
-[A#
-
-[A#    { # List of Pagent routers acting as GENERATOR/RECEIVER
-
-[A#	< Routername, Interface>
-
-[A#	{dt3-75b ethernet1/0}
-
-[A#	{dt3-72a ethernet3/0}
-
-[A#    }
-
-[A#
-
-[A#    { # Packet details
-
-[A#	< packet type for the streams, packet size, packet transmission rate, enc
-
-[Aapsulation >
-
-[A#	{ {tcp udp tcp} 100 2000 noencap}
-
-[A#    }
-
-[A#
-
-[A#    { #ISAKMP/IPSEC trasfom/policy details
-
-[A#	<identity mode, authentication, encryption, hash, transform, trasmit mode>
-
-[A#	{ address pre-share des md5 {ah-sha-hmac esp-des} tunnel}
-
-[A#    }
-
-[A#
-
-[A#    { # Type of routing used
-
-[A#	{ospf}
-
-[A#    }
-
-[A#
-
-[A#    { # TEst feature
-
-[A#	{cmapacl_empty cmapacl_filter}
-
-[A#    }
-
-[A#[19;1H[41B
-[A#
-
-[A# NOTE: More details on FIELDS -slot#, test type, identity mode, authentication
-
-[A#	encryption, hash, transform, trasmit mode
-
-[A#
-
-[A#	slot : The slot number of intended crypto engine on the box. It depends
-
-[A#		on the platform and encrypt/decrypt interfaces.
-
-[A#		For 7500, if crypto interfase is a vip2 interface, then
-
-[A#	   slot#= slot which has the VIP@ card.
-
-[A#		else UUT1slot = slot number of the rsp.
-
-[A#		For all other platform use 0.
-
-[A#
-
-[A#	test type : rspsw - Test for rsp software encryption
-
-[A#		    vipsw - Test for vip software encryption
-
-[A#		    viphw - Test for vip with ESA card
-
-[A#		    72sw  - Test fro 7200 software encryption
-
-[A#		    72hw  - Test for 7200 with ESA card
-
-[A#		    other - Test for software encryption for other platform
-
-[A#		    The script will initialize the ESA card according this value
-
-[A#
-
-[A#	identity mode : address, hostname
-
-[A#	auth :
-
-[A#	 pre-share  Pre-Shared Key
-
-[A#	 rsa-encr   Rivest-Shamir-Adleman Encryption
-
-[A#	 rsa-sig    Rivest-Shamir-Adleman Signature
-
-[A#
-
-[A#	Encr : des
-
-[A#
-
-[A#	Hash :
-
-[A#	 md5  Message Digest 5[20;1H[40B
-[A#	 sha  Secure Hash Standard
-
-[A#
-
-[A#	Transform :
-
-[A#	 esp-des esp-sha-hmac
-
-[A#    esp-des esp-sha-hmac ah-sha-hmac
-
-[A#    ...
-
-[A#
-
-[A# TransMode :
-
-[A#	 tunnel	    tunnel (datagram encapsulation) mode
-
-[A#
-
-[A###########################################################################
-
-[A#Test Description Parameters
-
-[A###########################################################################
-
-[A# the first argument is the name of the file being executed
-
-
-[Atest_name [shift argv]
-
-
-[A###########################################################################
-
-[A# Set up test parameters.
-
-[A###########################################################################
-
-
-[Atest_params $argv
-
-
-[Atest_parse_args {router_info
-
-[59;18Hpagent_info
-
-[A	 subnet_info
-
-[Apc_pak_info
-
-[59;18Hisa_ipsec_info
-
-[A	 routing[20;1H[40B
-[A	 rate
-
-[A	 testcase
-
-[A	 numbers
-
-[A} $argv
-
-
-[A############## global variables######################
-
-[A
-
-[A#1000 packets are sent over ipsec tunnel/conection
-
-[Aglobal RepeatCount
-
-[A# name of the test packet created on PAGENT1
-
-[Aglobal TestPacket1
-
-[A# name of the test packet created on PAGENT2
-
-[Aglobal TestPacket2
-
-[A#interval to replay packets
-
-[Aglobal PACKET_INTERVAL
-
-[A# crypto map name
-
-[Aglobal Testtag
-
-[A#IKE authentication key
-
-[Aglobal PreShareKey
-
-[A#IPSEc SA timeout
-
-[Aglobal IpsecSATimeout
-
-[A# Used to store the name of the common ipsec transform
-
-[A#bet UUTs
-
-[Aglobal MatchedTransform
-
-[A
-
-[A#pagent networks
-
-[Aglobal SourceNet
-
-[Aglobal DestinationNet
-
-[A[20;1H[40B
-[A#serial interface clock rate
-
-[Aglobal CLKRATE
-
-[A
-
-[A# To indiacate des/3des images on the uuts
-
-[Aglobal IMAGETYPE
-
-[Aset IMAGETYPE 0
-
-[A
-
-[A#Keyed list to store info onthe testcases tested
-
-[Aglobal testrun_data
-
-[A
-
-[A############## variables######################
-
-[A# Network IP addresses
-
-[A#set SourceIPAddress 12.0.0.2
-
-[A#set DestinationIPAddress 13.0.0.2
-
-[A#set Addr1 16.0.0.1
-
-[A#set Addr2 16.0.0.2
-
-[A#set CommonNet 16.0.0.0
-
-[A#set SourceNet 12.0.0.0
-
-[A#set DestinationNet 13.0.0.0
-
-[A#set mask 255.0.0.0
-
-[A#set UUT1Int1IPAddress 12.0.0.1
-
-[A#set UUT2Int2IPAddress 13.0.0.1
-
-[A#set OspfRouteMask 0.255.255.255
-
-[A
-
-[A#crypto map name
-
-[Aset Testtag testtag
-
-[A
-
-[A# used by encap_new proc
-
-[Aset fail_string "111"[20;1H[40B
-[A
-
-[A#Pre shared key value
-
-[Aset PreShareKey 12abcjhrweit345
-
-[A
-
-[A# ISAKMP Policy timeout
-
-[Aset PolicyTimeout 500
-
-[A
-
-[A# Ipsec SA timeout
-
-[Aset IpsecSATimeout 120
-
-[A
-
-[A#Ping packet size
-
-[Aset ping_pak_size 100
-
-[A
-
-[A#Pagent Packet related
-
-[Aset RepeatCount 50
-
-[Aset TestPacket1 P1
-
-[Aset TestPacket2 P2
-
-[A
-
-[A####################################################
-
-
-[A###########################################################################
-
-[A# Build the script data structure
-
-[A###########################################################################
-
-
-[A# The argument list is put in a structured format and accessed with the keyed
-
-[A# lists command library.
-
-[A#
-
-[A# Example of keyed lists created
-
-[A#[20;1H[40B
-[A#dt3-4kb
-
-[A#    slot	   0
-
-[A#    testtype	   4ksw
-
-[A#    intname1	   Ethernet1
-
-[A#    switchtype1   fast
-
-[A#    intname2	   TokenRing0
-
-[A#    switchtype2   fast
-
-[A#    peer	   dt3-45a
-
-[A#    ip1	   12.0.0.1
-
-[A#    ip2	   11.0.0.1
-
-[A#    peer_cr_ip	   11.0.0.2
-
-[A#    cr_intname	   TokenRing0
-
-[A#
-
-[A#dt3-45a
-
-[A#    slot	   0
-
-[A#    testtype	   45sw
-
-[A#    intname1	   TokenRing0
-
-[A#    switchtype1   fast
-
-[A#    intname2	   Ethernet1
-
-[A#    switchtype2   fast
-
-[A#    peer	   dt3-4kb
-
-[A#    ip1	   11.0.0.2
-
-[A#    ip2	   13.0.0.1
-
-[A#    peer_cr_ip	   11.0.0.1
-
-[A#    cr_intname	   TokenRing0
-
-[A#
-
-[A#pagent1
-
-[A#    name	   dt3-75b
-
-[A#    intname	   ethernet1/0[20;1H[40B
-[A#    ip1	    12.0.0.2
-
-[A#    nexthopmac	   0060.70ca.3020
-
-[A#    ip2	    12.0.0.3
-
-[A#    ip3	    12.0.0.4
-
-[A#pagent2
-
-[A#    name	   dt3-72a
-
-[A#    intname	   ethernet3/0
-
-[A#    ip1	    13.0.0.2
-
-[A#    nexthopmac	   0000.0c1b.0a7a
-
-[A#    ip2	    13.0.0.2
-
-[A#    ip3	    13.0.0.2
-
-[A#
-
-[A#pak
-
-[A#    type	   tcp udp udp
-
-[A#    size	   100
-
-[A#    rate	   2000
-
-[A#    encap	   noencap
-
-[A#    data	876543210fedcba9876543210fedcba9876543210fedcba
-
-[A#
-
-[A#isa_ipsec
-
-[A#    id		   address
-
-[A#    auth	   pre-share
-
-[A#    encr	   des
-
-[A#    hash	   md5
-
-[A#    transform	  esp-des ah-sha-hmac
-
-[A#    mode	   tunnel
-
-[A#
-
-[A#ospf
-
-[A#[20;1H[40B
-[A#
-
-[A#------------------------------------------------------------------
-
-[A# Build a keylist for routers information with name "router_data"
-
-[A#------------------------------------------------------------------
-
-[A
-
-[Acatch { unset router_data pc_data pak_data isa_ipsec_data rate TestType}
-
-[A
-
-[A#----------------------------------------------------------------
-
-[A# set IP addresses used on pagents and UUTs
-
-[A#----------------------------------------------------------------
-
-[Aforeach line $subnet_info {
-
-[Aset SourceNet [lvarpop line]
-
-[Aset CommonNet [lvarpop line]
-
-[Aset DestinationNet [lvarpop line]
-
-[A}
-
-[A
-
-[Aset SourceIPAddress [addr $SourceNet 2]
-
-[Aset DestinationIPAddress [addr $DestinationNet 2]
-
-[Aset Addr1 [addr $CommonNet 1]
-
-[Aset Addr2 [addr $CommonNet 2]
-
-[Aset mask 255.0.0.0
-
-[Aset UUT1Int1IPAddress [addr $SourceNet 1]
-
-[Aset UUT2Int2IPAddress [addr $DestinationNet 1]
-
-[Aset OspfRouteMask 0.255.255.255
-
-[A
-
-[Aforeach routerline $router_info {
-
-[A
-
-[59;5Hset router [lvarpop routerline]
-
-[A[20;1H[40B
-[A	keylset router_data $router.slot [lvarpop routerline]
-
-[A	keylset router_data $router.testtype [lvarpop routerline]
-
-[A	keylset router_data $router.intname1 [lvarpop routerline]
-
-[A	keylset router_data $router.switchtype1 [lvarpop routerline]
-
-[A	keylset router_data $router.intname2 [lvarpop routerline]
-
-[A	keylset router_data $router.switchtype2 [lvarpop routerline]
-
-[A	#keylset router_data $router.encap [lvarpop routerline]
-
-[A
-
-[A}
-
-[A
-
-[A catch { unset UUT1 UUT2}
-
-[A set index 1
-
-[A foreach router [keylkeys router_data] {
-
-[59;5Hset UUT$index $router
-
-[59;5Hincr index
-
-[A }
-
-[A
-
-[A #Fill in some more values for therouters keyed list
-
-[A keylset router_data $UUT1.peer $UUT2
-
-[A keylset router_data $UUT1.ip1 $UUT1Int1IPAddress
-
-[A keylset router_data $UUT1.ip2 $Addr1
-
-[A keylset router_data $UUT1.peer_cr_ip $Addr2
-
-[A keylset router_data $UUT1.cr_intname [keylget router_data $UUT1.intname2]
-
-[A keylset router_data $UUT2.peer $UUT1
-
-[A keylset router_data $UUT2.ip1 $Addr2
-
-[A keylset router_data $UUT2.ip2 $UUT2Int2IPAddress
-
-[A keylset router_data $UUT2.peer_cr_ip $Addr1
-
-[A keylset router_data $UUT2.cr_intname [keylget router_data $UUT2.intname1]
-
-[20;1H[40B
-[A#----------------------------------------------------------------
-
-[A# Build a keylist for PC info with name pc_data
-
-[A#----------------------------------------------------------------
-
-
-[Aset i 1
-
-[Aforeach p_line $pagent_info {
-
-[59;5Hset P pagent$i
-
-[A	keylset pagent_data $P.name [lvarpop p_line]
-
-[59;5Hkeylset pagent_data $P.intname [lvarpop p_line]
-
-[59;5Hincr i
-
-[A}
-
-[A
-
-[A catch { unset PAGEN1 PAGEN2}
-
-[A set index 1
-
-[A foreach router [keylkeys pagent_data] {
-
-[A	set PAGEN$index $router
-
-[A	incr index
-
-[A }
-
-[A
-
-[A set int1 [keylget router_data $UUT1.intname1]
-
-[A set int2 [keylget router_data $UUT2.intname2]
-
-[A #Fill in some more values for the pagent keyed list
-
-[A keylset pagent_data $PAGEN1.ip1 $SourceIPAddress
-
-[A keylset pagent_data $PAGEN1.nexthopmac [getaddr $UUT1 $int1 mac]
-
-[A keylset pagent_data $PAGEN2.ip1  $DestinationIPAddress
-
-[A keylset pagent_data $PAGEN2.nexthopmac [getaddr $UUT2 $int2 mac]
-
-[A
-
-[A
-
-[A#----------------------------------------------------------------[20;2H[40B
-[A# Build a keylist for PC PACKET info with name "pak_data"
-
-[A#----------------------------------------------------------------
-
-
-[Aset PAK "pak"
-
-[Aforeach line $pc_pak_info {
-
-[A	keylset pak_data $PAK.type [lvarpop line]
-
-[A	keylset pak_data $PAK.size [lvarpop line]
-
-[A	keylset pak_data $PAK.rate [lvarpop line]
-
-[A	keylset pak_data $PAK.encap [lvarpop line]
-
-
-[A}
-
-
-[A# generate a random HEX string of length specified in suite
-
-[Akeylset pak_data $PAK.data \
-
-[A	[create_hex_str [keylget pak_data $PAK.size]]
-
-
-[Aset PACKET_INTERVAL [expr 1000000000/[keylget pak_data $PAK.rate]]
-
-[A
-
-[A#----------------------------------------------------------------
-
-[A# Now add more fileds to Pagent keyed list "pagent_data"
-
-[A# Adding ip addresses for all the traffic streams. ip addr. 12.0.0.2
-
-[A# is the stating addr on Pagent1 and 13.0.0.2 on pagent2. say the suite
-
-[A# is asking for 3 traffic strems then we will generate the following
-
-[A# PAGENT1
-
-[A#	stream1 : src-ip: 12.0.0.2 dest_ip: 13.0.0.2
-
-[A#	stream2 : src-ip: 12.0.0.3 dest_ip: 13.0.0.3
-
-[A#	stream3 : src-ip: 12.0.0.4 dest_ip: 13.0.0.4
-
-[A#
-
-[A# PAGENT2[20;1H[40B
-[A#	stream1 : src-ip: 13.0.0.2 dest_ip: 12.0.0.2
-
-[A#	stream2 : src-ip: 13.0.0.2 dest_ip: 12.0.0.3
-
-[A#	stream3 : src-ip: 13.0.0.2 dest_ip: 12.0.0.4
-
-[A#----------------------------------------------------------------
-
-[A list [keylget pak_data $PAK.type]
-
-[A set NumbTrafficStr [llength [keylget pak_data $PAK.type]]
-
-[A
-
-[A   set src_net $SourceNet
-
-[59;4Hset pagen_rtr [lindex [keylkeys pagent_data] 0]
-
-[59;4Hset host 3
-
-[59;4Hfor {set i 2} {$i <= $NumbTrafficStr} {incr i} {
-
-[A	keylset pagent_data $pagen_rtr.ip$i [GetIP $src_net $host]
-
-[59;5Hincr host
-
-[59;4H}
-
-[Aset pagen_rtr [lindex [keylkeys pagent_data] 1]
-
-[59;4Hkeylset pagent_data $pagen_rtr.ip2 $DestinationIPAddress
-
-[59;4Hkeylset pagent_data $pagen_rtr.ip3 $DestinationIPAddress
-
-
-[A#----------------------------------------------------------------
-
-[A# Build a keylist for ISAKMP/IPSEC policy/trasfom info with name
-
-[A# isa_ipsec_data
-
-[A#----------------------------------------------------------------
-
-[Aset ISA isa_ipsec
-
-[Aforeach line $isa_ipsec_info {
-
-[59;5Hkeylset isa_ipsec_data $ISA.id [lvarpop line]
-
-[59;5Hkeylset isa_ipsec_data $ISA.auth [lvarpop line]
-
-[59;5Hkeylset isa_ipsec_data $ISA.encr [lvarpop line]
-
-[59;5Hkeylset isa_ipsec_data $ISA.hash [lvarpop line]
-
-[59;5Hkeylset isa_ipsec_data $ISA.transform [lvarpop line][20;1H[40B
-[59;5Hkeylset isa_ipsec_data $ISA.mode [lvarpop line]
-
-[A}
-
-[A
-
-[A#----------------------------------------------------------------
-
-[A# Parse the routing argument
-
-[A#----------------------------------------------------------------
-
-[A
-
-[A set Routing [lvarpop routing ]
-
-[A
-
-[Aif [regexp -nocase "serial" [keylget router_data $UUT1.intname2]] {
-
-[59;5Hset CLKRATE [lvarpop rate ]
-
-[A}
-
-[A
-
-[A#----------------------------------------------------------------
-
-[A# Parse type of testing
-
-[A#----------------------------------------------------------------
-
-[A
-
-[A set TestType [lvarpop testcase]
-
-[A
-
-[A
-
-[A
-
-[A#---------- debug keylists -------------------
-
-[A
-
-[59;5Hkey_printlist $router_data
-
-[59;5Hkey_printlist $pagent_data
-
-[59;5Hkey_printlist $pak_data
-
-[59;5Hkey_printlist $isa_ipsec_data
-
-[59;5Hecho $Routing
-
-[59;5Hecho $TestType[20;1H[40B
-[A
-
-[A#----------------------------------------------------------------
-
-[A# Deciding either DES or 3DES images under test
-
-[A#----------------------------------------------------------------
-
-[A
-
-[Aset uut1_ver 0; set uut2_ver 0
-
-[Aset uut1_ver [which_image $UUT1]
-
-[Aset uut2_ver [which_image $UUT2]
-
-[A
-
-[Aif {($uut1_ver == 0)  || ($uut2_ver == 0)} {
-
-[A	test_diag " IMage on UUT1 or/and UUT2 does not support IPSEC"
-
-[A	test_result 2
-
-[A	return 0
-
-[A} elseif {($uut1_ver == 2)  && ($uut2_ver == 2)} {
-
-[A	test_diag " IMAGE can do 3DES. Make sure 3DES testcases are being run"
-
-[A	set IMAGETYPE "3des"
-
-[A
-
-[A} else {
-
-[Atest_diag " IMAGE can do ONLY DES. Make sure DES testcases are being run
-
-[A"
-
-[A	test_diag " If 3DES testcase, MAke sure its converted to DES case and ru
-
-[An"
-
-[A	set IMAGETYPE "des"
-
-[A	keylset isa_ipsec_data $ISA.encr des
-
-[A	set ipsec_tr [keylget isa_ipsec_data $ISA.transform]
-
-[A	if {[set index [lsearch $ipsec_tr esp-3des]] != -1} {
-
-[59;12Hset ipsec_tr [lreplace $ipsec_tr $index $index esp-des]
-
-[A	}
-
-[Akeylset isa_ipsec_data $ISA.transform $ipsec_tr
-
-[A
-
-[A	key_printlist $isa_ipsec_data[18;1H[42B
-[A}
-
-[A
-
-[Atest_diag " IKE ENCR: [keylget isa_ipsec_data $ISA.encr]   \
-
-[59;25HIPSEC TRANSF:[keylget isa_ipsec_data $ISA.transform] "
-
-[A
-
-[A#----------------------------------------------------------------
-
-[A# Now check ifthe testcase if for  testing
-
-[A# -  SERIAL ENCAPSULATIONS
-
-[A# -  IKE MD5 Algorithm
-
-[A# - FAST SWITCHING
-
-[A# - CEF/FLOW SWITCHING
-
-[A# If the testcase is for one of the above then skip checking
-
-[A# if the IKe/IPSEC combination has been executed earlier
-
-[A#----------------------------------------------------------------
-
-[A
-
-[Aif [generic_testcase $router_data $pak_data $isa_ipsec_data] {
-
-[A} else {
-
-[A
-
-[A  #----------------------------------------------------------------
-
-[A  # Get platform information and the ndecide if this testcase
-
-[A  #(ie IKe/IPSEC parameter combination) has run before. If so
-
-[A  # skip the testcase else run the testcase
-
-[A  #----------------------------------------------------------------
-
-[A  set uuts "$UUT1 $UUT2"
-
-[A  set PLATFORM [get_platfrom_info $uuts]
-
-[A  if {$PLATFORM == 0 } {
-
-[A	test_diag " FAILED to get PLATFORM info from $UUT1 and $UUT2"
-
-[A	test_result 2
-
-[A	return 0[18;9H[42B
-[A  }
-
-[A
-
-[A  # interface doing ipsec
-
-[A  set ipsec_int [keylget router_data $UUT1.intname2]
-
-[A  if ![run_testcase $IMAGETYPE $PLATFORM $ipsec_int [keylget isa_ipsec_data $ISA
-
-[A.encr] \
-
-[A	[keylget isa_ipsec_data $ISA.transform]] {
-
-[A	test_diag " This IKE/IPSEC combination is already tested for this "
-
-[A	test_diag " SUITEFILE and hence will be skipped"
-
-[A	test_result 2
-
-[A	return 0
-
-[A  }
-
-[A
-
-[A  #echo " Begin ***** PRINTING TEST RUN DATA ***************************"
-
-[A  #key_printlist $testrun_data
-
-[A  #echo " End ******* PRINTING TEST RUN DATA ***************************"
-
-[A}
-
-[A
-
-[A# If CEF related testcase, make sure the IOS version on
-
-[A# those routers in atleast 12.0
-
-[Aforeach UUT "$UUT1 $UUT2" {
-
-[A  set switch_type1 [keylget router_data $UUT.switchtype1]
-
-[A  set switch_type2 [keylget router_data $UUT.switchtype2]
-
-[A  if {[regexp -nocase "cef" $switch_type1] || \
-
-[A	[regexp -nocase "cef" $switch_type2]} {
-
-[A	if ![cef_version_check $UUT] {
-
-[59;13Htest_diag " Image version on $UUT does not support CEF switching. Ab
-
-[Aort"
-
-[59;13Htest_result 2
-
-[A	}
-
-[A  }[18;3H[42B
-[A}
-
-[A
-
-[A#-----------------------------------------------
-
-[A# Check if pagent routers have pagent images
-
-[A#-----------------------------------------------
-
-[Aif {![pagent_check [keylget pagent_data $PAGEN1.name]] || \
-
-[A	![pagent_check [keylget pagent_data $PAGEN1.name]] } {
-
-[A	test_diag " TEST expects routers: [keylget pagent_data $PAGEN1.name] \
-
-[A		[keylget pagent_data $PAGEN1.name] to have pagent images"
-
-[A	test_result 2
-
-[A	return 0
-
-[A}
-
-[A
-
-[A#---------------------------------------------------------
-
-[A# Check if correct sub-test/test is specified in the suite
-
-[A#---------------------------------------------------------
-
-[A switch $TestType {
-
-[A
-
-[A	cmapacl_empty -
-
-[A	cmapacl_filter -
-
-[A	sa_nego -
-
-[A	all {
-
-[A	}
-
-[A
-
-[A	default {
-
-[Atest_diag " INCORRECT TESTCASE: Please check the suiteline"
-
-[A		test_result 2
-
-[A		return 0
-
-[A	}[19;1H[41B
-[A}
-
-[A
-
-[A#------------------------------------------
-
-[A# Configure Routing
-
-[A#------------------------------------------
-
-[Aset UUT1_route_info [config_routing $Routing  $CommonNet $SourceNet $Addr2 1]
-
-[Aset UUT2_route_info [config_routing $Routing  $CommonNet $DestinationNet $Addr1
-
-[A2]
-
-[A
-
-[Aset UUT1Route [lindex $UUT1_route_info 0]
-
-[Aset noUUT1Route [lindex $UUT1_route_info 1]
-
-[Aset UUT2Route [lindex $UUT2_route_info 0]
-
-[Aset noUUT2Route [lindex $UUT2_route_info 1]
-
-[A
-
-[A########################## CONFIG SECTION ############################
-
-[A
-
-[Atest_config {
-
-[A
-
-[A set isa [keylkeys isa_ipsec_data]
-
-[A set pak [keylkeys pak_data]
-
-[A set encap [keylget pak_data $pak.encap]
-
-[A set i 1
-
-[A
-
-[A # Config UUTs
-
-[A foreach router [keylkeys router_data] {
-
-[59;5Hset unit_number "UUT$i"
-
-[59;5Hset number($i) [lvarpop numbers]
-
-[59;5Hset int1_addr [keylget router_data $router.ip1]
-
-[59;5Hset int2_addr [keylget router_data $router.ip2]
-
-[59;5Hset switch1 [keylget router_data $router.switchtype1][19;9H[41B
-[59;5Hset switch2 [keylget router_data $router.switchtype2]
-
-[59;5Hset crypto_peer_addr [keylget router_data $router.peer_cr_ip]
-
-[59;5Hset crypto_int [keylget router_data $router.cr_intname]
-
-[59;5Hif {$i==1} {
-
-[59;7Hset non_crypto_int [keylget router_data $router.intname1]
-
-[59;7Hset Route $UUT1Route
-
-[59;7Hset static_route "ip route $DestinationNet $mask $crypto_peer_addr"
-
-[59;5H} else {
-
-[59;5Hset non_crypto_int [keylget router_data $router.intname2]
-
-[A	set Route $UUT2Route
-
-[A	set static_route "ip route $SourceNet $mask $crypto_peer_addr"
-
-[59;5H}
-
-
-[A#------------------------------------------------------
-
-[59;5H# As a sanity, Make sure you
-
-[59;5H#	- Flush the ISAKMP database and
-
-[59;5H#	- Clear all crypto SAs
-
-[59;5H# before starting any testing
-
-[59;5H#------------------------------------------------------
-
-[59;5H$router exec "clear crypto sa"
-
-[59;5H$router exec "clear crypto isa"
-
-[59;5H$router exec "term width 0 "
-
-[A
-
-[59;5H$router config "
-
-[A	!
-
-[Aip routing
-
-[59;5H!
-
-[A	interface [keylget router_data $router.intname1]
-
-[A	ip address $int1_addr $mask[20;2H[40B
-[A	no shutdown
-
-[A	!
-
-[Ainterface [keylget router_data $router.intname2]
-
-[A	ip address $int2_addr $mask
-
-[A	no shutdown
-
-[A	!
-
-[59;5H$Route
-
-[59;5H$static_route
-
-[59;5H"
-
-[A#--------------------------------------------------
-
-[59;5H# Now configure switching
-
-[59;5H#--------------------------------------------------
-
-[A
-
-[59;5Hset uut_ints "[keylget router_data $router.intname1] [keylget router_data $r
-
-[Aouter.intname2]"
-
-[59;5Hset switch_types "$switch1 $switch2"
-
-[59;5Hlist $uut_ints
-
-[59;5Hlist $switch_types
-
-[59;5Hfor {set il 0} {$il <2} {incr il} {
-
-[A	GetMode $router [lindex $uut_ints $il] [lindex $switch_types $il]
-
-[59;5H}
-
-
-[A#--------------------------------------------------
-
-[59;5H# Now configure interface specific commands
-
-[59;5H#--------------------------------------------------
-
-[59;5Hinterface_spec_configs $router $non_crypto_int
-
-
-[59;5Hif [regexp -nocase "serial" $crypto_int ] {
-
-[A	interface_spec_configs $router $crypto_int $CLKRATE
-
-[59;5H} elseif [regexp -nocase "bri" $crypto_int ] {[19;5H[41B
-[59;14Hinterface_spec_configs $router $crypto_int 0 $crypto_peer_addr $num
-
-[Aber($i)
-
-[A } else {
-
-[A	 interface_spec_configs $router $crypto_int
-
-[59;5H}
-
-
-[A#-----------------------------------------------------------------
-
-[59;5H# configure encapsulation on crypto interfaces
-
-[59;5H#-----------------------------------------------------------------
-
-[A
-
-[59;5Hset string [encaps_new on $encap $unit_number $crypto_peer_addr]
-
-[59;5Hif ![regexp -nocase $fail_string $string] {
-
-
-[59;5H# Check and see if it is a subinterface. If so, don't need to config here
-
-[59;5H# because it is already done inside the function call
-
-[59;5H# "interface_spec_configs".....rxuan
-
-[A
-
-[A	if {![regexp -nocase {(s.*)\.([0-9]+)} $crypto_int subintf intf numb]} {
-
-[A	$router config "
-
-[59;11Hinterface $crypto_int
-
-[59;11H$string
-
-[A	"
-
-[A}
-
-[A} else {
-
-[A	test_diag "Unknown Encaspultaion method for UUT: $router"
-
-[A	test_result 0
-
-[A	return 0
-
-[59;5H}
-
-
-[Aincr i[19;9H[41B
-[A
-
-[A }
-
-[A
-
-[A #---------------------------------------
-
-[A # Config PAGENT router's Interfaces
-
-[A #---------------------------------------
-
-[A configure_pagents $pagent_data $mask
-
-[A
-
-[A}
-
-[A
-
-[A######################## TEST ANALYSE SECTION #######################
-
-[A
-
-[Atest_analyze {
-
-[A
-
-[59;5H#-----------------------------------------------
-
-[59;5H# make sure all of the interfaces on UUTs come up
-
-[59;5H#-----------------------------------------------
-
-[A
-
-[59;5Hforeach UUT "$UUT1 $UUT2" {
-
-[59;5Hset interfaces "[keylget router_data $UUT.intname1] [keylget router_data $UU
-
-[AT.intname2]"
-
-[59;5Hforeach interface $interfaces {
-
-[A	if ![ifup? $UUT $interface] {
-
-[A	test_diag "$UUT:$interface won't come up"
-
-[A	test_result 0
-
-[A	return 0
-
-[A	}
-
-[59;5H}
-
-[A
-
-[59;5H}[19;11H[41B
-[A
-
-[59;5H#-----------------------------------------------
-
-[59;5H# make sure pagent interfaces come up
-
-[59;5H#-----------------------------------------------
-
-[59;5Hset pgts " $PAGEN1 $PAGEN2"
-
-[59;5Hforeach pgt $pgts {
-
-[59;5Hset interface [keylget pagent_data $pgt.intname]
-
-[59;5Hif ![ifup? [keylget pagent_data $pgt.name] $interface] {
-
-[A		test_diag "[keylget pagent_data $pgt.name]:$interface won't come
-
-[A up"
-
-[A		test_result 0
-
-[A		return 0
-
-[A	}
-
-[59;5H}
-
-[A
-
-[A
-
-[59;5H#-----------------------------------------------
-
-[59;5H# make sure the routing entries come up
-
-[59;5H#-----------------------------------------------
-
-[A
-
-[59;5Hset networks "$DestinationNet $SourceNet"
-
-[59;5Hset i 0
-
-[59;5Hforeach UUT "$UUT1 $UUT2" {
-
-[59;5Hif ![ippathup? $UUT [lindex $networks $i]] {
-
-[A	test_diag "No route to net [lindex $networks $i] on $UUT"
-
-[59;13Htest_result 0
-
-[59;13Hreturn 0
-
-[59;5H}
-
-[Aincr i
-
-[59;5H}[18;5H[42B
-[A
-
-[59;5H#-----------------------------------------------------------
-
-[59;5H# Make sure the interfaces used to do crypto are able to
-
-[59;5H# ping.
-
-[59;5H#-----------------------------------------------------------
-
-[59;5Hset sping_out [StarterPing $UUT1 ip $Addr2 $ping_pak_size]
-
-[59;5Hif { $sping_out != 0 } {
-
-[A	test_diag "$UUT1 cannot reach UUT2:$Addr2 : $sping_out"
-
-[A	test_result 0
-
-[A	return 0
-
-[59;5H}
-
-[A
-
-[59;5H#--------------------------------------------------------------
-
-[59;5H# Build packets on PAGENT routers. Number of packets configured on
-
-[59;5H# each pagent will depend on the suite file. Say we are build ing 3 streams
-
-[59;5H# then
-
-[59;5H#
-
-[A# ON PAGEN1:  test packets - P11, P12, P13
-
-[59;5H#		 validate paks - validateP21, validateP22, validateP23
-
-[59;5H#
-
-[A# ON PAGEN2: test packets - P21, P22, P23
-
-[59;5H#		validate paks -	 validateP11, validateP12, validateP13
-
-[59;5H#
-
-[A#--------------------------------------------------------------
-
-[59;5Hif ![build_multiple_packs $pagent_data $pak_data ] {
-
-[A	test_diag "Failed to COnfigure TEST PACKET on PAGENTS"
-
-[A	return 0
-
-[59;5H}
-
-[A[20;1H[40B
-[59;5H#---------------------------------------------------------
-
-[59;5H# Test the PAGENT connection before switching on CRYPTO
-
-[59;5H#---------------------------------------------------------
-
-[A
-
-[59;5Htest_diag "testing pagent and router connection before configuring crypto ma
-
-[Aps"
-
-[A
-
-[59;5H# To update the ARP tables
-
-[59;5Hfor {set k 1} {$k <= $NumbTrafficStr} {incr k} {
-
-[59;7H[keylget pagent_data $PAGEN1.name] exec "replay $TestPacket1$k repeat 5"
-
-[59;7H[keylget pagent_data $PAGEN2.name] exec "replay $TestPacket2$k repeat 5"
-
-[59;5H}
-
-[Aif ![test_pagent_pagent_flow $pagent_data $NumbTrafficStr] {
-
-[A	test_diag " PAGENTs failed to send/receive before CRYPTO"
-
-[A	test_result 0
-
-[A	return 0
-
-[59;5H}
-
-[Atest_diag " pagent and router connection is OK before crypto maps"
-
-[A
-
-[59;5H#-----------------------------------------------
-
-[59;5H#initialize the ESA card if needed
-
-[59;5H#-----------------------------------------------
-
-[A
-
-[59;5H#foreach UUT "$UUT1 $UUT2" {
-
-[A
-
-[59;5H#  if ![InitESA $UUT [keylget router_data $UUT.testtype] \
-
-[A#	[keylget router_data $UUT.slot]] {
-
-[A#	  test_diag "Unable to init ESA for $UUT"
-
-[A#	  test_result 0
-
-[A#	  return 0[19;5H[41B
-[A#	}
-
-[A#    }
-
-[A
-
-[59;5H#---------------------------------------------------------
-
-[59;5H# SEt the variable to do the requested tests as per suite
-
-[59;5H#---------------------------------------------------------
-
-[A
-
-[59;5Hset test_case_failures 0
-
-[59;5Hif [regexp -nocase "all" $TestType] {
-
-[59;5Hset test_list " cmapacl_empty cmapacl_filter sa_nego"
-
-[59;5H} else {
-
-[59;5Hset test_list "$TestType"
-
-[59;5H}
-
-[A
-
-[59;5Hset failure_count 0
-
-[59;5Hforeach Type $test_list {
-
-[59;7Hswitch $Type {
-
-[A
-
-[A	cmapacl_empty {
-
-[A
-
-[59;5H#*****************************************************************
-
-[A	#BEGIN **** TEST BULLET 1 ****
-
-[A
-
-[59;5Hcfg_uuts_for_eacl $router_data $isa_ipsec_data $pagent_data
-
-[A
-
-[59;5Hif ![empty_crmap_acl_test $router_data $pagent_data] {
-
-[A	test_diag "EMPTY CR MAP ACL TEST FAILED"
-
-[A	incr failure_count
-
-[59;5H} else {[20;5H[40B
-[A   test_diag "EMPTY CR MAP ACL TEST PASSED"
-
-[59;5H}
-
-[A
-
-[59;5Huncfg_uuts_for_eacl $router_data $isa_ipsec_data $pagent_data
-
-
-[A	#END **** TEST BULLET 1 ****
-
-[A	#*****************************************************************
-
-[A	}
-
-[A
-
-[A	cmapacl_filter {
-
-[A
-
-[59;5H#*****************************************************************
-
-[A	#BEGIN **** TEST BULLET 2 ****
-
-[A
-
-[59;5Hcfg_uuts_for_filtering $router_data $isa_ipsec_data $pagent_data
-
-
-[A	if ![crmap_acl_filtering_test $router_data $pagent_data $isa_ipsec_data]
-
-[A {
-
-[59;12Htest_diag "CRYPTO MAP ACL FILTERING TEST FAILED"
-
-[59;12Hincr failure_count
-
-[A	} else {
-
-[59;12Htest_diag "CRYPTO MAP ACL FILTERING TEST PASSED"
-
-[A	}
-
-
-[Auncfg_uuts_for_filtering $router_data $isa_ipsec_data $pagent_data
-
-[A
-
-[A	#END **** TEST BULLET 2 ****
-
-[A	#*****************************************************************
-
-[A
-
-[A	}[19;8H[41B
-[A
-
-[A	sa_nego {
-
-[A
-
-[A	#*****************************************************************
-
-[A	#BEGIN **** TEST BULLET 3 ****
-
-[A
-
-[59;5Hcfg_uuts_for_SAneg $router_data $isa_ipsec_data $pagent_data
-
-[A
-
-[A	if ![SAnegotiation_test $router_data $pagent_data $isa_ipsec_data] {
-
-[59;12Htest_diag "SA negotiation TEST FAILED"
-
-[59;12Hincr failure_count
-
-[A	} else {
-
-[59;12Htest_diag "SA negotiation TEST PASSED"
-
-[A	}
-
-[Auncfg_uuts_for_SAneg $router_data $isa_ipsec_data $pagent_data
-
-[A
-
-[A	#END **** TEST BULLET 3 ****
-
-[A	#*****************************************************************
-
-[A
-
-[A	}
-
-[A
-
-[A	default {
-
-[A	test_diag " Test case TYPE: $Type not supported. Check the suitefile"
-
-[59;7Htest_result 0
-
-[A	}
-
-[A}
-
-[A}
-
-[A
-
-[59;5Hif {$failure_count > 0} {[20;12H[40B
-[59;5Htest_result 0
-
-[59;5H} else {test_result 1}
-
-[A
-
-[A}
-
-[A
-
-[Atest_unconfig {
-
-[A
-
-[59;5H#---------------------------------------------------------
-
-[59;5H#clear PAGENT router's packet streams and other configs
-
-[59;5H#---------------------------------------------------------
-
-[A
-
-[59;5Hunconfigure_pagents $pagent_data $mask
-
-[59;5H[keylget pagent_data $PAGEN1.name] exec "count off * match off"
-
-[59;5H[keylget pagent_data $PAGEN1.name] exec "capture off *"
-
-[59;5H[keylget pagent_data $PAGEN1.name] exec "clear *"
-
-[59;5H[keylget pagent_data $PAGEN2.name] exec "count off * match off"
-
-[59;5H[keylget pagent_data $PAGEN2.name] exec "capture off *"
-
-[59;5H[keylget pagent_data $PAGEN2.name] exec "clear *"
-
-[A
-
-[59;5Hset i 1
-
-[59;5Hforeach router [keylkeys router_data] {
-
-[59;5Hset unit_number "UUT$i"
-
-[59;5Hset crypto_peer_addr [keylget router_data $router.peer_cr_ip]
-
-[59;5Hset crypto_int [keylget router_data $router.cr_intname]
-
-[59;5Hif {$i==1} {
-
-[59;7Hset peer $UUT2
-
-[59;7Hset noRoute $noUUT1Route
-
-[59;7Hset nostatic_route "no ip route $DestinationNet $mask $crypto_peer_addr"
-
-[59;5H} else {[20;1H[40B
-[A	set peer $UUT1
-
-[A	set noRoute $noUUT2Route
-
-[A	set nostatic_route "no ip route $SourceNet $mask "
-
-[59;5H}
-
-
-[A#--------------------------------------
-
-[59;5H# unconfig encapsulation
-
-[59;5H#--------------------------------------
-
-
-[59;5Hset string [encaps_new off $encap $unit_number $crypto_peer_addr]
-
-[59;5Hif ![regexp -nocase $fail_string $string] {
-
-[A
-
-[59;5H# Check and see if it is a subinterface...rxuan
-
-[A	if {![regexp -nocase {(s.*)\.([0-9]+)} $crypto_int subintf intf numb]} {
-
-[A	$router config "
-
-[59;11Hinterface [keylget router_data $router.cr_intname]
-
-[59;11H$string
-
-[A	"
-
-[A} else {
-
-[59;5H# it is a subinterface, so need to unconfig both the logical and physical
-
-[59;5H# interfaces... rxuan
-
-[A
-
-[A	 $router config "
-
-[59;14Hinterface $subintf
-
-[59;14Hno frame-relay interface-dlci 100
-
-[59;14Hshutdown
-
-[59;14Hno interface $subintf
-
-[A	 "
-
-[A$router config "[20;1H[40B
-[59;14Hinterface $intf
-
-[59;14Hno ip address
-
-[59;14Hno ip directed-broadcast
-
-[59;14Hno frame-relay lmi-type
-
-[59;14Hencapsulation hdlc
-
-[59;14Hkeepalive
-
-[59;14Hshutdown
-
-[A	 "
-
-[A
-
-[59;5H}
-
-[A} else {
-
-[A	test_diag "Unknown Encaspultaion method for UUT: $router"
-
-[A	test_result 0
-
-[A	return 0
-
-[59;5H}
-
-
-[Aset intname [keylget router_data $router.cr_intname]
-
-
-[59;5Hif [regexp -nocase bri $intname] {
-
-[A	$router config "
-
-[59;11Hinterface [keylget router_data $router.cr_intname]
-
-[59;11Hno dialer idle-timeout 5000
-
-[59;11Hno dialer-group 1
-
-[59;11Hno dialer map ip $crypto_peer_addr $number($i)
-
-[59;11Hno isdn switch-type basic-5ess
-
-[59;11Hno dialer-list 1 protocol ip permit
-
-[59;5H"
-
-[A}
-
-[20;8H[40B
-[A$router config "
-
-[A	!
-
-[59;5Hno ip host $peer $crypto_peer_addr
-
-[A	interface [keylget router_data $router.intname1]
-
-[A	shutdown
-
-[A	no ip address
-
-[59;5Hno ip route-cache
-
-[59;5Hno ip route-cache cef
-
-[59;5Hno ip route-cache flow
-
-[A	!
-
-[Ainterface [keylget router_data $router.intname2]
-
-[A	shutdown
-
-[A	no ip address
-
-[59;5Hno ip route-cache
-
-[59;5Hno ip route-cache cef
-
-[59;5Hno ip route-cache flow
-
-[A	!
-
-[A$noRoute
-
-[A	$nostatic_route
-
-[59;5Hno crypto isakmp key $PreShareKey address $crypto_peer_addr
-
-[59;5H"
-
-[Aincr i
-
-[A}
-
-[A}
-
-[A
-
-[A# ;;; Local Variables: ***
-
-[A# ;;; mode: tcl ***
-
-[A# ;;; End: ***[21;5H[29B	[9B[H[1L		no interface $subintf[H[1L		shutdown[H[1L		no frame-relay interface-dlci 100[H[1L		interface $subintf[H[1L	 $router config "[H[1L[1L    # interfaces... rxuan[H[1L    # it is a subinterface, so need to unconfig both the logical and physical[H[1L	} else {[H[1L	"[H[1L	  $string[H[1L	  interface [keylget router_data $router.cr_intname][H[1L	$router config "[H[1L	if {![regexp -nocase {(s.*)\.([0-9]+)} $crypto_int subintf intf numb]} {[H[1L    # Check and see if it is a subinterface...rxuan[H[1L[1L    if ![regexp -nocase $fail_string $string] {[H[1L    set string [encaps_new off $encap $unit_number $crypto_peer_addr][H[1L[1L    #--------------------------------------[H[1L    # unconfig encapsulation[H[1L    #--------------------------------------[H[1L[1L    }[H[1L	set nostatic_route "no ip route $SourceNet $mask "[H[1L	set noRoute $noUUT2Route[H[1L	set peer $UUT1[H[1L    } else {[H[1L	set nostatic_route "no ip route $DestinationNet $mask $crypto_peer_addr"[59;5H[H[1L	set noRoute $noUUT1Route[H[1L	set peer $UUT2[H[1L    if {$i==1} {[H[1L    set crypto_int [keylget router_data $router.cr_intname][H[1L    set crypto_peer_addr [keylget router_data $router.peer_cr_ip][H[1L    set unit_number "UUT$i"[H[1L    foreach router [keylkeys router_data] {[H[1L    set i 1[H[1L[1L    [keylget pagent_data $PAGEN2.name] exec "clear *"[H[1L    [keylget pagent_data $PAGEN2.name] exec "capture off *"[H[1L    [keylget pagent_data $PAGEN2.name] exec "count off * match off"[H[1L    [keylget pagent_data $PAGEN1.name] exec "clear *"[H[1L    [keylget pagent_data $PAGEN1.name] exec "capture off *"[H[1L    [keylget pagent_data $PAGEN1.name] exec "count off * match off"[H[1L    unconfigure_pagents $pagent_data $mask[H[1L[1L    #---------------------------------------------------------[H[1L    #clear PAGENT router's packet streams and other configs[H[1L    #---------------------------------------------------------[H[1L[1Ltest_unconfig {[H[1L[1L}[H[1L[1L    } else {test_result 1}[H[1L    test_result 0[H[1L    if {$failure_count > 0} {[H[1L[59B[K[A	 [H[1L    }[H[1L	}[H[1L	}[H[1L	test_result 0[H[1L	test_diag " Test case TYPE: $Type not supported. Check the suitefile"[H[1L	default {[H[1L[1L	}[H[1L[1L	#*****************************************************************[H[1L	#END **** TEST BULLET 3 ****[H[1L[1L	uncfg_uuts_for_SAneg $router_data $isa_ipsec_data $pagent_data[H[1L	}[H[1L	   test_diag "SA negotiation TEST PASSED"[H[1L	} else {[H[1L	   incr failure_count[H[1L	   test_diag "SA negotiation TEST FAILED"[H[1L	if ![SAnegotiation_test $router_data $pagent_data $isa_ipsec_data] {[H[1L[1L    cfg_uuts_for_SAneg $router_data $isa_ipsec_data $pagent_data[H[1L[1L	#BEGIN **** TEST BULLET 3 ****[H[1L	#*****************************************************************[H[1L[1L	sa_nego {[H[1L[1L	}[H[1L[59B[K[A	[H[1L	#*****************************************************************[H[1L	#END **** TEST BULLET 2 ****[H[1L[1L	uncfg_uuts_for_filtering $router_data $isa_ipsec_data $pagent_data[H[1L[1L	}[H[1L	   test_diag "CRYPTO MAP ACL FILTERING TEST PASSED"[H[1L	} else {[H[1L	   incr failure_count[H[1L	   test_diag "CRYPTO MAP ACL FILTERING TEST FAILED"[H[2L	if ![crmap_acl_filtering_test $router_data $pagent_data $isa_ipsec_data]
- {[H[1L[1L    cfg_uuts_for_filtering $router_data $isa_ipsec_data $pagent_data[H[1L[1L	#BEGIN **** TEST BULLET 2 ****[H[1L    #*****************************************************************[H[1L[1L	cmapacl_filter {[H[1L[1L	}[H[1L	#*****************************************************************[H[1L	#END **** TEST BULLET 1 ****[H[1L[1L    uncfg_uuts_for_eacl $router_data $isa_ipsec_data $pagent_data[H[1L[1L    }[H[1L	test_diag "EMPTY CR MAP ACL TEST PASSED"[H[1L    } else {[H[1L	incr failure_count[59;5H[H[1L	test_diag "EMPTY CR MAP ACL TEST FAILED"[H[1L    if ![empty_crmap_acl_test $router_data $pagent_data] {[H[1L[1L    cfg_uuts_for_eacl $router_data $isa_ipsec_data $pagent_data[H[1L[1L	#BEGIN **** TEST BULLET 1 ****[H[1L    #*****************************************************************[H[1L[1L	cmapacl_empty {[H[1L[1L	switch $Type {[H[1L    foreach Type $test_list {[H[1L    set failure_count 0[H[1L[1L    }[H[1L    set test_list "$TestType"[H[1L    } else {[H[1L    set test_list " cmapacl_empty cmapacl_filter sa_nego"[H[1L    if [regexp -nocase "all" $TestType] {[H[1L    set test_case_failures 0[H[1L[1L    #---------------------------------------------------------[H[1L    # SEt the variable to do the requested tests as per suite[H[1L    #---------------------------------------------------------[H[1L[1L#    }[H[1L#	}[H[1L#	  return 0[H[1L#	  test_result 0[59;9H[H[1L#	  test_diag "Unable to init ESA for $UUT"[H[1L#	[keylget router_data $UUT.slot]] {[H[1L    #  if ![InitESA $UUT [keylget router_data $UUT.testtype] \[H[1L[1L    #foreach UUT "$UUT1 $UUT2" {[H[1L[1L    #-----------------------------------------------[H[1L    #initialize the ESA card if needed[H[1L    #-----------------------------------------------[H[1L[1L    test_diag " pagent and router connection is OK before crypto maps"[H[1L    }[H[1L	return 0[H[1L	test_result 0[H[1L	test_diag " PAGENTs failed to send/receive before CRYPTO"[H[1L    if ![test_pagent_pagent_flow $pagent_data $NumbTrafficStr] {[H[1L    }[H[1L	[keylget pagent_data $PAGEN2.name] exec "replay $TestPacket2$k repeat 5"[H[1L	[keylget pagent_data $PAGEN1.name] exec "replay $TestPacket1$k repeat 5"[H[1L    for {set k 1} {$k <= $NumbTrafficStr} {incr k} {[H[1L    # To update the ARP tables[H[1L[2L    test_diag "testing pagent and router connection before configuring crypto ma
-ps"[H[1L[1L    #---------------------------------------------------------[H[1L    # Test the PAGENT connection before switching on CRYPTO[H[1L    #---------------------------------------------------------[H[1L[1L    }[60;1H[K[A	[H[1L	return 0[H[1L	test_diag "Failed to COnfigure TEST PACKET on PAGENTS"[H[1L    if ![build_multiple_packs $pagent_data $pak_data ] {[H[1L    #--------------------------------------------------------------[H[1L    #[H[1L    #		validate paks -	 validateP11, validateP12, validateP13[H[1L    # ON PAGEN2: test packets - P21, P22, P23[H[1L    #[H[1L    #		 validate paks - validateP21, validateP22, validateP23[H[1L    # ON PAGEN1:  test packets - P11, P12, P13[H[1L    #[H[1L    # then[H[1L    # each pagent will depend on the suite file. Say we are build ing 3 streams[H[1L    # Build packets on PAGENT routers. Number of packets configured on[H[1L    #--------------------------------------------------------------[H[1L[1L    }[H[1L	return 0[H[1L	test_result 0[H[1L	test_diag "$UUT1 cannot reach UUT2:$Addr2 : $sping_out"[H[1L    if { $sping_out != 0 } {[H[1L    set sping_out [StarterPing $UUT1 ip $Addr2 $ping_pak_size][H[1L    #-----------------------------------------------------------[H[1L    # ping.[H[1L    # Make sure the interfaces used to do crypto are able to[H[1L    #-----------------------------------------------------------[H[1L[1L    }[H[1L    incr i[60;1H[K[A[H[1L    }[H[1L	    return 0[H[1L	    test_result 0[H[1L	test_diag "No route to net [lindex $networks $i] on $UUT"[H[1L    if ![ippathup? $UUT [lindex $networks $i]] {[H[1L    foreach UUT "$UUT1 $UUT2" {[H[1L    set i 0[H[1L    set networks "$DestinationNet $SourceNet"[H[1L[1L    #-----------------------------------------------[H[1L    # make sure the routing entries come up[H[1L    #-----------------------------------------------[H[1L[1L[1L    }[H[1L	}[H[1L		return 0[H[1L		test_result 0[H[2L		test_diag "[keylget pagent_data $pgt.name]:$interface won't come
- up"[H[1L    if ![ifup? [keylget pagent_data $pgt.name] $interface] {[H[1L    set interface [keylget pagent_data $pgt.intname][H[1L    foreach pgt $pgts {[H[1L    set pgts " $PAGEN1 $PAGEN2"[H[1L    #-----------------------------------------------[H[1L    # make sure pagent interfaces come up[H[1L    #-----------------------------------------------[H[1L[1L    }[H[1L[59B[K[A	[H[1L    }[H[1L	}[H[1L	return 0[H[1L	test_result 0[H[1L	test_diag "$UUT:$interface won't come up"[H[1L	if ![ifup? $UUT $interface] {[H[1L    foreach interface $interfaces {[H[2L    set interfaces "[keylget router_data $UUT.intname1] [keylget router_data $UU
-T.intname2]"[H[1L    foreach UUT "$UUT1 $UUT2" {[H[1L[1L    #-----------------------------------------------[H[1L    # make sure all of the interfaces on UUTs come up[H[1L    #-----------------------------------------------[H[1L[1Ltest_analyze {[H[1L[1L######################## TEST ANALYSE SECTION #######################[H[1L[1L}[H[1L[1L configure_pagents $pagent_data $mask[H[1L #---------------------------------------[H[1L # Config PAGENT router's Interfaces[H[1L #---------------------------------------[H[1L[1L }[H[1L[1L   incr i[H[1L[59B[K[59;13H[H[1L    }[H[1L	return 0[H[1L	test_result 0[H[1L	test_diag "Unknown Encaspultaion method for UUT: $router"[H[1L    } else {[H[1L	}[H[1L	"[H[1L	  $string[H[1L	  interface $crypto_int[H[1L	$router config "[H[1L	if {![regexp -nocase {(s.*)\.([0-9]+)} $crypto_int subintf intf numb]} {[H[1L[1L    # "interface_spec_configs".....rxuan[H[1L    # because it is already done inside the function call[H[1L    # Check and see if it is a subinterface. If so, don't need to config here[H[1L[1L    if ![regexp -nocase $fail_string $string] {[H[1L    set string [encaps_new on $encap $unit_number $crypto_peer_addr][H[1L[1L    #-----------------------------------------------------------------[H[1L    # configure encapsulation on crypto interfaces[H[1L    #-----------------------------------------------------------------[H[1L[1L    }[H[1L	 interface_spec_configs $router $crypto_int[H[1L	} else {[H[2L		interface_spec_configs $router $crypto_int 0 $crypto_peer_addr $num
-ber($i)[H[1L    } elseif [regexp -nocase "bri" $crypto_int ] {[H[1L	interface_spec_configs $router $crypto_int $CLKRATE[60;1H[K[A	[H[1L    if [regexp -nocase "serial" $crypto_int ] {[H[1L[1L    interface_spec_configs $router $non_crypto_int[H[1L    #--------------------------------------------------[H[1L    # Now configure interface specific commands[H[1L    #--------------------------------------------------[H[1L[1L    }[H[1L	GetMode $router [lindex $uut_ints $il] [lindex $switch_types $il][H[1L    for {set il 0} {$il <2} {incr il} {[H[1L    list $switch_types[H[1L    list $uut_ints[H[1L    set switch_types "$switch1 $switch2"[H[2L    set uut_ints "[keylget router_data $router.intname1] [keylget router_data $r
-outer.intname2]"[H[1L[1L    #--------------------------------------------------[H[1L    # Now configure switching[H[1L    #--------------------------------------------------[H[1L    "[H[1L    $static_route[H[1L    $Route[H[1L	![H[1L	no shutdown[H[1L	ip address $int2_addr $mask[H[1L	interface [keylget router_data $router.intname2][H[1L	![H[1L	no shutdown[H[1L	ip address $int1_addr $mask[H[1L	interface [keylget router_data $router.intname1][60;1H[K[A	[H[1L    ![H[1L	ip routing[H[1L	![H[1L    $router config "[H[1L[1L    $router exec "term width 0 "[H[1L    $router exec "clear crypto isa"[H[1L    $router exec "clear crypto sa"[H[1L    #------------------------------------------------------[H[1L    # before starting any testing[H[1L    #	- Clear all crypto SAs[H[1L    #	- Flush the ISAKMP database and[H[1L    # As a sanity, Make sure you[H[1L    #------------------------------------------------------[H[1L[1L    }[H[1L	set static_route "ip route $SourceNet $mask $crypto_peer_addr"[H[1L	set Route $UUT2Route[H[1L    set non_crypto_int [keylget router_data $router.intname2][H[1L    } else {[H[1L	set static_route "ip route $DestinationNet $mask $crypto_peer_addr"[H[1L	set Route $UUT1Route[H[1L	set non_crypto_int [keylget router_data $router.intname1][H[1L    if {$i==1} {[H[1L    set crypto_int [keylget router_data $router.cr_intname][H[1L    set crypto_peer_addr [keylget router_data $router.peer_cr_ip][H[1L    set switch2 [keylget router_data $router.switchtype2][H[1L    set switch1 [keylget router_data $router.switchtype1][H[1L    set int2_addr [keylget router_data $router.ip2][60;1H[K[58;4H[H[1L    set int1_addr [keylget router_data $router.ip1][H[1L    set number($i) [lvarpop numbers][H[1L    set unit_number "UUT$i"[H[1L foreach router [keylkeys router_data] {[H[1L # Config UUTs[H[1L[1L set i 1[H[1L set encap [keylget pak_data $pak.encap][H[1L set pak [keylkeys pak_data][H[1L set isa [keylkeys isa_ipsec_data][H[1L[1Ltest_config {[H[1L[1L########################## CONFIG SECTION ############################[H[1L[1Lset noUUT2Route [lindex $UUT2_route_info 1][H[1Lset UUT2Route [lindex $UUT2_route_info 0][H[1Lset noUUT1Route [lindex $UUT1_route_info 1][H[1Lset UUT1Route [lindex $UUT1_route_info 0][H[1L[2Lset UUT2_route_info [config_routing $Routing  $CommonNet $DestinationNet $Addr1[H
-2][H[1Lset UUT1_route_info [config_routing $Routing  $CommonNet $SourceNet $Addr2 1][H[1L#------------------------------------------[H[1L# Configure Routing[H[1L#------------------------------------------[H[1L[1L}[H[1L	}[H[1L		return 0[60;1H[K[2A	[H[1L		test_result 2[H[1L		test_diag " INCORRECT TESTCASE: Please check the suiteline"[H[1L	default {[H[1L[1L	}[H[1L	all {[H[1L	sa_nego -[H[1L	cmapacl_filter -[H[1L	cmapacl_empty -[H[1L[1L switch $TestType {[H[1L#---------------------------------------------------------[H[1L# Check if correct sub-test/test is specified in the suite[H[1L#---------------------------------------------------------[H[1L[1L}[H[1L	return 0[H[1L	test_result 2[H[1L		[keylget pagent_data $PAGEN1.name] to have pagent images"[H[1L	test_diag " TEST expects routers: [keylget pagent_data $PAGEN1.name] \[H[1L	![pagent_check [keylget pagent_data $PAGEN1.name]] } {[H[1Lif {![pagent_check [keylget pagent_data $PAGEN1.name]] || \[H[1L#-----------------------------------------------[H[1L# Check if pagent routers have pagent images[H[1L#-----------------------------------------------[H[1L[1L}[H[1L  }[H[1L	}[60;1H[K[58;5H[H[1L	    test_result 2[H[2L	    test_diag " Image version on $UUT does not support CEF switching. Ab
-ort"[H[1L	if ![cef_version_check $UUT] {[H[1L	[regexp -nocase "cef" $switch_type2]} {[H[1L  if {[regexp -nocase "cef" $switch_type1] || \[H[1L  set switch_type2 [keylget router_data $UUT.switchtype2][H[1L  set switch_type1 [keylget router_data $UUT.switchtype1][H[1Lforeach UUT "$UUT1 $UUT2" {[H[1L# those routers in atleast 12.0[H[1L# If CEF related testcase, make sure the IOS version on[H[1L[1L}[H[1L  #echo " End ******* PRINTING TEST RUN DATA ***************************"[H[1L  #key_printlist $testrun_data[H[1L  #echo " Begin ***** PRINTING TEST RUN DATA ***************************"[H[1L[1L  }[H[1L	return 0[H[1L	test_result 2[H[1L	test_diag " SUITEFILE and hence will be skipped"[H[1L	test_diag " This IKE/IPSEC combination is already tested for this "[H[1L		[keylget isa_ipsec_data $ISA.transform]] {[H[2L  if ![run_testcase $IMAGETYPE $PLATFORM $ipsec_int [keylget isa_ipsec_data $ISA
-.encr] \[H[1L  set ipsec_int [keylget router_data $UUT1.intname2][H[1L  # interface doing ipsec[H[1L[1L  }[H[1L	return 0[H[1L	test_result 2[60;1H[K[A		[H[1L	test_diag " FAILED to get PLATFORM info from $UUT1 and $UUT2"[H[1L  if {$PLATFORM == 0 } {[H[1L  set PLATFORM [get_platfrom_info $uuts][H[1L  set uuts "$UUT1 $UUT2"[H[1L  #----------------------------------------------------------------[H[1L  # skip the testcase else run the testcase[H[1L  #(ie IKe/IPSEC parameter combination) has run before. If so[H[1L  # Get platform information and the ndecide if this testcase[H[1L  #----------------------------------------------------------------[H[1L[1L} else {[H[1Lif [generic_testcase $router_data $pak_data $isa_ipsec_data] {[H[1L[1L#----------------------------------------------------------------[H[1L# if the IKe/IPSEC combination has been executed earlier[H[1L# If the testcase is for one of the above then skip checking[H[1L# - CEF/FLOW SWITCHING[H[1L# - FAST SWITCHING[H[1L# -  IKE MD5 Algorithm[H[1L# -  SERIAL ENCAPSULATIONS[H[1L# Now check ifthe testcase if for  testing[H[1L#----------------------------------------------------------------[H[1L[1L			IPSEC TRANSF:[keylget isa_ipsec_data $ISA.transform] "[H[1Ltest_diag " IKE ENCR: [keylget isa_ipsec_data $ISA.encr]   \[H[1L[1L}[H[1L	key_printlist $isa_ipsec_data[H[1L[59B[K[58;13H[H[1L	keylset isa_ipsec_data $ISA.transform $ipsec_tr[H[1L	}[H[1L	   set ipsec_tr [lreplace $ipsec_tr $index $index esp-des][H[1L	if {[set index [lsearch $ipsec_tr esp-3des]] != -1} {[H[1L	set ipsec_tr [keylget isa_ipsec_data $ISA.transform][H[1L	keylset isa_ipsec_data $ISA.encr des[H[1L	set IMAGETYPE "des"[H[2L	test_diag " If 3DES testcase, MAke sure its converted to DES case and ru
-n"[H[2L	test_diag " IMAGE can do ONLY DES. Make sure DES testcases are being run
-"[H[1L} else {[H[1L[1L	set IMAGETYPE "3des"[H[1L	test_diag " IMAGE can do 3DES. Make sure 3DES testcases are being run"[H[1L} elseif {($uut1_ver == 2)  && ($uut2_ver == 2)} {[H[1L	return 0[H[1L	test_result 2[H[1L	test_diag " IMage on UUT1 or/and UUT2 does not support IPSEC"[H[1Lif {($uut1_ver == 0)  || ($uut2_ver == 0)} {[H[1L[1Lset uut2_ver [which_image $UUT2][H[1Lset uut1_ver [which_image $UUT1][H[1Lset uut1_ver 0; set uut2_ver 0[H[1L[1L#----------------------------------------------------------------[H[1L# Deciding either DES or 3DES images under test[H[1L#----------------------------------------------------------------[H[1L[1L    echo $TestType[H[1L    echo $Routing[60;1H[K[A  [H[1L    key_printlist $isa_ipsec_data[H[1L    key_printlist $pak_data[H[1L    key_printlist $pagent_data[H[1L    key_printlist $router_data[H[1L[1L#---------- debug keylists -------------------[H[1L[1L[1L[1L set TestType [lvarpop testcase][H[1L[1L#----------------------------------------------------------------[H[1L# Parse type of testing[H[1L#----------------------------------------------------------------[H[1L[1L}[H[1L    set CLKRATE [lvarpop rate ][H[1Lif [regexp -nocase "serial" [keylget router_data $UUT1.intname2]] {[H[1L[1L set Routing [lvarpop routing ][H[1L[1L#----------------------------------------------------------------[H[1L# Parse the routing argument[H[1L#----------------------------------------------------------------[H[1L[1L}[H[1L    keylset isa_ipsec_data $ISA.mode [lvarpop line][H[1L    keylset isa_ipsec_data $ISA.transform [lvarpop line][H[1L    keylset isa_ipsec_data $ISA.hash [lvarpop line][60;1H[K[A	[H[1L    keylset isa_ipsec_data $ISA.encr [lvarpop line][H[1L    keylset isa_ipsec_data $ISA.auth [lvarpop line][H[1L    keylset isa_ipsec_data $ISA.id [lvarpop line][H[1Lforeach line $isa_ipsec_info {[H[1Lset ISA isa_ipsec[H[1L#----------------------------------------------------------------[H[1L# isa_ipsec_data[H[1L# Build a keylist for ISAKMP/IPSEC policy/trasfom info with name[H[1L#----------------------------------------------------------------[H[1L[1L   keylset pagent_data $pagen_rtr.ip3 $DestinationIPAddress[H[1L   keylset pagent_data $pagen_rtr.ip2 $DestinationIPAddress[H[1L   set pagen_rtr [lindex [keylkeys pagent_data] 1][H[1L   }[H[1L    incr host[H[1L	keylset pagent_data $pagen_rtr.ip$i [GetIP $src_net $host][H[1L   for {set i 2} {$i <= $NumbTrafficStr} {incr i} {[H[1L   set host 3[H[1L   set pagen_rtr [lindex [keylkeys pagent_data] 0][H[1L   set src_net $SourceNet[H[1L[1L set NumbTrafficStr [llength [keylget pak_data $PAK.type]][H[1L list [keylget pak_data $PAK.type][H[1L#----------------------------------------------------------------[H[1L#	stream3 : src-ip: 13.0.0.2 dest_ip: 12.0.0.4[H[1L#	stream2 : src-ip: 13.0.0.2 dest_ip: 12.0.0.3[H[1L#	stream1 : src-ip: 13.0.0.2 dest_ip: 12.0.0.2[H[1L# PAGENT2[H[1L#[60;1H[K[57;5H[H[1L#	stream3 : src-ip: 12.0.0.4 dest_ip: 13.0.0.4[H[1L#	stream2 : src-ip: 12.0.0.3 dest_ip: 13.0.0.3[H[1L#	stream1 : src-ip: 12.0.0.2 dest_ip: 13.0.0.2[H[1L# PAGENT1[H[1L# is asking for 3 traffic strems then we will generate the following[H[1L# is the stating addr on Pagent1 and 13.0.0.2 on pagent2. say the suite[H[1L# Adding ip addresses for all the traffic streams. ip addr. 12.0.0.2[H[1L# Now add more fileds to Pagent keyed list "pagent_data"[H[1L#----------------------------------------------------------------[H[1L[1Lset PACKET_INTERVAL [expr 1000000000/[keylget pak_data $PAK.rate]][H[1L[1L	[create_hex_str [keylget pak_data $PAK.size]][H[1Lkeylset pak_data $PAK.data \[H[1L# generate a random HEX string of length specified in suite[H[1L[1L}[H[1L[1L	keylset pak_data $PAK.encap [lvarpop line][H[1L	keylset pak_data $PAK.rate [lvarpop line][H[1L	keylset pak_data $PAK.size [lvarpop line][H[1L	keylset pak_data $PAK.type [lvarpop line][H[1Lforeach line $pc_pak_info {[H[1Lset PAK "pak"[H[1L[1L#----------------------------------------------------------------[H[1L# Build a keylist for PC PACKET info with name "pak_data"[H[1L#----------------------------------------------------------------[H[1L[59B[K[57;5H[H[1L[1L keylset pagent_data $PAGEN2.nexthopmac [getaddr $UUT2 $int2 mac][H[1L keylset pagent_data $PAGEN2.ip1  $DestinationIPAddress[H[1L keylset pagent_data $PAGEN1.nexthopmac [getaddr $UUT1 $int1 mac][H[1L keylset pagent_data $PAGEN1.ip1 $SourceIPAddress[H[1L #Fill in some more values for the pagent keyed list[H[1L set int2 [keylget router_data $UUT2.intname2][H[1L set int1 [keylget router_data $UUT1.intname1][H[1L[1L }[H[1L	incr index[H[1L	set PAGEN$index $router[H[1L foreach router [keylkeys pagent_data] {[H[1L set index 1[H[1L catch { unset PAGEN1 PAGEN2}[H[1L[1L}[H[1L    incr i[H[1L    keylset pagent_data $P.intname [lvarpop p_line][H[1L	keylset pagent_data $P.name [lvarpop p_line][H[1L    set P pagent$i[H[1Lforeach p_line $pagent_info {[H[1Lset i 1[H[1L[1L#----------------------------------------------------------------[H[1L# Build a keylist for PC info with name pc_data[H[1L#----------------------------------------------------------------[H[1L[1L keylset router_data $UUT2.cr_intname [keylget router_data $UUT2.intname1][60;1H[K[3A[H[1L keylset router_data $UUT2.peer_cr_ip $Addr1[H[1L keylset router_data $UUT2.ip2 $UUT2Int2IPAddress[H[1L keylset router_data $UUT2.ip1 $Addr2[H[1L keylset router_data $UUT2.peer $UUT1[H[1L keylset router_data $UUT1.cr_intname [keylget router_data $UUT1.intname2][H[1L keylset router_data $UUT1.peer_cr_ip $Addr2[H[1L keylset router_data $UUT1.ip2 $Addr1[H[1L keylset router_data $UUT1.ip1 $UUT1Int1IPAddress[H[1L keylset router_data $UUT1.peer $UUT2[H[1L #Fill in some more values for therouters keyed list[H[1L[1L }[H[1L    incr index[H[1L    set UUT$index $router[H[1L foreach router [keylkeys router_data] {[H[1L set index 1[H[1L catch { unset UUT1 UUT2}[H[1L[1L}[H[1L[1L	#keylset router_data $router.encap [lvarpop routerline][H[1L	keylset router_data $router.switchtype2 [lvarpop routerline][H[1L	keylset router_data $router.intname2 [lvarpop routerline][H[1L	keylset router_data $router.switchtype1 [lvarpop routerline][H[1L	keylset router_data $router.intname1 [lvarpop routerline][H[1L	keylset router_data $router.testtype [lvarpop routerline][H[1L	keylset router_data $router.slot [lvarpop routerline][H[1L[1L    set router [lvarpop routerline][60;1H[K[3A [H[1L[1Lforeach routerline $router_info {[H[1L[1Lset OspfRouteMask 0.255.255.255[H[1Lset UUT2Int2IPAddress [addr $DestinationNet 1][H[1Lset UUT1Int1IPAddress [addr $SourceNet 1][H[1Lset mask 255.0.0.0[H[1Lset Addr2 [addr $CommonNet 2][H[1Lset Addr1 [addr $CommonNet 1][H[1Lset DestinationIPAddress [addr $DestinationNet 2][H[1Lset SourceIPAddress [addr $SourceNet 2][H[1L[1L}[H[1Lset DestinationNet [lvarpop line][H[1Lset CommonNet [lvarpop line][H[1Lset SourceNet [lvarpop line][H[1Lforeach line $subnet_info {[H[1L#----------------------------------------------------------------[H[1L# set IP addresses used on pagents and UUTs[H[1L#----------------------------------------------------------------[H[1L[1Lcatch { unset router_data pc_data pak_data isa_ipsec_data rate TestType}[H[1L[1L#------------------------------------------------------------------[H[1L# Build a keylist for routers information with name "router_data"[H[1L#------------------------------------------------------------------[H[1L#[H[1L#[H[1L#ospf[57;2H[H[1L#[H[1L#    mode	   tunnel[H[1L#    transform	  esp-des ah-sha-hmac[H[1L#    hash	   md5[H[1L#    encr	   des[H[1L#    auth	   pre-share[H[1L#    id		   address[H[1L#isa_ipsec[H[1L#[H[1L#    data	876543210fedcba9876543210fedcba9876543210fedcba[H[1L#    encap	   noencap[H[1L#    rate	   2000[H[1L#    size	   100[H[1L#    type	   tcp udp udp[H[1L#pak[H[1L#[H[1L#    ip3	    13.0.0.2[H[1L#    ip2	    13.0.0.2[H[1L#    nexthopmac	   0000.0c1b.0a7a[H[1L#    ip1	    13.0.0.2[H[1L#    intname	   ethernet3/0[H[1L#    name	   dt3-72a[H[1L#pagent2[H[1L#    ip3	    12.0.0.4[H[1L#    ip2	    12.0.0.3[H[1L#    nexthopmac	   0060.70ca.3020[H[1L#    ip1	    12.0.0.2[H[1L#    intname	   ethernet1/0[H[1L#    name	   dt3-75b[57;1H[H[1L#pagent1[H[1L#[H[1L#    cr_intname	   TokenRing0[H[1L#    peer_cr_ip	   11.0.0.1[H[1L#    ip2	   13.0.0.1[H[1L#    ip1	   11.0.0.2[H[1L#    peer	   dt3-4kb[H[1L#    switchtype2   fast[H[1L#    intname2	   Ethernet1[H[1L#    switchtype1   fast[H[1L#    intname1	   TokenRing0[H[1L#    testtype	   45sw[H[1L#    slot	   0[H[1L#dt3-45a[H[1L#[H[1L#    cr_intname	   TokenRing0[H[1L#    peer_cr_ip	   11.0.0.2[H[1L#    ip2	   11.0.0.1[H[1L#    ip1	   12.0.0.1[H[1L#    peer	   dt3-45a[H[1L#    switchtype2   fast[H[1L#    intname2	   TokenRing0[H[1L#    switchtype1   fast[H[1L#    intname1	   Ethernet1[H[1L#    testtype	   4ksw[H[1L#    slot	   0[H[1L#dt3-4kb[H[1L#[H[1L# Example of keyed lists created[60;1H[K[3A[H[1L#[H[1L# lists command library.[H[1L# The argument list is put in a structured format and accessed with the keyed[H[1L[1L###########################################################################[H[1L# Build the script data structure[H[1L###########################################################################[H[1L[1L####################################################[H[1L[1Lset TestPacket2 P2[H[1Lset TestPacket1 P1[H[1Lset RepeatCount 50[H[1L#Pagent Packet related[H[1L[1Lset ping_pak_size 100[H[1L#Ping packet size[H[1L[1Lset IpsecSATimeout 120[H[1L# Ipsec SA timeout[H[1L[1Lset PolicyTimeout 500[H[1L# ISAKMP Policy timeout[H[1L[1Lset PreShareKey 12abcjhrweit345[H[1L#Pre shared key value[H[1L[1Lset fail_string "111"[H[1L# used by encap_new proc[60;1H[K[3A[H[1L[1Lset Testtag testtag[H[1L#crypto map name[H[1L[1L#set OspfRouteMask 0.255.255.255[H[1L#set UUT2Int2IPAddress 13.0.0.1[H[1L#set UUT1Int1IPAddress 12.0.0.1[H[1L#set mask 255.0.0.0[H[1L#set DestinationNet 13.0.0.0[H[1L#set SourceNet 12.0.0.0[H[1L#set CommonNet 16.0.0.0[H[1L#set Addr2 16.0.0.2[H[1L#set Addr1 16.0.0.1[H[1L#set DestinationIPAddress 13.0.0.2[H[1L#set SourceIPAddress 12.0.0.2[H[1L# Network IP addresses[H[1L############## variables######################[H[1L[1Lglobal testrun_data[H[1L#Keyed list to store info onthe testcases tested[H[1L[1Lset IMAGETYPE 0[H[1Lglobal IMAGETYPE[H[1L# To indiacate des/3des images on the uuts[H[1L[1Lglobal CLKRATE[H[1L#serial interface clock rate[H[1L[1Lglobal DestinationNet[60;1H[K[3A[H[1Lglobal SourceNet[H[1L#pagent networks[H[1L[1Lglobal MatchedTransform[H[1L#bet UUTs[H[1L# Used to store the name of the common ipsec transform[H[1Lglobal IpsecSATimeout[H[1L#IPSEc SA timeout[H[1Lglobal PreShareKey[H[1L#IKE authentication key[H[1Lglobal Testtag[H[1L# crypto map name[H[1Lglobal PACKET_INTERVAL[H[1L#interval to replay packets[H[1Lglobal TestPacket2[H[1L# name of the test packet created on PAGENT2[H[1Lglobal TestPacket1[H[1L# name of the test packet created on PAGENT1[H[1Lglobal RepeatCount[H[1L#1000 packets are sent over ipsec tunnel/conection[H[1L[1L############## global variables######################[H[1L[1L		} $argv[H[1L	 numbers[H[1L	 testcase[H[1L	 rate[H[1L	 routing[H[1L		 isa_ipsec_info[60;1H[K[3A[H[1L		 pc_pak_info[H[1L	 subnet_info[H[1L		 pagent_info[H[1Ltest_parse_args {router_info[H[1L[1Ltest_params $argv[H[1L[1L###########################################################################[H[1L# Set up test parameters.[H[1L###########################################################################[H[1L[1Ltest_name [shift argv][H[1L[1L# the first argument is the name of the file being executed[H[1L###########################################################################[H[1L#Test Description Parameters[H[1L###########################################################################[H[1L#[H[1L#	 tunnel	    tunnel (datagram encapsulation) mode[H[1L# TransMode :[H[1L#[H[1L#    ...[H[1L#    esp-des esp-sha-hmac ah-sha-hmac[H[1L#	 esp-des esp-sha-hmac[H[1L#	Transform :[H[1L#[H[1L#	 sha  Secure Hash Standard[H[1L#	 md5  Message Digest 5[H[1L#	Hash :[57;1H[H[1L#[H[1L#	Encr : des[H[1L#[H[1L#	 rsa-sig    Rivest-Shamir-Adleman Signature[H[1L#	 rsa-encr   Rivest-Shamir-Adleman Encryption[H[1L#	 pre-share  Pre-Shared Key[H[1L#	auth :[H[1L#	identity mode : address, hostname[H[1L#[H[1L#		    The script will initialize the ESA card according this value
-[H[1L#		    other - Test for software encryption for other platform[H[1L#		    72hw  - Test for 7200 with ESA card[H[1L#		    72sw  - Test fro 7200 software encryption[H[1L#		    viphw - Test for vip with ESA card[H[1L#		    vipsw - Test for vip software encryption[H[1L#	test type : rspsw - Test for rsp software encryption[H[1L#[H[1L#		For all other platform use 0.[H[1L#		else UUT1slot = slot number of the rsp.[H[1L#	   slot#= slot which has the VIP@ card.[H[1L#		For 7500, if crypto interfase is a vip2 interface, then[H[1L#		on the platform and encrypt/decrypt interfaces.[H[1L#	slot : The slot number of intended crypto engine on the box. It depends[H[1L#[H[1L#	encryption, hash, transform, trasmit mode[H[1L# NOTE: More details on FIELDS -slot#, test type, identity mode, authentication[H[1L#[H[1L#[H[1L#    }[60;1H[K[3A	 [H[1L#	{cmapacl_empty cmapacl_filter}[H[1L#    { # TEst feature[H[1L#[H[1L#    }[H[1L#	{ospf}[H[1L#    { # Type of routing used[H[1L#[H[1L#    }[H[1L#	{ address pre-share des md5 {ah-sha-hmac esp-des} tunnel}[H[1L#	<identity mode, authentication, encryption, hash, transform, trasmit mode>
-[H[1L#    { #ISAKMP/IPSEC trasfom/policy details[H[1L#[H[1L#    }[H[1L#	{ {tcp udp tcp} 100 2000 noencap}[H[2L#	< packet type for the streams, packet size, packet transmission rate, enc
-apsulation >[H[1L#    { # Packet details[H[1L#[H[1L#    }[H[1L#	{dt3-72a ethernet3/0}[H[1L#	{dt3-75b ethernet1/0}[H[1L#	< Routername, Interface>[H[1L#    { # List of Pagent routers acting as GENERATOR/RECEIVER[H[1L#[H[1L#    }[H[1L#	    Interface1 does ipsec[H[1L#	  for UUT2, Interface2 is connected to pagent2[H[1L#	    Interface2 does ipsec[H[1L#   NOTE: for UUT1, Interface1 is connected to pagent1[H[1L#	{dt3-45a 0 45sw TokenRing0 fast Ethernet1 fast }[60;1H[K[2A[H[1L#	{ dt3-4kb 0 4ksw  Ethernet1 fast TokenRing0 fast   }[H[1L#	switching method on interface2 >[H[1L#	switching method on interface1, Interface2,[H[1L#	<routername, slot# doing crypto, test type, Interface1,[H[1L#    { # List of routers - UUT1 and UUT2.[H[1L#[H[1L#    1 test-id[H[1L#[H[1L#    functionality/ipsec/dynamic_crypto_map  testname[H[1L#[H[1L#	tunnel}} {{ospf}} {{filtering empty_dacl}}[H[1L#	100 2000 noencap}} {{address pre-share des md5 {esp-des ah-sha-hmac}[H[1L#	fast }} {{dt3-75b ethernet1/0} {dt3-72a ethernet3/0}} {{{ tcp udp tcp}[H[1L#	TokenRing0 fast } {dt3-45a 0 45sw TokenRing0 fast Ethernet1[H[1L#	functionality/ipsec/dynamic_crypto_map 1 {{dt3-4kb 0 4ksw	 Ethernet1 fast[H[1L# Eg:[H[1L#[H[1L#----------------------[H[1L#Sample Suitefile Entry[H[1L[1L[1Llog_user 0[H[1L# to /dev/null instead of stdout.[H[1L# Log the terminal session (to the router consoles)[H[1L[1LEnablePw $enablepw[H[1LTacacsPw $tacacspw[H[1L[1L}[60;1H[K[2A[H[1L    set enablepw lab[H[1Lif {[catch {set enablepw [test_passwd enable]}] == 1 || $enablepw == {}} {[H[1L}[H[1L    set tacacspw {}[H[1Lif {[catch {set tacacspw [test_passwd tacacs]}] == 1} {[H[1L# Extract the tacacs and enable passwords from the config file if defined[H[1L[1Lsource $expect_library/crypto_ip_encaps.exp[H[1Lsource $expect_library/crypto.exp[H[1Lsource $env(AUTOTEST)/regression/tests/functionality/ipsec/ipsec_core.exp[H[1Lsource $env(AUTOTEST)/regression/tests/functionality/ipsec/dcrmap.exp[H[1Lsource $env(AUTOTEST)/regression/tests/functionality/ipsec/ipsec.exp[H[1Lsource $env(AUTOTEST)/regression/tests/bridging/br_pagent_utils.exp[H[1Lsource $expect_library/contrib/pktdecoder.tcl[H[1Lsource $expect_library/contrib/pagentlib.exp[H[1Lsource $expect_library/contrib/pktgen.exp[H[1Lsource $expect_library/contrib/keylib.exp[H[1Lsource $expect_library/more_utilities.exp[H[1Lsource $expect_library/misc_con.exp[H[1Lsource $expect_library/utilities.exp[H[1Lsource $expect_library/test.exp[H[1Lsource $expect_library/control.exp[H[1Lsource $expect_library/csccon.exp[H[1Lsource $expect_library/common.exp[H[1L[1Lglobal expect_library device_attribute table_array argv[H[1L[1L[1L#########################################################################[60;1H[K[3A[H[1L#[H[1L#  4. Unconfigure all the routers[H[1L#	the above listed functionalities.[H[1L#  3. test analyse section test the all or selected items of[H[1L#[H[1L#   P23: 13.0.0.2 --> 12.0.0.4[H[1L#   P22: 13.0.0.2 --> 12.0.0.3[H[1L#   P21: 13.0.0.2 --> 12.0.0.2[H[1L#	on Pagent2:[H[1L#[H[1L#   P13: 12.0.0.4 --> 13.0.0.2[H[1L#   P12: 12.0.0.3 --> 13.0.0.2[H[1L#   P11: 12.0.0.2 --> 13.0.0.2[H[1L#	on Pagent1:[H[1L#	P21, P22 and P23.[H[1L#  2. configure pagent1 for flows P11, P12 and P13 and pagent2 for[H[1L#	and routing[H[1L#  1. Clear IKE/IPSEC SAs. Configure interfaces , switching, encapsulation[H[1L#[H[1L# Test Case Explanation:[H[1L#[H[1L# will be added later)[H[1L# is Ethernet(or can be tokering, Fddi, Serial with HDLC: support for these[H[1L# The physical link between the routers (UUT1 and UUT2) and the PAGENT routers[H[1L# (as of now only Ethernet, Serila,Tokenring and FDDi are tested)[H[1L# The physical link between UUT1 and UUT2 can be either LAN or WAN.[H[1L#[H[1L# --------		-------			 --------		---------[H[1L#| (GEN)  |		|		|			|	 |	    | (REF)   |[57;1H[H[1L#| PAGEN1 |--UUT1Int1|	UUT1 |UUT1Int2--UUT2Int1| UUT2	 |UUT2Int2--| PAGNE2  |[H[1L#|	  |		|		|			|	 |	    |	[6C|[H[1L# --------		-------			 --------		---------[H[1L#[H[1L# Topology:[H[1L#[H[1L#	step3, use "sa_nego"[H[1L#	step2, use "cmapacl_filter"[H[1L#   For step1, use "cmapacl_empty"[H[1L# NOTE: To test all of the above, use keyword "all" in the suite[H[1L#[H[1L#	 suitefile for more info[H[1L#	 got executed and what got aborted. Alos read the explanation in the[H[1L#	 Look at the report file generated by AUTOTEST to se what cases[H[1L#	 converts a 3DES testcase into equivalent DES testcase and executes it.[H[1L#	 and  if images on the UUts can do only DES then it accordingly[H[1L# NOTE1: Script will check if the ipsec image on the UUTs is DES or 3DES[H[1L#[H[1L#	- Outbound neg.:  granularity of ACL entry is used for QM IDs[H[1L#	  is used for policy neg.[H[1L#	- if a flow matches a permit in	 crypto map entry's ACL, that entry[H[1L#	- IKE negotiation should be successfull before IPSEC can proceed[H[1L#	3. SA NEGOTIATION[H[1L#[H[1L#		    dropped and logged[H[1L#		    "PERMIT" traffic - must be ipsec protected else[H[2L#		Inbound behaviour:  "DENY" traffic - unprotected traffic is allo
-wed[H[1L#			corresponding SA[H[1L#		    "PERMIT" traffic is ipsec-protected by the[60;1H[K[2A[H[1L#		Outbound behaviour: "DENY" traffic sent in CLEAR[H[1L#	2. CRYPTO MAP ACL FILTERTING[H[1L#[H[1L#	 associated with a interface aresearched in order)[H[1L#	(This case indirectly tests the fact that crypto map entries[H[1L#[H[1L#	Inbound behaviour:  Both IKe and CLEARTEXT traffic will be dropped[H[1L#	Outbound behaviour: Traffic will be dropped[H[1L#[H[1L#		NON-EXISTANT ACL[H[1L#	1. IF A STATIC CRYPTO MAP ENTRY SPECIFIES EITHER NO ACL, AN EMPTY OR[H[1L#[H[1L#   This script tests the below func. of STATIC crypto maps[H[1L# Description:[H[1L#[H[1L# Testplan: ENG-24147[H[1L#[H[1L# Date: 1/7/99[H[1L#[H[1L#    crypto_ip_encaps.exp (pre-existing lib)[H[1L#    crypto.exp (pre-existing lib)[H[1L#    dcrmap.exp (pre-existing lib)[H[1L#    ipsec.exp (pre-existing lib)[H[1L#    ipsec_core.exp[H[1L# Special Library Files:[H[1L#[H[1L#   This can be run on any version of IPSEC image[H[1L# Test History:[H[1L#[60;1H[K[2A[H[1L#    IOS Development Test - sujana[H[1L# Supporting Group:[H[1L#[H[1L# Author:	Sujana Lattupalli[H[1L# Program:	ipsec_core[H[1L#[H[1L#$Log[H[1L#$Id[H[1L#!$env(AUTOTEST)/local/bin/expect -f[60;1H[K[23A[8;1H[H[59B:q
-[J[?1l>[vineet-u5:/auto/vwsdsd/sisu-reg/ats/regression/tests/functionality/ipsec][5C  % cd ../iosfw
-]0;/auto/vwsdsd/sisu-reg/ats/regression/tests/functionality/iosfw[vineet-u5:/auto/vwsdsd/sisu-reg/ats/regression/tests/functionality/iosfw][5C  % cd ../iosfw2
-]0;/auto/vwsdsd/sisu-reg/ats/regression/tests/functionality/iosfw2[vineet-u5:/auto/vwsdsd/sisu-reg/ats/regression/tests/functionality/iosfw2]      % ls
-CVS/               mm-1600-bri.suite  p1-1600-eth.suite  p2-1600-ser.suite 
-README             mm-1600-eth.suite  p1-1600-ser.suite  p2-2500-bri.suite 
-README.fw_voip     mm-1600-ser.suite  p1-2500-bri.suite  p2-2500-eth.suite 
-fw2.suite          mm-2500-bri.suite  p1-2500-eth.suite  p2-2500-ser.suite 
-fw_callgen.exp     mm-2500-eth.suite  p1-2500-ser.suite  p2-2600-bri.suite 
-fw_config.exp      mm-2500-ser.suite  p1-2600-bri.suite  p2-2600-eth.suite 
-fw_firewall.exp    mm-2600-bri.suite  p1-2600-eth.suite  p2-2600-ser.suite 
-fw_gw.exp*         mm-2600-eth.suite  p1-2600-ser.suite  p2-3620-bri.suite 
-fw_gw_gk.exp       mm-2600-ser.suite  p1-3620-bri.suite  p2-3620-eth.suite 
-fw_misc.exp        mm-3620-bri.suite  p1-3620-eth.suite  p2-3620-ser.suite 
-fw_mm.exp          mm-3620-eth.suite  p1-3620-ser.suite  p2-3640-bri.suite 
-fw_modules.exp*    mm-3620-ser.suite  p1-3640-bri.suite  p2-3640-eth.suite 
-fw_pagent.exp      mm-3640-bri.suite  p1-3640-eth.suite  p2-3640-ser.suite 
-fw_script*         mm-3640-eth.suite  p1-3640-ser.suite  
-fw_sections.exp    mm-3640-ser.suite  p2-1600-bri.suite  
-fw_voip*           p1-1600-bri.suite  p2-1600-eth.suite  
-[vineet-u5:/auto/vwsdsd/sisu-reg/ats/regression/tests/functionality/iosfw2]      % vi fws[K_script 
-[60;1H[?1h="fw_script" [Read only] 854 lines, 35382 characters [H[2J[19B#!/bin/sh
-
-#==============================================================================
-# Starter kludge
-#------------------------------------------------------------------------------
-set starter { ${1:+"$*"}
-    shift
-shift
-AUTOTEST="${AUTOTEST-/autons/autotest}"; export AUTOTEST
-    _FROM_SHELL=1; export _FROM_SHELL
-    exec $AUTOTEST/bin/expect -f $0 ${1:+"$*"}
-}
-if [info exists env(_FROM_SHELL)] {
-    set argv [concat [lindex $argv 0] [lindex $argv 1]]
-}
-
-#==============================================================================
-# Do not log the expect sessions to the stdout
-#------------------------------------------------------------------------------
-log_user 0
-
-#==============================================================================
-# Seed the random number generator
-#------------------------------------------------------------------------------
-random seed 100
-
-#==============================================================================
-# Before we start, let us clear all the global variables from previous run
-#------------------------------------------------------------------------------
-foreach fw_global [lsort -ascii [info globals fw_*]] { unset $fw_global }
-
-#==============================================================================
-# This code is to make sure that the script and associated libraries can be
-# moved anywhere as long as the relative path between then remains the same
-#------------------------------------------------------------------------------
-if {[cequal [set fw_path [file dirname [info script]]] {/}]} {set fw_path {.}}
-
-#==============================================================================
-# Source the required libraries
-#------------------------------------------------------------------------------[20;1H[40B"fw_script" [Read only] 854 lines, 35382 characters[20;1H[H[2J[19B# Revision 1.2	1999/02/24 05:53:54  daftary
-# changed type "test_result fail" to correct "test_result failed"
-#
-# Revision 1.1	1998/12/28 20:48:00  daftary
-# adding files for firewall phase2 testing. includes tests for alerts, audit
-# trails and fragmentation.
-#
-# Revision 1.4	1998/08/24 20:50:08  daftary
-# changed file perms to world read
-#
-# Revision 1.3	1998/08/24 20:46:30  daftary
-# changed file permissions to world read.
-#
-# Revision 1.2	1998/08/24 20:28:44  daftary
-# changing file permissions to world read
-#
-# Revision 1.1	1998/08/19 19:10:40  daftary
-# first commit
-#
-#==============================================================================
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~[20A[19;1H#[A# - other minor changes[A# - better usage of fw_diag thoughout the script[A#   configure that feature[A# - changed "route", "nat" and "acl" keys to all use "no" keyword to not[A# - changed pagent packet recognition more robust in all modules using pagent[A#   more robust and stable code[A# - changed onemin and maxincperhost to use pagent rather than sun sparcs for[A#   - synwait[A#   - finwait[A#   - maxincperhost[A#   - onemin[A# - ported all old phase1 features to this script which includes[A# - added dynamic pagent router recognition with tbmap[A# - added fastethernet support and atm interfaces support to script[A#   script[A# - added phase recognition, automatic nat-support determination to multimedia[H
-#   scripts to this script[1L[H# - ported multimedia support from $AUTOTEST/regression/tests/functionality/iosf
-w[H[1L# - changed the fw_diag message format to be more indicative of the type of mesg
-[H[1L# Revision 1.3	1999/04/16 20:15:28  daftary[H[1L#[H[1L# changed the error in arguments of fragment[H[1L#[H[1L# sourced from the CONFIG file.[H[1L# re-insert ats_read_config since for some reason TB_MAP was not getting[H[1L# Revision 1.4	1999/04/21 22:56:06  daftary[H[1L#[H[1L# added some misc coding notes in the file header section[60;1H[K[21;1H[H[1L# Revision 1.5	1999/06/08 19:58:24  daftary[H[1L#[H[1L# removed a hanging set introduced by mistake[H[1L# Revision 1.6	1999/06/09 18:32:25  daftary[H[1L# $Log: log,v $
-[H[1L# Revision 1.3	1999/04/16 20:15:28  daftary[H[1L#[H[1L# changed the error in arguments of fragment[H[1L#[H[1L# sourced from the CONFIG file.[H[1L# re-insert ats_read_config since for some reason TB_MAP was not getting[H[1L# Revision 1.4	1999/04/21 22:56:06  daftary[H[1L#[H[1L# added some misc coding notes in the file header section[60;1H[K[21;1H[H[1L# Revision 1.5	1999/06/08 19:58:24  daftary[H[1L#[H[1L# removed a hanging set introduced by mistake[H[1L# Revision 1.6	1999/06/09 18:32:25  daftary[H[1L# Revision 1.1  2005/05/09 20:54:28  tennis
-[H[1L# Revision 1.3	1999/04/16 20:15:28  daftary[H[1L#[H[1L# changed the error in arguments of fragment[H[1L#[H[1L# sourced from the CONFIG file.[H[1L# re-insert ats_read_config since for some reason TB_MAP was not getting[H[1L# Revision 1.4	1999/04/21 22:56:06  daftary[H[1L#[H[1L# added some misc coding notes in the file header section[60;1H[K[21;1H[H[1L# Revision 1.5	1999/06/08 19:58:24  daftary[H[1L#[H[1L# removed a hanging set introduced by mistake[H[1L# Revision 1.6	1999/06/09 18:32:25  daftary[H[1L# Initial Commit
-[H[1L# Revision 1.3	1999/04/16 20:15:28  daftary[H[1L#[H[1L# changed the error in arguments of fragment[H[1L#[H[1L# sourced from the CONFIG file.[H[1L# re-insert ats_read_config since for some reason TB_MAP was not getting[H[1L# Revision 1.4	1999/04/21 22:56:06  daftary[H[1L#[H[1L# added some misc coding notes in the file header section[60;1H[K[21;1H[H[1L# Revision 1.5	1999/06/08 19:58:24  daftary[H[1L#[H[1L# removed a hanging set introduced by mistake[H[1L# Revision 1.6	1999/06/09 18:32:25  daftary[H[1L#[H[1L#[H[2L# $Header: /autons/CVSROOT/@ats3_regression/tests/functionality/iosfw2/fw_script
-,v 1.6 1999/06/09 18:32:25 daftary Exp $[H[1L#------------------------------------------------------------------------------[H[1L# CVS Information[H[1L#==============================================================================[H[1L[1L#==============================================================================[H[1L# }[H[1L#   }[H[1L#	}[H[1L#	  { ipgtwy:  192.168.1.2   192.168.2.2	}[H[1L#	  { ipaddr:  192.168.1.13  192.168.2.13 }[H[1L#	{ hme0		lanEthernet0[H[1L#	}[H[1L#	  { ipaddr: 172.21.228.13 }[H[1L#	{ le0		backbone[H[1L#	{ machine:	server	   }[H[1L#	{ type:		unix-ws	   }[H[1L#   { dt-ultra-perf1[H[1L#   }[H[1L#	}[H[1L#	  { ipgtwy:  192.168.101.2   192.168.102.2  }[H[1L#	  { ipaddr:  192.168.101.14  192.168.102.14 }[H[1L#	{ hme0		lanEthernet1[60;1H[K[20;1H[H[1L#	}[H[1L#	  { ipaddr: 172.21.228.14 }[H[1L#	{ le0		backbone[H[1L#	{ machine:	client	   }[H[1L#	{ type:		unix-ws	   }[H[1L#   { dt-ultra-perf2[H[1L#   }[H[1L#	{ Ethernet1/1	    lanEthernet1 }[H[1L#	{ Ethernet1/0	    lanEthernet0 }[H[1L#	{ type:		    7200 }[H[1L#   { fw3-7200a[H[1L#   }[H[1L#	{ Serial3/3	    2524a0-3640a3/3 }[H[1L#	}[H[1L#	  { switch:   primary-5ess }[H[1L#	  { number:	    50006 }[H[1L#	{ Serial2/0:23	    isdn0[H[1L#	{ Serial0/0	    NULL }[H[1L#	{ FastEthernet1/0	    NULL }[H[1L#	{ Ethernet0/1	    lanEthernet1 }[H[1L#	{ Ethernet0/0	    lanEthernet0 }[H[1L#	}[H[1L#	  { switch:   basic-5ess }[H[1L#	  { number:	    71013 }[H[1L#	{ BRI0/0		    isdn0[H[1L#	{ type:		    3640 }[H[1L#   { fw3-3640a[H[1L#   }[H[1L#	{ Serial0		    2524a0-3640a3/3 }[60;1H[K[20;1H[40B
-[A# added some misc coding notes in the file header section
-
-[A#
-
-[A# Revision 1.4	1999/04/21 22:56:06  daftary
-
-[A# re-insert ats_read_config since for some reason TB_MAP was not getting
-
-[A# sourced from the CONFIG file.
-
-[A#
-
-[A# changed the error in arguments of fragment
-
-[A#
-
-[A# Revision 1.3	1999/04/16 20:15:28  daftary
-
-[A# - changed the fw_diag message format to be more indicative of the type of mesg
-
-[A# - ported multimedia support from $AUTOTEST/regression/tests/functionality/iosf
-
-[Aw
-
-[A#   scripts to this script
-
-[A# - added phase recognition, automatic nat-support determination to multimedia
-
-[A#   script
-
-[A# - added fastethernet support and atm interfaces support to script
-
-[A# - added dynamic pagent router recognition with tbmap
-
-[A# - ported all old phase1 features to this script which includes
-
-[A#   - onemin
-
-[A#   - maxincperhost
-
-[A#   - finwait
-
-[A#   - synwait
-
-[A# - changed onemin and maxincperhost to use pagent rather than sun sparcs for
-
-[A#   more robust and stable code
-
-[A# - changed pagent packet recognition more robust in all modules using pagent
-
-[A# - changed "route", "nat" and "acl" keys to all use "no" keyword to not
-
-[A#   configure that feature
-
-[A# - better usage of fw_diag thoughout the script
-
-[A# - other minor changes
-
-[A#[19;1H[41B
-[A# Revision 1.2	1999/02/24 05:53:54  daftary
-
-[A# changed type "test_result fail" to correct "test_result failed"
-
-[A#
-
-[A# Revision 1.1	1998/12/28 20:48:00  daftary
-
-[A# adding files for firewall phase2 testing. includes tests for alerts, audit
-
-[A# trails and fragmentation.
-
-[A#
-
-[A# Revision 1.4	1998/08/24 20:50:08  daftary
-
-[A# changed file perms to world read
-
-[A#
-
-[A# Revision 1.3	1998/08/24 20:46:30  daftary
-
-[A# changed file permissions to world read.
-
-[A#
-
-[A# Revision 1.2	1998/08/24 20:28:44  daftary
-
-[A# changing file permissions to world read
-
-[A#
-
-[A# Revision 1.1	1998/08/19 19:10:40  daftary
-
-[A# first commit
-
-[A#
-
-[A#==============================================================================[30;1H[H[1L# CVS Information[H[1L#==============================================================================[H[1L[1L#==============================================================================[H[1L# }[H[1L#   }[H[1L#	}[H[1L#	  { ipgtwy:  192.168.1.2   192.168.2.2	}[H[1L#	  { ipaddr:  192.168.1.13  192.168.2.13 }[H[1L#	{ hme0		lanEthernet0[H[1L#	}[H[1L#	  { ipaddr: 172.21.228.13 }[H[1L#	{ le0		backbone[H[1L#	{ machine:	server	   }[H[1L#	{ type:		unix-ws	   }[H[1L#   { dt-ultra-perf1[H[1L#   }[H[1L#	}[H[1L#	  { ipgtwy:  192.168.101.2   192.168.102.2  }[H[1L#	  { ipaddr:  192.168.101.14  192.168.102.14 }[H[1L#	{ hme0		lanEthernet1[H[1L#	}[H[1L#	  { ipaddr: 172.21.228.14 }[H[1L#	{ le0		backbone[H[1L#	{ machine:	client	   }[H[1L#	{ type:		unix-ws	   }[H[1L#   { dt-ultra-perf2[H[1L#   }[H[1L#	{ Ethernet1/1	    lanEthernet1 }[60;1H[K[28;1H[H[1L#	{ Ethernet1/0	    lanEthernet0 }[H[1L#	{ type:		    7200 }[H[1L#   { fw3-7200a[H[1L#   }[H[1L#	{ Serial3/3	    2524a0-3640a3/3 }[H[1L#	}[H[1L#	  { switch:   primary-5ess }[H[1L#	  { number:	    50006 }[H[1L#	{ Serial2/0:23	    isdn0[H[1L#	{ Serial0/0	    NULL }[H[1L#	{ FastEthernet1/0	    NULL }[H[1L#	{ Ethernet0/1	    lanEthernet1 }[H[1L#	{ Ethernet0/0	    lanEthernet0 }[H[1L#	}[H[1L#	  { switch:   basic-5ess }[H[1L#	  { number:	    71013 }[H[1L#	{ BRI0/0		    isdn0[H[1L#	{ type:		    3640 }[H[1L#   { fw3-3640a[H[1L#   }[H[1L#	{ Serial0		    2524a0-3640a3/3 }[H[1L#	{ Ethernet0	    lanEthernet0 }[H[1L#	}[H[1L#	  { switch:   basic-5ess }[H[1L#	  { number:	    71014 }[H[1L#	{ BRI0		    isdn0[H[1L#	{ type:		    2500 }[H[1L#   { fw3-2524a[H[1L# set TB_MAP(fw3,default) {[60;1H[K[28;1H[H[1L# -----------------------[H[1L# SAMPLE TB_MAP STRUCTURE:[H[1L#[H[1L# -  clean up frsub unconfiguration[H[1L# -  correct atm configurations[H[1L# -  implement "-preclean" and "-postclean" options[H[1L# -----[H[1L# TODO:[H[1L#[H[1L# IOS Firewall Feature Set 2 Test Plan - EDCS Document # ENG-30343[H[1L# IOS Firewall Feature Set 1 Test Plan - EDCS Document # ENG-14325[H[1L# -----------[H[1L# REFERENCES:[H[1L#[H[1L# has failed declare the test as failed.[H[1L# If all the tests have passed, declare the test as passed. Even if one test[H[1L# ---------------------[H[1L# PASS-FAIL CONDITIONS:[H[1L#[H[1L# - unconfig the machines[H[1L# - print the result after all the tests have been performed[H[1L#   to the test and remmeber the result[H[1L# - foreach test and each switching mode, execute the procedure corresponding[H[1L#   specified in the topology and connect to each machine.[H[1L# - go thru the list of machines and configure them according to what is[H[1L# ---------------[H[1L# TEST PROCEDURE:[H[1L#[H[1L# sparc machines.[60;1H[K[28;1H[H[1L# udpping be in "fwuser" user's home directory owned by root and suid, on the[H[1L# that telnet, rsh, ftp and tftp be in "fwuser" user's path, and neptune and[H[1L# For certain tests, the script expects some pre-requisite setup. It requires[H[1L# ---------------[H[1L# PRE-REQUISITES:[H[1L#[H[1L# See the individual test module for the topology used for that test.[H[1L# ---------[H[1L# TOPOLOGY:[H[1L#[H[1L# acl 2 is used for http java-blocking config[H[1L# acl 1 is used for dynamic and overload nat config[H[1L# acl 102 is "out" on "in" interface[H[1L# acl 101 is "in" on "out" interface[H[1L# ------------------[H[1L# MISC CODING NOTES:[H[1L#[H[1L# test module in fw_modules.exp file.[H[1L# which tests accepts what kind of arguments is discussed in detail for each[H[1L#[H[1L# ... and so on.[H[1L# {arg3} would be passed to the test module for "audits"[H[1L# {arg1 arg2} would be passed to the test module for "alerts"[H[1L#[H[1L# fw_script id -topology <soemthing> -tests {alerts audits} {arg1 arg2} {arg3}[H[1L# eg:[H[1L#[H[1L# when invoking the module for that test, in the order they are run.[H[1L# extra arguments are interpreted as a list passed on to the appropriate test[60;1H[K[28;1H[H[1L# There can be extra arguments following the options in the suite line. These[H[1L# ---------------[H[1L# Extra arguments[H[1L#[H[1L# terminates immediately.[H[1L# The script prints a help message regarding the options it regcognizes and[H[1L# --------------[H[1L# "-help" option[H[1L#[H[1L# {match image PGEN}[H[1L# pagent, one can simply add the following in the list of device attributes:[H[1L# requiring a pagent router. Instead of specifying the router to be used for[H[1L# compilation information. This is mainly designed to be used with tests[H[1L# match keys in the logical test topology corresponding to image, version and/or
-[H[1L# and compilation information to the TB_MAP variable. This allows specifying[H[1L# the script will go thru every router in the testbed and add its image, version
-[H[1L# Currently if this option is specified, before finding the real test topology,[H[1L# This option is not a compulsary option. It does not take any values.[H[1L# -------------------[H[1L# "-dynamatch" option[H[1L#[H[1L# fast, flow, cef, process.[H[1L# compulsary and defaults to "fast" when not provided. the possible values are[H[1L# specifies the switching modes for which to run the test. this option is not[H[1L# ----------------[H[1L# "-switch" option[H[1L#[H[1L# different topology.[H[1L# netshow and fragment tests in the same suite line since they require[60;1H[K[28;1H[H[1L# the same suite line since they need the same topology however one cannot run[H[1L# definition for that suite line.  eg:	one can run audits and alerts tests in[H[1L# tests can be run together in a suite line depends on what is the topology[H[1L# topology (which may be the same as that required for another test).  so which[H[1L# brackets in the listing of tests above.  also, each test requires a specific[H[1L# itentifies a test.  the keywords corresponding to various tests are shown in[H[1L# line.	 the tests are specified using keywords.  each keyword uniquely[H[1L# this option is used to specify the list of tests to be run for this suite[H[1L# This is a compulsary option and the script aborts if it is not provided.[H[1L# ----------------[H[1L# "-tests" option:[H[1L#[H[1L#	in TB_MAP variable can be in this format.[H[1L#	netmask is used. Even the addresses in the "ipaddr" or "ipgtwy" lists[H[1L#	1.1.1.1/24 for a netmask of 255.255.255.0). otherwise, the default[H[1L#	in case the netmask is not the default netmask for that address. (eg,[H[1L#	address can be in prefix-length notation to indicate the netmask to use[H[1L#	the address is a proper IP address to be used for this interface. The[H[1L#	the address is derived from the corresponding list. In all other cases[H[1L#	the index into the "ipgtwy" list for the peer interface. In these cases[H[1L#	directly connected to such a machine, then the value of this field is[H[1L#	list for this interface in TB_MAP variable. If it is a router interface[H[1L#	sparc or PC then the value of the field is the index in the "ipaddr"[H[1L# addr: if this is a machine with fixed,non-configurable ip addresses like a[H[1L# macaddr: mac address to be configured on the interface[H[1L# network: specifies which logical network is the interface connected to[H[1L# type: used to speficy the type of the interface, eg, { int in type bri }[H[1L#	will not have inspection, nat or acl configured.[H[1L#	inspection and nat configured "in" and acl configured "out". {int main}[60;1H[K[28;1H[H[1L#	nat and inspection are configured (if specified). eg: {int in} will[H[1L# int:	logical name of the interface. also decides the direction in which acl,[H[1L# Interface Attributes:[H[1L#[H[1L#	 value. eg, { route no }[H[1L# route: to not configure igrp routing on the box, use this attribute with "no"[H[1L# acl: to not configure acls, use this attribute with "no" value. eg, { acl no }
-[H[1L#	overload. default: no. eg, { nat static }[H[1L# nat: what type of nat to configure. possible values: no, static, dynamic,[H[1L#	   eg, { inspect in }[H[1L# inspect: what direction to configure the inspection. possible values: in, out[H[1L#	what that particular test expects. eg, { type 1600 role uut }[H[1L# role: what is the role of the device in that test. the value to use depends[H[1L# type: used to specify the type of the device, eg, { type 1600 }[H[1L# Device Attributes:[H[1L#[H[1L# script recognizes and actively uses.[H[1L# Discussed below are various device and interface attribute names that the[H[1L#[H[1L# similarly, "match" keyword can also be used with device attributes.[H[1L#[H[1L# that have an interface of type ethernet.[H[1L# used for this logical device from the testbed, it will consider only devices[H[1L# for the above example, when the tbmap library tries to find a device to be[H[1L#[H[1L# eg: { int main network mainnet match type ethernet addr 0 }[H[1L#[H[1L# that device from the testbed map.[H[1L# be treated specially in that it will be used to find the correct mapping for[60;1H[K[28;1H[H[1L# finally, if an key value pair has the keyword "match" in front of it, will[H[1L#[H[1L# involved in the test and one attribute list for itself.[H[1L# so typically any box would have one attribute list for each of the interfaces[H[1L#[H[1L# has value "3620"[H[1L# the box itself where the key "boxtype" has value "router" and the key "type"[H[1L# here the first element is not "int" and hence this is a attribute list for[H[1L#[H[1L# eg: { boxtype router type 3620 }[H[1L#[H[1L# value pairs for this box here.[H[1L# for the box itself containing key value pairs. one can add any number of key[H[1L# if the first element is anything but "int" then it is a list of attributes[H[1L#[H[1L# key "addr" has value "0".[H[1L# the "network" key has value "mainnet", key "type" has value "ethernet" and[H[1L# interface attribute list describing the interface with logical name "main".[H[1L# here the first element is "int" and the second is "main". so this is a[H[1L#[H[1L# eg: { int main network mainnet type ethernet addr 0 }[H[1L#[H[1L# pairs for this specific interface over here.[H[1L# name and the rest being key value pairs. One can add any number of key value[H[1L# attribute list with the second element being the logical interface[H[1L# If the first element in a list is the keyword "int" then it is a interface[H[1L#[H[1L# here "green" and "blue" are both logical names for boxes in the topology[H[1L# }[60;1H[K[28;1H[H[1L#	}[H[1L#	  {<attribute-list>}[H[1L#	  {<attribute

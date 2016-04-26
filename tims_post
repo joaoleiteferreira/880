@@ -1,9 +1,0 @@
-#!/bin/sh
-if test -z "$1"
-then
-echo "\nMissing autotest_results file!\nUsage: tims_post <results_file>\n"
-exit
-fi
-/autons/tims/bin/importer -g dns_name=tims.cisco.com/Tnr203p -i $1 -a 0 -v 1
-exit 1
-#/auto/vwsqij/sisu-reg/gicarval/bin/ats_tims_wrapper -i $1 -v 1 -a 0
