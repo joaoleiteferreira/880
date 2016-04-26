@@ -1,0 +1,230 @@
+#### AUTOCOOKIE
+
+
+
+set testbeds { \
+ipsecw reventon1 reventon2\
+ }
+
+
+
+set REPORT_SUMMARY_PROC myCustomSummary
+
+    package require csv
+    package require mysqltcl
+    package require Csccon
+    package require TclUtils
+
+
+proc myCustomSummary { } {
+global env 
+set data "--- THIS is my report---\n"
+append data "
+ATS Version : [ats_get_record Summary AtsVersion]
+CLI Arguments: [ats_get_record Summary CliArgs]
+Requested : [ats_get_record Summary Requested]
+Archive File : [ats_get_record Summary ArchiveFile]"
+
+#########################
+# Get basic info from ats_get_record
+#########################
+
+set testresult ""
+set Successes [ats_get_record Summary Passed]
+set Failures [ats_get_record Summary Failed]
+set Aborted [ats_get_record Summary Aborted]
+set Never [ats_get_record Summary NeverRan]
+set Crashes [ats_get_record Summary Crashes]
+set Blocked [ats_get_record Summary Blocked]
+set this_testbed [ats_get_record Summary Testbed]
+set testresult "P-$Successes F-$Failures C-$Crashes A-$Aborted B-$Blocked N-$Never"
+
+#########################
+# Ok lets do something usefull
+#########################
+
+
+
+
+    set lf [open "/tmp/eARMSReportingLogfile" a+]
+    puts $lf "Entering earms_reporting"
+# Connect to the database on trinity:
+    puts $lf "Connecting to database"
+
+    if { [catch {
+        set conn [mysqlconnect -host joao-lnx -user tie -db TIE]
+	mysqluse $conn TIE
+	puts $lf "connected to database"
+    } result] } {
+        puts $lf "Cannot connect to database: $result"
+    }
+
+
+# old version
+#   if { [catch {
+#	source /tmp/test_being_run
+#	puts $lf "able to source file   TestID=$testid AND test=$test AND tree=$tree AND Project=$project   "
+#    } result]} {
+#        puts $lf "not able to source file $result"
+#   }
+
+    if { [catch {
+	set time [clock seconds]
+	set Date [clock format $time -format "%Y-%m-%d"]
+	 puts $lf "data e $Date"
+    } result] } {
+        puts $lf "not able to get time $result"
+    }
+
+    if { [catch {
+	set query [mysqlquery $conn "SELECT testID,Project,Tree,test,epohtime,testbed FROM RUNNING WHERE testbed='$this_testbed'"]
+		while { [set row [mysqlnext $query]]!="" } {
+			set testid [lindex $row 0]
+			set project [lindex $row 1]
+			set tree [lindex $row 2]
+			set test [lindex $row 3]
+			set time_started [lindex $row 4]
+			set testbed [lindex $row 5]
+		}
+	puts $lf "$time_started was able to parse results no need for that anymore testid:$testid project:$project tree:$tree testbed:$testbed  "
+    } result] } {
+        puts $lf "not able to get time $result"
+    }
+
+if { [catch {
+	set log [ats_get_record Summary ArchiveFile]
+	if { [ regexp {([0-9][0-9])-([0-9][0-9])/(.+)} $log all month year file ] } {
+		set dash "http://earms-trade.cisco.com/tradeui/CLResults.jsp?archive="
+		set ats "&ats="
+		puts " $month $year $file "
+		if { [ regexp {([0-9][0-9][0-9][0-9])[A-Za-z]+([0-9][0-9]).([0-9][0-9]):([0-9][0-9])} $file all yearcomplete day hour minutes ] } {
+			puts "this should be it $yearcomplete/$month/$day/$hour/$minutes/$file"
+			set log2 "$dash$yearcomplete/$month/$day/$hour/$minutes/$file$ats$env(AUTOTEST)"
+		}
+	} 
+	set trade "http://earms-trade.cisco.com/tradeui/resultsviewer.faces?ats="
+	set client "&client=eclipse&host=$env(HOST)&archive="
+	set empty ""
+	regsub -all "$env(AUTOTEST)" $log $empty string
+	set log "$trade$env(AUTOTEST)$client$string"
+	puts $lf "the log is $log and trade is $trade"
+    } result] } {
+        puts $lf "changing log didn't work $result"
+    }
+
+
+   if { [catch {
+        set query [mysqlquery $conn "SELECT ID FROM RESULTS WHERE ID='$testid' AND test='$test' AND Testbed='$this_testbed' AND tree='$tree' AND Date='$Date' AND Project='$project' "]
+
+       while { [set row [mysqlnext $query]]!=""} {
+               set id [lindex $row 0]
+       }
+	
+	if { [info exists id] } {
+		puts $lf "test already exit should update"
+		set UPDATE "FALSE"
+	} else { 
+		#set UPDATE "FALSE"
+		set UPDATE "FALSE"
+	}
+	puts $lf "query worked"
+    } result] } {
+        puts $lf "query didn't work $result"
+    }
+    if { $UPDATE == "FALSE" } {
+	puts $lf "test never run today lets insert"
+	if { [catch {
+		mysqlexec $conn "INSERT INTO RESULTS (ID, Test, Project, Tree, Result, Testbed, Notes, Date ,LOG, LOG2) VALUES ( '$testid' , '$test' , '$project' , '$tree', '$testresult', '$testbed', '' , '$Date', '$log', '$log2' );"
+		puts $lf "inserted results"
+		append data " LOG1 $log"
+		append data " LOG2 $log2"
+	} result] } {
+		puts $lf "not able to insert results $result"
+	}
+     } elseif { $UPDATE == "TRUE" } {
+	if { [catch {
+		mysqlexec $conn "UPDATE RESULTS SET Result='$testresult',LOG='$log',LOG2='$log2' WHERE ID='$testid' AND Date='Date' AND Tree='$tree'"
+		puts $lf "inserted results"
+	} result]} {
+		puts $lf "not able to insert results $result"
+	}
+
+     }
+
+	if { [catch {
+
+		set time_ended [clock seconds]
+		set diference [expr $time_ended - $time_started]
+		set diference [expr $diference / 60 ]
+
+		switch $tree {
+			"baseline" { mysqlexec $conn "UPDATE Testsconfig SET Baseline='$testresult',Time='$diference',Date='$Date' WHERE ID='$testid'" }
+			"solid" { mysqlexec $conn "UPDATE Testsconfig SET M='$testresult',Time='$diference',Date='$Date' WHERE ID='$testid'" }
+			"testing" { mysqlexec $conn "UPDATE Testsconfig SET Testing='$testresult',Time='$diference',Date='$Date' WHERE ID='$testid'" }
+		}
+		puts $lf "updated main table results"
+	} result] } {
+		puts $lf "not able to insert results $result"
+	}
+if { [catch {
+        mysqlclose $conn
+	puts $lf " CONFIG - able to disconnect from database"
+    } result] } {
+        puts $lf "CONFIG no able to disconnect to database: $result"
+    }
+
+	return $data
+
+}
+
+set REPORT_SUBJECT_PROC myCustomSubject
+
+proc myCustomSubject { } {
+set title "tie "
+
+#########################
+# Get basic info from ats_get_record
+#########################
+
+set testresult ""
+set Successes [ats_get_record Summary Passed]
+set Failures [ats_get_record Summary Failed]
+set Aborted [ats_get_record Summary Aborted]
+set Never [ats_get_record Summary NeverRan]
+set Crashes [ats_get_record Summary Crashes]
+set Blocked [ats_get_record Summary Blocked]
+set this_testbed [ats_get_record Summary Testbed]
+set testresult "P-$Successes F-$Failures C-$Crashes A-$Aborted B-$Blocked N-$Never"
+
+    set lf [open "/tmp/eARMSReportingLogfile" a+]
+    puts $lf "Entering earms_reporting"
+# Connect to the database on trinity:
+    puts $lf "Connecting to database"
+
+    if { [catch {
+        set conn [mysqlconnect -host joao-lnx -user tie -db TIE]
+	mysqluse $conn TIE
+	puts $lf "connected to database"
+    } result] } {
+        puts $lf "Cannot connect to database: $result"
+    }
+    if { [catch {
+	set query [mysqlquery $conn "SELECT testID,Project,Tree,test,epohtime,testbed FROM RUNNING WHERE testbed='$this_testbed'"]
+		while { [set row [mysqlnext $query]]!="" } {
+			set testid [lindex $row 0]
+			set project [lindex $row 1]
+			set tree [lindex $row 2]
+			set test [lindex $row 3]
+			set time_started [lindex $row 4]
+			set testbed [lindex $row 5]
+		}
+	puts $lf "$time_started was able to parse results no need for that anymore testid:$testid project:$project tree:$tree testbed:$testbed  "
+	set title "TIE - $project $test $tree $testbed"
+    } result] } {
+        puts $lf "not able to get time $result"
+    }
+
+
+
+return $title
+}

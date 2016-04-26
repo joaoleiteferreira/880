@@ -1,0 +1,2589 @@
+# Name:
+#   autotie
+#
+# Purpose:
+# 
+#
+#
+#
+
+
+proc autotie_submit_test {args} {
+    global test_name test_tree test_priority test_file test_date test_project tims_export tims_variables
+    global env testbed
+	set man_args {
+	-testbed	      ANY
+	-testID		      ANY
+	-tree		      ANY
+	-project	      ANY
+	-TIMS		      ANY
+    } ; # end mandatory args
+
+    set opt_args {
+	-automation           CHOICES TRUE FALSE
+	DEFAULT		      FALSE
+    } ; # end optional args
+
+
+    parse_dashed_args                     \
+        -args $args                       \
+        -mandatory_args $man_args         \
+        -optional_args $opt_args
+
+
+	set timeout 36000
+	puts " Starting test  $test_name($testID) with $tree tree"
+
+	puts " lets do this $env(AUTOTEST) puts $test_tree($testID) " 
+
+
+     if { ![file exists "$env(AUTOTEST)/local/images/$test_name($testID).suite"] } {
+		puts " file doesnt exist $env(AUTOTEST)/local/images/$test_name($testID).suite"
+		return 0
+	}
+
+     if { [catch {
+		if { $TIMS == "TRUE" && $tims_export($tree) == "TRUE"} { 
+			system "echo '$tims_variables($tree)' > $env(AUTOTEST)/local/images/$test_name($testID).queue"
+			set system_command "autoeasy -ni -nc -i $test_name($testID) -t $testbed -cf $env(AUTOTEST)/stg_reg/utils/tie/config/CONFIG.$testbed -p" 
+			puts "$system_command"
+			exec autoeasy -ni -nc -i $test_name($testID) -t $testbed -cf $env(AUTOTEST)/stg_reg/utils/tie/config/CONFIG.$testbed -p
+		} else {
+			set system_command "autoeasy -ni -nc -i $test_name($testID) -t $testbed -cf $env(AUTOTEST)/stg_reg/utils/tie/config/CONFIG.$testbed"
+			puts "$system_command"
+			exec autoeasy -ni -nc -i $test_name($testID) -t $testbed -cf $env(AUTOTEST)/stg_reg/utils/tie/config/CONFIG.$testbed
+		}
+    } result]} {
+        puts "test failed in $result"
+    }
+
+}
+
+proc autotie_load_tests {args} {
+    global test_name test_priority test_file test_date test_project test_server test_tree test_class test_platform
+    global env testbed
+	set man_args {
+	-project	      ANY
+    } ; # end mandatory args
+
+    set opt_args {
+	-automation           CHOICES TRUE FALSE
+	DEFAULT		      FALSE
+    } ; # end optional args
+
+
+    parse_dashed_args                     \
+        -args $args                       \
+        -mandatory_args $man_args         \
+        -optional_args $opt_args
+
+
+
+    set lf [open "/tmp/Autocookie" a+]
+    puts $lf "Entering earms_reporting"
+    puts $lf "Connecting to database"
+
+    if { [catch {
+        set conn [mysqlconnect -host joao-lnx -user tie -db TIE  ]
+	mysqluse $conn TIE
+	puts $lf  " autotie_load_tests connected to database"
+    } result]} {
+        puts $lf " autotie_load_tests Cannot connect to database: $result"
+    }
+# ID,Name,File,Date,Priority
+     if { [catch {
+        set query [mysqlquery $conn "SELECT ID,Name,File,Date,Priority,Testbed,ExecServer,tree,Class,Platform FROM Testsconfig WHERE Project='$project'"]
+		while {[set row [mysqlnext $query]]!=""} {
+			set ID [lindex $row 0]
+			set Name [lindex $row 1]
+			set File [lindex $row 2]
+			set Date [lindex $row 3]
+			set Priority [lindex $row 4]
+			set testbed_for_test [lindex $row 5]
+			set server [lindex $row 6]
+			set tree [lindex $row 7]
+			set Class [lindex $row 8]
+			set Platform [lindex $row 9]
+			if { [info exists ID] && [info exists File] && [info exists Date] && [info exists Priority] && [info exists Name] &&  [file exist $File] && [info exists server] && [info exists tree] &&  [info exists Class] } {
+				puts "$Name"
+				if { $testbed_for_test == "" } {
+				puts " No special testbed defined, all testbeds can run"
+				set test_name($ID) $Name
+				set test_priority($ID) $Priority
+				set test_file($ID) $File
+				set test_date($ID) $Date
+				set test_project($ID) $project
+				set test_server($ID) $server
+				set test_tree($ID) $tree
+				set test_class($ID) $Class
+				set test_platform($ID) $Platform
+				puts "NEW TEST ADDED $test_name($ID) tree:$tree"
+				}
+				if { [regexp "$testbed" $testbed_for_test result] } {
+				puts " $testbed is inside $testbed_for_test "
+				set test_name($ID) $Name
+				set test_priority($ID) $Priority
+				set test_file($ID) $File
+				set test_date($ID) $Date
+				set test_project($ID) $project
+				set test_server($ID) $server
+				set test_tree($ID) $tree
+				set test_class($ID) $Class
+				set test_platform($ID) $Platform
+				puts "NEW TEST ADDED $test_name($ID) tree:$tree"
+				}
+			}
+		}
+    } result]} {
+        puts $lf "Cannot connect to database: $result"
+    }
+
+    if { [catch {
+        set query [mysqlquery $conn "SELECT testID FROM RUNNING WHERE Project='$project'"]
+		while {[set row [mysqlnext $query]]!=""} {
+			set ID [lindex $row 0]
+			set test_priority($ID) 0
+		}
+    } result]} {
+        puts $lf "Cannot connect to database: $result"
+    }
+
+if { [catch {
+        mysqlclose $conn
+	
+	puts $lf "autotie_load_tests  able to disconnect from database"
+   	 } result]} {
+        puts $lf "autotie_load_tests no able to disconnect to database: $result"
+ }
+close $lf
+return 0
+}
+
+
+
+proc autotie_running_info {args} {
+    global test_name test_priority test_file test_date test_project test_tree test_class test_notes test_platform
+    global env testbed
+	set man_args {
+	-ID	            ANY
+	-project            ANY
+	-testbed            ANY
+	-test               ANY
+	-tree               ANY
+	-Date               ANY
+    } ; # end mandatory args
+
+    set opt_args {
+	-automation           CHOICES TRUE FALSE
+	DEFAULT		      FALSE
+    } ; # end optional args
+
+
+    parse_dashed_args                     \
+        -args $args                       \
+        -mandatory_args $man_args         \
+        -optional_args $opt_args
+
+    set lf [open "/tmp/Autocookie" a+]
+    puts $lf "Entering earms_reporting"
+    puts $lf "Connecting to database"
+
+    puts $lf "Connecting to database"
+
+    if { [catch {
+        set conn [mysqlconnect -host joao-lnx -user tie -db TIE  ]
+	mysqluse $conn TIE
+	puts $lf "autotie_running_info-connected to database"
+    } result]} {
+        puts $lf "autotie_running_info-Cannot connect to database: $result"
+    }
+
+if { ![info exists test_notes($ID)] } {
+	set test_notes($ID) ""
+}
+
+if { [catch {
+		mysqlexec $conn "INSERT INTO RUNNING (Project,user,Tree,test, testID, testbed, epohtime, Class ,Platform, Notes) VALUES ( '$project' , '$env(USER)' , '$tree', '$test' ,'$ID', '$testbed', '$Date', '$test_class($ID)','$test_platform($ID)', '$test_notes($ID)');"
+		puts $lf "autotie_running_info-inserted results "
+	} result]} {
+		puts $lf "autotie_running_info-not able to insert results $result"
+	}
+
+if { [catch {
+        mysqlclose $conn
+	puts $lf "autotie_running_info-able to disconnect from database"
+    } result]} {
+        puts $lf "autotie_running_info-CONFIG no able to disconnect to database: $result"
+    }
+close $lf
+return 0
+}
+
+proc autotie_running_delete {args} {
+    global test_name test_priority test_file test_date test_project test_tree
+    global env testbed
+	set man_args {
+	-ID	            ANY
+	-project            ANY
+	-testbed            ANY
+	-test               ANY
+	-tree               ANY
+	-Date               ANY
+    } ; # end mandatory args
+
+    set opt_args {
+	-automation           CHOICES TRUE FALSE
+	DEFAULT		      FALSE
+    } ; # end optional args
+
+
+    parse_dashed_args                     \
+        -args $args                       \
+        -mandatory_args $man_args         \
+        -optional_args $opt_args
+
+    set lf [open "/tmp/Autocookie" a+]
+    puts $lf "Entering earms_reporting"
+    puts $lf "autotie_running_delete-Connecting to database"
+
+    puts $lf "autotie_running_delete-Connecting to database"
+
+    if { [catch {
+        set conn [mysqlconnect -host joao-lnx -user tie -db TIE  ]
+	mysqluse $conn TIE
+	puts $lf "autotie_running_delete-connected to database"
+    } result]} {
+        puts $lf "autotie_running_delete-Cannot connect to database: $result"
+    }
+
+if { [catch {
+		mysqlexec $conn "delete from RUNNING WHERE epohtime='$Date' AND Project='$project' AND user='$env(USER)' ;"
+		puts $lf "autotie_running_delete-delete entry "
+	} result]} {
+		puts $lf "autotie_running_delete-not able to delete entry $result"
+	}
+
+if { [catch {
+        mysqlclose $conn
+	puts $lf "Delete able to disconnect from database"
+    } result]} {
+        puts $lf " no able to disconnect to database: $result"
+    }
+close $lf
+return 0
+}
+
+proc autotie_running_clean {args} {
+    global test_name test_priority test_file test_date test_project test_tree
+    global env testbed
+	set man_args {
+	-project            ANY
+	-testbed            ANY
+    } ; # end mandatory args
+
+    set opt_args {
+	-automation           CHOICES TRUE FALSE
+	DEFAULT		      FALSE
+    } ; # end optional args
+
+
+    parse_dashed_args                     \
+        -args $args                       \
+        -mandatory_args $man_args         \
+        -optional_args $opt_args
+
+    set lf [open "/tmp/Autocookie" a+]
+    puts $lf "Entering earms_reporting"
+    puts $lf "autotie_running_delete-Connecting to database"
+
+    puts $lf "autotie_running_delete-Connecting to database"
+
+    if { [catch {
+        set conn [mysqlconnect -host joao-lnx -user tie -db TIE  ]
+	mysqluse $conn TIE
+	puts $lf "autotie_running_delete-connected to database"
+    } result]} {
+        puts $lf "autotie_running_delete-Cannot connect to database: $result"
+    }
+
+if { [catch {
+		mysqlexec $conn "delete from RUNNING WHERE testbed='$testbed' AND Project='$project';"
+		puts $lf "autotie_running_delete-delete entry "
+	} result]} {
+		puts $lf "autotie_running_delete-not able to delete entry $result"
+	}
+
+if { [catch {
+        mysqlclose $conn
+	puts $lf "Delete able to disconnect from database"
+    } result]} {
+        puts $lf " no able to disconnect to database: $result"
+    }
+close $lf
+return 0
+}
+
+proc tie_cflow_extract {args} {
+    global test_name test_priority test_tree test_file test_date test_project CFLOW_DIRECTORY start DEBUG tb_tftp_server_addr
+    global env testbed ROUTERS 
+	set man_args {
+	-project            ANY
+	-testbed            ANY
+	-testID		    ANY
+    } ; # end mandatory args
+
+    set opt_args {
+	-automation           CHOICES TRUE FALSE
+	DEFAULT		      FALSE
+    } ; # end optional args
+
+
+    parse_dashed_args                     \
+        -args $args                       \
+        -mandatory_args $man_args         \
+        -optional_args $opt_args
+
+set file $test_file($testID)
+set suite [exec cat $file]
+set time [clock seconds]
+set i 1
+foreach router $ROUTERS($env(_ATS_TESTBED)) {
+	set router$i $router
+	#puts " Extracing info from router"
+	if { [ regexp "router$i " $suite all garba] } {
+		#puts "router$i found in suite"	
+		set extractrouter YES
+	} elseif { [ regexp "$router " $suite all garba] } {
+		set extractrouter YES
+	} else {
+		set extractrouter NO
+	}
+	if { $extractrouter == "YES"}  {
+		set fork($i) [fork]
+		if { $fork($i) == 0 } {
+			if { $DEBUG == "ON" } {sleep 60}
+			#OPEN CONSOLE IN ROUTER 
+			if { [catch {console $router} fid] } {
+				puts stderr "Not able to open console on $router"
+			}
+			#SEND CONFIG COMMAND
+			set filename "${CFLOW_DIRECTORY}CFLOW${router}-${testID}-$time.dat"
+			if { [catch {
+				set CFLOW_INFO [$router exec "sh subsys | inc cflow"]
+				puts "CFLOW INFO $CFLOW_INFO "
+				if {[ regexp "cflow" $CFLOW_INFO all garba] } {
+					$router sendline "config replace $start($router)"
+					$router sendline "Y"
+					set sping_out [tie_starter_ping $router ip $tb_tftp_server_addr($testbed)]
+					if { $sping_out != 0 } {
+					$router sendline "cflow copy flash:"
+					$router sendline "CFLOW${router}-${testID}-$time.dat"
+					$router sendline "y"
+					} else {
+					$router sendline "cflow copy tftp:"
+					$router sendline "$tb_tftp_server_addr($testbed)"
+					$router sendline "$filename"
+					$router sendline "y"
+					}
+				}
+			} fid] } {
+				puts stderr "Not able to send config command $fid"
+			}
+			if { [catch {$router destroy} fid] } {
+				puts stderr "Not able to open console on $router"
+			}
+			exit
+		}
+	}
+	incr i
+}
+
+	puts "##### Waiting for commands to complete #####\n"
+
+	set i 1
+	if { [catch {
+		foreach router $ROUTERS($env(_ATS_TESTBED)) {
+			if { [info exists fork($i) ] } { 
+				set line [exec ps -ef | grep expect | grep $fork($i)]
+				while {[string match -nocase "*$fork($i)*" $line] && ![string match -nocase "*defunct*" $line]} {
+					set line [exec ps -e | grep expect | grep $fork($i)]
+					sleep 2
+				}
+			}
+			incr i
+		}
+   	 } result]} {
+        puts "Something went wrong here $result"
+   	 }
+
+
+}
+
+
+ proc lrandom L {lindex $L [expr {int(rand()*[llength $L])}]}
+
+proc tie_cflow_clean {args} {
+    global test_name test_priority test_file test_date test_project CFLOW_DIRECTORY start DEBUG tb_tftp_server_addr CFLOW_DEBUGS
+    global env testbed ROUTERS
+	set man_args {
+	-project            ANY
+	-testbed            ANY
+	-testID		    ANY
+    } ; # end mandatory args
+
+    set opt_args {
+	-automation           CHOICES TRUE FALSE
+	DEFAULT		      FALSE
+    } ; # end optional args
+
+
+    parse_dashed_args                     \
+        -args $args                       \
+        -mandatory_args $man_args         \
+        -optional_args $opt_args
+
+set file $test_file($testID)
+set suite [exec cat $file]
+
+set i 1
+foreach router $ROUTERS($env(_ATS_TESTBED)) {
+	set router$i $router
+	#puts " Extracing info from router"
+	if { [ regexp "router$i " $suite all garba] } {
+		puts "router$i found in suite"	
+		set extractrouter YES
+	} elseif { [ regexp "$router " $suite all garba] } {
+		set extractrouter YES
+	} else {
+		set extractrouter NO
+	}
+	if { $extractrouter == "YES"}  {
+		set fork($i) [fork]
+		if { $fork($i) == 0 } {
+			if { $DEBUG == "ON" } {sleep 60}
+			#OPEN CONSOLE IN ROUTER 
+			if { [catch {console $router} fid] } {
+				puts stderr "Not able to open console on $router"
+			}
+			#SEND CONFIG COMMAND
+			set filename "${CFLOW_DIRECTORY}CFLOW${router}${testID}.dat"
+			if { [catch {
+				$router sendline "cflow clear"
+				#bad programming
+				#set DEBUG_TO_ACTIVE [lrandom $CFLOW_DEBUGS]
+				#$router sendline "$DEBUG_TO_ACTIVE"
+			} fid] } {
+				puts stderr "Not able to send config command $fid"
+			}
+			if { [catch {$router destroy} fid] } {
+				puts stderr "Not able to open console on $router"
+			}
+			exit
+		}
+	}
+	incr i
+}
+
+	puts "##### Waiting for commands to complete #####\n"
+
+	set i 1
+	if { [catch {
+		foreach router $ROUTERS($env(_ATS_TESTBED)) {
+			if { [info exists fork($i) ] } { 
+				set line [exec ps -ef | grep expect | grep $fork($i)]
+				while {[string match -nocase "*$fork($i)*" $line] && ![string match -nocase "*defunct*" $line]} {
+					set line [exec ps -e | grep expect | grep $fork($i)]
+					sleep 2
+				}
+			}
+			incr i
+		}
+   	 } result]} {
+        puts "Something went wrong here $result"
+   	 }
+
+
+}
+
+proc tie_starter_ping  {router_name protocol ping_addr} {
+
+        case $protocol {
+                {ipx} {
+                        set total_tries 9
+                        set sleep_time 9
+                }
+                {ip} {
+                        set total_tries 15
+                        set sleep_time 9
+                }
+                default {
+                        set total_tries 3
+                        set sleep_time 1
+                }
+        }
+
+        set percent 0
+
+        for {set i 0} {$i < $total_tries} {incr i} {
+
+                set output [$router_name ping -proto $protocol -count 9 -addr \
+                                $ping_addr]
+                if {![regexp {([0-9]+) percent} $output dummy_arg percent]} {
+                        return "unable to find success rate in starter ping's \
+                                output"
+                }
+                if {[regexp {!\.\.\.\.} $output]} {return "ping 9 $protocol \
+                                packets failed with !...."}
+                if {$percent == 100} {return 0}
+                if {($percent == 0) && ($i != [expr $total_tries - 1])} {
+                        sleep $sleep_time}
+
+        }
+        #End for loop
+
+        return "ping 9 $protocol packets $total_tries times with \
+                        $sleep_time sec. sleep failed"
+}
+
+
+
+# Name:
+#   clean_router
+#
+# Purpose:
+# A simple clean that I can actualy use
+#
+#
+#
+
+proc autotie_clean {args} {
+global testing baseline solid custom post start routertype source_directories destination_directories env ROUTERS OPTIONS DEBUG
+global test_name test_priority test_file test_date test_project
+
+    set man_args {
+	-mode         CHOICES slow normal quick
+	-testbed	      ANY
+    } ; # end mandatory args
+
+    set opt_args {
+	-routers      	      ANY
+	    DEFAULT	      all
+    	-tree                CHOICES solid baseline testing custom
+	    DEFAULT       testing
+	-automation           CHOICES TRUE FALSE
+	DEFAULT		      FALSE
+	-run_image_update    CHOICES TRUE FALSE
+	DEFAULT		      FALSE
+	-ID		      ANY
+	DEFAULT		      NONE
+    } ; # end optional args
+
+
+    parse_dashed_args                      \
+        -args $args                       \
+        -mandatory_args $man_args          \
+        -optional_args $opt_args
+
+
+set i 1
+foreach router $ROUTERS($env(_ATS_TESTBED)) {
+	set router$i $router
+	incr i
+}
+set i 1
+
+if { [info exists OPTIONS] } {
+	foreach option $OPTIONS($env(_ATS_TESTBED)) {
+		set option$i $option
+		incr i
+	}
+}
+
+puts "## Starting $mode cleaning ## "
+
+set cleanrouter YES
+set i 1
+if { $routers == "all" } { 
+	foreach router $ROUTERS($env(_ATS_TESTBED)) {
+		set router$i $router
+		puts " Cleaning $router "
+		if { $ID != "NONE" } {
+			set file $test_file($ID)
+			set suite [exec cat $file]
+			if { [ regexp "router$i " $suite all garba] } {
+				puts "router$i found in suite"	
+				set cleanrouter YES
+			} elseif { [ regexp "$router " $suite all garba] } {
+				set cleanrouter YES
+			} else {
+				set cleanrouter NO
+			}
+		}
+
+
+		if { [info exists routertype($router)] && $cleanrouter == "YES"}  {
+			if { $tree == "testing" } {
+				set fork($i) [fork]
+				if { $fork($i) == 0 } {
+					if { $routertype($router)  == "NORMAL_TFTP" || $routertype($router)  == "PAGENT_TFTP" } {
+						switch $mode {
+							"slow" { set return_from_proc [ reload_with_tftpdnld -testbed $testbed -router $router -image $testing($router) -post_config $post($router) -mode slow -start_config $start($router) ] } 
+							"normal" { set return_from_proc [ reload_with_tftpdnld -testbed $testbed -router $router -image $testing($router) -post_config $post($router) -mode normal -start_config $start($router) ] }
+							"quick" { set return_from_proc [ quick_config_replace -router $router -post_config $post($router) ] }
+							default { puts " I should not be here, bad script "}
+						}	
+					}    
+					if { $routertype($router)  == "NORMAL_NOTFTP" || $routertype($router)  == "PAGENT_NOTFTP" } {
+						switch $mode {
+							"slow" { set return_from_proc [ reload_no_tftpdnld -testbed $testbed -router $router -image $testing($router) -post_config $post($router) -mode slow -start_config $start($router) ] } 
+							"normal" { set return_from_proc [  reload_no_tftpdnld -testbed $testbed -router $router -image $testing($router) -post_config $post($router) -mode normal -start_config $start($router) ] }
+							"quick" { set return_from_proc [ quick_config_replace -router $router -post_config $post($router) ] }
+							default { puts " I should not be here, bad script "}
+						}
+					}
+					if { $return_from_proc == 0 } { puts " Clean of $router was not succesfull "  } else { puts " clean of $router was OK " }
+					exit 
+				}
+			}
+			if { $tree == "baseline" } {
+				set fork($i) [fork]
+				if { $fork($i) == 0 } {
+					if { $routertype($router)  == "NORMAL_TFTP" || $routertype($router)  == "PAGENT_TFTP" } {
+						switch $mode {
+							"slow" {  set return_from_proc [ reload_with_tftpdnld -testbed $testbed -router $router -image $baseline($router) -post_config $post($router) -mode slow -start_config $start($router) ] } 
+							"normal" { set return_from_proc [ reload_with_tftpdnld -testbed $testbed -router $router -image $baseline($router) -post_config $post($router) -mode normal -start_config $start($router) ] }
+							"quick" { set return_from_proc [ quick_config_replace -router $router -post_config $post($router) ] }
+							default { puts " I should not be here, bad script "}
+						}	
+					}    
+					if { $routertype($router)  == "NORMAL_NOTFTP" || $routertype($router)  == "PAGENT_NOTFTP" } {
+						switch $mode {
+							"slow" { set return_from_proc [ reload_no_tftpdnld -testbed $testbed -router $router -image $baseline($router) -post_config $post($router) -mode slow -start_config $start($router) ] } 
+							"normal" { set return_from_proc [ reload_no_tftpdnld -testbed $testbed -router $router -image $baseline($router) -post_config $post($router) -mode normal -start_config $start($router) ] }
+							"quick" { set return_from_proc [ quick_config_replace -router $router -post_config $post($router) ] }
+							default { puts " I should not be here, bad script "}
+						}
+					}    
+					if { $return_from_proc == 0 } { puts " Clean of $router was not succesfull "  } else { puts " clean of $router was OK " }
+					exit 0
+				}
+			}
+			if { $tree == "solid" } {
+				set fork($i) [fork]
+				if { $fork($i) == 0 } {
+					if { $routertype($router)  == "NORMAL_TFTP" || $routertype($router)  == "PAGENT_TFTP" } {
+						switch $mode {
+							"slow" { set return_from_proc [ reload_with_tftpdnld -testbed $testbed -router $router -image $solid($router) -post_config $post($router) -mode slow -start_config $start($router) ] } 
+							"normal" { set return_from_proc [ reload_with_tftpdnld -testbed $testbed -router $router -image $solid($router) -post_config $post($router) -mode normal -start_config $start($router) ] }
+							"quick" { set return_from_proc [ quick_config_replace -router $router -post_config $post($router) ] }
+							default { puts " I should not be here, bad script " }
+						}	
+					}    
+					if { $routertype($router)  == "NORMAL_NOTFTP" || $routertype($router)  == "PAGENT_NOTFTP" } {
+						switch $mode {
+							"slow" { set return_from_proc [ reload_no_tftpdnld -testbed $testbed -router $router -image $solid($router) -post_config $post($router) -mode slow -start_config $start($router) ] } 
+							"normal" { set return_from_proc [ reload_no_tftpdnld -testbed $testbed -router $router -image $solid($router) -post_config $post($router) -mode normal -start_config $start($router) ] }
+							"quick" { set return_from_proc [ quick_config_replace -router $router -post_config $post($router) ] }
+							default { puts " I should not be here, bad script " }
+						}
+					}
+					if { $return_from_proc == 0 } { puts " Clean of $router was not succesfull "  } else { puts " clean of $router was OK " }
+					exit 0
+				}
+			}
+			if { $tree == "custom" } {
+				set fork($i) [fork]
+				if { $fork($i) == 0 } {
+					if { $routertype($router)  == "NORMAL_TFTP" || $routertype($router)  == "PAGENT_TFTP" } {
+						switch $mode {
+							"slow" { set return_from_proc [ reload_with_tftpdnld -testbed $testbed -router $router -image $custom($router) -post_config $post($router) -mode slow -start_config $start($router) ] } 
+							"normal" { set return_from_proc [ reload_with_tftpdnld -testbed $testbed -router $router -image $custom($router) -post_config $post($router) -mode normal -start_config $start($router) ] }
+							"quick" { set return_from_proc [ quick_config_replace -router $router -post_config $post($router) ] }
+							default { puts " I should not be here, bad script " }
+						}	
+					}    
+					if { $routertype($router)  == "NORMAL_NOTFTP" || $routertype($router)  == "PAGENT_NOTFTP" } {
+						switch $mode {
+							"slow" { set return_from_proc [ reload_no_tftpdnld -testbed $testbed -router $router -image $custom($router) -post_config $post($router) -mode slow -start_config $start($router) ] } 
+							"normal" { set return_from_proc [ reload_no_tftpdnld -testbed $testbed -router $router -image $custom($router) -post_config $post($router) -mode normal -start_config $start($router) ] }
+							"quick" { set return_from_proc [ quick_config_replace -router $router -post_config $post($router) ] }
+							default { puts " I should not be here, bad script " }
+						}
+					}
+					if { $return_from_proc == 0 } { puts " Clean of $router was not succesfull "  } else { puts " clean of $router was OK " }
+					exit 0
+				}
+			}
+		} else {
+			puts " router $router is not defined in clean.$testbed or not part of the suite \n"
+		}
+		incr i
+		if { $DEBUG == "ON" } {sleep 300}
+	} 
+} else {
+	set router $routers
+	if { $tree == "testing" } {
+		if { $routertype($router)  == "NORMAL_TFTP" || $routertype($router)  == "PAGENT_TFTP" } {
+			switch $mode {
+				"slow" { reload_with_tftpdnld -testbed $testbed -router $router -image $testing($router) -post_config $post($router) -mode slow -start_config $start($router) } 
+				"normal" {  reload_with_tftpdnld -testbed $testbed -router $router -image $testing($router) -post_config $post($router) -mode normal -start_config $start($router)}
+				"quick" { quick_config_replace -router $router -post_config $post($router) }
+				default { puts " I should not be here, bad script "}
+			}	
+		}    
+		if { $routertype($router)  == "NORMAL_NOTFTP" || $routertype($router)  == "PAGENT_NOTFTP" } {
+			switch $mode {
+				"slow" { reload_no_tftpdnld -testbed $testbed -router $router -image $testing($router) -post_config $post($router) -mode slow -start_config $start($router) } 
+				"normal" {  reload_no_tftpdnld -testbed $testbed -router $router -image $testing($router) -post_config $post($router) -mode normal -start_config $start($router)}
+				"quick" { quick_config_replace -router $router -post_config $post($router) }
+				default { puts " I should not be here, bad script "}
+			}
+		}                  
+	}
+	if { $tree == "baseline" } {
+		if { $routertype($router)  == "NORMAL_TFTP" || $routertype($router)  == "PAGENT_TFTP"  } {
+			switch $mode {
+				"slow" { reload_with_tftpdnld -testbed $testbed -router $router -image $baseline($router) -post_config $post($router) -mode slow -start_config $start($router) } 
+				"normal" {  reload_with_tftpdnld -testbed $testbed -router $router -image $baseline($router) -post_config $post($router) -mode normal -start_config $start($router)}
+				"quick" { quick_config_replace -router $router -post_config $post($router) }
+				default { puts " I should not be here, bad script "}
+			}	
+		}    
+		if { $routertype($router)  == "NORMAL_NOTFTP" || $routertype($router)  == "PAGENT_NOTFTP"  } {
+			switch $mode {
+				"slow" { reload_no_tftpdnld -testbed $testbed -router $router -image $baseline($router) -post_config $post($router) -mode slow -start_config $start($router) } 
+				"normal" {  reload_no_tftpdnld -testbed $testbed -router $router -image $baseline($router) -post_config $post($router) -mode normal -start_config $start($router)}
+				"quick" { quick_config_replace -router $router -post_config $post($router) }
+				default { puts " I should not be here, bad script "}
+			}
+		}                  
+	}
+	if { $tree == "solid" } {
+		if { $routertype($router)  == "NORMAL_TFTP" || $routertype($router)  == "PAGENT_TFTP"  } {
+			switch $mode {
+				"slow" { reload_with_tftpdnld -testbed $testbed -router $router -image $solid($router) -post_config $post($router) -mode slow -start_config $start($router) } 
+				"normal" {  reload_with_tftpdnld -testbed $testbed -router $router -image $solid($router) -post_config $post($router) -mode normal -start_config $start($router) }
+				"quick" { quick_config_replace -router $router -post_config $post($router) }
+				default { puts " I should not be here, bad script " }
+			}	
+		}    
+		if { $routertype($router)  == "NORMAL_NOTFTP" || $routertype($router)  == "PAGENT_NOTFTP"  } {
+			switch $mode {
+				"slow" { reload_no_tftpdnld -testbed $testbed -router $router -image $solid($router) -post_config $post($router) -mode slow -start_config $start($router) } 
+				"normal" {  reload_no_tftpdnld -testbed $testbed -router $router -image $solid($router) -post_config $post($router) -mode normal -start_config $start($router) }
+				"quick" { quick_config_replace -router $router -post_config $post($router) }
+				default { puts " I should not be here, bad script " }
+			}
+		}                  
+	}
+	if { $tree == "custom" } {
+		if { $routertype($router)  == "NORMAL_TFTP" || $routertype($router)  == "PAGENT_TFTP"  } {
+			switch $mode {
+				"slow" { reload_with_tftpdnld -testbed $testbed -router $router -image $custom($router) -post_config $post($router) -mode slow -start_config $start($router) } 
+				"normal" {  reload_with_tftpdnld -testbed $testbed -router $router -image $custom($router) -post_config $post($router) -mode normal -start_config $start($router) }
+				"quick" { quick_config_replace -router $router -post_config $post($router) }
+				default { puts " I should not be here, bad script " }
+			}	
+		}    
+		if { $routertype($router)  == "NORMAL_NOTFTP" || $routertype($router)  == "PAGENT_NOTFTP"  } {
+			switch $mode {
+				"slow" { reload_no_tftpdnld -testbed $testbed -router $router -image $custom($router) -post_config $post($router) -mode slow -start_config $start($router) } 
+				"normal" {  reload_no_tftpdnld -testbed $testbed -router $router -image $custom($router) -post_config $post($router) -mode normal -start_config $start($router) }
+				"quick" { quick_config_replace -router $router -post_config $post($router) }
+				default { puts " I should not be here, bad script " }
+			}
+		}                  
+	}
+
+
+}
+
+puts "##### Results coming up #####\n"
+
+set i 1
+if { [catch {
+	foreach router $ROUTERS($env(_ATS_TESTBED)) {
+		if { [info exists fork($i) ] } { 
+			set line [exec ps -ef | grep expect | grep $fork($i)]
+			while {[string match -nocase "*$fork($i)*" $line] && ![string match -nocase "*defunct*" $line]} {
+				set line [exec ps -e | grep expect | grep $fork($i)]
+				sleep 2
+			}
+		}
+		incr i
+	}
+   } result]} {
+        puts "Something going wrong here $result"
+   }
+
+puts "##### Clean completed #####\n"
+puts " If you got errors, do the router individualy so debug is active "
+return 1
+}
+
+
+
+# Name:
+#   clean_router
+#
+# Purpose:
+# A simple clean that I can actualy use
+#
+#
+#
+proc reload_with_tftpdnld {args} {
+     global postconfig tb_tftp_server_addr tb_passwd defaultconfig routertype csccon_default
+
+
+    set man_args {
+	-router                       ANY
+	-image                        ANY
+	-mode                         CHOICES normal slow
+        -post_config                  ANY
+        -testbed		      ANY
+        -start_config		      ANY
+    } ; # end mandatory args
+
+    set opt_args {
+    	-future                   ANY
+    } ; # end optional args
+
+    parse_dashed_args                      \
+        -args $args                        \
+        -mandatory_args $man_args          \
+        -optional_args $opt_args
+
+   ########################################
+   ## Open console to router
+   ##########################################
+
+	if { [catch {console $router} fid] } {
+	puts stderr "Not able to open console on $router"
+	return 0
+	}
+
+   #########################################
+   ## Disable logging just to much stuff will handle errors with catch
+   ## and debug possibilities in the future
+   ##########################################
+
+    $router nologging
+
+   ########################################
+   # change how fast ccscon respondes, dont want to w8 all minute
+   # values can probably be lower, will make it a variable in future
+   ########################################
+
+    set csccon_default(exec_timeout) 25
+    set csccon_default(config_state_timeout) 25
+    set csccon_default(initialize_rom) "25"
+    set csccon_default(rom_timeout) "25"
+    set csccon_default(boot_timeout) "1000"
+
+     if { [catch { 	
+	if { $mode == "slow" } {
+		if { $routertype($router) != "PAGENT_TFTP"  } {
+			$router clean
+		$router config $defaultconfig($router)
+		$router copy running-config $start_config
+		$router copy running-config startup-config
+		}
+	} else {
+	        $router copy "$post_config startup-config"
+	}
+      } fid] } {
+	puts "Not good but lets continue $fid"
+	return 0
+      }
+
+   #######################################
+   # ADD tftp information and reload router
+   ############################################
+
+   csccon_set_device_param $router tftpdnld "
+   TFTP_FILE=$image
+   TFTP_SERVER=$tb_tftp_server_addr($testbed)
+   " 
+
+   ############################################
+   # Reloading the router
+   ############################################
+    
+    $router reload
+    if { $mode == "slow" } {
+        $router config $postconfig($router)
+        $router copy running-config $post_config
+    }
+
+    $router destroy
+    return 1
+}
+
+proc quick_config_replace {args} {
+
+    set man_args {
+	-router                       ANY
+        -post_config                  ANY
+    } ; # end mandatory args
+
+    set opt_args {
+    	-future                   ANY
+    } ; # end optional args
+
+
+    parse_dashed_args                      \
+        -args $args                        \
+        -mandatory_args $man_args          \
+        -optional_args $opt_args
+
+
+   ########################################
+   ## Open console to router
+   ##########################################
+
+	if { [catch {console $router} fid] } {
+	puts stderr "Not able to open console on $router"
+	exit 1
+	}
+
+   ########################################
+   # change how fast ccscon respondes, dont want to w8 all minute
+   ########################################
+
+   $router sendline "config replace $post_config"
+   $router sendline "Y"
+
+   sleep 2
+
+   $router destroy
+}
+
+
+proc reload_no_tftpdnld {args} {
+     global postconfig tb_tftp_server_addr tb_passwd defaultconfig routertype
+    set man_args {
+	-router                       ANY
+	-image                        ANY
+	-mode                         CHOICES normal slow
+        -post_config                  ANY
+        -start_config                 ANY
+        -testbed		      ANY
+    } ; # end mandatory args
+
+    set opt_args {
+    	-future                   ANY
+    } ; # end optional args
+
+    parse_dashed_args                      \
+        -args $args                        \
+        -mandatory_args $man_args          \
+        -optional_args $opt_args
+
+   ########################################
+   ## Open console to router
+   ##########################################
+
+	if { [catch {console $router} fid] } {
+	puts stderr "Not able to open console on $router"
+	exit 1
+	}
+
+
+   ########################################
+   # change how fast ccscon respondes, dont want to w8 all minute
+   # values can probably be lower, will make it a variable in future
+   ########################################
+
+    set csccon_default(exec_timeout) 25
+    set csccon_default(config_state_timeout) 25
+    set csccon_default(initialize_rom) "25"
+    set csccon_default(rom_timeout) "25"
+    set csccon_default(boot_timeout) "1000"
+
+   ########################################
+   # Do a full clean of the router
+   ########################################
+   ########################################
+   ## Start by replacing the config with post config, we are going to do tftpdnld -r
+   ##########################################
+    if { $mode == "slow" } {
+	if { $routertype($router) != "PAGENT_NOTFTP" } {
+        	$router clean
+		$router config $defaultconfig($router)
+        	$router copy running-config $start_config
+        	$router copy running-config startup-config
+	} else {
+		$router copy $start_config startup-config
+	}
+    } else {
+        $router copy "$start_config startup-config"
+    }
+
+   ########################################
+   ## Set boot_image and TFTPSERVER
+   ##########################################
+
+   $router boot_server $tb_tftp_server_addr($testbed)
+   $router boot_image ${image}
+
+   ############################################
+   # Reloading the router
+   ############################################
+
+    $router reload
+
+  ###############################################
+  #  Do post config
+  ###################################################
+
+  $router config $postconfig($router)
+  $router copy running-config $post_config
+
+  $router destroy
+  return 1
+}
+
+
+proc update_to_latest_img {args} {
+
+     global postconfig tb_tftp_server_addr tb_passwd defaultconfig router_image testing baseline solid custom  source_directories destination_directories routertype ROUTERS
+     global env testbed
+
+    set man_args {
+	-tree
+    } ; # end mandatory args
+
+    set opt_args {
+    	-future                   ANY
+    } ; # end optional args
+
+
+    parse_dashed_args                      \
+        -args $args                        \
+        -mandatory_args $man_args          \
+        -optional_args $opt_args
+
+#####################################
+# 1-check that all directories exist to start
+#####################################
+
+if { [file isdirectory $source_directories($tree) ] } {	
+	} else { puts "Directory doesn't exist $source_directories($tree) , please provide a valid directory\n"
+	return 0
+	}
+
+if { [file isdirectory $destination_directories($tree)] } {	
+	} else { puts "Directory doesn't exist $destination_directories($tree), please provide a valid directory\n"
+	return 0
+	}
+
+
+
+#######################################################
+### So for each router get the date which it was created
+########################################################
+
+set listoffiles [glob -nocomplain -directory $destination_directories($tree) c*]
+set listoffiles2 [glob -nocomplain -directory $destination_directories($tree) a*]
+set listoffiles "$listoffiles $listoffiles2"
+
+puts $listoffiles
+
+foreach router $ROUTERS($env(_ATS_TESTBED)) {
+	if { [info exists routertype($router)] } {
+		if { [string match -nocase "*$router_image($router-$tree)*" $listoffiles]  } {
+			set what_we_are_lookingfor "$router_image($router-$tree)"
+			#Look for general file
+			if { [regexp "($what_we_are_lookingfor\[-_A-z0-9\]+)" $listoffiles image_file] }  {
+				puts " Image for $router set to $destination_directories($tree)$image_file \n"
+				switch $tree {
+					"testing" {  set testing($router) $destination_directories($tree)$image_file }
+					"baseline" {  set baseline($router) $destination_directories($tree)$image_file }
+					"solid" {  set solid($router) $destination_directories($tree)$image_file }	
+					"custom" {  set custom($router) $destination_directories($tree)$image_file }			
+				} 
+			} elseif { [regexp "($what_we_are_lookingfor)" $listoffiles image_file] } {
+				puts " Image for $router set to $destination_directories($tree)$image_file \n"
+				switch $tree {
+					"testing" {  set testing($router) $destination_directories($tree)$image_file }
+					"baseline" {  set baseline($router) $destination_directories($tree)$image_file }
+					"solid" {  set solid($router) $destination_directories($tree)$image_file }
+					"custom" {  set custom($router) $destination_directories($tree)$image_file }				
+				}  
+			} 
+		} else {
+			puts "WARNING - NO IMAGE DETECTED FOR THIS ROUTER - $router \n"
+		}
+	} else {
+			puts " router $router is not defined in clean.$testbed, that is fine if you don't want to reload and load new images on it \n"
+	}
+}
+
+puts "found images for all routers \n"
+
+return 1
+
+### end of proc
+}
+
+
+proc autotie_detect_stop {args} {
+    global test_name test_priority test_file test_date test_project
+    global env testbed
+	set man_args {
+	-project            ANY
+	-testbed            ANY
+    } ; # end mandatory args
+
+    set opt_args {
+	-automation           CHOICES TRUE FALSE
+	DEFAULT		      FALSE
+    } ; # end optional args
+
+
+    parse_dashed_args                     \
+        -args $args                       \
+        -mandatory_args $man_args         \
+        -optional_args $opt_args
+
+    set lf [open "/tmp/Autocookie" a+]
+    puts $lf "Entering earms_reporting"
+    puts $lf "Connecting to database"
+
+    puts $lf "Connecting to database"
+
+    if { [catch {
+        set conn [mysqlconnect -host joao-lnx -user tie -db TIE  ]
+	mysqluse $conn TIE
+	puts $lf "autotie_detect_stop-connected to database"
+    } result]} {
+        puts $lf "autotie_detect_stop-Cannot connect to database: $result"
+    }
+
+
+if { [catch {
+	set query [mysqlquery $conn "SELECT STOP,Project FROM RUNNING WHERE testbed='$testbed'"]
+		while {[set row [mysqlnext $query]]!=""} {
+			set STOP [lindex $row 0]
+			if {$STOP == "YES" } {
+				puts $lf  "going to exit"
+				mysqlexec $conn "delete from RUNNING WHERE testbed='$testbed'"
+			 exit 
+			} else {
+				puts $lf  "test will continue"
+			}
+	}
+	puts $lf "autotie_detect_stop was able to parse results no need for that anymore $result"
+    } result]} {
+        puts $lf "autotie_detect_stop not able to parse results $result"
+    }
+
+if { [catch {
+        mysqlclose $conn
+	puts $lf "autotie_detect_stop-able to disconnect from database"
+    } result]} {
+        puts $lf "autotie_detect_stop-CONFIG no able to disconnect to database: $result"
+    }
+close $lf
+return 0
+}
+
+# Name:
+#   update_images
+#
+# Purpose:
+# Simple script to copy and change onwership of files
+#
+#
+#
+
+proc update_images {args} {
+
+    global env testbed ROUTERS
+    global testing baseline solid custom start routertype source_directories destination_directories router_image source_directory_format
+
+    #source $env(AUTOTEST)/etc/CONFIG.$testbed
+
+    set man_args {
+             -tree         CHOICES solid baseline testing
+	}
+
+    set opt_args {
+    	-future                   ANY
+    } ; # end optional args
+
+    parse_dashed_args                      \
+        -args $args                        \
+        -mandatory_args $man_args          \
+        -optional_args $opt_args
+
+    #####################################
+    # 1-check that all directories exist to start
+    #####################################
+
+if { [file isdirectory $source_directories(testing) ] } {	
+	} else { puts "Directory doesn't exist $source_directories(testing) , please provide a valid directory\n"
+	return 0
+	}
+	if { [file isdirectory $source_directories(baseline) ] } {	
+	} else { puts "Directory doesn't exist $source_directories(baseline), please provide a valid directory\n"
+	exit
+	}
+	if { [file isdirectory $source_directories(solid) ] } {	
+	} else { puts "Directory doesn't exist $source_directories(solid) , please provide a valid directory\n"
+	return 0
+	}
+
+	if { [file isdirectory $destination_directories(testing)] } {	
+	} else { puts "Directory doesn't exist $destination_directories(testing), please provide a valid directory\n"
+	return 0
+	}
+	if { [file isdirectory $destination_directories(baseline)] } {	
+	} else { puts "Directory doesn't exist $destination_directories(baseline), please provide a valid directory\n"
+	return 0
+	}
+	if { [file isdirectory $destination_directories(solid)] } {	
+	} else { puts "Directory doesn't exist $destination_directories(solid), please provide a valid directory\n"
+	return 0
+	}
+
+
+#######################################################
+### So for each router get the date which it was created
+########################################################
+
+set listoffiles [glob -nocomplain -directory $destination_directories($tree) c*]
+set listoffiles2 [glob -nocomplain -directory $destination_directories($tree) a*]
+set listoffiles "$listoffiles $listoffiles2"
+puts $listoffiles
+
+
+foreach router $ROUTERS($env(_ATS_TESTBED)) {
+	if { [info exists routertype($router)] } {	
+		if { [string match -nocase "*$router_image($router-$tree)*" $listoffiles]  } {
+			# "Lets find out how old they are \n"
+			set potential_file ""
+			set what_we_are_lookingfor "$router_image($router-$tree)"
+			if { ![regexp "($what_we_are_lookingfor\[-_A-z0-9\]+)" $listoffiles image_file] }  {
+				#puts "Didn't find any images for $what_we_are_lookingfor\* in that folder"
+			} else {
+				if { [catch { set file_created_at [file mtime "$destination_directories($tree)$image_file"]} fid] } {
+					set file_created_at 10
+				} 
+				#this time is epoc but doesnt really matter now we have to find if there is any file that is newer
+				set setpotentian [glob -nocomplain -path $source_directories($tree) *]
+				foreach directory $setpotentian {
+					if { [string match -nocase {*[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]*} $directory]  } {
+						set potential_file_list [glob -nocomplain -directory $directory $what_we_are_lookingfor*]
+						foreach file $potential_file_list {
+							if { [string match -nocase {*sun*} $file ] || [string match -nocase {*symbols*} $file ] } {
+								# do nothing
+							} else {
+								set potential_file $file
+							}
+						}
+						if { ! [info exists potential_file] } { set potential_file "" }
+						if { [catch { set second_file_created_at [file mtime $potential_file]} fid] } {
+							set second_file_created_at 0
+						} 
+						if { [expr $file_created_at < $second_file_created_at] } {
+							puts $potential_file
+							#ok so this file is better do a system copy if system copy works then delete old one
+							regexp {([0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9])} $potential_file date
+							puts $date
+							### add catch here only delete if successfull
+							if { [catch { system "cp -f -p $potential_file $destination_directories($tree)$what_we_are_lookingfor$date"} fid] } {
+								#something went wrong with the copy don't remove other file
+							} else {
+								#remove old file
+								puts " cp -f -p $potential_file $destination_directories($tree)$what_we_are_lookingfor$date"
+								catch { system "rm $destination_directories($tree)$image_file"} fid
+								set image_file $what_we_are_lookingfor$date
+								if { [file exists "$destination_directories($tree)$image_file"] } {
+									set file_created_at [file mtime "$destination_directories($tree)$image_file"]
+								}
+							}
+							system "chmod 777 $destination_directories($tree)*"
+						} else {
+							#puts " $file_created_at and $second_file_created_at"
+						}
+					} elseif { $source_directory_format($tree) == "NODATE" } {
+						set potential_file [glob -nocomplain -directory $directory $what_we_are_lookingfor*]
+						if { [catch { set second_file_created_at [file mtime $potential_file]} fid] } {
+							set second_file_created_at 0
+						} 
+						if { [expr $file_created_at < $second_file_created_at] } {
+							puts $potential_file
+							#ok so this file is better do a system copy if system copy works then delete old one
+							set date [clock format $second_file_created_at -format %m-%d-%y]
+							puts $date
+							### add catch here only delete if successfull
+							if { [catch { system "cp -f -p $potential_file $destination_directories($tree)$what_we_are_lookingfor$date"} fid] } {
+								#something went wrong with the copy don't remove other file
+							} else {
+								#remove old file
+								puts " cp -f -p $potential_file $destination_directories($tree)$what_we_are_lookingfor$date"
+								catch { system "rm $destination_directories($tree)$image_file"} fid
+								set image_file $what_we_are_lookingfor$date
+								if { [file exists "$destination_directories($tree)$image_file"] } {
+									set file_created_at [file mtime "$destination_directories($tree)$image_file"]
+								}
+							}
+							system "chmod 777 $destination_directories($tree)*"
+						} else {
+							#puts " $file_created_at and $second_file_created_at"
+						}
+					} elseif { $source_directory_format($tree) == "FOLDER" } {
+
+						set listoffiles5 [glob -nocomplain -directory $source_directories($tree) c*]
+						set listoffiles6 [glob -nocomplain -directory $source_directories($tree) a*]
+						set listoffiles7 "$listoffiles5 $listoffiles6"
+						if { ![regexp "($what_we_are_lookingfor\[-._A-z0-9\]+)" $listoffiles7 potential_file] }  {
+							puts "Didn't find any images for $what_we_are_lookingfor\* in that folder"
+						} else {
+							set potential_file "$source_directories($tree)${potential_file}"
+						} 
+						if { ! [info exists potential_file] } { set potential_file "nothing" }
+						if { [catch { set second_file_created_at [file mtime $potential_file]} fid] } {
+							set second_file_created_at 0
+							puts "not able to find date for $potential_file in $source_directories($tree) $what_we_are_lookingfor "
+						} 
+						if { [expr $file_created_at < $second_file_created_at] } {
+							puts $potential_file
+							#ok so this file is better do a system copy if system copy works then delete old one
+							set date [clock format $second_file_created_at -format %m-%d-%y]
+							puts $date
+							### add catch here only delete if successfull
+							if { [catch { system "cp -f -p $potential_file $destination_directories($tree)$what_we_are_lookingfor$date"} fid] } {
+								#something went wrong with the copy don't remove other file
+							} else {
+								#remove old file
+								puts " cp -f -p $potential_file $destination_directories($tree)$what_we_are_lookingfor$date"
+								catch { system "rm $destination_directories($tree)$image_file"} fid
+								set image_file $what_we_are_lookingfor$date
+								if { [file exists "$destination_directories($tree)$image_file"] } {
+									set file_created_at [file mtime "$destination_directories($tree)$image_file"]
+								}
+							}
+							system "chmod 777 $destination_directories($tree)*"
+						} else {
+							puts " $file_created_at and $second_file_created_at"
+						}
+					}
+				}
+			}
+		} else {
+			set what_we_are_lookingfor "$router_image($router-$tree)"
+			puts "no image for the router $router, lets get one, search for $router_image($router-$tree) \n"
+			set potential_file ""
+			set file_created_at 2
+			set setpotentian [glob -nocomplain -path $source_directories($tree) *]
+			foreach directory $setpotentian {
+				puts $directory
+				if { [string match -nocase {*[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]*} $directory]  } {
+					set potential_file_list [glob -nocomplain -directory $directory $what_we_are_lookingfor*]
+					puts "this is what we get $potential_file_list looking for $what_we_are_lookingfor \n joao"
+					foreach file $potential_file_list {
+						if { [string match -nocase {*sun*} $file ] || [string match -nocase {*symbols*} $file ] } {
+							# do nothing
+						} else {
+							set potential_file $file
+						}
+						puts " i am here $file \n"
+					}
+					if { ! [info exists potential_file] } { set potential_file "" }
+					if { [catch { set second_file_created_at [file mtime $potential_file]} fid] } {
+						set second_file_created_at 0
+					} 
+					if { [expr $file_created_at < $second_file_created_at] } {
+						puts $potential_file
+						#ok so this file is better do a system copy if system copy works then delete old one
+						regexp {([0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9])} $potential_file date
+						puts $date
+						### add catch here only delete if successfull
+						if { [catch { system "cp -f -p $potential_file $destination_directories($tree)$what_we_are_lookingfor$date"} fid] } {
+							#something went wrong with the copy don't remove other file
+						} else {
+							#remove old file
+							if { [expr $file_created_at > 2 ] } {
+							catch { system "rm $destination_directories($tree)$image_file"} fid
+							}
+							set image_file $what_we_are_lookingfor$date
+							if { [file exists "$destination_directories($tree)$image_file"] } {
+									set file_created_at [file mtime "$destination_directories($tree)$image_file"]
+							}
+						}
+							system "chmod 777 $destination_directories($tree)*"
+					} else {
+						#puts " $file_created_at and $second_file_created_at"
+					}
+				} elseif { $source_directory_format($tree) == "NODATE" } {
+					set potential_file_list [glob -nocomplain -directory $directory $what_we_are_lookingfor*]
+					foreach file $potential_file_list {
+						if { [string match -nocase {*sun*} $file ] || [string match -nocase {*symbols*} $file ] } {
+							# do nothing
+						} else {
+							set potential_file $file
+						}
+						puts " i am here $file \n"
+					}
+					if { ! [info exists potential_file] } { set potential_file "" }
+					puts $potential_file
+					puts " I should arrived here"
+					if { [catch { set second_file_created_at [file mtime $potential_file]} fid] } {
+						set second_file_created_at 0
+						#file mtime $potential_file
+					} 
+					puts " $file_created_at < $second_file_created_at \n"
+					if { [expr $file_created_at < $second_file_created_at] } {
+						puts $potential_file
+						#ok so this file is better do a system copy if system copy works then delete old one
+						set date [clock format $second_file_created_at -format %m-%d-%y]
+						puts $date
+						### add catch here only delete if successfull
+						if { [catch { system "cp -f -p $potential_file $destination_directories($tree)$what_we_are_lookingfor$date"} fid] } {
+							#something went wrong with the copy don't remove other file
+						} else {
+							#remove old file
+							puts " cp -f -p $potential_file $destination_directories($tree)$what_we_are_lookingfor$date"
+							if { [expr $file_created_at > 2 ] } {
+							catch { system "rm $destination_directories($tree)$image_file"} fid
+							}
+							set image_file $what_we_are_lookingfor$date
+							if { [file exists "$destination_directories($tree)$image_file"] } {
+								set file_created_at [file mtime "$destination_directories($tree)$image_file"]
+							}
+						}
+						system "chmod 777 $destination_directories($tree)*"
+					} else {
+						puts " $file_created_at and $second_file_created_at"
+					}
+				} elseif { $source_directory_format($tree) == "FOLDER" } {
+					set listoffiles5 [glob -nocomplain -directory $source_directories($tree) c*]
+					set listoffiles6 [glob -nocomplain -directory $source_directories($tree) a*]
+					set listoffiles7 "$listoffiles5 $listoffiles6"
+					if { ![regexp "($what_we_are_lookingfor\[-._A-z0-9\]+)" $listoffiles7 potential_file] }  {
+						puts "Didn't find any images for $what_we_are_lookingfor\* in that folder"
+					} else {
+						set potential_file "$source_directories($tree)${potential_file}"
+					} 
+					if { ! [info exists potential_file] } { set potential_file "nothing" }
+					if { [catch { set second_file_created_at [file mtime $potential_file]} fid] } {
+						set second_file_created_at 0
+						puts "not able to find date for $potential_file in $source_directories($tree) $what_we_are_lookingfor "
+					} 
+					if { [expr $file_created_at < $second_file_created_at] } {
+						puts $potential_file
+						#ok so this file is better do a system copy if system copy works then delete old one
+						set date [clock format $second_file_created_at -format %m-%d-%y]
+						puts $date
+						### add catch here only delete if successfull
+						if { [catch { system "cp -f -p $potential_file $destination_directories($tree)$what_we_are_lookingfor$date"} fid] } {
+							#something went wrong with the copy don't remove other file
+						} else {
+							#remove old file
+							puts " cp -f -p $potential_file $destination_directories($tree)$what_we_are_lookingfor$date"
+							catch { system "rm $destination_directories($tree)$image_file"} fid
+							set image_file $what_we_are_lookingfor$date
+							if { [file exists "$destination_directories($tree)$image_file"] } {
+								set file_created_at [file mtime "$destination_directories($tree)$image_file"]
+							}
+						}
+						system "chmod 777 $destination_directories($tree)*"
+					} else {
+						puts " $file_created_at and $second_file_created_at"
+					}
+					break
+				}
+			}
+		}
+	} else {
+		puts " router $router is not defined in clean.$testbed \n"
+	}
+
+}
+
+return
+
+}
+
+
+proc autotie_submit_test_server {args} {
+    global test_name test_tree test_priority test_file test_date test_project SSH_PWD tims_export tims_variables
+    global env testbed
+	set man_args {
+	-testbed	      ANY
+	-testID		      ANY
+	-tree		      ANY
+	-project	      ANY
+	-TIMS		      ANY
+	-server		      ANY
+    } ; # end mandatory args
+
+    set opt_args {
+	-automation           CHOICES TRUE FALSE
+	DEFAULT		      FALSE
+    } ; # end optional args
+
+
+    parse_dashed_args                     \
+        -args $args                       \
+        -mandatory_args $man_args         \
+        -optional_args $opt_args
+
+
+	set timeout 36000
+	puts " Starting test  $test_name($testID) with $tree tree and server $server"
+
+         if { $test_tree($testID) != "" } {
+		system "$test_tree($testID)/env.csh"
+  	}
+	puts " lets do this $env(TCLLIBPATH) puts $test_tree($testID) " 
+	exit
+
+     if { ![file exists "$env(AUTOTEST)/local/images/$test_name($testID).suite"] } {
+		puts " file doesnt exist $env(AUTOTEST)/local/images/$test_name($testID).suite"
+		return 0
+	}
+
+     if { [catch {
+		if { $TIMS == "TRUE" && $tims_export($tree) == "TRUE" } {
+			system "echo '$tims_variables($tree)' > $env(AUTOTEST)/local/images/$test_name($testID).queue"
+			set system_command "autoeasy -ni -nc -i $test_name($testID) -t $testbed -cf $env(AUTOTEST)/stg_reg/utils/tie/config/CONFIG.$testbed -p" 
+			puts "$system_command"
+			puts "connecting to $server"
+			set ID [spawn ssh $server]
+			expect "passphrase"
+			send "$SSH_PWD\r"
+			sleep 1
+			send "\n"
+			expect "$server"
+			sleep 1
+			send "\n"
+			expect "$server"
+			send "$system_command\r"
+			sleep 3
+			expect "$server"
+			sleep 1
+			send "\n"
+			expect "$server"
+			send "exit\n"
+		} else {
+			set system_command "autoeasy -ni -nc -i $test_name($testID) -t $testbed -cf $env(AUTOTEST)/stg_reg/utils/tie/config/CONFIG.$testbed"
+			puts "$system_command"
+			puts "connecting to $server"
+			set ID [spawn ssh $server]
+			expect "passphrase"
+			send "$SSH_PWD\r"
+			sleep 1
+			send "\n"
+			expect "$server"
+			sleep 1
+			send "\n"
+			expect "$server"
+			send "$system_command\r"
+			sleep 3
+			expect "$server"
+			sleep 1
+			send "\n"
+			expect "$server"
+			send "exit\n"
+		}
+    } result]} {
+        puts "test failed in $result"
+    }
+
+}
+
+proc update_router_info {args} {
+    global test_name test_priority test_file test_tree test_date test_project test_server
+    global env testbed ROUTERS router_image
+	set man_args {
+	-project	      ANY
+    } ; # end mandatory args
+
+    set opt_args {
+	-automation           CHOICES TRUE FALSE
+	DEFAULT		      FALSE
+    } ; # end optional args
+
+
+    parse_dashed_args                     \
+        -args $args                       \
+        -mandatory_args $man_args         \
+        -optional_args $opt_args
+
+
+package require mysqltcl
+
+    set lf [open "/tmp/Autocookie" a+]
+    puts $lf "Entering earms_reporting"
+    puts $lf "Connecting to database"
+
+    if { [catch {
+        set conn [mysqlconnect -host joao-lnx -user tie -db TIE  ]
+	mysqluse $conn TIE
+	puts $lf  " update_router_info connected to database "
+    } result]} {
+        puts $lf " update_router_info Cannot connect to database: $result"
+    }
+
+# ID,Name,File,Date,Priority
+     if { [catch {
+        set query [mysqlquery $conn "SELECT  ID,Name,File,Date,Priority,Testbed,ExecServer FROM Testsconfig WHERE Project='$project'"]
+		while {[set row [mysqlnext $query]]!=""} {
+			#puts "tou aqui"
+			set ID [lindex $row 0]
+			set Name [lindex $row 1]
+			set File [lindex $row 2]
+			set Date [lindex $row 3]
+			set Priority [lindex $row 4]
+			set testbed_for_test [lindex $row 5]
+			if { [info exists ID] && [info exists File] && [info exists Date] && [info exists Priority] && [info exists Name] &&  [file exist $File] } {
+				#puts "tou aqui2"
+				set test_file($ID) $File
+				set suite [exec cat $File]
+				set routers "$testbed"
+				set i 1
+				foreach router $ROUTERS($env(_ATS_TESTBED)) {
+					set router$i $router
+					#puts " Extracing info from router $router"
+					if { [ regexp "router$i " $suite all garba] && [info exists router_image($router-custom)]  } {
+						set routers "$routers $router_image($router-custom)"
+					} elseif { [ regexp "$router " $suite all garba] && [info exists router_image($router-custom)] } {
+						set routers "$routers $router_image($router-custom)"
+					} 
+					incr i
+				}
+				#puts " os routers para este tests sao $routers"
+				mysqlexec $conn "UPDATE Testsconfig SET Routers='$routers' WHERE ID='$ID'"
+			}
+		}
+    } result]} {
+        puts $lf " update_router_info Cannot extract info: $result"
+    }
+
+
+if { [catch {
+        mysqlclose $conn
+	
+	puts $lf "update_router_info  able to disconnect from database"
+   	 } result]} {
+        puts $lf "update_router_info no able to disconnect to database: $result"
+ }
+close $lf
+return 0
+}
+
+proc autotie_select_next_test {args} {
+    global test_name test_priority test_file test_date test_project fase pre_ID_test test_tree
+
+    if { ![info exists fase] } {
+	set fase ""
+    }
+
+    global env testbed
+	set man_args {
+	-testbed	   ANY
+	-mode              ANY
+	-tree_selection    ANY
+	-project	   ANY
+    } ; # end mandatory args
+
+    set opt_args {
+	-automation           CHOICES TRUE FALSE
+	DEFAULT		      FALSE
+    } ; # end optional args
+
+
+    parse_dashed_args                     \
+        -args $args                       \
+        -mandatory_args $man_args         \
+        -optional_args $opt_args
+
+set today_date [clock seconds]
+set total_probability 0
+
+switch $mode {
+	"NORMAL" {
+		if { $fase == "3" } {
+			set fase ""
+		}
+		if { $fase == "1" } {
+			set fase 2
+			set test "$pre_ID_test baseline"
+			return $test
+		}
+		if { $fase == "2" } {
+			set fase 3
+			set test "$pre_ID_test solid"
+			return $test
+		}
+		#This mode is going to a be a basic of time X priority
+		foreach id [array names test_name] {
+		if { [catch {
+		set epoch_date [clock scan $test_date($id)]
+		} result]} {
+		puts "Date not valid give generic value"
+			set epoch_date 10000
+		}
+		set diference [expr $today_date - $epoch_date]
+		set diference [expr $diference / 60 / 60 /24 ]
+		if {[expr $diference <= 0]} {
+			set diference 1
+		} 
+		set test_probability($id) [expr $diference * $test_priority($id)]
+		puts " the test probability $test_name($id)  is $test_probability($id)"
+		set total_probability [expr $total_probability + $test_probability($id)]
+		}
+			
+		set select [expr rand()* ($total_probability)]
+		set probability 0
+		set total_probability 0 
+		puts "Select point $select"
+		#puts " Total probability is $total_probability "
+		foreach id [array names test_name] {
+			set total_probability [expr $total_probability + $test_probability($id)]
+			if { [expr $probability  <= $select] && [expr $total_probability  >= $select] && ![info exists ID] } {
+				set testselected $id
+				puts "test selected was $test_name($id)"
+				if { $test_tree($id) != "" } {
+					puts " This test runs in a different tree set it up"
+					set env(AUTOTEST) "$test_tree($id)"
+					set env(ATS_EASY) "$test_tree($id)"
+					set env(ATS_USER_PATH) "$test_tree($id)"
+					set env(MANPATH) "$env(MANPATH):$test_tree($id)"
+					set env(PATH) "$env(PATH):$test_tree($id)"
+					set env(LD_LIBRARY_PATH) "$env(LD_LIBRARY_PATH):$test_tree($id)"
+				}
+				if { [file exists $test_file($id) ] } {
+					system "cp $test_file($id)  $env(AUTOTEST)/local/images/$test_name($id).suite"
+				}
+				set ID $id
+			}
+			set probability [expr $probability + $test_probability($id)]
+		}
+
+		if { $tree_selection == "FALSE" } {
+			set fase 3
+			set test "$ID same"
+			return $test
+		} else {
+			set fase 1
+			set test "$ID testing"
+			set pre_ID_test "$ID"
+			return $test
+		}
+		set test "this should never happen"
+		return $test
+	}
+	"NORMAL_NOSOLID" {
+		if { $fase == "2" } {
+			set fase ""
+		}
+		if { $fase == "1" } {
+			set fase 2
+			set test "$pre_ID_test baseline"
+			return $test
+		}
+		#This mode is going to a be a basic of time X priority
+		foreach id [array names test_name] {
+		if { [catch {
+		set epoch_date [clock scan $test_date($id)]
+		} result]} {
+		puts "Date not valid give generic value"
+			set epoch_date 10000
+		}
+		set diference [expr $today_date - $epoch_date]
+		set diference [expr $diference / 60 / 60 /24 ]
+		if {[expr $diference <= 0]} {
+			set diference 1
+		} 
+		set test_probability($id) [expr $diference * $test_priority($id)]
+		puts " the test probability $test_name($id)  is $test_probability($id)"
+		set total_probability [expr $total_probability + $test_probability($id)]
+		}
+			
+		set select [expr rand()* ($total_probability)]
+		set probability 0
+		set total_probability 0 
+		puts "Select point $select"
+		#puts " Total probability is $total_probability "
+		foreach id [array names test_name] {
+			set total_probability [expr $total_probability + $test_probability($id)]
+			if { [expr $probability  <= $select] && [expr $total_probability  >= $select] && ![info exists ID] } {
+				set testselected $id
+				puts "test selected was $test_name($id)"
+				if { $test_tree($id) != "" } {
+					puts " This test runs in a different tree set it up"
+					set env(AUTOTEST) "$test_tree($id)"
+					set env(ATS_EASY) "$test_tree($id)"
+					set env(ATS_USER_PATH) "$test_tree($id)"
+					set env(MANPATH) "$env(MANPATH):$test_tree($id)"
+					set env(PATH) "$env(PATH):$test_tree($id)"
+					set env(LD_LIBRARY_PATH) "$env(LD_LIBRARY_PATH):$test_tree($id)"
+				}
+				if { [file exists $test_file($id) ] } {
+					system "cp $test_file($id)  $env(AUTOTEST)/local/images/$test_name($id).suite"
+				}
+				set ID $id
+			}
+			set probability [expr $probability + $test_probability($id)]
+		}
+
+		if { $tree_selection == "FALSE" } {
+			set fase 3
+			set test "$ID same"
+			return $test
+		} else {
+			set fase 1
+			set test "$ID testing"
+			set pre_ID_test "$ID"
+			return $test
+		}
+		set test "this should never happen"
+		return $test
+	}
+	"VERTICAL" {
+		#This mode is going to a be a basic of time X priority
+		foreach id [array names test_name] {
+		if { [catch {
+		set epoch_date [clock scan $test_date($id)]
+		} result]} {
+		puts "Date not valid give generic value"
+			set epoch_date 10000
+		}
+		set diference [expr $today_date - $epoch_date]
+		set diference [expr $diference / 60 / 60 /24 ]
+		if {[expr $diference <= 0]} {
+			set diference 1
+		} 
+		set test_probability($id) [expr $diference * $test_priority($id)]
+		puts " the test probability $test_name($id)  is $test_probability($id)"
+		set total_probability [expr $total_probability + $test_probability($id)]
+		}
+			
+		set select [expr rand()* ($total_probability)]
+		set probability 0
+		set total_probability 0 
+		puts "Select point $select"
+		#puts " Total probability is $total_probability "
+		foreach id [array names test_name] {
+			set total_probability [expr $total_probability + $test_probability($id)]
+			if { [expr $probability  <= $select] && [expr $total_probability  >= $select] && ![info exists ID] } {
+				set testselected $id
+				puts "test selected was $test_name($id)"
+				if { $test_tree($id) != "" } {
+					puts " This test runs in a different tree set it up"
+					set env(AUTOTEST) "$test_tree($id)"
+					set env(ATS_EASY) "$test_tree($id)"
+					set env(ATS_USER_PATH) "$test_tree($id)"
+					set env(MANPATH) "$env(MANPATH):$test_tree($id)"
+					set env(PATH) "$env(PATH):$test_tree($id)"
+					set env(LD_LIBRARY_PATH) "$env(LD_LIBRARY_PATH):$test_tree($id)"
+				}
+				system "cp $test_file($id)  $env(AUTOTEST)/local/images/$test_name($id).suite"
+				set ID $id
+			}
+			set probability [expr $probability + $test_probability($id)]
+		}
+
+		if { tree_selection == "FALSE" } {
+			set fase 3
+			set test "$ID same"
+			return $test
+		} else {
+			
+			package require mysqltcl
+			
+			set lf [open "/tmp/Autocookie" a+]
+			puts $lf "Entering earms_reporting"
+			puts $lf "Connecting to database"
+			
+			if { [catch {
+				set conn [mysqlconnect -host joao-lnx -user tie -db TIE  ]
+				mysqluse $conn TIE
+				puts $lf "autotie_select_tree onnected to database"
+			} result]} {
+				puts $lf "autotie_select_tree Cannot connect to database: $result"
+			}
+			# ID,Name,File,Date,Priority
+			if { [catch {
+				set query [mysqlquery $conn "SELECT  Testing,Baseline,M FROM Testsconfig WHERE Project='$project' AND ID='$ID'"]
+				while {[set row [mysqlnext $query]]!=""} {
+					set testing [lindex $row 0]
+					set baseline [lindex $row 1]
+					set solid [lindex $row 2]
+				}
+			} result]} {
+				puts $lf "Cannot connect to database: $result"
+			}
+			
+			# OK GO check last time baseline and testing were run
+			if { [catch {
+				set query [mysqlquery $conn "SELECT  Date FROM RESULTS WHERE Project='$project' AND ID='$ID' AND Tree='baseline'"]
+				while {[set row [mysqlnext $query]]!=""} {
+					set Datebaseline [lindex $row 0]
+					puts "the day of testing was $Datebaseline"
+				}
+			} result]} {
+				puts $lf "Cannot connect to database: $result"
+			}
+
+			if { [catch {
+				set query [mysqlquery $conn "SELECT  Date FROM RESULTS WHERE Project='$project' AND ID='$ID' AND Tree='testing'"]
+				while {[set row [mysqlnext $query]]!=""} {
+					set Datetesting [lindex $row 0]
+					puts "the day of testing was $Datetesting"
+				}
+			} result] } {
+				puts $lf "Cannot connect to database: $result"
+			}
+			
+			if { [catch {
+				set query [mysqlquery $conn "SELECT  Date FROM RESULTS WHERE Project='$project' AND ID='$ID' AND Tree='solid'"]
+				while {[set row [mysqlnext $query]]!=""} {
+					set Datesolid [lindex $row 0]
+					puts "the day of testing was $Datesolid"
+				}
+			} result]} {
+				puts $lf "Cannot connect to database: $result"
+			}
+			
+			#calculate priorities
+	
+			if { [catch {
+			
+				if { [catch {
+					set baseline_date [clock scan $Datebaseline]
+				} result]} {
+					set baseline_date 10000
+				}
+				if { [catch {
+					set testing_date [clock scan $Datetesting]
+				} result]} {
+					set testing_date 10000
+				}
+				if { [catch {
+					set solid_date [clock scan $Datesolid]
+				} result]} {
+					set solid_date 10000
+				}
+				set today_date [clock seconds]
+				set solid_priority [expr ($today_date - $solid_date) / 60]
+				set baseline_priority [expr ($today_date - $baseline_date) / 60]
+				set testing_priority [expr ($today_date - $testing_date) / 60]
+			} result]} {
+				set baseline_priority 2
+				set testing_priority 3
+				set solid_priority 1
+			}
+			
+			
+			if { [catch {
+				mysqlclose $conn
+				puts $lf " autotie_select_tree able to disconnect from database"
+			} result]} {
+				puts $lf " autotie_select_tree no able to disconnect to database: $result"
+			}
+			
+			close $lf
+			
+			#CASE 1
+			# Solid has at least one pass rate verify if Baseline was ever run if not run it
+			if { $baseline == "" } {
+				puts "Solid never run, lets run baseline"
+				set test "$ID baseline"
+				return $test
+			}
+			
+			#CASE2 see if Testing was ever run
+			if { $testing == "" } {
+				puts "testing never run, lets run testing"
+				set test "$ID testing"
+				return $test
+			}
+			
+			# CASE 3 Solid NEVER BEEN RUN, OR PASS RATE = 0 in Solid
+			puts "o ID dest test e $ID"
+			if { $solid == "" } {
+				puts "Solid never run, lets run baseline"
+				set test "$ID solid"
+				return $test
+			}
+			
+			## calculate3 priorities
+			
+			set testing_priority [expr $testing_priority * $testing_priority_env]
+			set baseline_priority [expr $baseline_priority * $baseline_priority_env]
+			set solid_priority [expr $solid_priority * $solid_priority_env]
+			
+			if { [expr $solid_priority > $baseline_priority]  && [expr $solid_priority > $testing_priority] } {
+				set test "$ID solid"
+				return $test
+			}
+			
+			
+			if { [expr $testing_priority > $baseline_priority] } {
+				set test "$ID testing"
+				return $test
+			} else {
+				set test "$ID baseline"
+				return $test
+			}
+			
+			puts "arrived here, should not run solid"
+			set test "$ID testing"
+			return $test
+		}
+	}
+}
+
+puts "Error test selection failed"
+exit
+
+}
+
+
+proc autotie_test_in_queue {args} {
+    global test_name test_priority test_file test_date test_project test_tree
+    global env testbed
+
+	set man_args {
+	-testbed	   ANY
+	-project	   ANY
+    } ; # end mandatory args
+
+    set opt_args {
+	-automation           CHOICES TRUE FALSE
+	DEFAULT		      FALSE
+    } ; # end optional args
+
+
+    parse_dashed_args                     \
+        -args $args                       \
+        -mandatory_args $man_args         \
+        -optional_args $opt_args
+
+	package require mysqltcl
+
+    set lf [open "/tmp/Autocookie" a+]
+    puts $lf "Entering earms_reporting"
+    puts $lf "Connecting to database"
+
+	set final_result "False"
+
+    if { [catch {
+        set conn [mysqlconnect -host joao-lnx -user tie -db TIE  ]
+	mysqluse $conn TIE
+	puts $lf  " autotie_test_in_queue connected to database"
+    } result]} {
+        puts $lf " autotie_test_in_queue Cannot connect to database: $result"
+    }
+	# ID,Name,File,Date,Priority
+     if { [catch {
+        set query [mysqlquery $conn "SELECT  ID,Testbed,Tree,Suffix,Time FROM QUEUE WHERE Project='$project' order by Time asc"]
+		while {[set row [mysqlnext $query]]!=""} {
+			set ID [lindex $row 0]
+			set testbed_for_test [lindex $row 1]
+			set Tree [lindex $row 2]
+			set Suffix [lindex $row 3]
+			if { $Suffix == "" } {
+				set Suffix "."
+			}
+			set Time [lindex $row 4]
+			if { $Tree == "testing" || $Tree == "baseline" || $Tree == "solid" } {
+				if { $testbed_for_test == "" } {
+					puts "Tree is $Tree and testbed match"
+					set final_result "True"
+				}
+				if { [regexp "$testbed_for_test" $testbed result] } {
+					puts "Tree is $Tree and testbed match"
+					set final_result "True"
+				}
+			} elseif { $Tree != "" } {
+				set images_ready [tie_check_images_ready -folder $Tree -suffix $Suffix -Time $Time -ID $ID]
+				if { $images_ready == "1" } {
+					puts "autotie_test_in_queue: test in queue and images found"
+					set final_result "True"
+				}
+				puts "autotie_test_in_queue: Not all necessary images found"
+			}
+		}
+    } result]} {
+	 puts $lf " autotie_test_in_queue reading tests tests: $result"
+    }
+
+if { [catch {
+        mysqlclose $conn
+	
+	puts $lf "update_router_info  able to disconnect from database"
+   	 } result]} {
+        puts $lf "update_router_info no able to disconnect to database: $result"
+ }
+if { $final_result == "True" } {
+	return "True"
+
+} else {
+return "False"
+}
+
+}
+
+proc tie_check_images_ready {args} {
+    global test_name test_priority test_file test_date test_project destination_directories routertype router_image test_tree
+    global env testbed ROUTERS custom
+
+	set man_args {
+	-folder		   ANY
+	-suffix  	   ANY
+	-Time		   ANY
+	-ID		   ANY
+    } ; # end mandatory args
+
+    set opt_args {
+	-automation           CHOICES TRUE FALSE
+	DEFAULT		      FALSE
+    } ; # end optional args
+
+    parse_dashed_args                     \
+        -args $args                       \
+        -mandatory_args $man_args         \
+        -optional_args $opt_args
+
+
+	set tree "custom"
+
+    set lf [open "/tmp/Autocookie" a+]
+    puts $lf "Entering earms_reporting"
+    puts $lf "Connecting to database"
+
+    if { [catch {
+        set conn [mysqlconnect -host joao-lnx -user tie -db TIE  ]
+	mysqluse $conn TIE
+	puts $lf  " tie_check_images_ready connected to database"
+    } result]} {
+        puts $lf " tie_check_images_ready Cannot connect to database: $result"
+    }
+
+     if { [file isdirectory "$folder" ] } {	
+	} else {
+	 puts "$folder doesn't exist update database , please provide a valid directory\n"
+	if { [catch {
+		mysqlexec $conn "UPDATE QUEUE SET Status='$folder does not exist' WHERE Time='$Time' AND ID='$ID'"
+		puts $lf "tie_check_images_ready tree doesnt exist results"
+	} result]} {
+		puts $lf "tie_check_images_ready tree doesnt exist $result"
+	}
+	return 0
+      }
+
+	if { [catch {
+		mysqlclose $conn
+		puts $lf "update_router_info  able to disconnect from database"
+	} result]} {
+	puts $lf "update_router_info no able to disconnect to database: $result"
+ 	}
+
+
+set listoffiles [glob -nocomplain -directory $folder *]
+
+puts $listoffiles
+
+set listoffiles2 [glob -nocomplain -directory $destination_directories(custom) *]
+
+puts $listoffiles2
+
+
+set file $test_file($ID)
+set suite [exec cat $file]
+
+set i "1"
+foreach router $ROUTERS($env(_ATS_TESTBED)) {
+
+	set router$i $router
+	puts " looking for $router in suite file"
+	if { [ regexp "router$i " $suite all garba] } {
+		puts "router$i found in suite"	
+		set extractrouter YES
+	} elseif { [ regexp "$router " $suite all garba] } {
+		set extractrouter YES
+	} else {
+		set extractrouter NO
+	}
+
+	if { [info exists routertype($router)] && $extractrouter == "YES" } {
+		set found "NO"
+		puts " looking up for $router "
+		set what_we_are_lookingfor "$router_image($router-$tree)"
+		if { [string match -nocase "*$router_image($router-$tree)*" $listoffiles] &&  $found == "NO"  } {
+			puts " Looking up in specific folder $what_we_are_lookingfor + $suffix "
+			if { [regexp "($what_we_are_lookingfor\[-_A-z\.0-9\]+$suffix)" $listoffiles image_file] }  {
+					puts "$folder$image_file"
+					if { [file exists $folder$image_file ] } {
+						set custom($router) "$folder$image_file"
+						set found "YES"
+					}
+					unset image_file
+			}
+		} 
+		if { [string match -nocase "*$router_image($router-$tree)*" $listoffiles2] && $found == "NO"  } {
+			puts " Looking up in general folder folder"
+			if { [regexp "($what_we_are_lookingfor\[-_A-z.0-9\]+)" $listoffiles image_file] }  {
+					set custom($router) "$destination_directories(custom)$image_file" 
+					set found "YES"
+			}  
+		} 
+		if { [regexp "($what_we_are_lookingfor)" $listoffiles2 image_file] && $found == "NO" } {
+			set custom($router) $destination_directories(custom)$image_file" 
+			set found "YES"
+		}
+		if { $found == "NO" } {
+			puts " Image needed not found, update dabase and return 0 "
+
+			if { [catch {
+				set conn [mysqlconnect -host joao-lnx -user tie -db TIE  ]
+				mysqluse $conn TIE
+				puts $lf  " tie_check_images_ready connected to database"
+			} result]} {
+				puts $lf " tie_check_images_ready Cannot connect to database: $result"
+			}				
+
+			if { [catch {
+				mysqlexec $conn "UPDATE QUEUE SET Status='$router image not found waiting' WHERE Time='$Time' AND ID='$ID'"
+				puts $lf "tie_check_images_ready tree doesnt exist results"
+				} result]} {
+				puts $lf "tie_check_images_ready tree doesnt exist $result"
+			}
+
+			if { [catch {
+				mysqlclose $conn
+				puts $lf "update_router_info  able to disconnect from database"
+				} result]} {
+				puts $lf "update_router_info no able to disconnect to database: $result"
+			}
+			return 0
+		}
+	} else {
+			puts " router not part of test"
+	}
+	incr i
+}
+
+puts "found images for all routers \n"
+return 1
+
+
+}
+
+proc tie_queue_test_to_run {args} {
+    global test_name test_priority test_file test_date test_project test_tree test_notes test_debug
+    global env testbed
+
+	set man_args {
+	-testbed	   ANY
+	-project	   ANY
+    } ; # end mandatory args
+
+    set opt_args {
+	-automation           CHOICES TRUE FALSE
+	DEFAULT		      FALSE
+    } ; # end optional args
+
+
+    parse_dashed_args                     \
+        -args $args                       \
+        -mandatory_args $man_args         \
+        -optional_args $opt_args
+
+	package require mysqltcl
+
+    set lf [open "/tmp/tie_queue_test_to_run" a+]
+    puts $lf "Entering earms_reporting"
+    puts $lf "Connecting to database"
+
+    if { [catch {
+        set conn [mysqlconnect -host joao-lnx -user tie -db TIE  ]
+	mysqluse $conn TIE
+	puts $lf  " tie_queue_test_to_run connected to database"
+    } result]} {
+        puts $lf " tie_queue_test_to_run Cannot connect to database: $result"
+    }
+
+# ID,Name,File,Date,Priority
+set query [mysqlquery $conn "SELECT  ID,Testbed,Tree,Suffix,Time,Notes,Debugs FROM QUEUE WHERE Project='$project' order by Time asc"]
+set found "NO"
+set test_queue "NONE"
+while {[set row [mysqlnext $query]]!="" && $found == "NO"} {
+	set ID [lindex $row 0]
+	set testbed_for_test [lindex $row 1]
+	set Tree [lindex $row 2]
+	set Suffix [lindex $row 3]
+	set Time [lindex $row 4]
+	set Notes [lindex $row 5]
+	set Debugs [lindex $row 6]
+	set test_debug($ID) "$Debugs"
+	set test_notes($ID) "$Tree $Suffix $Debugs $Notes"
+	if { $Tree == "testing" || $Tree == "baseline" || $Tree == "solid" } {
+		if { $testbed_for_test == "" } {
+			puts "Tree is $Tree and testbed match"
+			set test_queue "$ID $Tree"
+			system "cp $test_file($ID)  $env(AUTOTEST)/local/images/$test_name($ID).suite"
+			set found "YES"
+		}
+		if { [regexp "$testbed_for_test" $testbed result] } {
+			puts "Tree is $Tree and testbed match"
+			set test_queue "$ID $Tree"
+			system "cp $test_file($ID) $env(AUTOTEST)/local/images/$test_name($ID).suite"
+			set found "YES"
+		}
+	}
+	if { $Tree != "" } {
+		set images_ready [tie_check_images_ready -folder $Tree -suffix $Suffix -Time $Time -ID $ID]
+		if { $images_ready == "1" } {
+			puts "tie_queue_test_to_run test in queue and images found"
+			system "cp $test_file($ID) $env(AUTOTEST)/local/images/$test_name($ID).suite"
+			set test_queue "$ID custom"
+			puts "value of test here $test_queue"
+			set found "YES"
+		}
+	}
+}
+
+
+if { $test_queue != "NONE" } {
+
+	mysqlquery $conn "DELETE FROM QUEUE WHERE Project='$project' AND Time='$Time' AND ID='$ID'"
+	mysqlclose $conn
+	return $test_queue
+
+}
+
+puts " should never arrive here, variable shows $test_queue , there should be a good test in queue, it was verified milliseconds before"
+exit
+
+}
+
+proc tie_load_spirent_variables {args} {
+    global env testbed
+
+	set man_args {
+	-version
+    } ; # end mandatory args
+
+    set opt_args {
+	-automation           CHOICES TRUE FALSE
+	DEFAULT		      FALSE
+    } ; # end optional args
+
+   parse_dashed_args                     \
+        -args $args                       \
+        -mandatory_args $man_args         \
+        -optional_args $opt_args
+
+if { $version == "3.6"} {
+	set env(SPIRENT_TCLAPI_ROOT) "/auto/td-devtest/avalanche/Spirent_TestCenter_3.60/TclAPI/"
+	set env(LD_LIBRARY_PATH) "/auto/td-devtest/avalanche/Spirent_TestCenter_3.60/STC:$env(AUTOTEST)/lib/dload.linux2:/usr/local/lib"
+	set env(SPIRENT_TCLAPI_LICENSEROOT) "/auto/ios-fw-devtest/avalanche/licenses"
+}
+
+if { $version == "3.9"} {
+	set env(SPIRENT_TCLAPI_ROOT) "/auto/td-devtest/avalanche/Spirent_TestCenter_3.90/TclAPI/"
+	set env(LD_LIBRARY_PATH) "/auto/td-devtest/avalanche/Spirent_TestCenter_3.90/STC:$env(AUTOTEST)/lib/dload.linux2:/usr/local/lib"
+	set env(SPIRENT_TCLAPI_LICENSEROOT) "/auto/ios-fw-devtest/avalanche/licenses"
+}
+
+
+}
+
+proc tie_load_ixia_variables {args} {
+    global env testbed
+
+	set man_args {
+	-version
+    } ; # end mandatory args
+
+    set opt_args {
+	-automation           CHOICES TRUE FALSE
+	DEFAULT		      FALSE
+    } ; # end optional args
+
+   parse_dashed_args                     \
+        -args $args                       \
+        -mandatory_args $man_args         \
+        -optional_args $opt_args
+
+if { $version == "6"} {
+	################################
+	# Set Ixload env
+	###############################
+	set  env(IXIA_HOME) "/auto/stg-devtest/joaofer/lib/tclUtils/ixos6.0"
+	set  env(IXLOAD_5_10_151_67_INSTALLDIR) "/auto/stg-devtest/joaofer/lib/tclUtils/ixos6.0/lib/IxLoad5.10-EA-SP1"
+	# USER MAY NEED TO CHANGE THESE IF USING OWN TCL LIBRARY
+	set  env(TCL_HOME) "/auto/ttsw/ActiveTcl/8.4.19/"
+	set  env(TCLver) "8.4"
+	# USER NORMALLY DOES NOT CHANGE ANY LINES BELOW
+	set  env(IxiaLibPath) "${env(IXIA_HOME)}/lib"
+	set  env(IxiaBinPath) "${env(IXIA_HOME)}/bin"
+	set  env(TCLLibPath) "${env(IXIA_HOME)}/lib"
+	set  env(TCLBinPath) "${env(IXIA_HOME)}/bin"
+	set  env(TCL_LIBRARY) "${env(IXIA_HOME)}/tcl${env(TCLver)}"
+	set  env(TK_LIBRARY) "${env(IXIA_HOME)}/tk${env(TCLver)}"
+	set  env(PATH) "${env(IxiaBinPath)}:${env(TCLBinPath)}:$env(PATH)"
+	#TCLLIBPATH=${env(IxiaLibPath)}:${env(TCLLIBPath)};
+	# does not work, not a set of paths, must point to Ixia only
+	set  env(TCLLIBPATH) "$env(IxiaLibPath)"
+	set  env(LD_LIBRARY_PATH) "${env(IxiaLibPath)}:${env(TCLLibPath)}:${env(LD_LIBRARY_PATH)}"
+	set  env(IXIA_RESULTS_DIR) "/tmp/Ixia/Results"
+	set  env(IXIA_LOGS_DIR) "/tmp/Ixia/Logs"
+	set  env(IXIA_TCL_DIR) "$env(TCLLibPath)"
+	set  env(IXIA_SAMPLES) "${env(TCLLibPath)}/ixTcl1.0"
+	set  env(IXIA_VERSION) "6.0"
+	}
+
+}
+
+
+
+proc tie_load_test_settings {args} {
+  global env testbed test_class test_tree test_file test_name test_platform
+
+    set man_args {
+	-ID
+	-tree
+    } ; # end mandatory args
+
+    set opt_args {
+	-automation           CHOICES TRUE FALSE
+	DEFAULT		      FALSE
+    } ; # end optional args
+
+   parse_dashed_args                     \
+        -args $args                       \
+        -mandatory_args $man_args         \
+        -optional_args $opt_args
+
+puts "tie_load_test_settings:Loading custom setting for test"
+
+	if { $test_tree($ID) != "" } {
+		puts " This test runs in a different tree set it up"
+		set env(AUTOTEST) "$test_tree($ID)"
+		set env(ATS_EASY) "$test_tree($ID)"
+		set env(ATS_USER_PATH) "$test_tree($ID)"
+		set env(MANPATH) "$env(MANPATH):$test_tree($ID)"
+		set env(PATH) "$env(PATH):$test_tree($ID)"
+		set env(LD_LIBRARY_PATH) "$env(LD_LIBRARY_PATH):$test_tree($ID)"
+	}
+
+	
+	if { [regexp {avalanche} $test_class($ID) all] } {
+		if { $tree == "custom"} {
+			#custom tree will always want to test testing for avalanche
+			set tree "testing"
+		}
+
+		tie_load_spirent_variables -version 3.9
+		
+		if { [file exists $test_file($ID) ] } {
+			system "cp $test_file($ID)  $env(AUTOTEST)/local/images/$test_name($ID).suite"
+		}
+		puts "tie_load_test_settings:Loaded custom test for Avalanche"
+	}
+
+	if { [regexp {ixia} $test_class($ID) all] } {
+		if { $tree == "custom"} {
+			#custom tree will always want to test testing for avalanche
+			set tree "testing"
+		}
+
+		tie_load_ixia_variables -version 6
+		if { [file exists $test_file($ID) ] } {
+			system "cp $test_file($ID)  $env(AUTOTEST)/local/images/$test_name($ID).suite"
+		}
+		puts "tie_load_test_settings:Loaded custom test for Avalanche"
+	}
+
+}
+
+proc autotie_load_debug_commands {args} {
+  global env testbed test_class test_tree test_file test_name test_debug TYPE ROUTERS DEBUG
+
+    set man_args {
+	-ID
+    } ; # end mandatory args
+
+    set opt_args {
+	-automation           CHOICES TRUE FALSE
+	DEFAULT		      FALSE
+    } ; # end optional args
+
+   parse_dashed_args                     \
+        -args $args                       \
+        -mandatory_args $man_args         \
+        -optional_args $opt_args
+
+set i 1
+set file $test_file($ID)
+set suite [exec cat $file]
+
+if { [info exists test_debug($ID)] } {
+	if { $test_debug($ID) == "" } { return }
+	foreach router $ROUTERS($env(_ATS_TESTBED)) {
+		set router$i $router
+		#puts " Extracing info from router"
+		if { [ regexp "router$i " $suite all garba] } {
+			puts "router$i found in suite"	
+			set extractrouter YES
+		} elseif { [ regexp "$router " $suite all garba] } {
+			set extractrouter YES
+		} else {
+			set extractrouter NO
+		}
+		if { $extractrouter == "YES" && $TYPE($router) != "WAAS" }  {
+			set fork($i) [fork]
+			if { $fork($i) == 0 } {
+				if { $DEBUG == "ON" } {sleep 60}
+				#OPEN CONSOLE IN ROUTER 
+				if { [catch {console $router} fid] } {
+					puts stderr "Not able to open console on $router"
+				} 
+				
+				#SEND CONFIG COMMAND
+				if { [catch {
+					set debugs [split $test_debug($ID) ","]
+					foreach debug $debugs {
+						$router exec "$debug"
+					}
+				} fid] } {
+					puts stderr "Not able to open console on $router $fid"
+				}
+				if { [catch {$router destroy} fid] } {
+					puts stderr "Not able to open console on $router"
+				}
+				exit
+			}
+		}
+		incr i
+	}
+}
+
+set test_debug($ID) ""
+
+puts "##### Waiting for commands to complete #####\n"
+set i 1
+if { [catch {
+	foreach router $ROUTERS($env(_ATS_TESTBED)) {
+		if { [info exists fork($i) ] } { 
+			set line [exec ps -ef | grep expect | grep $fork($i)]
+			while {[string match -nocase "*$fork($i)*" $line] && ![string match -nocase "*defunct*" $line]} {
+				set line [exec ps -e | grep expect | grep $fork($i)]
+				sleep 2
+			}
+		}
+		incr i
+	}
+} result]} {
+	puts "Something went wrong here $result"
+}
+
+}

@@ -1,0 +1,199 @@
+#!/bin/sh
+
+#==============================================================================
+# To boot a single router
+#------------------------------------------------------------------------------
+# Minor and cosmetic modifications from TCL Script by Paras Trivedi
+#==============================================================================
+
+#==============================================================================
+# Starter kludge
+#------------------------------------------------------------------------------
+set starter { ${1:+"$@"}
+    shift
+    shift
+    export AUTOTEST
+    AUTOTEST="${AUTOTEST-/autons/autotest}"
+    exec $AUTOTEST/bin/expect -f $0 -- ${1:+"$@"}
+}
+
+#==============================================================================
+# Define procedures
+#------------------------------------------------------------------------------
+proc showHelp {} {
+    global self
+    puts "
+Usage: $self \[options\] <testbed> <router> <comeplete path image>
+       $self -help
+
+where options include:
+
+  -clean     Perform a \"wr erase\" before loading the router
+  -showlog   Print the log to STDOUT
+"
+}
+
+proc die {mesg exitStatus} {
+    puts stderr $mesg
+    exit $exitStatus
+}
+
+proc repeat {str times} {
+    set retStr {}
+    incr times
+    while { [incr times -1] } { append retStr $str }
+    return $retStr
+}
+
+#==============================================================================
+# Find the basename on the command name and initialize valiables
+#------------------------------------------------------------------------------
+global self; regsub {.*\/} [shift argv] {} self
+set doClean 0
+set showLog 0
+
+#==============================================================================
+# Option and arguments parsing
+#------------------------------------------------------------------------------
+while { [llength $argv] } {
+    if [regsub -- {^-} [shift argv] {} option] {
+        if [regexp {^he?l?p?$} $option] {
+            showHelp
+            exit 0
+        } elseif [regexp {^cl?e?a?n?$} $option] {
+            set doClean 1
+        } elseif [regexp {^sh?o?w?l?o?g?$} $option] {
+            set showLog 1
+        } else {
+            die "$self: -$option: unknown switch" 1
+        }
+    } else {
+        lappend newArgv $option
+    }
+}
+
+if [catch {set testbed [lindex $newArgv 0]}] {
+    die "$self: Missing testbed" 1
+}
+if [catch {set router [lindex $newArgv 1]}] {
+    die "$self: Missing router" 1
+}
+if [catch {set image  [lindex $newArgv 2]}] {
+    die "$self: Missing image" 1
+}
+
+#==============================================================================
+# Check if image exists and is readable and if so
+#------------------------------------------------------------------------------
+if { ![file exists "$image"]} {
+    die "$self: $image: No such file or directory" 1
+}
+if { ![file readable "$image"]} {
+    die "$self: $image: File not readable" 1
+}
+
+puts -nonewline "\nBeginning booting of $router... "
+if { $doClean } {
+    puts -nonewline "with clean "
+}
+puts "*shudder*"
+puts [repeat "=" 79]
+
+#==============================================================================
+# Source required linrary files and config files
+#------------------------------------------------------------------------------
+source $expect_library/csccon/csccon.exp
+set env(_ATS_TESTBED) $testbed
+ats_read_config 
+
+#==============================================================================
+# rcp image to TFTPSERVERADDR
+#------------------------------------------------------------------------------
+puts -nonewline "Remote copying [file tail $image] to $TFTPSERVERADDR... "
+set rmtImg [file tail $image]
+if [catch { exec rcp $image $TFTPSERVERADDR:/tftpboot/$rmtImg } errMsg] {
+    die "failed.\n\n$self: $errMsg" 1
+}
+if [catch {exec rsh -n $TFTPSERVERADDR chmod 777 /tftpboot/$rmtImg} errMsg] {
+    die "failed.\n\n$self: $errMsg" 1
+}
+puts "succeeded."
+
+#==============================================================================
+# Set defaults 
+#------------------------------------------------------------------------------
+EnablePw lab
+log_user $showLog
+
+#==============================================================================
+# Telnet to the router
+#------------------------------------------------------------------------------
+puts -nonewline "Telnetting to $router... "
+if [catch { console $router } errMsg] {
+    die "failed.\n\n$self: $errMsg" 1
+}
+puts "succeeded."
+
+#==============================================================================
+# Clean router if flag specified in arguments
+#------------------------------------------------------------------------------
+if { $doClean } {
+    puts -nonewline "Cleaning $router... "
+    if [catch { $router clean } errMsg] {
+	die "failed.\n\n$self: $errMsg" 1
+    }
+    puts "succeeded."
+}
+
+#==============================================================================
+# Apply defaultconfig
+#------------------------------------------------------------------------------
+puts -nonewline "Applying defaultconfig to $router... "
+if [catch {$router config $defaultconfig($router)} errMsg] {
+    die "failed.\n\n$self: $errMsg" 1
+}
+puts "succeeded."
+
+#==============================================================================
+# Write default config to memory
+#------------------------------------------------------------------------------
+puts -nonewline "Writing memory on $router... "
+set count 0
+while { [regexp -nocase "failed" [$router exec "write memory"]] } {
+    if { [incr count] == 5 } {
+        die "failed.\n\n$self: \"write memory\" failed five times" 1
+    }
+    sleep 5
+}
+puts "succeeded."
+
+
+#==============================================================================
+# Boot router with image
+#------------------------------------------------------------------------------
+puts -nonewline "Booting router $router with $rmtImg image... "
+if [catch {$router boot_server $TFTPSERVERADDR} errMsg] {
+    die "failed.\n\n$self: $errMsg" 1
+}
+if [catch {$router boot_image $rmtImg} errMsg] {
+    die "failed.\n\n$self: $errMsg" 1
+}
+if { ![regexp {.*!+} [$router ping -count 10 -addr $TFTPSERVERADDR] msg ] } {
+    puts stderr "failed.\n\n$self: test ping failed for $TFTPSERVERADDR"
+}
+if [catch {$router reload} errMsg] {
+    die "failed.\n\n$self: $errMsg" 1
+}
+puts "succeeded."
+
+#==============================================================================
+# Apply post config to the router
+#------------------------------------------------------------------------------
+puts -nonewline "Applying postconfig to $router... "
+if [catch {$router config $postconfig($router)} errMsg] {
+    die "failed.\n\n$self: $errMsg" 1
+}
+puts "succeeded."
+
+puts [repeat "=" 79]
+puts "Booting of $router has been successfully accomplished! *whew*"

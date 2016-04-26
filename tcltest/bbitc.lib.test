@@ -1,0 +1,135 @@
+#!/bin/sh
+# xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+set starter { ${1:+"$@"}
+    shift
+    shift
+    export AUTOTEST
+    AUTOTEST="${AUTOTEST-/autons/autotest}"
+    exec $AUTOTEST/bin/expect -f $0 -- ${1:+"$@"}
+}
+# xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+global gvars
+
+# Load the Tcltest package
+if {[lsearch [namespace children] ::tcltest] == -1} {
+    package require tcltest
+    namespace import -force ::tcltest::*
+}
+
+# Configure the test package
+configure -verbose {body pass skip start error}
+configure -tmpdir /tmp
+
+#
+# To run this, simply enter "ipsec_dgvpn.exp.test" on the command line.
+#
+
+package require AtsAuto
+package require rtrUtils
+package require topomap
+package require Test
+package require Async
+package require rtrConfig
+package require Gd
+package require math::statistics
+source /users/tennis/my_src/tcl_src/bld_big_iou_tb_cfg.lib
+
+global MAX_ROUTERS_PER_TESTBED
+
+set MAX_ROUTERS_PER_TESTBED 16
+
+
+
+
+test bbitc_calc_intf.1 {
+    Test bbitc_calc_intf
+} -setup {
+
+} -body {
+    bbitc_calc_intf -intf e0/0
+} -result 0
+
+
+
+test bbitc_device_number.1 {
+    Test bbitc_first_device_number
+} -setup {
+
+} -body {
+    bbitc_device_number -testbed_number 1 -device_number 1
+} -result 1
+
+
+
+# test bbitc_map_file_entries.1 {
+#     Test bbitc_map_file_entries
+# } -setup {
+
+# } -body {
+#     bbitc_map_file_entries -testbed 22 -routers_per_testbed 16
+# } -result 0
+
+
+
+test bbitc_mac_hack.1 {
+    Test bbitc_mac_hack
+} -setup {
+
+} -body {
+    bbitc_mac_hack 1.1.1.1
+} -result {ee00.1.1.1.1}
+
+
+
+test bbitc_calc_backbone_address.1 {
+    Test bbitc_calc_backbone_address
+} -setup {
+
+} -body {
+    bbitc_calc_backbone_address -increment 1
+} -result 223.0.0.2
+
+
+
+test bbitc_bld_csh_aliases.1 {
+    Test bbitc_bld_csh_aliases
+} -setup {
+
+} -body {
+    bbitc_bld_csh_aliases -testbed_number 40
+} -result 0
+
+
+
+test bbitc_bld_elisp_router_aliases.1 {
+    Test bbitc_bld_elisp_router_aliases
+} -setup {
+
+} -body {
+    bbitc_bld_elisp_router_aliases -testbed_number 40
+} -result 0
+
+
+
+test bbitc_bld_elisp_whole_testbed_aliases.1 {
+    Test bbitc_bld_elisp_whole_testbed_aliases
+} -setup {
+
+} -body {
+    bbitc_bld_elisp_whole_testbed_aliases  -testbed_number 40
+} -result 0
+
+
+# -----------------------------------------------------------------------------
+#                            CVS MAINTENANCE LOGS
+#                            ~~~~~~~~~~~~~~~~~~~~
+# $Log: bbitc.lib.test,v $
+# Revision 1.1  2006/03/15 17:28:02  tennis
+#
+# Initial commit
+#
+#
+# -----------------------------------------------------------------------------
+# Local Variables:
+# mode: tcl
+# End:

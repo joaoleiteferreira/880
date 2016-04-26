@@ -1,0 +1,150 @@
+#!/bin/sh
+
+#==============================================================================
+# testid               Kuntal Daftary              Wed Feb 18 12:44:41 PST 1998
+#------------------------------------------------------------------------------
+# This script takes one or multiple suite files as argument and prints out a
+# list of all duplicate test ids and/or replaces duplicate ids with unique ones
+#==============================================================================
+
+#==============================================================================
+# Starter kludge
+#------------------------------------------------------------------------------
+set starter { ${1:+"$@"}
+    shift
+    shift
+    export AUTOTEST
+    AUTOTEST="${AUTOTEST-/autons/autotest}"
+    exec $AUTOTEST/bin/expect -f $0 -- ${1:+"$@"}
+}
+
+#==============================================================================
+# Define procedures
+#------------------------------------------------------------------------------
+proc showHelp {} {
+    global self
+    puts "
+Usage: $self \[options\] <suite file(s)>
+       $self -help
+
+where options include:
+
+  -unique     Make duplicate test ids unique. Saves original file with .bak
+              extension.
+"
+}
+
+proc die {mesg exitStatus} {
+    puts stderr $mesg
+    exit $exitStatus
+}
+
+proc repeat {str times} {
+    set retStr {}
+    incr times
+    while { [incr times -1] } { append retStr $str }
+    return $retStr
+}
+
+#==============================================================================
+# Find the basename on the command name and initialize valiables
+#------------------------------------------------------------------------------
+global self; regsub {.*\/} [shift argv] {} self
+set makeUnique 0
+set putLastLine 0
+
+#==============================================================================
+# Option and arguments parsing
+#------------------------------------------------------------------------------
+while { [llength $argv] } {
+    if [regsub -- {^-} [shift argv] {} option] {
+        if [regexp {^he?l?p?$} $option] {
+            showHelp
+            exit 0
+        } elseif [regexp {^un?i?q?u?e?$} $option] {
+            set makeUnique 1
+        } else {
+            die "$self: -$option: unknown switch" 1
+        }
+    } else {
+        lappend files $option
+    }
+}
+
+set fileNum 0
+set badFileNum 0
+foreach file $files {
+    incr fileNum
+    set showDup 0
+    catch {unset TESTID}
+    if { ![file exists "$file"]} {
+	die "$self: $file: No such file or directory" 1
+    }
+    if { ![file readable "$file"]} {
+	die "$self: $file: File not readable" 1
+    }
+    set fileIdIn  [open $file r]
+    if { $makeUnique } {
+	if { [catch {system mv $file "$file.bak"} err] } {
+	    die "$self: $file --> ${file}.bak: $err" 1
+	}
+        set fileIdOut [open $file w]
+    }
+    set lineNum 0
+    set runLineNum 0
+    while { [gets $fileIdIn line] != -1 } {
+        incr lineNum
+	if {[regexp "^\[ \t\]*#|^\[ \t\]*$" $line]} {
+            if { $makeUnique } {
+	        puts $fileIdOut $line
+	    }
+	    continue
+	}
+        incr runLineNum
+	set testId [lindex $line 1]
+	lappend TESTID($testId) $lineNum
+	if { [llength $TESTID($testId)] > 0 } {
+	    set showDup 1
+	}
+	if { $makeUnique } {
+	    set testIdTag [llength $TESTID($testId)]
+	    if { $testIdTag == 1 } {
+		set testIdTag {}
+	    }
+            while { [info exists TESTID(${testId}${testIdTag})] } {
+		if { [string length $testIdTag] == 0 } {
+		    set testIdTag 0
+		} else { 
+                    incr testIdTag
+	        }
+            }
+	    set line [lreplace $line 1 1 "${testId}${testIdTag}"]
+	    puts $fileIdOut $line
+	    lappend TESTID(${testId}${testIdTag}) $lineNum
+	}
+    }
+    close $fileIdIn
+    if { $makeUnique } {
+        close $fileIdOut
+    }
+    if { $showDup } {
+        incr badFileNum
+        puts [repeat "=" 79]
+	puts "$file"
+        puts [repeat "-" 79]
+	puts "Scanned $lineNum lines of which $runLineNum will actually run."
+	puts "Found the following suite line(s) with duplicate test ids:\n"
+	set putLastLine 1
+    }
+    foreach id [array names TESTID] {
+	if { [llength $TESTID($id)] > 1 } {
+	    set trimId [string trim $id]
+	    puts "$trimId -\n  $TESTID($id)\n"
+	}
+    }
+}
+if { $putLastLine } {
+    puts [repeat "=" 79]
+}
+
+puts "SCANNED $fileNum FILE(S) OF WHICH $badFileNum FILE(S) HAD DUPLICATE IDS."

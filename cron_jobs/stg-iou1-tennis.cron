@@ -1,0 +1,40 @@
+# xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+#
+#     Please view in a fixed-width font such as Courier.
+#   ___       _ _         ___                   _     _
+#  |   \ __ _(_) |_  _   / __|_ _ ___ _ _    _ | |___| |__ ___
+#  | |) / _` | | | || | | (__| '_/ _ \ ' \  | || / _ \ '_ (_-<
+#  |___/\__,_|_|_|\_, |  \___|_| \___/_||_|  \__/\___/_.__/__/
+#                 |__/
+# xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+#
+#
+# This is the main daily cron job for all our tests.
+1 1 * * * /usr/bin/tcsh -c "/auto/stg-devtest/eArms/stg_reg/utils/cron_jobs/ipsec_eArms_update.sh |& mailx -s DAILY_eArms_TREE_UPDATE stg_ipsec_notification@cisco.com"
+11 4 * * 5 /usr/bin/tcsh -c "/auto/stg-devtest/eArms/stg_reg/utils/check_libs |& mailx -s CHK_LIB_OUTPUT tennis@cisco.com"
+#
+# -----------------------------------------------------------------------------
+#                            CVS MAINTENANCE LOGS
+#                            ~~~~~~~~~~~~~~~~~~~~
+# $Log: stg-iou1-tennis.cron,v $
+# Revision 1.4  2006/08/09 22:29:11  tennis
+#
+# Pointed the cron job at the eArms dir instead of my
+# dir. Added "stg_ipsec_notificaton" to the distribution
+# of the nightly eArms cvs update. Spreading the joy.
+#
+# Revision 1.3  2006/02/24 12:00:59  tennis
+# Added check_libs
+#
+# Revision 1.2  2006/02/03 15:36:55  tennis
+# Added changes to update specific subdirs
+#
+# Revision 1.1  2005/12/07 17:04:12  tennis
+#
+# Initial commit.
+#
+#
+# -----------------------------------------------------------------------------
+# Local Variables:
+# mode: crontab
+# End:

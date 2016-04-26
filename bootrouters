@@ -1,0 +1,131 @@
+#!/bin/sh
+   set kludge { $*
+   shift
+   shift
+#   if [ "X$AUTOTEST" = "X" ]; then
+#      setenv AUTOTEST /auto/vwsdet/paras/ats
+#      echo Warning: Environment variable AUTOTEST is not set.
+#      echo Using Paras Trivedi's AUTOTEST tree at:
+#      echo $AUTOTEST
+#   fi
+   exec $AUTOTEST/bin/expect $0 $*
+   }
+
+if { [llength $argv] < 3 } {
+    puts "USAGE: bootrouter <testbedname> <routername>  <filename> \[tftp | tftpdnld | flash | justboot\]\n"
+    puts "   <testbedname> is testbed name."
+    puts "   <routername>  is as given in the testbed.config file."
+    puts "   <filename>    is /tftpboot/filename \(adjust for sub dirs\)."
+    puts "   \[tftp | tftpdnld | flash\]       if specified, router is cleaned by \"wr erase\" first."
+    puts "   \[justboot\]      if specified, router is reloaded and boot."
+    exit 1
+}
+
+# Parse command line arguments.
+set testbed   [lindex $argv 1]
+set router    [lindex $argv 2]
+set filename  [lindex $argv 3]
+set bootmode  [lindex $argv 4]
+
+# bootmode = tftpdnld, justboot, flash, tftp
+
+set timestamp [clock format [clock seconds] -format {%b_%d_%Y_%H:%M:%S}]
+global csccon_default
+set csccon_default(log_file) "$router.$timestamp.log"
+
+
+package require parse_dashed_args
+source $expect_library/csccon.exp
+
+# source config file for given testbed
+set MASTER_INFO_MAP $env(AUTOTEST)/etc/MASTER_INFO_MAP
+set env(_ATS_TESTBED) $testbed
+source $env(AUTOTEST)/etc/$testbed.config
+ats_read_config
+
+# Check if filename exists under /tftpboot
+if { ![file exists $filename]} {
+    puts "File $filename does not exist. Try again."
+    exit 1
+}
+
+
+# set defaults
+EnablePw       $ENABLEPW($testbed)
+log_user       0
+
+# Telnet router
+console  $router
+
+# Clean router if flag specified in arguments
+if {$bootmode == "justboot" } {
+    puts "Cleaning $router ..."
+    if {[regexp -nocase {871|17a} $router]} {
+		$router config "config-register 0x2102"
+    }
+    $router clean
+    exit 1
+}
+
+set image "bootimage.$router"
+set flash_image [lindex [file split $filename] end]
+
+exec cp $filename $BOOTDIR/$image
+exec chmod 777 $BOOTDIR/$image
+
+$router config "config-register 0x0"
+
+if {$bootmode != "tftpdnld"} {
+    puts "Cleaning $router ..."
+    $router clean
+}
+if {[regexp "flash" $bootmode]} {
+    puts "Applying defaultconfig to $router ..."
+    $router config $defaultconfig($router)
+    $router exec "write memory"
+    $router copy tftp flash \
+        -server $TFTPSERVERADDR \
+        -image $BOOTDIR/$image \
+        -writeto $flash_image \
+        -erase y
+} elseif {$bootmode == "tftp"} {
+    puts "Applying defaultconfig to $router ..."
+    $router config $defaultconfig($router)
+    $router exec "write memory"
+}
+# Boot router with image
+puts "Booting router $router with $filename image ..."
+
+if {[regexp "tftpdnld" $bootmode]} {
+    set tftpdnld_parms [stg_bld_tftpdnld_parms \
+                            -router $router \
+                            -config $defaultconfig($router) \
+                            -image $BOOTDIR/$image ]
+    if {![lempty $tftpdnld_parms]} {
+        $router exec "write erase"
+        #
+        # The tftpdnld will be invoked with the "-r" parms.
+        # This will netboot the router, not load an image to
+        # flash and reboot. In other words, this router will
+        # be netbooted like all the others.
+        #
+        csccon_set_tftpdnld_parms $tftpdnld_parms
+    } else {
+        puts "$router: Could not config TFTPDNLD!"
+        return 0
+    } ; # end if
+    puts "$router: Booting with tftpdnld "
+} else {
+	$router boot_server $TFTPSERVERADDR
+    #puts "$router: boot_image = $BOOTDIR/$image"
+    $router boot_image $BOOTDIR/$image
+    puts "Booting $router from TFTP server using startup config"
+} ; # end if
+
+$router reload
+
+puts "Applying postconfig to $router ..."
+$router config $postconfig($router)
+exec rm $BOOTDIR/$image
+
+puts "$router done."

@@ -1,0 +1,250 @@
+# This file will contain procs related to the project
+
+###########################
+# Set Project testbed
+###########################
+
+global project_testbeds
+set project_testbeds "waasperf2"
+
+set console_server "waasperf2-cs"
+set _device(waasperf2-cs) "telnet waasperf2-cs"
+
+###########################
+# Set branches
+###########################
+
+#set source_directories(testing) "/auto/tftp-reventon/bin/"
+#set source_directories(baseline) "/auto/tftp-reventon/bin/"
+set source_directories(testing) "/ws/CCE/MMA/img/bin/"
+set source_directories(baseline) "/auto/beyond.152.bin01/152-4.M1.11/.3DES/"
+set source_directories(solid) "/ws/CCE/SFR_T/bin/"
+set source_directories(custom) ""
+
+set disable_ccscon_reset 1
+set new_ccscon_reset_time 10
+
+# Depeding on the releases developers end up releasing in diferent was
+# so take a look at the folder and see if releases are made with 15.?????
+# using DATE sill set if we look for XXXX-XX-XX format or just lastest image
+
+#set source_directory_format(testing) "NODATE"
+set source_directory_format(testing) "DATE"
+set source_directory_format(baseline) "NODATE"
+set source_directory_format(solid) "NODATE"
+
+set destination_directories(testing) "/auto/tftp-joaofer/sfr/testing/"
+set destination_directories(baseline) "/auto/tftp-joaofer/sfr/baseline/"
+set destination_directories(solid) "/auto/tftp-joaofer/sfr/solid/"
+set destination_directories(custom) "/auto/tftp-joaofer/sfr/custom/"
+# Note custom doesn't get updated
+
+###########################
+# Branches priority
+###########################
+
+global baseline_priority testing_priority solid_priority
+
+set testing_priority_env 10 
+set baseline_priority_env 5
+set solid_priority_env 1
+
+###########################
+# Config for Tims
+###########################
+
+#overall times exporting is enable or disabled in run command, default is disable
+# you can specify if you want to enable for diferent 
+
+#if tims is enable, define here which trees will be exported
+
+set tims_export(testing) TRUE
+set tims_export(baseline) FALSE
+set tims_export(solid) FALSE
+
+
+#set up variables for the export
+
+set tims_variables(testing) "
+TIMS_attribute: dns_name=tims.cisco.com/Tnr203p
+TIMS_attribute: swversion=15.2(0.13)T
+"
+set tims_variables(baseline) "
+TIMS_attribute: dns_name=tims.cisco.com/Tnr203p
+TIMS_attribute: swversion=TEST1
+"
+set tims_variables(solid) "
+TIMS_attribute: dns_name=tims.cisco.com/Tnr203p
+TIMS_attribute: swversion=TEST1
+"
+
+###########################
+# Config for CFLOW
+###########################
+
+#set up default extract directory
+set CFLOW_DIRECTORY "/auto/tftp-joaofer/CFLOW/"
+set CFLOW_DEBUGS ""
+
+###############################
+#  BEFORE AND AFTER TEST PROCS
+###############################
+
+proc tie_run_before_test {args} {
+    global test_name ROUTERS test_name test_priority test_file test_date test_project
+    global env testbed
+    global postconfig tb_tftp_server_addr tb_passwd defaultconfig routertype csccon_default router_image
+
+	set man_args {
+	-project	      ANY
+	-tree		      ANY
+	-testid		      ANY
+    } ; # end mandatory args
+
+    set opt_args {
+	-automation           CHOICES TRUE FALSE
+	DEFAULT		      FALSE
+    } ; # end optional args
+
+
+    parse_dashed_args                     \
+        -args $args                       \
+        -mandatory_args $man_args         \
+        -optional_args $opt_args
+
+set file $test_file($testid)
+if { [catch {
+	set suite [exec cat $file]
+	if { [ regexp "pppoa" $suite all garba] } {
+		set router "waasperf2-2911b"
+		console $router
+		$router config {
+			controller SHDSL 0/1/0
+				no dsl-group 0 pairs 0-4 efm
+				mode atm
+				termination co
+				dsl-group 0 pairs 0-3 m-pair
+				shdsl annex G coding 32-TCPAM
+				ignore crc  15
+			controller SHDSL 0/3/0
+				no dsl-group 0 pairs 0-4 efm
+				mode atm
+				termination co
+				dsl-group 0 pairs 0-3 m-pair
+				shdsl annex G coding 32-TCPAM
+				ignore crc  15
+		}
+		$router destroy
+		set router "waasperf2-8EAa"
+		console $router
+		$router config {
+			controller SHDSL 0
+				no dsl-group auto
+				mode atm
+				dsl-group 0 pairs 0-3 m-pair
+		}
+		$router destroy
+#		set router "waasperf2-29a"
+#		console $router
+#		$router config {
+#			controller SHDSL 0/1/0
+#				no dsl-group auto
+#				mode atm
+#				dsl-group 0 pairs 0-3 m-pair
+#		}
+#		$router destroy
+		set router "waasperf2-898a"
+		console $router
+		$router config {
+			controller SHDSL 0
+				no dsl-group auto
+				mode atm
+				dsl-group 0 pairs 0-3 m-pair
+		}
+		$router destroy
+		#Give a minute for the setting to kick in
+		sleep 80
+	}
+	if { [ regexp "pppoe" $suite all garba] } {
+		set router "waasperf2-2911b"
+		console $router
+		$router config {
+			controller SHDSL 0/1/0
+				no dsl-group 0 pairs 0-3 m-pair
+				mode efm
+				termination co
+				dsl-group 0 pairs 0-3 efm
+				shdsl annex G coding 128-TCPAM
+			controller SHDSL 0/3/0
+				no dsl-group 0 pairs 0-3 m-pair
+				mode efm
+				termination co
+				dsl-group 0 pairs 0-3 efm
+				shdsl annex G coding 128-TCPAM
+		}
+		
+		# copy info and reload
+		#$router copy running-config startup-config
+		#csccon_set_device_param $router tftpdnld "
+		#TFTP_FILE=$router_image(waasperf2-2911b-testing)
+		#TFTP_SERVER=$tb_tftp_server_addr($testbed)
+		#"
+		#$router reload
+		$router destroy
+		set router "waasperf2-8EAa"
+		console $router
+		$router config {
+			controller SHDSL 0
+				no dsl-group auto
+				mode efm
+				dsl-group auto
+		}
+		$router destroy
+		set router "waasperf2-898a"
+		console $router
+		$router config {
+			controller SHDSL 0
+				no dsl-group auto
+				mode efm
+				dsl-group auto
+		}
+		$router destroy
+#		set router "waasperf2-29a"
+#		console $router
+#		$router config {
+#			controller SHDSL 0/1/0
+#				no dsl-group auto
+#				mode efm
+#				dsl-group auto
+#		}
+#		$router destroy
+		#Give a minute for the setting to kick in
+		sleep 80
+	}
+	} result] } {
+        puts "Something going wrong here $result"
+   }
+
+}
+
+proc tie_run_after_test {args} {
+    global test_name ROUTERS
+    global env testbed
+	set man_args {
+	-project	      ANY
+	-tree		      ANY
+	-testid		      ANY
+    } ; # end mandatory args
+
+    set opt_args {
+	-automation           CHOICES TRUE FALSE
+	DEFAULT		      FALSE
+    } ; # end optional args
+
+    parse_dashed_args                     \
+        -args $args                       \
+        -mandatory_args $man_args         \
+        -optional_args $opt_args
+
+ 
+}

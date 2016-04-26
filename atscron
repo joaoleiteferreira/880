@@ -1,0 +1,13 @@
+#!/bin/sh
+
+#==============================================================================
+# script that can be used by anyone using the shared tree correctly for running
+# autotest off the cron
+#------------------------------------------------------------------------------
+# author: Kuntal Daftary
+#==============================================================================
+
+ulimit -n 512
+AUTOTEST=/vws/qij/sisu-reg/$LOGNAME
+export AUTOTEST
+$AUTOTEST/local/etc/autotest

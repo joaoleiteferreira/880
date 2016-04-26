@@ -1,0 +1,93 @@
+#!/bin/sh
+   set kludge { $*
+   shift
+   shift
+#   if [ "X$AUTOTEST" = "X" ]; then
+#      setenv AUTOTEST /auto/vwsdet/paras/ats
+#      echo Warning: Environment variable AUTOTEST is not set.
+#      echo Using Paras Trivedi's AUTOTEST tree at:
+#      echo $AUTOTEST
+#   fi
+   exec $AUTOTEST/bin/expect $0 $*
+   }
+#
+# TCL Script by Paras Trivedi Oct. '97.
+#     To boot a router with an image that is already in /tftpboot/...
+#
+
+if { [llength $argv] < 3 } {
+
+    puts "USAGE: bootrouter <testbedname> <routername>\n"
+    puts "   <testbedname> is testbed name."
+    puts "   <routername>  is as given in the testbed.config file."
+	puts "   clean - used if you want to clean the router before checking connectivity
+    exit 1
+}
+
+# Parse command line arguments.
+set testbed   [lindex $argv 1]
+set router    [lindex $argv 2]
+set flag    [lindex $argv 3]
+
+set total_tries 4
+
+source $expect_library/../../lib/csccon/csccon.exp
+
+# source config file for given testbed
+set MASTER_INFO_MAP /auto/vwsqij/testbeds/MASTER_INFO_MAP
+set env(_ATS_TESTBED) $testbed
+source /auto/vwsqij/sisu-reg/testbeds/$testbed.config
+ats_read_config 
+
+# set defaults 
+EnablePw       $ENABLEPW($testbed)
+log_user       0
+
+# Telnet router
+console  $router
+
+# Clean router if "clean" has been specified
+puts "Cleaning $router ..."
+if {$flag == "clean"} {
+	if [regexp -nocase {80[3-5]|17a} $router] {
+		$router config "config-register 0x2102"
+	}
+	$router clean
+}
+if {![regexp -nocase "ip\[ \]+default-gateway\[ \]+(\[0-9.\]+)" $defaultconfig($router) dummy default_gw]} {
+	return "Unable to find default_gateway for this testbed. Check your config!\n"
+}
+	
+puts "Applying defaultconfig to $router ..."
+$router config $defaultconfig($router)
+
+set ip_addr $TFTPSERVERADDR
+
+set i 1
+while {$i <= $total_tries} {
+	set output [$router ping -count 10 -addr $ip_addr]
+	puts "$router *********************************************************************"
+	puts "$output\n"
+	if ![regexp {([0-9]+) percent} $output dummy_arg percent] {
+		return "unable to find success rate in ping's output"
+	} elseif {$percent == 100} {
+		puts "CONNECTIVITY OK in $router ********************\n"
+		break
+	} else {
+		puts "Ping to $ip_addr failed on $router in attempt $i\n"
+		if {$i == $total_tries} {
+			if {$ip_addr == $TFTPSERVERADDR} {
+				puts "NO CONNECTIVITY to $ip_addr in $router ********************\n"
+				set i 1
+				set ip_addr $default_gw
+			} else {
+				puts "NO CONNECTIVITY to testbed gateway in $router ********************\n"
+			}
+		}
+	}
+	incr i
+}
+
+
+#puts "Applying postconfig to $router ..."
+#$router config $postconfig($router)

@@ -1,0 +1,22 @@
+
+There was a catastrophic failure during the processing of your results
+file.  No records were posted to the TIMS database.  The failure was:
+
+	Can't read results file:
+	Couldn't open file [autotest_results.4084]: No such file or directory
+
+
+Please correct this problem, then resubmit your job.
+
+Note that if the message says "install_driver(Oracle) failed", the
+problem could be one of a couple of different things:
+
+	1.  Your machine is running Solaris 2.7, which is unsupported
+	by ECS and therefore doesn't contain the Oracle libraries that
+	the importer needs.  To check, run "/bin/uname -a".
+
+	2.  The directory /auto/engweb isn't available on your system.
+	To check, try "ls -l /auto/engweb" and see what you get.  If
+	you get a "permission denied" error, for example, you need to
+	contact ECS.
+

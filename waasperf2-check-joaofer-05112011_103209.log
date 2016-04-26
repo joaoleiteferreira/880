@@ -1,0 +1,460 @@
+Csccon is opening a connection -  telnet 172.19.147.110 2035 
+exp_spawn telnet 172.19.147.110 2035
+Trying 172.19.147.110...
+Connected to 172.19.147.110 (172.19.147.110).
+Escape character is '^]'.
+C
+Hostname: waasperf2-cs
+Testbed:  waasperf2
+
+FRONT
+    Line     Device                         Port
+  -------------------------------------------------
+  P0       VACANT               (7200)      2018
+  P1       waasperf2-72b        (7200)      2019
+  P2       waasperf2-3825b      (3825)      2020
+  P3       waasperf2-29a        (2921)      2021
+  P4       waasperf2-19a        (1941)      2022
+  P5       VACANT               (2921)      2023
+  P6       VACANT               (3945)      2024
+  P7       VACANT               (3945)      2025
+  -------------------------------------------------
+BACK
+    Line     Device                         Port
+  -------------------------------------------------
+  P0       waasperf2-72a        (7200)      2034
+  P1       waasperf2-72b        (7200)      2035
+  P2       waasperf2-p1         (3845)      2036
+  P3       waasperf2-p2         (3845)      2037
+  P4       waasperf2-p3         (3825)      2038
+  P5       waasperf2-29a        (2921)      2039
+  P6       waasperf2-3945a      (3945)      2040
+  P7       waasperf2-3945b      (3945)      2041
+  -------------------------------------------------
+
+waasperf2-72b(boot)#terminal length 0
+waasperf2-72b(boot)#config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+waasperf2-72b(boot)(config)#no logging console
+waasperf2-72b(boot)(config)#end
+waasperf2-72b(boot)#show version
+Cisco IOS Software, 7200 Software (C7200P-KBOOT-M), Version 12.4(4)XD5, RELEASE SOFTWARE (fc1)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2006 by Cisco Systems, Inc.
+Compiled Tue 19-Dec-06 16:07 by alnguyen
+
+ROM: System Bootstrap, Version 12.4(4r)XD5, RELEASE SOFTWARE (fc1)
+
+waasperf2-72b uptime is 1 day, 19 hours, 51 minutes
+System returned to ROM by reload at 07:42:13 MDT Sun May 8 2011
+System restarted at 14:40:21 PDT Mon May 9 2011
+System image file is "bootflash:c7200p-kboot-mz.124-4.XD5.bin"
+Last reload reason: Reload Command
+
+
+Cisco 7206VXR (NPE-G2) processor (revision A) with 917504K/65536K bytes of memory.
+Processor board ID 34850032
+MPC7448 CPU at 1666Mhz, Implementation 0, Rev 2.2
+6 slot VXR midplane, Version 2.11
+
+Last reset from power-on
+
+PCI bus mb1 (Slots 1, 3 and 5) has a capacity of 600 bandwidth points.
+Current configuration on bus mb1 has a total of 0 bandwidth points. 
+This configuration is within the PCI bus capacity and is supported. 
+
+PCI bus mb2 (Slots 2, 4 and 6) has a capacity of 600 bandwidth points.
+Current configuration on bus mb2 has a total of 300 bandwidth points.
+This configuration is within the PCI bus capacity and is supported. 
+
+Please refer to the following document "Cisco 7200 Series Port Adaptor
+Hardware Configuration Guidelines" on Cisco.com <http://www.cisco.com>
+for c7200 bandwidth points oversubscription and usage guidelines.
+
+
+1 FastEthernet interface
+3 Gigabit Ethernet interfaces
+1 ATM interface
+2045K bytes of NVRAM.
+
+250880K bytes of ATA PCMCIA card at slot 2 (Sector size 512 bytes).
+65536K bytes of Flash internal SIMM (Sector size 512K).
+Configuration register is 0x0
+
+waasperf2-72b(boot)#term width 0
+waasperf2-72b(boot)#config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+waasperf2-72b(boot)(config)# no logging console
+waasperf2-72b(boot)(config)#line con 0
+waasperf2-72b(boot)(config-line)#exec-timeout 0
+waasperf2-72b(boot)(config-line)#clock timezone PDT -7
+waasperf2-72b(boot)(config)#service timestamps debug datetime localtime show-timezone msec
+waasperf2-72b(boot)(config)#service timestamps log datetime localtime show-timezone msec
+waasperf2-72b(boot)(config)#end
+waasperf2-72b(boot)#clock set 10:32:14 11 May 2011
+waasperf2-72b(boot)#Csccon is opening a connection -  telnet 172.19.147.110 2036 
+exp_spawn telnet 172.19.147.110 2036
+Trying 172.19.147.110...
+Connected to 172.19.147.110 (172.19.147.110).
+Escape character is '^]'.
+C
+Hostname: waasperf2-cs
+Testbed:  waasperf2
+
+FRONT
+    Line     Device                         Port
+  -------------------------------------------------
+  P0       VACANT               (7200)      2018
+  P1       waasperf2-72b        (7200)      2019
+  P2       waasperf2-3825b      (3825)      2020
+  P3       waasperf2-29a        (2921)      2021
+  P4       waasperf2-19a        (1941)      2022
+  P5       VACANT               (2921)      2023
+  P6       VACANT               (3945)      2024
+  P7       VACANT               (3945)      2025
+  -------------------------------------------------
+BACK
+    Line     Device                         Port
+  -------------------------------------------------
+  P0       waasperf2-72a        (7200)      2034
+  P1       waasperf2-72b        (7200)      2035
+  P2       waasperf2-p1         (3845)      2036
+  P3       waasperf2-p2         (3845)      2037
+  P4       waasperf2-p3         (3825)      2038
+  P5       waasperf2-29a        (2921)      2039
+  P6       waasperf2-3945a      (3945)      2040
+  P7       waasperf2-3945b      (3945)      2041
+  -------------------------------------------------
+
+waasperf2-3825b#terminal length 0
+waasperf2-3825b#config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+waasperf2-3825b(config)#no logging console
+waasperf2-3825b(config)#end
+waasperf2-3825b#show version
+Cisco IOS Software, 3800 Software (C3825-ADVENTERPRISEK9-M), Version 12.4(24)T1, RELEASE SOFTWARE (fc3)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2009 by Cisco Systems, Inc.
+Compiled Fri 19-Jun-09 18:40 by prod_rel_team
+
+ROM: System Bootstrap, Version 12.3(11r)T2, RELEASE SOFTWARE (fc1)
+
+waasperf2-3825b uptime is 1 day, 19 hours, 37 minutes
+System returned to ROM by reload at 01:14:34 UTC Sat May 7 2011
+System restarted at 14:55:00 PDT Mon May 9 2011
+System image file is "flash:c3825-adventerprisek9-mz.124-24.T1"
+
+
+This product contains cryptographic features and is subject to United
+States and local country laws governing import, export, transfer and
+use. Delivery of Cisco cryptographic products does not imply
+third-party authority to import, export, distribute or use encryption.
+Importers, exporters, distributors and users are responsible for
+compliance with U.S. and local country laws. By using this product you
+agree to comply with applicable laws and regulations. If you are unable
+to comply with U.S. and local laws, return this product immediately.
+
+A summary of U.S. laws governing Cisco cryptographic products may be found at:
+http://www.cisco.com/wwl/export/crypto/tool/stqrg.html
+
+If you require further assistance please contact us by sending email to
+export@cisco.com.
+
+Cisco 3825 (revision 1.0) with 1009663K/38912K bytes of memory.
+Processor board ID FTX1003C1WH
+2 FastEthernet interfaces
+2 Gigabit Ethernet interfaces
+1 Virtual Private Network (VPN) Module
+DRAM configuration is 64 bits wide with parity enabled.
+479K bytes of NVRAM.
+250368K bytes of ATA System CompactFlash (Read/Write)
+
+Configuration register is 0x100 (will be 0x0 at next reload)
+
+waasperf2-3825b#term width 0
+waasperf2-3825b#config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+waasperf2-3825b(config)# no logging console
+waasperf2-3825b(config)#line con 0
+waasperf2-3825b(config-line)#exec-timeout 0
+waasperf2-3825b(config-line)#clock timezone PDT -7
+waasperf2-3825b(config)#service timestamps debug datetime localtime show-timezone msec
+waasperf2-3825b(config)#service timestamps log datetime localtime show-timezone msec
+waasperf2-3825b(config)#end
+waasperf2-3825b#clock set 10:32:18 11 May 2011
+waasperf2-3825b#Csccon is opening a connection -  telnet 172.19.147.110 2037 
+exp_spawn telnet 172.19.147.110 2037
+Trying 172.19.147.110...
+Connected to 172.19.147.110 (172.19.147.110).
+Escape character is '^]'.
+C
+Hostname: waasperf2-cs
+Testbed:  waasperf2
+
+FRONT
+    Line     Device                         Port
+  -------------------------------------------------
+  P0       VACANT               (7200)      2018
+  P1       waasperf2-72b        (7200)      2019
+  P2       waasperf2-3825b      (3825)      2020
+  P3       waasperf2-29a        (2921)      2021
+  P4       waasperf2-19a        (1941)      2022
+  P5       VACANT               (2921)      2023
+  P6       VACANT               (3945)      2024
+  P7       VACANT               (3945)      2025
+  -------------------------------------------------
+BACK
+    Line     Device                         Port
+  -------------------------------------------------
+  P0       waasperf2-72a        (7200)      2034
+  P1       waasperf2-72b        (7200)      2035
+  P2       waasperf2-p1         (3845)      2036
+  P3       waasperf2-p2         (3845)      2037
+  P4       waasperf2-p3         (3825)      2038
+  P5       waasperf2-29a        (2921)      2039
+  P6       waasperf2-3945a      (3945)      2040
+  P7       waasperf2-3945b      (3945)      2041
+  -------------------------------------------------
+
+waasperf2-29a#terminal length 0
+waasperf2-29a#config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+waasperf2-29a(config)#no logging console
+waasperf2-29a(config)#end
+waasperf2-29a#show version
+Cisco IOS Software, C2900 Software (C2900-UNIVERSALK9-M), Version 15.0(1)M4, RELEASE SOFTWARE (fc1)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2010 by Cisco Systems, Inc.
+Compiled Thu 28-Oct-10 18:32 by prod_rel_team
+
+ROM: System Bootstrap, Version 15.0(1r)M9, RELEASE SOFTWARE (fc1)
+
+waasperf2-29a uptime is 1 day, 18 hours, 42 minutes
+System returned to ROM by power-on
+System restarted at 15:49:39 PDT Mon May 9 2011
+System image file is "flash0:c2900-universalk9-mz.SPA.150-1.M4.bin"
+Last reload type: Normal Reload
+
+
+This product contains cryptographic features and is subject to United
+States and local country laws governing import, export, transfer and
+use. Delivery of Cisco cryptographic products does not imply
+third-party authority to import, export, distribute or use encryption.
+Importers, exporters, distributors and users are responsible for
+compliance with U.S. and local country laws. By using this product you
+agree to comply with applicable laws and regulations. If you are unable
+to comply with U.S. and local laws, return this product immediately.
+
+A summary of U.S. laws governing Cisco cryptographic products may be found at:
+http://www.cisco.com/wwl/export/crypto/tool/stqrg.html
+
+If you require further assistance please contact us by sending email to
+export@cisco.com.
+
+Cisco CISCO2921/K9 (revision 1.0) with 2580479K/40960K bytes of memory.
+Processor board ID FTX1504AHQX
+3 Gigabit Ethernet interfaces
+4 Serial(sync/async) interfaces
+DRAM configuration is 64 bits wide with parity enabled.
+255K bytes of non-volatile configuration memory.
+1000944K bytes of ATA System CompactFlash 0 (Read/Write)
+
+
+License Info:
+
+License UDI:
+
+-------------------------------------------------
+Device#	  PID			SN
+-------------------------------------------------
+*0  	  CISCO2921/K9          FTX1504AHQX     
+
+
+
+Technology Package License Information for Module:'c2900' 
+
+----------------------------------------------------------------
+Technology    Technology-package          Technology-package
+              Current       Type          Next reboot  
+-----------------------------------------------------------------
+ipbase        ipbasek9      Permanent     ipbasek9
+security      None          None          None
+uc            None          None          None
+data          None          None          None
+
+Configuration register is 0x2142
+
+waasperf2-29a#term width 0
+waasperf2-29a#config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+waasperf2-29a(config)# no logging console
+waasperf2-29a(config)#line con 0
+waasperf2-29a(config-line)#exec-timeout 0
+waasperf2-29a(config-line)#clock timezone PDT -7
+waasperf2-29a(config)#service timestamps debug datetime localtime show-timezone msec
+waasperf2-29a(config)#service timestamps log datetime localtime show-timezone msec
+waasperf2-29a(config)#end
+waasperf2-29a#clock set 10:32:24 11 May 2011
+waasperf2-29a#Csccon is opening a connection -  telnet 172.19.147.110 2038 
+exp_spawn telnet 172.19.147.110 2038
+Trying 172.19.147.110...
+Connected to 172.19.147.110 (172.19.147.110).
+Escape character is '^]'.
+C
+Hostname: waasperf2-cs
+Testbed:  waasperf2
+
+FRONT
+    Line     Device                         Port
+  -------------------------------------------------
+  P0       VACANT               (7200)      2018
+  P1       waasperf2-72b        (7200)      2019
+  P2       waasperf2-3825b      (3825)      2020
+  P3       waasperf2-29a        (2921)      2021
+  P4       waasperf2-19a        (1941)      2022
+  P5       VACANT               (2921)      2023
+  P6       VACANT               (3945)      2024
+  P7       VACANT               (3945)      2025
+  -------------------------------------------------
+BACK
+    Line     Device                         Port
+  -------------------------------------------------
+  P0       waasperf2-72a        (7200)      2034
+  P1       waasperf2-72b        (7200)      2035
+  P2       waasperf2-p1         (3845)      2036
+  P3       waasperf2-p2         (3845)      2037
+  P4       waasperf2-p3         (3825)      2038
+  P5       waasperf2-29a        (2921)      2039
+  P6       waasperf2-3945a      (3945)      2040
+  P7       waasperf2-3945b      (3945)      2041
+  -------------------------------------------------
+
+waasperf2-19a#terminal length 0
+waasperf2-19a#config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+waasperf2-19a(config)#no logging console
+waasperf2-19a(config)#end
+waasperf2-19a#show version
+Cisco IOS Software, C1900 Software (C1900-UNIVERSALK9-M), Version 15.1(3.7)T ENGINEERING WEEKLY BUILD, synced to V150_1_M3_13
+Copyright (c) 1986-2010 by Cisco Systems, Inc.
+Compiled Sun 07-Nov-10 04:13 by datruong
+
+ROM: System Bootstrap, Version 15.0(1r)M3, RELEASE SOFTWARE (fc1)
+
+waasperf2-19a uptime is 1 day, 18 hours, 35 minutes
+System returned to ROM by power-on
+System restarted at 15:56:57 PDT Mon May 9 2011
+System image file is "flash0:a-c1900-universalk9-mz.SSA.151-3.7.T"
+Last reload type: Normal Reload
+
+
+This product contains cryptographic features and is subject to United
+States and local country laws governing import, export, transfer and
+use. Delivery of Cisco cryptographic products does not imply
+third-party authority to import, export, distribute or use encryption.
+Importers, exporters, distributors and users are responsible for
+compliance with U.S. and local country laws. By using this product you
+agree to comply with applicable laws and regulations. If you are unable
+to comply with U.S. and local laws, return this product immediately.
+
+A summary of U.S. laws governing Cisco cryptographic products may be found at:
+http://www.cisco.com/wwl/export/crypto/tool/stqrg.html
+
+If you require further assistance please contact us by sending email to
+export@cisco.com.
+
+Cisco CISCO1941/K9 (revision 1.0) with 2506688K/114688K bytes of memory.
+Processor board ID FTX140582T9
+2 Gigabit Ethernet interfaces
+2 Serial(sync/async) interfaces
+1 Virtual Private Network (VPN) Module
+DRAM configuration is 64 bits wide with parity disabled.
+255K bytes of non-volatile configuration memory.
+4099032K bytes of ATA System CompactFlash 0 (Read/Write)
+
+
+License Info:
+
+License UDI:
+
+-------------------------------------------------
+Device#	  PID			SN
+-------------------------------------------------
+*0  	  CISCO1941/K9          FTX140582T9     
+
+
+
+Technology Package License Information for Module:'c1900' 
+
+----------------------------------------------------------------
+Technology    Technology-package          Technology-package
+              Current       Type          Next reboot  
+-----------------------------------------------------------------
+ipbase        ipbasek9      Permanent     ipbasek9
+security      securityk9    Permanent     securityk9
+data          None          None          None
+
+Configuration register is 0x2142 (will be 0x0 at next reload)
+
+waasperf2-19a#term width 0
+waasperf2-19a#config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+waasperf2-19a(config)# no logging console
+waasperf2-19a(config)#line con 0
+waasperf2-19a(config-line)#exec-timeout 0
+waasperf2-19a(config-line)#clock timezone PDT -7
+waasperf2-19a(config)#service timestamps debug datetime localtime show-timezone msec
+waasperf2-19a(config)#service timestamps log datetime localtime show-timezone msec
+waasperf2-19a(config)#end
+waasperf2-19a#clock set 10:32:29 11 May 2011
+waasperf2-19a#Csccon is opening a connection -  telnet 172.19.147.110 2022 
+exp_spawn telnet 172.19.147.110 2022
+Trying 172.19.147.110...
+Connected to 172.19.147.110 (172.19.147.110).
+Escape character is '^]'.
+C
+Hostname: waasperf2-cs
+Testbed:  waasperf2
+
+FRONT
+    Line     Device                         Port
+  -------------------------------------------------
+  P0       VACANT               (7200)      2018
+  P1       waasperf2-72b        (7200)      2019
+  P2       waasperf2-3825b      (3825)      2020
+  P3       waasperf2-29a        (2921)      2021
+  P4       waasperf2-19a        (1941)      2022
+  P5       VACANT               (2921)      2023
+  P6       VACANT               (3945)      2024
+  P7       VACANT               (3945)      2025
+  -------------------------------------------------
+BACK
+    Line     Device                         Port
+  -------------------------------------------------
+  P0       waasperf2-72a        (7200)      2034
+  P1       waasperf2-72b        (7200)      2035
+  P2       waasperf2-p1         (3845)      2036
+  P3       waasperf2-p2         (3845)      2037
+  P4       waasperf2-p3         (3825)      2038
+  P5       waasperf2-29a        (2921)      2039
+  P6       waasperf2-3945a      (3945)      2040
+  P7       waasperf2-3945b      (3945)      2041
+  -------------------------------------------------
+
+
+waasperf2-waas login: joaofer
+Password: econ_prepare_state generic:
+	econ_prepare_state tacacs:
+	csccon.exp -- no tacacs password is set, use TacacsPw to set the tacacs password.
+
+    while executing
+"error $retval"
+    (procedure "console" line 602)
+    invoked from within
+"console $Rtr"
+    ("foreach" body line 2)
+    invoked from within
+"foreach Rtr $RtrList {
+	console $Rtr
+}"
+    (file "tb_map_check" line 320)

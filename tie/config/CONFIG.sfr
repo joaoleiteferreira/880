@@ -1,0 +1,2204 @@
+#######################  CONFIG FILE FOR waasperf2 testbed  ######################
+#                                                                             #
+#     Header file for autotest. Follow the steps to customise as needed.      #
+#                                                                             #
+###############################################################################
+
+###############################################################################
+# Step 1: Uncomment the following line and enter the NAME of the
+# tftpserver you will be using to netboot. Whoever runs autotest will
+# need to be able to rcp file to this machine name without entering a
+# password.
+#------------------------------------------------------------------------------
+# Set these in your local CONFIG file
+###############################################################################
+
+set EARMS_AUTOTEST_CONCURRENCY "0"
+
+set this_testbed sfr
+set testbeds $this_testbed
+
+set BOOTDIR {/auto/tftp-ios-crypto}
+set TFTPDIR {/auto/tftp-ios-crypto}
+set IMAGEDIR {/auto/tftp-ios-crypto}
+
+global MAPDIR env
+global tb_tftp_server_name
+global tb_tftp_server_addr
+global tb_device_configs
+global tb_clean_cmd
+global tb_devices
+global _device
+global tb_passwd
+global csccon_default
+global defaultconfig 
+global postconfig
+
+
+# platform pattern used by csccon_get_platform_info for the 3845 & 2811
+set csccon_default(platform_pattern) {platform {^(.+) \(revision.+\)}}
+
+###############################################################################
+# Step 2: Uncomment the following line and enter the IP address of the
+# tftpserver you entered in step 2.
+#------------------------------------------------------------------------------
+# Set these in your local CONFIG file
+###############################################################################
+
+set TFTPSERVERADDR 128.107.150.5
+set TFTPSERVERNAME joao-lnx
+set tb_tftp_server_name($this_testbed) joao-lnx
+set tb_tftp_server_addr($this_testbed) 128.107.150.5
+
+#set TFTPSERVERADDR 171.69.1.129
+#set TFTPSERVERNAME  dirt
+#set tb_tftp_server_addr($this_testbed) 171.69.1.129
+#set tb_tftp_server_name($this_testbed) dirt
+
+###############################################################################
+# Step 3: Optional -- Uncomment the following line and enter the Email
+# name of an administrator. This person gets notified every time a run
+# pauses. If no-one should be notified, just leave it commented out.
+#------------------------------------------------------------------------------
+# Set these in your local CONFIG file
+###############################################################################
+
+set ADMIN cipe-sec-earms@cisco.com
+
+###############################################################################
+# Step 4: Optional -- Uncomment the following line and enter the Email
+# name of person who should see *all* run reports. If there is no-one
+# who should see all of these, just leave it commented out.
+# An autotest summary report is mailed to:
+#       1) The owner of the image
+#       2) The owner of the qfile (if not the same as owner of image)
+#       3) The alias that this REPORTS variable is set to
+# Note: Setting the mailto option in the queue file will override
+# all three of the above.
+#------------------------------------------------------------------------------
+# Set these in your local CONFIG file
+###############################################################################
+
+# set ADMIN
+
+###############################################################################
+# Step 5: The Automated Test System paramater.
+# Uncomment the following line and set the age (in days) for
+# files which to be expired from the images directory. Files older
+# than this will be purged nightly when you set up the appropriate
+# cron job (see the man page).
+#------------------------------------------------------------------------------
+# Set these in your local CONFIG file
+###############################################################################
+
+# set PURGE 21
+
+###############################################################################
+# Autotest will abort a test run when 10 catastrophic errors occur.
+# Uncomment the following line and set the number of catastrophic errors
+# to abort a test run. Setting this number to -1 will not abort a test
+# run regardless the number of catastrophic errors occur.
+#------------------------------------------------------------------------------
+# Set these in your local CONFIG file
+###############################################################################
+
+# set MAX_ERRORS 10
+
+###############################################################################
+# Step 6: Uncomment the following line to tell the system about its
+# testbeds. If a testbed doesn't appear in this list, Autotest will
+# never allow a run on it under any circumstances, even if you specify
+# the testbed in your queue file.
+#------------------------------------------------------------------------------
+# This needs to be treated equally in all config files, i.e., either comment
+# this statement out in all files or dont comment it in all files.
+###############################################################################
+
+if {[info exists env(USE_EARMS)]} {
+    set testbeds $this_testbed
+}
+
+###############################################################################
+# Step 7: Optional -- Uncomment the following line to tell autotest
+# which testbeds to do automatic selection on. When you don't specify
+# a testbed for an image in its queue file, autotest will select one
+# from this list. If you don't want autoselection, simply leave it
+# commented out.
+#------------------------------------------------------------------------------
+# Set these in your local CONFIG file
+###############################################################################
+
+# set AUTOSELECT {}
+
+###############################################################################
+# Step 8: Tell autotest about the routers in each testbed. The first
+# example says that testbed agsa contains three routers named agsa1,
+# agsa2 and agsa3. You can use whatever names you like, but we find
+# the convention useful.
+###############################################################################
+
+
+###############################################################################
+# ipsec testbeds ROUTERS array in absence of parallel testbed looks like this #
+###############################################################################
+
+
+set ROUTERS(sfr) {\
+                         waasperf2-72b   \
+                         waasperf2-3825b \
+                         waasperf2-29a   \
+                         waasperf2-2911b   \
+                         waasperf2-2951a   \
+                         waasperf2-19a   \
+                         waasperf2-800a   \
+                         waasperf2-898a   \
+                         waasperf2-8FSPa  \
+                         waasperf2-8EAa   \
+                         waasperf2-3845c \
+                         waasperf2-3945a \
+                         waasperf2-3945Ea \
+                         waasperf2-waas  \
+                         waasperf2-ixia  \
+                         waasperf2-avalanche  \
+                         waasperf2-reflector  \
+			 waasperf2-o2  \
+                     }
+
+set tb_devices($this_testbed) $ROUTERS($this_testbed)
+
+###############################################################################
+# Step 9: Tell autotest about the various image types and how to
+# identify them using the image version string. The given examples
+# identify ags, 7k, ts, xx, igs and cancun as valid image types.
+# Any other image type submitted to autotest will not be recognized,
+# and will result in an image validation failure.
+# Note: The given string will be used as a regexp pattern
+#------------------------------------------------------------------------------
+# Set these in your local CONFIG file
+###############################################################################
+
+set IMAGE_TYPE(ags)     {GS Software \(GS3}
+set IMAGE_TYPE(ts)      {CS Software \(CS500}
+set IMAGE_TYPE(1000)    {1000 Software \(C1000}
+set IMAGE_TYPE(ls1010)  {IISP Software \(LS1010}
+set IMAGE_TYPE(1200)    {1200 Software}
+set IMAGE_TYPE(1600)    {1600 Software \(C1600}
+set IMAGE_TYPE(2500)    {2500 Software \(C2500|3000 Software \(IGS\-}
+set IMAGE_TYPE(2600)    {2600 Software \(C2600}
+set IMAGE_TYPE(2800)    {2800 Software \(C2800}
+set IMAGE_TYPE(3620)    {3600 Software \(C3620}
+set IMAGE_TYPE(3640)    {3600 Software \(C3640}
+set IMAGE_TYPE(3745)    {3700 Software \(C3745}
+set IMAGE_TYPE(3825)    {3800 Software \(C3825}
+set IMAGE_TYPE(3845)    {3800 Software \(C3845}
+set IMAGE_TYPE(3945)    {3900 Software \(C3945}
+set IMAGE_TYPE(2900)    {2900 Software \(C2900}
+set IMAGE_TYPE(1900)    {1900 Software \(C1900}
+set IMAGE_TYPE(4000)    {4000 Software}
+set IMAGE_TYPE(xx)      {4000 Software|4500 Software}
+set IMAGE_TYPE(4500)    {4500 Software \(C4500|4500 Software \(4500}
+set IMAGE_TYPE(5000)    {5000 Software}
+set IMAGE_TYPE(5200)    {5200 Software \(AS5200|5200 Software \(C5200}
+set IMAGE_TYPE(5300)    {5200 Software \(AS5200|5200 Software \(C5200}
+set IMAGE_TYPE(7k)      {GS Software \(GS7|7000 Software}
+set IMAGE_TYPE(890)     {880 Software \(C890}
+set IMAGE_TYPE(7200P)   {7200 Software \(C7200P}
+set IMAGE_TYPE(7200)    {7200 Software \(C7200}
+set IMAGE_TYPE(7606)    {7606 Software \(C7606}
+set IMAGE_TYPE(C5RSM)   {C5RSP Software \(C5RSP}
+set IMAGE_TYPE(rsp)     {GS Software \(VIP|VIP Software|RSP|RSP Software|7500 Software \(C7500}
+set IMAGE_TYPE(vip)     {VIP Software \(RVIP}
+set IMAGE_TYPE(805)     {805}
+set IMAGE_TYPE(800)     {800}
+set IMAGE_TYPE(870)     {870}
+
+###############################################################################
+# Step 10: For each testbed you've detailed above, say what type of
+# testbed it is. one or more of above defined IMAGE_TYPES can be used.
+#------------------------------------------------------------------------------
+# Note: If multiple images are to be booted on the testbed, you need
+# to specify a TYPE for *each* router on the testbed. (See the corea
+# example below).
+###############################################################################
+
+
+set TYPE($this_testbed)    {7200P 3825 2900 2951 1900 GS 3845 3945 890 800}
+
+set TYPE(waasperf2-72b)  7200P
+set TYPE(waasperf2-3825b)  3825
+set TYPE(waasperf2-29a)  2900
+set TYPE(waasperf2-2911b)  2900
+set TYPE(waasperf2-2951a)  2951
+set TYPE(waasperf2-19a) 1900 
+set TYPE(waasperf2-waas)  WAAS
+set TYPE(waasperf2-3845c) 3845 
+set TYPE(waasperf2-3945a) 3945 
+set TYPE(waasperf2-3945Ea) 3945 
+set TYPE(waasperf2-800a) 890 
+set TYPE(waasperf2-8FSPa) 800 
+set TYPE(waasperf2-8EAa) 800
+set TYPE(waasperf2-898a) 800
+set TYPE(waasperf2-avalanche) any
+set TYPE(waasperf2-reflector) any
+set TYPE(waasperf2-ixia) any
+set TYPE(waasperf2-o2) any
+
+set tb_type(waasperf2-72b)  7200P
+set tb_type(waasperf2-3825b)  3825
+set tb_type(waasperf2-29a)  2900
+set tb_type(waasperf2-2911b)  2900
+set tb_type(waasperf2-19a) 1900 
+set tb_type(waasperf2-waas)  WAAS
+set tb_type(waasperf2-3845c) 3845 
+set tb_type(waasperf2-3945a) 3945 
+set tb_type(waasperf2-3945Ea) 3945
+set tb_type(waasperf2-800a) 890 
+set tb_type(waasperf2-8FSPa) 800 
+set tb_type(waasperf2-8EAa) 800 
+set tb_type(waasperf2-898a) 800 
+set tb_type(waasperf2-avalanche) any
+set tb_type(waasperf2-reflector) any
+set tb_type(waasperf2-ixia) any
+set tb_type(waasperf2-o2) any
+###############################################################################
+# Step 11: For each testbed you've detailed above, say what image
+# versions the testbed can run supports. Currently, you can say one or
+# more of 8.3, 9.0, 9.1, 9.21, 9.14, 9.17, or the string 'any'.
+###############################################################################
+
+set VERSIONS($this_testbed) any
+
+###############################################################################
+# Step 12: Optional -- If you have power cyclers connected to terminal
+# servers, tell Autotest which terminal server hosts/lines control the
+# power for which testbeds.  If you don't have power cyclers, just
+# leave these lines commented out.
+#
+# Example: set TERMINAL_SERVER(agsy) {tsy 6 tsy 7}
+#
+###############################################################################
+
+#set TERMINAL_SERVER($this_testbed) {-cs1 67} Need to check for power cycle !!!!!!
+
+###############################################################################
+# Step 13: Optional -- Set up the enable, tacacs and line passwords.
+# You can then use the test_passwd subroutine to get these passwords.
+# If these are not set, the test_passwd routine returns the default
+# values.
+# Usage: test_passwd <type> <string>
+#    type  : This should be one of "enable", "tacacs", or "line"
+#    string: This is the string that the passwords are indexed by.
+#            (This defaults to an empty string if not specified).
+# This procedure checks for the existence of the specified
+# password in the CONFIG file, and if it exists, returns it.
+# If, however, the specified password does not exist, then
+# a default is returned. The defaults for the various types
+# are: enable: "lab", tacacs: "", and line: ""
+###############################################################################
+
+set LINEPW($this_testbed)  lab
+
+set ENABLEPW($this_testbed) lab
+set TACACSPW($this_testbed) default
+set TacacsPw($this_testbed) default
+
+# Enable easyclean
+set tb_passwd($this_testbed,enable)   "lab"
+set tb_passwd($this_testbed,tacacs)   "default"
+set tb_passwd($this_testbed,line)     "lab"
+
+###############################################################################
+# Step 14: Optional -- The following strings are automatically
+# considered to be errors if a router outputs them on its console.
+# These are case sensitive (perl) regular expressions. If your router
+# produces any special error messages which don't already appear here,
+# you may want to add them to this list.
+###############################################################################
+
+#set ERROR
+
+###############################################################################
+# Step 15: Optional -- Some messages look like errors e.g ones which
+# begin with percent signs, but you want to ignore them because they
+# aren't really errors. Until Router Development fixes them, you can
+# add them to this list so Autotest doesn't report them as errors.
+# Note: The given string will be used as a regexp pattern
+###############################################################################
+
+#set IGNORE
+
+###############################################################################
+# Step 16: For netbooting, you need to set the default configuration
+# strings for each router in a testbed. Examples of how this is done
+# on the Test Technologies Production testbeds are shown below.
+###############################################################################
+
+
+global defaultconfig postconfig
+
+set defaultconfig(waasperf2-72b) {
+    hostname waasperf2-72b
+    enable password lab
+    no ip domain-lookup
+    no ip routing
+    ip default-gateway 10.1.1.1
+    service timestamps debug datetime msec localtime
+    no service config
+    clock timezone PST -8
+    ip host PAGENT-SECURITY-V3 24.47.99.65 81.29.0.0
+    clock summer-time PDT recurring
+    interface GigabitEthernet0/1
+      ip address 10.1.1.2 255.255.255.0
+      no shutdown
+}
+
+set defaultconfig(waasperf2-3825b) {
+    hostname waasperf2-3825b
+    enable password lab
+    no ip domain-lookup
+    no ip routing
+    ip host PAGENT-SECURITY-V3 39.36.92.50 97.25.0.0
+    ip default-gateway 10.1.1.1
+    service timestamps debug datetime msec localtime
+    no service config
+    clock timezone PST -8
+    clock summer-time PDT recurring
+    interface GigabitEthernet0/1
+      ip address 10.1.1.3 255.255.255.0
+      no shutdown
+}
+set defaultconfig(waasperf2-29a) {
+    hostname waasperf2-29a
+    enable password lab
+  no ip domain-lookup
+    no ip routing
+    ip default-gateway 10.1.1.1
+    service timestamps debug datetime msec localtime
+    no service config
+    clock timezone PST -8
+    clock summer-time PDT recurring
+    interface GigabitEthernet0/0
+      ip address 10.1.1.4 255.255.255.0
+      no shutdown
+    controller SHDSL 0/1/0
+      termination cpe
+      dsl-group auto
+} 
+
+set defaultconfig(waasperf2-2951a) {
+    hostname waasperf2-2951a
+    enable password lab
+  no ip domain-lookup
+    no ip routing
+    ip default-gateway 10.1.1.1
+    service timestamps debug datetime msec localtime
+    no service config
+    clock timezone PST -8
+    clock summer-time PDT recurring
+    interface GigabitEthernet0/0
+      ip address 10.1.1.9 255.255.255.0
+      no shutdown
+}    
+    
+set defaultconfig(waasperf2-19a) {
+    hostname waasperf2-19a
+    enable password lab
+  no ip domain-lookup
+    no ip routing
+    ip default-gateway 10.1.1.1
+    service timestamps debug datetime msec localtime
+    no service config
+    clock timezone PST -8
+    clock summer-time PDT recurring
+    ip spd queue threshold min 800 max 801
+    interface GigabitEthernet0/0
+      ip address 10.1.1.5 255.255.255.0
+      no shutdown
+    controller SHDSL 0/1/0
+     termination co
+     dsl-group 0 pairs  0, 1, 2, 3 m-pair
+     shdsl annex F-G coding 32-TCPAM
+}
+
+set defaultconfig(waasperf2-3845c) {
+    hostname waasperf2-3845c
+    enable password lab
+    no ip domain-lookup
+    no ip routing
+    ip default-gateway 10.1.1.1
+    service timestamps debug datetime msec localtime
+    no service config
+    clock timezone PST -8
+    clock summer-time PDT recurring
+    interface FastEthernet1/0 
+      ip address 10.1.1.6 255.255.255.0
+      no shutdown
+}   
+
+set defaultconfig(waasperf2-800a) {
+    hostname waasperf2-800a
+    enable password lab
+    no ip domain-lookup
+    no ip routing
+    ip default-gateway 10.1.1.1
+    service timestamps debug datetime msec localtime
+    no service config
+    clock timezone PST -8
+    clock summer-time PDT recurring
+    interface FastEthernet0
+     shutdown
+     duplex full
+     speed 100
+    vlan 1
+    vlan 103
+    interface VLAN103
+	no ip address
+	no shutdown
+    interface VLAN1
+     ip address 10.1.1.7 255.255.255.0 
+     no shutdown
+} 
+
+set defaultconfig(waasperf2-8FSPa) {
+    hostname waasperf2-8FSPa
+    enable password lab
+    no ip domain-lookup
+    no ip routing
+    ip default-gateway 10.1.1.1
+    service timestamps debug datetime msec localtime
+    no service config
+    clock timezone PST -8
+    clock summer-time PDT recurring
+    interface giga 8
+     ip address 10.1.1.8 255.255.255.0 
+     no shutdown
+}
+
+set defaultconfig(waasperf2-898a) {
+    hostname waasperf2-898a
+    enable password lab
+    no ip domain-lookup
+    no ip routing
+    ip default-gateway 10.1.1.1
+    service timestamps debug datetime msec localtime
+    no service config
+    clock timezone PST -8
+    clock summer-time PDT recurring
+    interface giga 8
+     ip address 10.1.1.13 255.255.255.0 
+     no shutdown
+}
+
+set defaultconfig(waasperf2-2911b) {
+    hostname waasperf2-2911b
+    enable password lab
+  no ip domain-lookup
+    no ip routing
+    ip default-gateway 10.1.1.1
+    service timestamps debug datetime msec localtime
+    no service config
+    clock timezone PST -8
+    clock summer-time PDT recurring
+    interface GigabitEthernet0/0
+      ip address 10.1.1.9 255.255.255.0
+      no shutdown
+} 
+
+set defaultconfig(waasperf2-8EAa) {
+    hostname waasperf2-8EAa
+    enable password lab
+    no ip domain-lookup
+    no ip routing
+    ip default-gateway 10.1.1.1
+    service timestamps debug datetime msec localtime
+    no service config
+    clock timezone PST -8
+    clock summer-time PDT recurring
+    vlan 1
+    vlan 103
+    
+    interface VLAN103
+	no ip address
+	no shutdown
+    interface VLAN1
+     ip address 10.1.1.10 255.255.255.0 
+     no shutdown
+    interface fastethernet 0
+	no shut
+} 
+ 
+set defaultconfig(waasperf2-3945a) {
+    hostname waasperf2-3945a
+    enable password lab
+  no ip domain-lookup
+    no ip routing
+    ip default-gateway 10.1.1.1
+    service timestamps debug datetime msec localtime
+    no service config
+    clock timezone PST -8
+    clock summer-time PDT recurring
+    interface GigabitEthernet0/0
+      ip address 10.1.1.11 255.255.255.0
+      no shutdown
+}
+
+set defaultconfig(waasperf2-3945Ea) {
+    hostname waasperf2-3945Ea
+    enable password lab
+    no ip domain-lookup
+    no ip routing
+    ip default-gateway 10.1.1.1
+    service timestamps debug datetime msec localtime
+    no service config
+    clock timezone PST -8
+    clock summer-time PDT recurring
+    interface GigabitEthernet0/0
+      ip address 10.1.1.12 255.255.255.0
+      no shutdown
+}
+
+set defaultconfig(waasperf2-o2) {
+    hostname waasperf2-o2
+    enable password lab
+    no ip domain-lookup
+    no ip routing
+    ip default-gateway 10.1.1.1
+    service timestamps debug datetime msec localtime
+    no service config
+    clock timezone PST -8
+    clock summer-time PDT recurring
+    interface GigabitEthernet0/0/0
+      ip address 10.1.1.14 255.255.255.0
+      no shutdown
+}
+
+set defaultconfig(waasperf2-waas) {}
+
+set defaultconfig(waasperf2-avalanche) {}
+
+set defaultconfig(waasperf2-reflector) {}
+
+#############################################################################
+# Now set the post config of each testbed here
+#############################################################################
+
+
+global defaultconfig postconfig
+
+set postconfig(waasperf2-72b) {
+    hostname waasperf2-72b
+    enable password lab
+    no ip domain-lookup
+    no ip routing
+    ip default-gateway 10.1.1.1
+    service timestamps debug datetime msec localtime
+    no service config
+    clock timezone PST -8
+    clock summer-time PDT recurring
+    ip host PAGENT-SECURITY-V3 24.47.99.65 81.29.0.0
+    interface GigabitEthernet0/1
+      no ip address
+      shutdown
+}
+
+set postconfig(waasperf2-3825b) {
+    hostname waasperf2-3825b
+    enable password lab
+    no ip domain-lookup
+    no ip routing
+    ip host PAGENT-SECURITY-V3 39.36.92.50 97.25.0.0
+    ip default-gateway 10.1.1.1
+    service timestamps debug datetime msec localtime
+    no service config
+    clock timezone PST -8
+    clock summer-time PDT recurring
+    interface GigabitEthernet0/1
+        no ip address
+        duplex full
+    interface GigabitEthernet0/2
+        no ip address
+        duplex full
+}
+set postconfig(waasperf2-29a) {
+    hostname waasperf2-29a
+    enable password lab
+  no ip domain-lookup
+    no ip routing
+    ip default-gateway 10.1.1.1
+    service timestamps debug datetime msec localtime
+    no service config
+    clock timezone PST -8
+    clock summer-time PDT recurring
+    interface GigabitEthernet0/0
+      no ip address
+      shutdown
+}   
+
+set postconfig(waasperf2-2951a) {
+    hostname waasperf2-2951a
+    enable password lab
+  no ip domain-lookup
+    no ip routing
+    ip default-gateway 10.1.1.1
+    service timestamps debug datetime msec localtime
+    no service config
+    clock timezone PST -8
+    clock summer-time PDT recurring
+    interface GigabitEthernet0/0
+      no ip address
+      shutdown
+}  
+
+set postconfig(waasperf2-3945a) {
+    hostname waasperf2-3945a
+    enable password lab
+    no ip domain-lookup
+    no ip routing
+    ip default-gateway 10.1.1.1
+    service timestamps debug datetime msec localtime
+    no service config
+    clock timezone PST -8
+    clock summer-time PDT recurring
+    interface GigabitEthernet0/0
+      no ip address
+      shutdown
+}  
+    
+set postconfig(waasperf2-3945Ea) {
+    hostname waasperf2-3945Ea
+    enable password lab
+  no ip domain-lookup
+    no ip routing
+    ip default-gateway 10.1.1.1
+    service timestamps debug datetime msec localtime
+    no service config
+    clock timezone PST -8
+    clock summer-time PDT recurring
+    interface GigabitEthernet0/0
+      no ip address
+      shutdown
+}
+
+set postconfig(waasperf2-19a) {
+    hostname waasperf2-19a
+    enable password lab
+  no ip domain-lookup
+    no ip routing
+    ip default-gateway 10.1.1.1
+    service timestamps debug datetime msec localtime
+    no service config
+    clock timezone PST -8
+    clock summer-time PDT recurring
+    interface GigabitEthernet0/0
+      no ip address
+      shutdown
+}
+
+set postconfig(waasperf2-3845c) {
+    hostname waasperf2-3845c
+    enable password lab
+    no ip domain-lookup
+    no ip routing
+    ip default-gateway 10.1.1.1
+    service timestamps debug datetime msec localtime
+    no service config
+    clock timezone PST -8
+    clock summer-time PDT recurring
+    interface FastEthernet1/0
+      no ip address
+      shutdown
+    interface fastEthernet 1/1
+      ip address 10.104.200.29 255.255.255.0
+      no shut
+     router eigrp 100
+	redistribute connected metric 1500 1 255 1 1500
+}   
+
+set postconfig(waasperf2-800a) {
+    hostname waasperf2-800a
+    enable password lab
+    no ip domain-lookup
+    no ip routing
+    no cdp run
+    ip default-gateway 10.1.1.1
+    service timestamps debug datetime msec localtime
+    no service config
+    clock timezone PST -8
+    clock summer-time PDT recurring
+    interface fastethernet 0
+	shut
+    interface fastethernet 1
+      switchport access vlan 103
+      no ip address
+      shut
+    vlan 1
+    vlan 103
+    interface VLAN103
+	no ip address
+	shutdown
+    interface VLAN1
+     no ip address 
+     shutdown
+} 
+ 
+set postconfig(waasperf2-8FSPa) {
+    hostname waasperf2-8FSPa
+    enable password lab
+    no ip domain-lookup
+    no ip routing
+    no cdp run
+    ip default-gateway 10.1.1.1
+    service timestamps debug datetime msec localtime
+    no service config
+    clock timezone PST -8
+    clock summer-time PDT recurring
+    interface giga 8
+     no ip address
+     shutdown
+}
+
+set postconfig(waasperf2-898a) {
+    hostname waasperf2-898a
+    enable password lab
+    no ip domain-lookup
+    no ip routing
+    no cdp run
+    ip default-gateway 10.1.1.1
+    service timestamps debug datetime msec localtime
+    no service config
+    clock timezone PST -8
+    clock summer-time PDT recurring
+    interface giga 8
+     no ip address
+     shutdown
+    interface giga 0
+      switchport access vlan 103
+      no ip address
+      no shut
+    vlan 1
+    vlan 103
+    interface VLAN103
+	no ip address
+	shutdown
+}
+
+set postconfig(waasperf2-2911b) {
+    hostname waasperf2-2911b
+    enable password lab
+    no ip domain-lookup
+    no ip routing
+    ip default-gateway 10.1.1.1
+    service timestamps debug datetime msec localtime
+    no service config
+    clock timezone PST -8
+    clock summer-time PDT recurring
+    interface GigabitEthernet0/0
+      no ip address
+      shutdown
+}
+
+set postconfig(waasperf2-8EAa) {
+    hostname waasperf2-8EAa
+    enable password lab
+    no ip domain-lookup
+    no ip routing
+    no cdp run
+    ip default-gateway 10.1.1.1
+    service timestamps debug datetime msec localtime
+    no service config
+    clock timezone PST -8
+    clock summer-time PDT recurring
+    interface fastethernet 0
+	shut
+    interface fastethernet 1
+      switchport access vlan 103
+      no ip address
+      no shut
+    vlan 1
+    vlan 103
+    interface VLAN103
+	no ip address
+	shutdown
+    interface VLAN1
+        no ip address 
+        shutdown
+}  
+
+set postconfig(waasperf2-o2) {
+    hostname waasperf2-o2
+    enable password lab
+    no ip domain-lookup
+    no ip routing
+    no ip default-gateway 10.1.1.1
+    service timestamps debug datetime msec localtime
+    no service config
+    clock timezone PST -8
+    clock summer-time PDT recurring
+    interface GigabitEthernet0/0/0
+      no ip address 
+      shutdown
+}  
+
+ 
+
+set postconfig(waasperf2-waas) {}
+
+set postconfig(waasperf2-avalanche) {}
+
+set postconfig(waasperf2-reflector) {}
+
+# populate the Easy style config variables
+#
+
+#############################################################################
+# Step 17. CSCCON's console procedure expects the router console port
+# address to be defined in the /etc/hosts file or name service as
+# "<router_name>-con". For example, if your router is named agsi1,
+# then the name "agsi1-con" must be defined.  Notice that an IP
+# address for each router console is required.
+#
+# If you want to save IP addresses, then connect a communications
+# server asynchronous communications port to each router console port
+# and assign an IP address to the communications server's LAN
+# interface. If you decide to do this, then one needs to associate the
+# router name with the communications server's IP address and
+# asynchronous communications port number. CSCCON is expecting a Tcl
+# array, _device to provide the association.
+#
+# There are two ways to include _device entries in this CONFIG file:
+#
+# 1) Include all _device entries in this file. Use the following lines
+#    as an example if you want to use this method. The router name is
+#    agsi1. The communications server's IP address is 198.92.45.19.
+#    The communications server's asynchronous port is 6002.
+#
+#     global _device
+#     set _device(agsi1) "telnet 198.92.45.19 6002"
+#
+# 2) Store all _device entries in $AUTOTEST/local/lib/device.exp.
+#    If you want to use this method, uncomment the following seven lines:
+#
+#     global env
+#     set device_file $env(AUTOTEST)/local/lib/device.exp
+#     if { [file readable $device_file] && [file isfile $device_file] } {
+#         if [catch "uplevel #0 source $device_file" errmsg] {
+#             puts stderr "Error sourcing device file $device_file: $errmsg"
+#         }
+#     }
+#
+#############################################################################
+
+
+
+global _device
+
+set _device(waasperf2-19a)     "telnet waasperf2-cs 2038"
+set _device(waasperf2-72b)     "telnet waasperf2-cs 2035"
+set _device(waasperf2-3825b)   "telnet waasperf2-cs 2036"
+set _device(waasperf2-29a)     "telnet waasperf2-cs 2037"
+set _device(waasperf2-3845c)     "telnet waasperf2-cs 2018"
+set _device(waasperf2-3945a)     "#telnet waasperf2-cs 2039"
+set _device(waasperf2-3945Ea)     "telnet waasperf2-cs 2063"
+set _device(waasperf2-898a)     "telnet waasperf2-cs 2065"
+set _device(waasperf2-sw)     "telnet waasperf2-cs 2020"
+set _device(waasperf2-800a)     "telnet waasperf2-cs 2040"
+set _device(waasperf2-8FSPa)     "telnet waasperf2-cs 2059"
+set _device(waasperf2-8EAa)     "telnet waasperf2-cs 2060"
+set _device(waasperf2-2911b)     "telnet waasperf2-cs 2061"
+set _device(waasperf2-2951a)     "telnet waasperf2-cs 2021"
+set _device(waasperf2-waas)     "telnet waasperf2-cs 2022"
+set _device(waasperf2-power)     "telnet waasperf2-cs 2023"
+set _device(waasperf2-ixia)	"telnet 172.19.147.120"
+set _device(waasperf2-avalanche) "telnet 172.25.221.205"
+set _device(COLLECTOR_LINUX)            "telnet 172.19.147.137"
+
+set _device(waasperf2-o2)     "telnet waasperf2-cs 2039"
+
+#############################################################################
+# Step 18: Optional -- If you are using $AUTOTEST/etc/clean to execute
+# a list of commands, specify the lists here for each testbed. See the
+# $AUTOTEST/etc/clean script header for more information.
+#############################################################################
+
+#########################################################################
+# EARMS support
+#########################################################################
+
+set USE_DEFAULT_IMAGES 0
+
+# Proc to mail error messages to testbed admin
+proc mail_error { } {
+    uplevel 1 {
+        set body "
+            eARMS Testbed: $env(EARMS_TESTBED_USED)
+            eARMS Request ID: $env(EARMS_REQUEST_ID)
+            eARMS Suite: [file join $env(EARMS_CATEGORY_PATH) $env(EARMS_SUITE_NAME)]
+            Error Messages:\n$err
+        "
+        sendMailMsg "$ADMIN" {e-ARMS testbed config source error} "$body"
+    }
+}
+
+set i 1
+if { [ info exists env(EARMS_ROUTERS_USED) ] } {
+    set clean_helper [ split $env(EARMS_ROUTERS_USED) "," ]
+    set clean_section {}
+    set CLEAN($this_testbed) {}
+    foreach rtr $clean_helper {
+        lappend clean_section "$i stg_clean_router $rtr"
+        regsub -all -- {-|:|\.} $rtr {_} tmp_rtr
+        # If image has not been provided by submitter
+        if {![info exists env(EARMS_IMAGES_$tmp_rtr)]} {
+            set USE_DEFAULT_IMAGES 1
+        }
+        incr i 1
+    }
+    # If we need to use default images because the submitter didn't \
+    # provide images for all platforms involved in the test then we
+    # need to source the file earms.images
+    if {$USE_DEFAULT_IMAGES} {
+        if {[info exists env(AUTOTEST) ]} {
+            if {[catch {source $env(AUTOTEST)/etc/earms.images} err]} {
+                puts stderr "Failed to source \
+                    $env(AUTOTEST)/etc/earms.image: $err"
+                # Need to send error message to ADMIN
+                catch {mail_error}
+            }
+        }
+    }
+    lappend CLEAN($this_testbed) $clean_section
+} else {
+    set CLEAN($this_testbed) {
+        {
+            {1 stg_clean_router waasperf2-p1 }
+            {2 stg_clean_router waasperf2-p2 }
+            {3 stg_clean_router waasperf2-p3 }
+            {4 stg_clean_router waasperf2-29a }
+            {5 stg_clean_router waasperf2-3945b }
+            {6 stg_clean_router waasperf2-19a }
+            {7 stg_clean_router waasperf2-3945a }
+            {8 stg_clean_router waasperf2-29b }
+            {9 stg_clean_router waasperf2-72a }
+            {10 stg_clean_router waasperf2-19b }
+            {11 stg_clean_router waasperf2-72b }
+            {12 stg_clean_router waasperf2-o2 }
+        }
+    }
+}
+
+#
+# This is to allow "easyClean" to be used for loading
+# our routers.
+#
+foreach rtr $tb_devices($this_testbed) {
+    set tb_clean_cmd($rtr) stg_easyclean_router
+} ; # end foreach
+
+#
+# eArms wanted this next setting
+#
+set tb_clean_sequence($this_testbed) $tb_devices($this_testbed)
+
+#############################################################################
+# Step 19: Optional -- Uncomment the following line to tell autotest to use
+# the old (perl based) report generator instead of the default
+# $AUTOTEST/etc/reportgen program to create the autotest summary report.
+# (Note that the new reportgen program provides you with more features,
+# such as the ability to customize the autotest summary format).
+#############################################################################
+
+# set REPORTGEN old
+
+###########################################################################
+# Step 19.0: Optional - The following keyword is used to tell Autotest
+# to send Autotest results data to TIMS.  (See the Autotest Users
+# Manual for additional information.)
+
+#set POST on
+
+###########################################################################
+# Step 19.1: Optional - The following keyword is used to turn on the
+# generation of unique test ID's in the Autotest results file.  (See
+# the Autotest Users Manual for additional information.)
+
+set UNIQUE_TID 1
+
+###########################################################################
+# Step 19.2: Optional - The following keyword is used to send TIMS
+# attribute types and values to the TIMS importer.  The variable
+# TIMS_ATTRIBUTE is a Tcl array variable.  The index to each element
+# of the TIMS_ATTRIBUTE array variable must be the exact case
+# sensitive TIMS attribute type.  The TIMS_ATTRIBUTE variable will be
+# used if Autotest is exporting Autotest results data to TIMS.  (See
+# the Autotest Users Manual for additional information.)
+#
+# NOTE: If you are exporting Autotest results to TIMS you **MUST** set
+# the array variable TIMS_ATTRIBUTE(dns_name).  (See TIMS
+# documentation for additional information about the use of the TIMS
+# "dns_name" attribute.)
+############################################################################
+
+set TIMS_ATTRIBUTE(dns_name) tims.cisco.com/Tnr203p
+set TIMS_ATTRIBUTE(GROUP) IKE-IPSEC
+
+#############################################################################
+# Step 20: Optional -- The following keyword is used to customize the
+# autotest summary report format, and is supported only by the new
+# reportgen program. You need to source the file that defines your custom
+# report function, and then set the name of the custom report function to
+# the CUSTOM_REPORT_FUNC keyword. If the CUSTOM_REPORT_FUNC keyword is
+# defined, the reportgen program uses the function it points to to create
+# the autotest summary report. Look at the reportgen man page
+# ($AUTOTEST/man/manl/reportgen.l) and the file
+# $AUTOTEST/lib/reportgen/custom_report.template for more details on the
+# usage of the custom report feature.
+#############################################################################
+
+# if { [ info exists env(AUTOTEST) ]} {
+#     source $env(AUTOTEST)/stg_reg/utils/custom_report
+# } else {
+#     source /auto/stg-devtest/earms/stg_reg/utils/custom_report
+# }
+# set CUSTOM_REPORT_FUNC custom_report_func
+
+###############################################################################
+# Step 21. Optional -- These variables allow other testbed dependent parameters
+# like the PC addresses, BRI line phone numbers, etc to be used in a testbed
+# independent way in the suite files. The way to use them is exactly like
+# routers, i.e., simply use $option1 $option2 and so on in the order of
+# definition below.
+###############################################################################
+
+# Options in this list are:
+#  ISDN number for router7 - 3845a ($router7)
+#  ISDN number for router5 - 3845b   (3845a uses this number to call 3845b)
+#  Address of Radius server for this testbed
+# ISDN Interface type on $router7
+# ISDN Interface type on $router5
+# Ipaddress of VPN client for this testbed
+
+###############################################################################
+# Step 22. This ghastly code is a workaround for proper functioning of scripts
+# that still use coremap instead of the MAP file. The idea of the code is to
+# ensure that changes in the testbed require changes in only the MAP file and
+# not the coremap variable also.
+##############################################################################
+set tb_servers {
+  { default 172.19.201.81 }
+}
+
+set TB_MAP_SECTION(traffic_gen) {
+ { waasperf2-ixia
+    { type:                      host                }
+    { machine:                   ixia                }
+    { addr:                      172.19.147.120      }
+    { 4/1                        lanethernet3
+      { type:                    gigabitethernet     }
+      { ipaddr:                  5.0.0.2             }
+      { ipgtwy:                  5.0.0.1             }
+      { virtualipnet:            105.0.0.0/8         }
+      { subintpool:              205.0.0.0/8         }
+      { ipv6addr:                2001:400:1:5::2     }
+      { ipv6gtwy:                2001:400:1:5::1     }
+      { virtualipv6prefix:       105::/16            }
+    }
+    { 4/2                        lanethernet2
+      { type:                    gigabitethernet     }
+      { ipaddr:                  6.0.0.2             }
+      { ipgtwy:                  6.0.0.1             }
+      { virtualipnet:            106.0.0.0/8         }
+      { subintpool:              206.0.0.0/8         }
+      { ipv6addr:                2001:400:1:6::2     }
+      { ipv6gtwy:                2001:400:1:6::1     }
+      { virtualipv6prefix:       106::/16            }
+    }
+  }
+  { waasperf2-avalanche
+    { type:                      host                }
+    { machine:                   avalanche           }
+    { addr:                      172.25.221.205      }
+    { hardware:                  2900                }
+    { 0                          lanethernet3
+      { type:                    gigabitethernet     }
+      { ipaddr:                  21.0.0.2            }
+      { ipgtwy:                  21.0.0.1            }
+      { virtualipnet:            121.0.0.0/8         }
+      { ipv6addr:                AAAA::1              }
+      { ipv6addrprefix:          AAAA::/64            }
+      { ip6_prefix_len:          64                  }
+      { ipv6gtwy:                AAAA::1              }
+      { virtualipv6prefix:       AAAA::/64            }
+      { macaddr:                 00-15-17-82-C6-49   }
+    }
+  }
+  { waasperf2-reflector
+      { type:                   host                 }
+      { machine:                reflector            }
+      { hardware:               2900                 }
+      { addr:                   172.25.221.205       }
+      { 4                       lanethernet2
+         { type:                gigabitethernet      }
+         { ipaddr:              22.0.0.2             }
+         { ipgtwy:              22.0.0.1             }
+         { virtualipnet:        122.0.0.0/8          }
+         { ipv6addr:            AAAB::1              }
+	 { ipv6addrprefix:      AAAB::/64            }
+	 { ip6_prefix_len:      64                   }
+         { ipv6gtwy:            AAAB::1              }
+         { virtualipv6prefix:   AAAB::/64            }
+         { macaddr:             00-15-17-82-C2-4D    }
+      }
+  }
+  { waasperf2-win2008server
+      { type:                   host                 }
+      { machine:                win2008server        }
+      { hardware:               2900                 }
+      { addr:                   22.0.0.20            }
+      { gigabitethernet         lanethernet2         }
+  }
+}
+
+
+set tb_map  [ subst -nocommands -nobackslashes  {
+    {COLLECTOR_LINUX
+        {hostname:             collector}
+        {prompt:               "collector.*\#*?"}
+        {username:              root}
+        {enable_pw:             roZes123}
+        {defaultgw:             172.19.147.1}
+        {type:                  linux}
+        {clients_interface     clients
+            {type:               ethernet}
+            {address:            172.19.147.137}
+            {subnet:        255.255.255.0}
+            {udpport:                9003}
+            {udpport1:                2055}
+        }
+        {console_interface      console
+            {type:           console}
+            {address:        172.19.147.137}
+            {port:           }
+        }
+    }
+  { waasperf2-72b
+    { type:                      7200g2         }
+    { GigabitEthernet0/1         lanethernet0 }
+    { GigabitEthernet0/2         lanethernet1 }
+  }
+  { waasperf2-3825b
+    { type:                      3825         }
+    { GigabitEthernet0/1         lanethernet0 }
+    { GigabitEthernet0/0         lanethernet1 }
+    { Serial0/3/0                serial1 }
+    { Serial0/3/1                serial2 }
+    { Multilink1                 mlppp0
+      { type: mlppp }
+      { bundles:
+         Serial0/3/0 Serial0/3/1
+      }
+    }
+    { Serial0/2/0                serial3 }
+    { Serial0/2/1                serial4 }
+    { Serial0/2/2                serial5 }
+    { Multilink2                 mlppp1
+      { type: mlppp }
+      { bundles:
+         Serial0/2/0 Serial0/2/1 Serial0/2/2
+      }
+    }
+  }
+  { waasperf2-800a
+    { type:                      890         }
+    { GigabitEthernet0           lanethernet0 }
+    { FastEthernet8              lanethernet3 }
+    { VLAN103                 	 lanethernet3 
+      { type: vlan }
+    }
+  }
+  { waasperf2-8EAa
+    { type:                      800         }
+    { ATM0                       pppoa1
+        { type: atm }
+    }
+    { Ethernet0                  pppoe1
+        { type: atm }
+    }
+    { VLAN103                 	 lanethernet3 
+      { type: vlan }
+    }
+  }
+  { waasperf2-8FSPa
+    { type:                      800         }
+    { GigabitEthernet8           lanethernet0 }
+    { GigabitEthernet9           lanethernet3 }
+  }
+  { waasperf2-898a
+    { type:                      800         }
+    { ATM0                       pppoa2
+        { type: atm }
+    }
+    { Ethernet0                  pppoe2
+        { type: atm }
+    }
+    { VLAN103                 	 lanethernet3 
+      { type: vlan }
+    }
+  }
+  { waasperf2-29a
+    { type:                      2900         }
+    { GigabitEthernet0/0         lanethernet0 }
+    { GigabitEthernet0/1         lanethernet3 }
+    { ATM0/1/0                   atm1
+        { type: atm }
+    }
+  }
+  { waasperf2-3945a
+    { type:                      3945         }
+    { GigabitEthernet0/0         lanethernet0 }
+    { GigabitEthernet0/1         lanethernet3 }
+  }
+  { waasperf2-3945Ea
+    { type:                      3945         }
+    { GigabitEthernet0/0         lanethernet0 }
+    { GigabitEthernet0/1         lanethernet3 }
+  }
+  { waasperf2-2911b
+    { type:                      2900         }
+    { GigabitEthernet0/0         lanethernet0 }
+    { ATM0/1/0                   ppoa1
+        { type: atm }
+    }
+    { ATM0/1/1                   ppoa2
+        { type: atm }
+    }
+    { Ethernet0/1/0              ppoe1
+        { type: atm }
+    }
+    { Ethernet0/1/1              ppoe2
+        { type: atm }
+    }
+  }
+    { waasperf2-2951a
+    { type:                      2951         }
+    { GigabitEthernet0/0         lanethernet0 }
+    { GigabitEthernet0/1         lanethernet3 }
+  }
+  { waasperf2-19a
+    { type:                      1900         }
+    { GigabitEthernet0/0         lanethernet0 }
+    { GigabitEthernet0/1         lanethernet3 }
+    { Serial0/0/0                serial1 }
+    { Serial0/0/1                serial2 }
+    { Multilink1                 mlppp0
+      { type: mlppp }
+      { bundles:
+         Serial0/0/0 Serial0/0/1
+      }
+    }
+  }
+  { waasperf2-3845c
+    { type:                      3845         }
+    { GigabitEthernet0/0         lanethernet2 }
+    { GigabitEthernet0/1         lanethernet1 }
+    { FastEthernet1/0            lanethernet0 }
+  }
+  { waasperf2-waas
+    { type:                      host           }
+    { GigabitEthernet1/0         lanethernet2 }
+    { GigabitEthernet2/0         lanethernet0 }
+  }
+  { waasperf2-o2
+    { type:                      o2         }
+    { GigabitEthernet0/0/0         lanethernet1 }
+    { GigabitEthernet0/0/1         lanethernet3 }
+    { GigabitEthernet0/0/2         lanethernet2 }
+  }
+  $TB_MAP_SECTION(traffic_gen)
+} ]
+
+set TB_MAP(sfr,default) $tb_map
+
+set TB_MAP(sfr,waas1) [subst -nocommands -nobackslashes {
+  { waasperf2-72b
+    { type:                      7200g2         }
+    { GigabitEthernet0/1         lanethernet0 }
+    { GigabitEthernet0/2         lanethernet1 }
+  }
+  { waasperf2-3945a
+    { type:                      3945         }
+    { GigabitEthernet0/0         lanethernet0 }
+    { GigabitEthernet0/1         lanethernet3 }
+  }
+  { waasperf2-3945Ea
+    { type:                      3945         }
+    { GigabitEthernet0/0         lanethernet0 }
+    { GigabitEthernet0/1         lanethernet3 }
+  }
+  { waasperf2-3825b
+    { type:                      3825         }
+    { GigabitEthernet0/1         lanethernet0 }
+    { GigabitEthernet0/0         lanethernet1 }
+    { Serial0/3/0                serial1 }
+    { Serial0/3/1                serial2 }
+    { Multilink1                 mlppp0
+      { type: mlppp }
+      { bundles:
+         Serial0/3/0 Serial0/3/1
+      }
+    }
+    { Serial0/3/2                serial3 }
+    { Serial0/3/3                serial4 }
+    { Multilink2                 mlppp1
+      { type: mlppp }
+      { bundles:
+         Serial0/3/2 Serial0/3/3
+      }
+    }
+  }
+  { waasperf2-29a
+    { type:                      2900         }
+    { GigabitEthernet0/0         lanethernet0 }
+    { GigabitEthernet0/1         lanethernet3 }
+    { ATM0/1/0                   atm1
+        { type: atm }
+    }
+  }
+  { waasperf2-898a
+    { type:                      800         }
+    { ATM0                       pppoa2
+        { type: atm }
+    }
+    { Ethernet0                  pppoe2
+        { type: atm }
+    }
+    { VLAN103                 	 lanethernet3 
+      { type: vlan }
+    }
+  }
+  { waasperf2-2911b
+    { type:                      2900         }
+    { GigabitEthernet0/0         lanethernet0 }
+    { ATM0/1/0                   pppoa1
+        { type: atm }
+    }
+    { ATM0/3/0                   pppoa2
+        { type: atm }
+    }
+    { Ethernet0                  pppoe1
+        { type: atm }
+    }
+    { Ethernet1                  pppoe2
+        { type: atm }
+    }
+  }
+  { waasperf2-2951a
+    { type:                      2951         }
+    { GigabitEthernet0/0         lanethernet0 }
+    { GigabitEthernet0/1         lanethernet3 }
+  }
+  { waasperf2-800a
+    { type:                      890         }
+    { GigabitEthernet0           lanethernet0 }
+    { FastEthernet8              lanethernet3 }
+    { VLAN103                 	 lanethernet3 
+      { type: vlan }
+    }
+  }
+  { waasperf2-8EAa
+    { type:                      800         }
+    { ATM0                       pppoa1
+        { type: atm }
+    }
+    { Ethernet0                  pppoe1
+        { type: atm }
+    }
+    { VLAN103                 	 lanethernet3 
+      { type: vlan }
+    }
+  }
+  { waasperf2-8FSPa
+    { type:                      800         }
+    { GigabitEthernet8           lanethernet0 }
+    { GigabitEthernet9           lanethernet3 }
+  }
+  { waasperf2-19a
+    { type:                      1900         }
+    { GigabitEthernet0/0         lanethernet0 }
+    { GigabitEthernet0/1         lanethernet3 }
+    { ATM0/1/0                   atm1
+        { type: atm }
+    }
+    { Serial0/0/0                serial1 }
+    { Serial0/0/1                serial2 }
+    { Multilink1                 mlppp0
+      { type: mlppp }
+      { bundles:
+         Serial0/0/0 Serial0/0/1
+      }
+    }
+  }
+  { waasperf2-3845c
+    { type:                      3845         }
+    { GigabitEthernet0/0         lanethernet2 }
+    { GigabitEthernet0/1         lanethernet1 }
+    { FastEthernet1/0            lanethernet4 }
+  }
+  { waasperf2-waas
+    { type:                      host         }
+    { GigabitEthernet1/0         lanethernet2 }
+    { GigabitEthernet2/0         lanethernet4 }
+  }
+  { waasperf2-o2
+    { type:                      o2         }
+    { GigabitEthernet0/0/0         lanethernet1 }
+    { GigabitEthernet0/0/1         lanethernet3 }
+    { GigabitEthernet0/0/2         lanethernet2 }
+  }
+  $TB_MAP_SECTION(traffic_gen)
+} ]
+
+set TB_MAP(sfr,pppoe) [subst -nocommands -nobackslashes {
+  { waasperf2-3825b
+    { type:                      3825         }
+    { GigabitEthernet0/1         lanethernet0 }
+    { GigabitEthernet0/0         lanethernet1 }
+    { Serial0/3/0                serial1 }
+    { Serial0/3/1                serial2 }
+    { Multilink1                 mlppp0
+      { type: mlppp }
+      { bundles:
+         Serial0/3/0 Serial0/3/1
+      }
+    }
+    { Serial0/3/2                serial3 }
+    { Serial0/3/3                serial4 }
+    { Multilink2                 mlppp1
+      { type: mlppp }
+      { bundles:
+         Serial0/3/2 Serial0/3/3
+      }
+    }
+  }
+  { waasperf2-29a
+    { type:                      2900         }
+    { GigabitEthernet0/0         lanethernet0 }
+    { GigabitEthernet0/1         lanethernet3 }
+    { Ethernet0/1/0                  pppoe1
+        { type: atm }
+    }
+  }
+  { waasperf2-2911b
+    { type:                      2900         }
+    { GigabitEthernet0/0         lanethernet0 }
+    { Ethernet0/1/0                  pppoe1
+        { type: atm }
+    }
+    { Ethernet0/3/0                 pppoe2
+        { type: atm }
+    }
+  }
+  { waasperf2-898a
+    { type:                      800         }
+    { Ethernet0                  pppoe1
+        { type: atm }
+    }
+    { VLAN103                 	 lanethernet3 
+      { type: vlan }
+    }
+  }
+  { waasperf2-8EAa
+    { type:                      800         }
+    { Ethernet0                  pppoe2
+        { type: atm }
+    }
+    { VLAN103                 	 lanethernet3 
+      { type: vlan }
+    }
+  }
+  { waasperf2-19a
+    { type:                      1900         }
+    { GigabitEthernet0/0         lanethernet0 }
+    { GigabitEthernet0/1         lanethernet3 }
+    { Serial0/0/0                serial1 }
+    { Serial0/0/1                serial2 }
+    { Multilink1                 mlppp0
+      { type: mlppp }
+      { bundles:
+         Serial0/0/0 Serial0/0/1
+      }
+    }
+  }
+  { waasperf2-3845c
+    { type:                      3845         }
+    { GigabitEthernet0/0         lanethernet2 }
+    { GigabitEthernet0/1         lanethernet1 }
+    { FastEthernet1/0            lanethernet4 }
+  }
+  { waasperf2-waas
+    { type:                      host         }
+    { GigabitEthernet1/0         lanethernet2 }
+    { GigabitEthernet2/0         lanethernet4 }
+  }
+  $TB_MAP_SECTION(traffic_gen)
+} ]
+
+set TB_MAP(sfr,pppoa) [subst -nocommands -nobackslashes {
+  { waasperf2-72b
+    { type:                      7200g2         }
+    { GigabitEthernet0/1         lanethernet0 }
+    { GigabitEthernet0/2         lanethernet1 }
+  }
+  { waasperf2-3825b
+    { type:                      3825         }
+    { GigabitEthernet0/1         lanethernet0 }
+    { GigabitEthernet0/0         lanethernet1 }
+    { Serial0/3/0                serial1 }
+    { Serial0/3/1                serial2 }
+    { Multilink1                 mlppp0
+      { type: mlppp }
+      { bundles:
+         Serial0/3/0 Serial0/3/1
+      }
+    }
+    { Serial0/3/2                serial3 }
+    { Serial0/3/3                serial4 }
+    { Multilink2                 mlppp1
+      { type: mlppp }
+      { bundles:
+         Serial0/3/2 Serial0/3/3
+      }
+    }
+  }
+  { waasperf2-29a
+    { type:                      2900         }
+    { GigabitEthernet0/0         lanethernet0 }
+    { GigabitEthernet0/1         lanethernet3 }
+    { ATM0/1/0                   pppoa1
+        { type: atm }
+    }
+  }
+  { waasperf2-898a
+    { type:                      800         }
+    { ATM0                       pppoa1
+        { type: atm }
+    }
+    { VLAN103                 	 lanethernet3 
+      { type: vlan }
+    }
+  }
+  { waasperf2-2911b
+    { type:                      2900         }
+    { GigabitEthernet0/0         lanethernet0 }
+    { ATM0/1/0                   pppoa1
+        { type: atm }
+    }
+    { ATM0/3/0                   pppoa2
+        { type: atm }
+    }
+  }
+  { waasperf2-2951a
+    { type:                      2951         }
+    { GigabitEthernet0/0         lanethernet0 }
+    { GigabitEthernet0/1         lanethernet3 }
+  }
+  { waasperf2-800a
+    { type:                      890         }
+    { GigabitEthernet0           lanethernet0 }
+    { FastEthernet8              lanethernet3 }
+    { VLAN103                 	 lanethernet3 
+      { type: vlan }
+    }
+  }
+  { waasperf2-8EAa
+    { type:                      800         }
+    { ATM0                       pppoa2
+        { type: atm }
+    }
+    { VLAN103                 	 lanethernet3 
+      { type: vlan }
+    }
+  }
+  { waasperf2-8FSPa
+    { type:                      800         }
+    { GigabitEthernet8           lanethernet0 }
+    { GigabitEthernet9           lanethernet3 }
+  }
+  { waasperf2-19a
+    { type:                      1900         }
+    { GigabitEthernet0/0         lanethernet0 }
+    { GigabitEthernet0/1         lanethernet3 }
+    { ATM0/1/0                   atm1
+        { type: atm }
+    }
+    { Serial0/0/0                serial1 }
+    { Serial0/0/1                serial2 }
+    { Multilink1                 mlppp0
+      { type: mlppp }
+      { bundles:
+         Serial0/0/0 Serial0/0/1
+      }
+    }
+  }
+  { waasperf2-3845c
+    { type:                      3845         }
+    { GigabitEthernet0/0         lanethernet2 }
+    { GigabitEthernet0/1         lanethernet1 }
+    { FastEthernet1/0            lanethernet4 }
+  }
+  { waasperf2-waas
+    { type:                      host         }
+    { GigabitEthernet1/0         lanethernet2 }
+    { GigabitEthernet2/0         lanethernet4 }
+  }
+  $TB_MAP_SECTION(traffic_gen)
+} ]
+
+
+###############################################################################
+# Step 23. Now run the installation script in the install directory,
+# if you havent done so already.
+###############################################################################
+#### AUTOCOOKIE
+
+
+
+set testbeds { \
+sfr \
+ }
+
+
+
+set REPORT_SUMMARY_PROC myCustomSummary
+
+    package require csv
+    package require mysqltcl
+    package require Csccon
+    package require TclUtils
+
+
+proc myCustomSummary { } {
+global env donereport
+
+if {[info exists donereport]} {
+	puts "this was already done"
+	return ""
+} else {
+	set donereport "alreadydone"
+}
+
+set data "--- THIS is my report---\n"
+append data "
+ATS Version : [ats_get_record Summary AtsVersion]
+CLI Arguments: [ats_get_record Summary CliArgs]
+Requested : [ats_get_record Summary Requested]
+Archive File : [ats_get_record Summary ArchiveFile]"
+
+#########################
+# Get basic info from ats_get_record
+#########################
+
+set testresult ""
+set Successes [ats_get_record Summary Passed]
+set Failures [ats_get_record Summary Failed]
+set Aborted [ats_get_record Summary Aborted]
+set Never [ats_get_record Summary NeverRan]
+set Crashes [ats_get_record Summary Crashes]
+set Blocked [ats_get_record Summary Blocked]
+set this_testbed [ats_get_record Summary Testbed]
+set testresult "P-$Successes F-$Failures C-$Crashes A-$Aborted B-$Blocked N-$Never"
+set Notes ""
+
+#########################
+# Ok lets do something usefull
+#########################
+
+
+
+
+    set lf [open "/tmp/eARMSReportingLogfile" a+]
+    puts $lf "Entering earms_reporting"
+# Connect to the database on trinity:
+    puts $lf "Connecting to database"
+
+    if { [catch {
+        set conn [mysqlconnect -host joao-lnx -user tie -db TIE]
+	mysqluse $conn TIE
+	puts $lf "connected to database"
+    } result] } {
+        puts $lf "Cannot connect to database: $result"
+    }
+
+
+# old version
+#   if { [catch {
+#	source /tmp/test_being_run
+#	puts $lf "able to source file   TestID=$testid AND test=$test AND tree=$tree AND Project=$project   "
+#    } result]} {
+#        puts $lf "not able to source file $result"
+#   }
+
+    if { [catch {
+	set time [clock seconds]
+	set Date [clock format $time -format "%Y-%m-%d"]
+	 puts $lf "data e $Date"
+    } result] } {
+        puts $lf "not able to get time $result"
+    }
+
+    if { [catch {
+	puts $lf "Looking for a test of $this_testbed"
+	set query [mysqlquery $conn "SELECT testID,Project,Tree,test,epohtime,testbed,Class,Notes,Platform FROM RUNNING WHERE testbed='$this_testbed'"]
+		while { [set row [mysqlnext $query]]!="" } {
+			set testid [lindex $row 0]
+			set project [lindex $row 1]
+			set tree [lindex $row 2]
+			set test [lindex $row 3]
+			set time_started [lindex $row 4]
+			set testbed [lindex $row 5]
+			set class [lindex $row 6]
+			set Notes [lindex $row 7]
+			set Platform [lindex $row 8]
+		}
+	puts $lf "$time_started was able to parse results no need for that anymore testid:$testid project:$project tree:$tree testbed:$testbed  "
+    } result] } {
+        puts $lf "not able to get time $result"
+    }
+
+if { [catch {
+	set log [ats_get_record Summary ArchiveFile]
+	if { [ regexp {([0-9][0-9])-([0-9][0-9])/(.+)} $log all month year file ] } {
+		set dash "http://earms-trade.cisco.com/tradeui/CLResults.jsp?archive="
+		set ats "&ats="
+		puts " $month $year $file "
+		if { [ regexp {([0-9][0-9][0-9][0-9])[A-Za-z]+([0-9][0-9]).([0-9][0-9]):([0-9][0-9])} $file all yearcomplete day hour minutes ] } {
+			puts "this should be it $yearcomplete/$month/$day/$hour/$minutes/$file"
+			set log2 "$dash$yearcomplete/$month/$day/$hour/$minutes/$file$ats$env(AUTOTEST)"
+		}
+	} 
+	set trade "http://earms-trade.cisco.com/tradeui/resultsviewer.faces?ats="
+	set client "&client=eclipse&host=$env(HOST)&archive="
+	set empty ""
+	regsub -all "$env(AUTOTEST)" $log $empty string
+	set log "$trade$env(AUTOTEST)$client$string"
+	puts $lf "the log is $log and trade is $trade"
+    } result] } {
+        puts $lf "changing log didn't work $result"
+    }
+
+    if { [catch {
+	if {[ info exists class ]} {
+		if { [regexp {avalanche} $class all]  } {
+	
+			set filename [ats_log -getlogfile]
+
+			if { [file exists "$filename" ]} {
+				puts $lf "this file exists $filename"
+			}
+			set logfile "$env(AUTOTEST)/$env(USER)/runinfo/${test}/${test}_${testbed}.log"
+			puts $lf "looking for this $logfile"
+			if { [file exists "$logfile" ]} {
+				puts $lf "this file exists $logfile"
+			}
+			if { [file exists "/tmp/temptie/filter" ]} {
+				system "rm /tmp/temptie/filter"
+			}
+			if { [file exists "/tmp/temptie/filter2" ]} {
+				system "rm /tmp/temptie/filter2"
+			}
+			if { [file exists "/tmp/temptie/filter3" ]} {
+				system "rm /tmp/temptie/filter3"
+			}
+			if { [file exists "/tmp/temptie/output" ]} {
+				system "rm /tmp/temptie/output"
+			}
+			#autoeasy_report -o /tmp/temptie/output -m noone@noplace.com
+			set command "cat $logfile | grep fw_perf_disp_avg_stat_from_csv > /tmp/temptie/filter "
+			puts  $lf " after this4"
+			system $command
+			set command2 "cat $logfile | grep Traceback | wc > /tmp/temptie/filter2"
+			system $command2
+			puts  $lf " after this3"
+			set command3 "cat $logfile | grep Version > /tmp/temptie/filter3"
+			system $command3
+			puts  $lf " after this4"
+			set average_report [exec cat /tmp/temptie/filter]
+			set tracebacks [exec cat /tmp/temptie/filter2]
+			set versions [exec cat /tmp/temptie/filter3]
+
+			puts  $lf " these are the average_reports $average_report "
+			
+			regexp {Global:Client Total Packet Rate = +([0-9]+.[0-9]+)} $average_report all packet_rate 
+			regexp {:cpu + = +([0-9]+.[0-9]+)} $average_report all cpu
+			regexp {Global:Client Total Bandwidth += +([0-9]+.[0-9]+)} $average_report all bandwith 
+			regexp {Global:interrupt cpu += +([0-9]+.[0-9]+)} $average_report all interrupt_cpu 
+
+			regexp {Global:Transmit Bandwitdh += +([0-9]+.[0-9]+)} $average_report all upload 
+			if {![info exists upload]} {
+				set upload 0
+			}
+			regexp {Global:Received Bandwitdh += +([0-9]+.[0-9]+)} $average_report all download 
+			if {![info exists download]} {
+				set download 0
+			}
+			regexp {Global:TCP CR += +([0-9]+.[0-9]+)} $average_report all tcp_tr 
+			if {![info exists tcp_tr]} {
+				set tcp_tr 0
+			}
+			regexp {Global:TTR += +([0-9]+.[0-9]+)} $average_report all ttr 
+			if {![info exists ttr]} {
+				set ttr 0
+			}
+
+
+			regexp {C2951 Software \(C2951-UNIVERSALK9-M\), Version ([0-9]+.[0-9]+\([0-9_A-Z.]+\)[A-Z]),} $versions all version
+			if {![info exists version]} {
+			regexp {C8[0-9]+ Software \(C8[0-9]+-UNIVERSALK9-M\), Version ([0-9]+.[0-9]+\([0-9_A-Z.]+\)[A-Z]),} $versions all version
+			}
+			if {![info exists version]} {
+			regexp {C8[0-9]+ Software \(C8[0-9]+-UNIVERSALK9-M\), Experimental Version ([0-9]+.[0-9]+\([:0-9_A-Z.]+\)) } $versions all version
+			}
+			if {![info exists version]} {
+			regexp {C2951 Software \(C2951-UNIVERSALK9-M\), Experimental Version ([0-9]+.[0-9]+\([:0-9_A-Z.]+\)) } $versions all version
+			}
+			if {![info exists version]} {
+			regexp {C[0-9]+ Software \(C[0-9]+-UNIVERSALK9-M\), Version ([0-9]+.[0-9]+\([0-9_A-Z.]+\)[A-Z]),} $versions all version
+			}
+			if {![info exists version]} {
+			regexp {C[0-9]+ Software \(C[0-9]+-UNIVERSALK9-M\), Experimental Version ([0-9]+.[0-9]+\([:0-9_A-Z.]+\)) } $versions all version
+			}
+			if {![info exists version]} {
+			regexp {C[0-9]+ Software \(C[0-9]+-UNIVERSALK9-M\), Version ([0-9]+.[0-9]+\([0-9_A-Z.]+\)[A-Z][0-9.]+),} $versions all version
+			}
+			if {![info exists version]} {
+				set version "did not work"
+			}
+			puts  $lf " packet rate it $packet_rate $interrupt_cpu $bandwith $cpu version is $version"
+			
+			set ttr [ expr double (round($ttr * 10)) / 10 ]
+			set download [ expr double (round($download * 10)) / 10 ]
+			set upload [ expr double (round($upload * 10)) / 10 ]
+			set tcp_tr [ expr double (round($tcp_tr * 10)) / 10 ]
+			set packet_rate [ expr double (round($packet_rate * 10)) / 10 ]
+			set interrupt_cpu [ expr double (round($interrupt_cpu * 10)) / 10 ]
+			set bandwith [ expr double (round($bandwith * 10)) / 10 ]
+			set cpu [ expr double (round($cpu * 10)) / 10 ]
+			set Average "CPU: $cpu/$interrupt_cpu BW: $bandwith PR: $packet_rate Version:$version U/D:${upload}/${download} TTR:$ttr TCP TR:$tcp_tr"
+			set Notes "$Notes $Average"
+		
+			regexp {([0-9]+) +([0-9]+) +([0-9]+)} $tracebacks all number lines bla 
+			if {[info exists number]} {
+				set Notes "$Notes Tracebacks:$number"
+				}
+			}
+		}
+	} result] } {
+		puts $lf "not able to collect average data $result"
+	}
+
+
+   if { [catch {
+        set query [mysqlquery $conn "SELECT ID FROM RESULTS WHERE ID='$testid' AND test='$test' AND Testbed='$this_testbed' AND tree='$tree' AND Date='$Date' AND Project='$project' "]
+
+       while { [set row [mysqlnext $query]]!=""} {
+               set id [lindex $row 0]
+       }
+	
+	if { [info exists id] } {
+		puts $lf "test already exit should update"
+		set UPDATE "FALSE"
+	} else { 
+		#set UPDATE "FALSE"
+		set UPDATE "FALSE"
+	}
+	puts $lf "query worked"
+    } result] } {
+        puts $lf "query didn't work $result"
+    }
+    if { $UPDATE == "FALSE" } {
+	puts $lf "test never run today lets insert"
+	if { [catch {
+		mysqlexec $conn "INSERT INTO RESULTS (ID, Test, Project, Tree, Result, Testbed, Notes, Date ,LOG, LOG2,Platform) VALUES ( '$testid' , '$test' , '$project' , '$tree', '$testresult', '$testbed', '$Notes' , '$Date', '$log', '$log2', '$Platform' );"
+		puts $lf "inserted results"
+		append data " LOG1 $log"
+		append data " LOG2 $log2"
+	} result] } {
+		puts $lf "not able to insert results $result"
+	}
+     } elseif { $UPDATE == "TRUE" } {
+	if { [catch {
+		mysqlexec $conn "UPDATE RESULTS SET Result='$testresult',LOG='$log',LOG2='$log2' WHERE ID='$testid' AND Date='Date' AND Tree='$tree'"
+		puts $lf "inserted results"
+	} result]} {
+		puts $lf "not able to insert results $result"
+	}
+
+     }
+    
+
+	if { [catch {
+
+		set time_ended [clock seconds]
+		set diference [expr $time_ended - $time_started]
+		set diference [expr $diference / 60 ]
+
+		switch $tree {
+			"baseline" { mysqlexec $conn "UPDATE Testsconfig SET Baseline='$testresult',Time='$diference',Date='$Date' WHERE ID='$testid'" }
+			"solid" { mysqlexec $conn "UPDATE Testsconfig SET M='$testresult',Time='$diference',Date='$Date' WHERE ID='$testid'" }
+			"testing" { mysqlexec $conn "UPDATE Testsconfig SET Testing='$testresult',Time='$diference',Date='$Date' WHERE ID='$testid'" }
+		}
+
+		puts $lf "updated main table results"
+	} result] } {
+		puts $lf "not able to insert results $result"
+	}
+
+
+
+#ok time to update the architect database
+
+#Connect and selected database
+
+puts $lf "Connecting to database architect"
+    if {[catch {
+	set conn2 [mysqlconnect -host architect.cisco.com -user api_user -password letmein -db earms]
+    } result]} {
+        puts $lf "Cannot connect to database architect: $result"
+    }
+    
+    # Select the earms database on architect:
+    puts $lf "Selecting earms database on architect"
+
+    set db {earms}
+    if {[catch {mysqluse $conn2 earms} result]} {
+        puts $lf "Cannot select earms database on architect: $result"
+        mysqlclose $conn2
+    } 
+
+    puts $lf "Getting test info"
+
+
+if { [catch {
+
+ set query [mysqlquery $conn "SELECT RUN_ID FROM RESULTS WHERE ID='$testid' AND test='$test' AND Testbed='$this_testbed' AND tree='$tree' AND Date='$Date' AND LOG='$log' AND Project='$project' "]
+
+       while { [set row [mysqlnext $query]]!=""} {
+               set requestID  [lindex $row 0]
+       }
+    } result] } {
+        puts $lf "CONFIG no able to disconnect to database: $result"
+    }
+
+puts $lf "Query worked"
+puts $lf "Request is $requestID"
+
+if { [catch {
+	puts $lf "Set varialbes"
+        if { ![info exists requestID] } {
+	   set requestID 10
+	}
+
+	set suite [ats_get_record Summary Run]
+	set description $Notes
+	set image "NA"
+	set script_name_list $test
+
+	#set month [clock format 1310592461 -format "%h%Y"]
+	#set month [clock format 1310592461 -format "%h %d"]
+	set month [clock format $time_ended -format "%h%Y"]
+	set submitter [ats_get_record Summary $env(USER)]
+	set rundate [clock format $time_ended -format "%h %d"]
+	set passed [ats_get_record Summary Passed]
+	set failed [ats_get_record Summary Failed]
+	set neverran [ats_get_record Summary NeverRan]
+	set aborted [ats_get_record Summary Aborted]
+	set version {}
+    } result] } {
+        puts $lf "Not able to set variables $result"
+    }
+ # Properly quote sql:
+    regsub -all ' $suite '' suite
+    regsub -all {\\'} $description ' description
+    regsub -all ' $description '' description
+    regsub -all ' $image '' image
+    regsub -all ' $script_name_list '' script_name_list
+    regsub -all ' $version '' version
+        
+    # Insert data into the earms_runs table:
+    puts $lf "Inserting into earms_runs"
+    set stmt "INSERT INTO earms_runs (month, testbed, userid, requestid, rundate, suite, description, image, scripts, passes, fails, neverrun, aborts, version) VALUES ('$month', '$testbed', '$submitter', '$requestID', '$rundate', '$suite', '$description', '$image', '$script_name_list', $passed, $failed, $neverran, $aborted, '$version')"
+	puts $lf "Inserting into earms_runs with this $stmt"
+    if {[catch {
+         mysqlexec $conn2 $stmt
+    } result]} {
+        puts $lf "Cannot insert into earms_runs table: $result"
+         mysqlclose $conn2
+    }
+
+    # Only do performance stuff if this was a performance run. That is
+    # known by checking to see if any test ids are found in the key list:
+
+        puts $lf "Got performance info"
+
+        #get the value of the auto-incremented id value for this insert.
+        #This is needed as a foreign key for performance_runs table:
+        set stmt "SELECT MAX(id) FROM earms_runs WHERE requestid='$requestID' AND suite='$suite'"
+        if {[catch {
+            set query [mysqlquery $conn2 $stmt]
+		puts "$query"
+	    while { [set row [mysqlnext $query]]!="" } {
+       	 	set earms_id [lindex $row 0]
+	    }
+        } result]} {
+            puts $lf "Cannot query earms_runs table: $result"
+            mysqlclose $conn2
+        }
+
+        set platform "1900"
+        set perf_report "log"
+        set tr_info {}
+        puts $lf "Working on test 8"
+        set test_id 1
+        set filename "/tmp/temptie/cvs"
+
+        set stats_text ""
+        if {[catch {set statsfd [open $filename r]} errmsg]} {
+             puts $lf "Stats file data not found: $filename"
+             mysqlclose $conn2
+       } else {
+             seek $statsfd 0
+             while {[gets $statsfd line] != -1} {
+                 append line "\n"
+                 append stats_text $line
+             }
+       }
+       catch { close $statsfd }
+
+      # Get the log file:
+      set log_text {n/a}
+      # Get the testplan file. If one wasn't specified then
+      # use 'n/a' text:
+      set tp_text {n/a}
+      # Get the pass/fail status of the test. The iteration columns is used
+      # to store this info. A value of -1 means the test failed:
+      set iteration 0
+      set result 1
+      # Now add data to the database:
+      puts $lf "Save to database..."
+      #properly quote sql:
+      regsub -all ' $test_id '' test_id
+      regsub -all ' $stats_text '' stats_text
+      regsub -all ' $log_text '' log_text
+      regsub -all ' $tp_text '' tp_text
+      regsub -all ' $platform '' platform
+      regsub -all ' $tr_info '' tr_info
+      regsub -all ' $iteration '' iteration
+
+      # Either insert into the performance runs table or do an
+      # update. If a comparison with baseline was performed
+      # when the test was executed then the record already
+      # exists in the database. Just need to do an update 
+      # operation with same id. Otherwise do an insert:
+      puts $lf "Inserting into performance runs table"
+
+      # Insert the performance data into the
+      # performance_runs table:
+      set stmt "INSERT INTO performance_runs (earms_runs_id, testid, platform, iteration, stats, log, testplan, perf_report, description) VALUES ('$earms_id', '$test_id', '$platform', '$iteration', '$stats_text', '$log_text', '$tp_text', $perf_report, '$tr_info');"
+      if {[catch {
+          mysqlexec $conn2 $stmt
+      } result]} {
+           puts $lf "Cannot insert into performance_runs table: $stmt: $result"
+           mysqlclose $conn2
+      }
+        set stmt "SELECT MAX(id) FROM performance_runs WHERE earms_runs_id='$earms_id'"
+        if {[catch {
+            set query [mysqlquery $conn2 $stmt]
+		puts "this is the query $stmt $query"
+	    while { [set row [mysqlnext $query]]!="" } {
+       	 	set architect_id [lindex $row 0]
+		puts $lf "this is the architect_id $architect_id"
+	    }
+        } result]} {
+            puts $lf "Cannot query performance_runs table: $result"
+            mysqlclose $conn2
+        }
+
+	if { [catch {
+		mysqlexec $conn "UPDATE RESULTS SET architect_id='$architect_id' WHERE ID='$testid' AND Date='$Date' AND LOG='$log' AND Tree='$tree'"
+		puts $lf "inserted architect result results"
+	} result]} {
+		puts $lf "not able to insert results $result"
+	}
+
+    if { [catch {
+        mysqlclose $conn
+	mysqlclose $conn2
+	puts $lf " CONFIG - able to disconnect from database"
+    } result] } {
+        puts $lf "CONFIG no able to disconnect to database: $result"
+    }
+
+#remove csv file
+
+    if { [catch {
+      	if { [file exists "/tmp/temptie/cvs" ]} {
+		system "rm /tmp/temptie/cvs"
+	}
+    } result] } {
+        puts $lf "Not able to delete file /tmp/temptie/cvs $result"
+    }
+
+      return $data
+}
+
+set REPORT_SUBJECT_PROC myCustomSubject
+
+proc myCustomSubject { } {
+set title "tie "
+
+#########################
+# Get basic info from ats_get_record
+#########################
+
+set testresult ""
+set Successes [ats_get_record Summary Passed]
+set Failures [ats_get_record Summary Failed]
+set Aborted [ats_get_record Summary Aborted]
+set Never [ats_get_record Summary NeverRan]
+set Crashes [ats_get_record Summary Crashes]
+set Blocked [ats_get_record Summary Blocked]
+set this_testbed [ats_get_record Summary Testbed]
+set testresult "P-$Successes F-$Failures C-$Crashes A-$Aborted B-$Blocked N-$Never"
+
+    set lf [open "/tmp/eARMSReportingLogfile" a+]
+    puts $lf "Entering earms_reporting"
+# Connect to the database on trinity:
+    puts $lf "Connecting to database"
+
+    if { [catch {
+        set conn [mysqlconnect -host joao-lnx -user tie -db TIE]
+	mysqluse $conn TIE
+	puts $lf "connected to database"
+    } result] } {
+        puts $lf "Cannot connect to database: $result"
+    }
+    if { [catch {
+	set query [mysqlquery $conn "SELECT testID,Project,Tree,test,epohtime,testbed,Notes FROM RUNNING WHERE testbed='$this_testbed'"]
+		while { [set row [mysqlnext $query]]!="" } {
+			set testid [lindex $row 0]
+			set project [lindex $row 1]
+			set tree [lindex $row 2]
+			set test [lindex $row 3]
+			set time_started [lindex $row 4]
+			set testbed [lindex $row 5]
+			set notes [lindex $row 6]
+		}
+	puts $lf "$time_started was able to parse results no need for that anymore testid:$testid project:$project tree:$tree testbed:$testbed  "
+	set title "TIE - $project $test $tree $testbed"
+    } result] } {
+        puts $lf "not able to get time $result"
+    }
+
+
+
+return $title
+}

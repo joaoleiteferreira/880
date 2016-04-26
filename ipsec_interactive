@@ -1,0 +1,174 @@
+#!/bin/sh
+#==============================================================================
+# To run script interactively
+#------------------------------------------------------------------------------
+#
+# Example:
+# ipsec_interactive -script ipsec_comp -testbed iou_testbed24
+#                   -suite_file ipsec_comp.suite.ipsec
+#
+# 
+#==============================================================================
+
+
+set starter { ${1:+"$@"}
+    shift
+    shift
+    export AUTOTEST
+    AUTOTEST="${AUTOTEST-/autons/autotest}"
+    exec $AUTOTEST/bin/expect -f $0 -- ${1:+"$@"}
+}
+global env
+lappend ::auto_path $env(AUTOTEST)/regression/tests/functionality/ipsec
+package require Ipsec
+package require AtsAuto
+package require rtrUtils
+package require topomap
+package require Test
+package require Async
+package require rtrConfig
+lappend ::auto_path $env(AUTOTEST)/regression/tests/functionality/ipsec
+package require ipsec
+
+set mandatory_args {
+    -script ANY
+    -testbed ANY
+    -suite_file ANY
+}
+
+set optional_args {
+    -debug_script FLAG
+}
+
+aetest::script_init                 \
+    -mandatory_args $mandatory_args \
+    -optional_args $optional_args \
+    -return_direct
+
+set SUITE_LINE_PARMS {^[a-z\/\_0-9A-Z]+ +[0-9]+ +[\{\}]+ +(.*)}
+set AN_IOU_TESTBED {iou}
+
+# Write output to stdout *immediately*
+fconfigure stdout -buffering none
+
+ipsec::debug "Sourcing CONFIG..."
+source $env(AUTOTEST)/etc/CONFIG
+source $env(AUTOTEST)/etc/$testbed.config
+cd $env(AUTOTEST)/regression/tests/functionality/ipsec
+
+set i 1
+foreach rtr $ROUTERS($testbed) {
+    set router$i $rtr
+    incr i
+}
+
+#
+# The global array "OPTIONS" is specifically for ISDN testing.
+#
+if {[info exists OPTIONS($testbed)]} {
+    set j 1
+    foreach op $OPTIONS($testbed) {
+        set option$j $op
+        incr j
+    }
+} ; # end if
+
+set slines {}
+#  Slurp up the suite file
+set suites "$env(ATS_USER_PATH)/regression/tests/functionality/ipsec/suites"
+
+ipsec::debug "Reading the suite file:$suite_file"
+set file "$suites/$suite_file"
+set fp [open $file r]
+set slines [read $fp]
+close $fp
+
+set line_num 1
+foreach ln [ split $slines "\n"] {
+
+    ipsec::debug "Looking at:\n$ln"
+
+    #
+    # Look for lines that begin with a script name, a number, a null
+    # and then parms:
+    # functionality/ipsec/ipsec_type6password 007 \{\} \{\{$router6 ...
+    #
+    # We only want the parm list.
+    #
+    if {[regexp -line -all -- $SUITE_LINE_PARMS $ln - truncated]} {
+
+        ::ipsec::dputs truncated
+
+        #
+        # Turn h/w tests into s/w tests for iou.
+        #
+        if {[regexp $AN_IOU_TESTBED $testbed]} {
+            puts \
+                "WARNING: iou cannot use hw encryption. Switching to sw!"
+            regsub -all {hw} $truncated {sw} truncated
+        } ; # end if
+
+        #
+        # This evaluates all the vars defined in the parm string
+        # but does not execute anything.
+        #
+        set ln_eval [subst -nobackslashes -nocommands $truncated]
+
+        ipsec::debug "ln_eval = $ln_eval"
+
+        set ln_argv "$script -testbedlist $testbed $ln_eval"
+
+        ipsec::debug "ln_argv = $ln_argv"
+
+        set argv $ln_argv
+
+        ::ipsec::debug "argv = $argv"
+
+        #
+        # Make sure we stay where the script lives, or the
+        # source command won't find it.
+        #
+        cd $env(AUTOTEST)/regression/tests/functionality/ipsec
+
+        puts "Executing Suite Line Number: $line_num"
+
+        puts "sourcing:$script"
+
+        ipsec::catch source $script
+
+        incr line_num
+    } else {
+        puts "Line NOT being executed:\n$ln"
+    } ; #end if
+}
+
+#
+# Have we taken any errors?
+#
+if {![cequal $::errorCode "NONE"]} {
+    puts "[set ::errorInfo]"
+} ; # end if
+
+
+# -----------------------------------------------------------------------------
+#                            CVS MAINTENANCE LOGS
+#                            ~~~~~~~~~~~~~~~~~~~~
+# $Log: ipsec_interactive,v $
+# Revision 1.3  2007/06/08 22:44:25  cluo
+#
+# . changed ipsec package to Ipsec
+# . add header information
+#
+# Revision 1.2  2006/09/21 18:51:18  tennis
+#
+# Various updates to some minor support utilities.
+#
+# Revision 1.1  2006/05/06 18:05:42  tennis
+#
+# Initial Commit
+#
+#
+# -----------------------------------------------------------------------------
+# Local Variables:
+# mode: tcl
+# End:

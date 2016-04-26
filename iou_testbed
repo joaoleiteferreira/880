@@ -1,0 +1,511 @@
+#!/bin/sh
+# xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+set starter { ${1:+"$@"}
+    shift
+    shift
+    export AUTOTEST
+    AUTOTEST="${AUTOTEST-/autons/autotest}"
+    exec $AUTOTEST/bin/expect -f $0 -- ${1:+"$@"}
+}
+##s
+# $Id: iou_testbed,v 1.14 2006/09/21 18:51:19 tennis Exp $
+# Copyright (c) 2005, 2006 Cisco Systems, Inc.
+#
+# Name:
+# ~~~~~
+#     iou_testbed
+#
+#
+# Purpose:
+# ~~~~~~~~
+#
+#     This is a utility script to start, restart, stop or gather status on stg
+#     iou testbeds.
+#
+# Author:
+# ~~~~~~~
+#    Tennis Smith
+#
+#
+# Description:
+# ~~~~~~~~~~~~
+#    This is a utility script which start or stop all the iou routers defined
+#   in a testbed.
+#
+# Topology:
+# ~~~~~~~~~
+#   NA
+#
+# Synopsis:
+# ~~~~~~~~~
+#
+#     iou_testbed
+#
+#     ?<-testbed <tb number>>
+#
+#     [-start | -stop | -status | -restart]
+#
+#     ?<-image_default>
+#
+#     ?<-router_image_pairs>
+#
+#     ?<-netmap_path>
+#
+#     ?<-checking_timer>
+#
+#     ?<-pause_timer>
+#
+#     ?<-skip_routers>
+#
+#     ?<-keep_nvram>
+#
+# Arguments:
+# ~~~~~~~~~~
+#     testbed:
+#       The iou testbed *number* we want to start.
+#
+#       The following are mutually exclusive:
+#       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#           start:
+#              start routers from this testbed
+#           stop (or kill):
+#              stop routers from testbed
+#           status:
+#              status of all testbeds for every user on this machine.
+#           restart:
+#              If a testbed is running, stop and then start it again.
+#
+#     image_default:
+#       For any router that does not have an explicit image
+#       associated with it, use this image.
+#
+#     router_image_pairs:
+#       A collection of router/image pairs. This allows specific image
+#       to be loaded on a particular router.
+#         Ex:
+#            -router_image_pairs "{itb20_unix1 /some/image/somewhere}
+#                                 {itb20_unix2 /some/other/image/somewhere}"
+#
+#     netmap_path:
+#       Location of the netmap for IOU.
+#
+#     checking_timer:
+#       How many times should an action be checked (start/stop, etc).
+#
+#     pause_timer:
+#       How long should pauses be between checks.
+#
+#     skip_routers:
+#       This is to skip any routers not needed to be started.  Often, not every
+#       router will be needed for tests.
+#
+#     keep_nvram
+#       Keep the nvram files from the previous run.
+#
+# Sample Usage:
+# ~~~~~~~~~~~~~
+# This restarts all the images for a testbed currently running
+# iou_testbed -testbed 20 -restart
+#             -image_default /tftpboot/srowles/unix-ik9s-m.CSCek10347
+#
+# Get a status of all iou images on this unix machine.
+# iou_testbed -status
+#
+# Start iou_testbed20, but skip itb20_unix4/12 and assign particular
+# images to be used on itb20_unix1/3/5.  Run <image_default> on the
+# rest.
+# iou_testbed -testbed 20 -restart
+#       -image_default /tftpboot/srowles/unix-ik9s-m.CSCek10347
+#       -skip_routers "itb20_unix4 itb20_unix12"
+#       -router_image_pairs "
+#       {itb20_unix1 /auto/tftp-stg-ios/unix-ik9s-ms.2005-11-27.DGVPN_SUNDAY}
+#       {itb20_unix5 /auto/tftp-stg-ios/unix-ik9s-ms.2005-12-11.DGVPN_SUNDAY}
+#       {itb20_unix3 /auto/tftp-stg-ios/unix-ik9s-ms.2005-12-11.DGVPN_SUNDAY} "
+#
+# Known Bugs:
+# ~~~~~~~~~~~
+#     None
+#
+#
+# Todo:
+# ~~~~~
+#      FIXME - Need to do a 'status' prior to 'start' to verify
+#                    1 - nobody else is using the testbed
+#                    2 - You are not already using the testbed.
+#
+#              Need a "-help" option.
+#
+#              Need an "-available" option (or extension to status) to tell
+#              the user which testbeds they can use.
+#
+#              Need to add support for use of multiple naming conventions
+#              for the routers. Make this possible anywhere an router name
+#              can be specified.
+#              ex.
+#                      1) itb20_unix1
+#                      2) i20u1
+#                      3) 1
+#
+#              Add ability to kill multiple testbeds at once.
+#              ex.
+#                  -kill "30 31 32"
+#                  -kill all(?)
+#
+#             Add ability to stop/start individual routers(?)
+#                  -kill i30u2 / -start i30u2
+#
+# End of Header
+#
+
+# -----------------------------------------------------------------------------
+# Access required global variables.
+# -----------------------------------------------------------------------------
+
+global env                                  ;# environment variable array
+global expect_library                       ;# points to the library path
+global ROUTERS                              ;# List of testbds and their rtrs
+# -----------------------------------------------------------------------------
+# Parse command line parameters.
+# -----------------------------------------------------------------------------
+package require Cisco
+package require TclUtils
+package require parse_dashed_args
+package require router_show
+package require rtrUtils
+package require fileutil
+package require textutil
+lappend ::auto_path $env(AUTOTEST)/stg_reg/utils
+package require itb_utils
+lappend ::auto_path $env(AUTOTEST)/regression/tests/functionality/ipsec
+package require ipsec
+
+#first, get rid of the script name from the cli.
+test_name [shift argv]
+
+# Optional Parms
+set optional_args {
+
+    -testbed ANY
+
+    -image_default ANY
+
+    -router_image_pairs KEYLIST
+
+    -netmap_path ANY
+    DEFAULT "etc"
+
+    -checking_timer DECIMAL
+    DEFAULT 90
+
+    -pause_timer DECIMAL
+    DEFAULT 30
+
+    -skip_routers ANY
+    DEFAULT {}
+
+    -keep_nvram FLAG
+    DEFAULT 0
+
+    -start FLAG
+    DEFAULT 0
+
+    -stop FLAG
+    DEFAULT 0
+
+    -kill FLAG
+    DEFAULT 0
+
+    -status FLAG
+    DEFAULT 0
+
+    -restart FLAG
+    DEFAULT 0
+}
+
+ipsec::debug "Parsing arguments"
+
+parse_dashed_args                    \
+    -args $argv                      \
+    -optional_args $optional_args    \
+    -return_array iou_parms
+set STOP_A_TESTBED {(stop|kill)}
+set START_A_TESTBED {start}
+set RESTART_A_TESTBED {restart}
+set STATUS_OF_A_TESTBED {status}
+set NON_NUMERALS {a-zA-Z}
+set EVERY_TESTEBED_ON_HOST {all}
+
+ipsec::debug "[::tclUtils::aprint iou_parms]"
+
+#
+# We can work with multiple testbeds if needed
+#
+
+#
+# If a testbed is specified, it could be the full testbed name.
+# ex. iou_testbed20
+# Change that name to simply the number
+# ex. iou_testbed20 will become simply 20
+#
+if {[info exists iou_parms(testbed)]} {
+
+    set tbname [string tolower $iou_parms(testbed)]
+
+    ipsec::debug "tbname is $tbname"
+
+    #
+    # Does the name contain characters? If so, then strip them
+    # out.
+    #
+    if {[cequal $EVERY_TESTEBED_ON_HOST $tbname]} {
+
+        # Don't do anything.  Just set the testbed
+        # to tbname below.
+
+    } elseif {[regexp $NON_NUMERALS $tbname]} {
+
+        #
+        # Does this testbed exist?
+        #
+        if {![info exists ROUTERS($tbname)]} {
+            puts "IOUTB-00-043 ERROR: Unable to find testbed $tbname!"
+            return 0
+        } ; # end if
+
+        set testbed [regsub -all -- {[a-zA-Z\_\-]+} $tbname {}]
+
+        ipsec::debug "testbed abbreviated to $tbname"
+
+    } else {
+
+        #
+        # Deal with the possibility that multiple names
+        # are passed.
+        #
+        foreach tbn $tbname {
+            set full_name [cconcat "iou_testbed" $tbn]
+
+            ipsec::debug "full_name is $full_name"
+
+            #
+            # Does this testbed exist?
+            #
+            if {![info exists ROUTERS($full_name)]} {
+                puts "IOUTB-00-044 ERROR: Unable to find implied\
+                  testbed $full_name in known list of routers!"
+                ipsec::debug "Known testbeds are: [array names ROUTERS]"
+                return 0
+            } ; # end if
+
+        } ; # end foreach
+    }; # end if
+
+    set testbed $tbname
+
+} ; # end if
+
+ipsec::debug "Picking the action to be performed."
+
+#
+# Figure out what action will be taken.
+#
+if {$iou_parms(start) || $iou_parms(restart)} {
+
+    set iou_parms(action) $RESTART_A_TESTBED
+
+} elseif {$iou_parms(stop) || $iou_parms(kill)} {
+
+    set iou_parms(action) $STOP_A_TESTBED
+
+} elseif {$iou_parms(status)} {
+
+    set iou_parms(action) $STATUS_OF_A_TESTBED
+
+} else {
+    puts \
+        "IOUTB-00-045 ERROR: Please specify your action flag:\n\
+         -start, -restart, -stop/-kill, or -status"
+    return 0
+}; # end if
+
+ipsec::debug "Action is $iou_parms(action)"
+
+#
+# Decide here if we start or stop or status a testbed.
+#
+if {[cequal $iou_parms(action) $STOP_A_TESTBED]} {
+
+    #
+    # Make sure a testbed was specified.
+    #
+    if {[info exists iou_parms(testbed)]} {
+        #
+        # Did everything stop correctly?
+        #
+        if {![itb_utils::stop -testbed $testbed]} {
+            puts "IOUTB-00-046 ERROR! Testbed stop failed!"
+            return 0
+        } ; # end if
+    } else {
+        puts "IOUTB-00-047 ERROR: Please specify the testbed number"
+        return 0
+    }; # end if
+
+} elseif {[cequal $iou_parms(action) $START_A_TESTBED] || \
+              [cequal $iou_parms(action) $RESTART_A_TESTBED] } {
+
+    #
+    # To do a restart, we need to stop everything first.
+    #
+    if {[cequal $iou_parms(action) $RESTART_A_TESTBED] && \
+            [info exists testbed]} {
+
+        #
+        # Did everything stop correctly?
+        #
+        if {![itb_utils::stop -testbed $testbed]} {
+            puts "IOUTB-00-048 ERROR! Testbed stop failed!"
+            return 0
+        } else {
+            puts "IOUTB-00-193 $testbed stopped"
+        } ; # end if
+    } ; # end if
+
+    #
+    # Import the parms needed to start a new testbed.
+    #
+    if {[info exists iou_parms(image_default)] && \
+            [info exists iou_parms(testbed)]} {
+
+        #
+        #  Its possible to start multiple testbeds, but they must all have
+        #  the same startup parms (i.e. image_default, etc).
+        #
+        foreach tb $testbed {
+
+            set start_parms \
+                [cconcat                                          \
+                     "-testbed $tb "                              \
+                     "-image_default $iou_parms(image_default) "  \
+                     "-netmap_path $iou_parms(netmap_path) "      \
+                     "-checking_timer $iou_parms(checking_timer) "\
+                     "-pause_timer $iou_parms(pause_timer) "      \
+                    ]
+            #
+            # Figure out if we're gonna need to erase nvram.
+            #
+            if {$iou_parms(keep_nvram)} {
+                set start_parms [cconcat $start_parms " -keep_nvram"]
+            } ; # end if
+
+            #
+            # Figure out if there are specific images for certain routers
+            # we want to load.
+            #
+            if {[info exists iou_parms(router_image_pairs)]} {
+                ipsec::debug "Found router/image pairs"
+                set start_parms \
+                    [cconcat $start_parms \
+                         " -router_image_pairs $iou_parms(router_image_pairs)"]
+            } else {
+                ipsec::debug "No router/image pairs found!"
+            }; # end if
+
+            #
+            # Figure out if we don't want to start all routers
+            #
+            if {![lempty $iou_parms(skip_routers)]} {
+                ipsec::debug "routers being skipped"
+                set start_parms \
+                    [cconcat $start_parms \
+                         " -skip_routers $iou_parms(skip_routers)"]
+            } else {
+                ipsec::debug "No routers skipped"
+            }; # end if
+
+            ipsec::debug "Start parms are:\n$start_parms"
+
+            #
+            # Finally, fire up the testbed. The "eval" causes all
+            # the values to be concatenated into one string, and then
+            # the whole thing is evaluated as a tcl script.  This
+            # keeps the parms from being seen as a single string and
+            # confusing the "parse-dashed-args" proc.
+            #
+            eval itb_utils::start [subst $start_parms]
+
+        } ; # end foreach
+
+    } else {
+        puts "IOUTB-00-049 ERROR: Please specify an image *and* a testbed!"
+    } ; # end if
+} elseif {[cequal $iou_parms(action) $STATUS_OF_A_TESTBED]} {
+
+    itb_utils::host_audit -pid_list [itb_utils::status -all_testbeds]
+
+} else {
+
+    puts "IOUTB-00-050 PARM ERROR: This should not happen!"
+
+}; # end if
+
+# -----------------------------------------------------------------------------
+#                            CVS MAINTENANCE LOGS
+#                            ~~~~~~~~~~~~~~~~~~~~
+# $Log: iou_testbed,v $
+# Revision 1.14  2006/09/21 18:51:19  tennis
+#
+# Various updates to some minor support utilities.
+#
+# Revision 1.13  2006/08/18 15:45:24  tennis
+#
+# Minor formatting changes.
+#
+# Revision 1.12  2006/06/24 17:57:08  tennis
+#
+# Corrected message formatting problem.
+#
+# Revision 1.11  2006/05/24 13:04:29  tennis
+#
+# Updates to stop using mpexpr.
+#
+# Revision 1.10  2006/05/03 22:49:32  tennis
+#
+# Added more diagnostics and more exact lookups for finding
+# running iou instances.
+#
+# Revision 1.9  2006/03/15 17:26:18  tennis
+#
+# Added router activation skipping
+#
+# Revision 1.8  2006/02/24 12:01:58  tennis
+# Added clearer wording in messages
+#
+# Revision 1.7  2006/02/11 21:41:45  tennis
+#
+# Minor message format change.
+#
+# Revision 1.6  2006/02/09 22:46:47  tennis
+# Minor message format changes
+#
+# Revision 1.5  2006/01/26 21:27:28  tennis
+# Fix for previous issue in a different place.
+#
+# Revision 1.4  2006/01/26 21:07:37  tennis
+# Added fix so that if pids aren't found, the script
+# doesn't crash.
+#
+# Revision 1.3  2006/01/06 01:33:13  tennis
+# Added more diagnostics to detect errors in gathering pids.
+#
+# Revision 1.2  2006/01/06 01:01:46  tennis
+# Added ipsec.lib to the package path.
+#
+# Revision 1.1  2006/01/04 19:52:18  tennis
+# initial commit
+#
+#
+# -----------------------------------------------------------------------------
+# Local Variables:
+# mode: tcl
+# End:

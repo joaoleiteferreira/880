@@ -1,0 +1,17 @@
+Csccon is opening a connection -  telnet reventon2-cs 2002 
+exp_spawn telnet reventon2-cs 2002
+Trying 172.27.240.86...
+telnet: connect to address 172.27.240.86: Connection refused
+econ_prepare_state generic:
+	Connection refused to reventon2-72a
+    while executing
+"error $retval"
+    (procedure "console" line 602)
+    invoked from within
+"console $Rtr"
+    ("foreach" body line 2)
+    invoked from within
+"foreach Rtr $RtrList {
+	console $Rtr
+}"
+    (file "tb_map_check" line 320)

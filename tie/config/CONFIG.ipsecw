@@ -1,0 +1,1181 @@
+#######################  CONFIG FILE FOR IPSec testbed  ######################
+#                                                                            #
+#      Header file for autotest. Follow the steps to customise as needed.    #
+#                                                                            #
+#           PLEASE ENTER YOUR NAME HERE IF YOU MODIFY THIS FILE              #
+#                                                                            #
+##############################################################################
+
+###############################################################################
+# Step 1: Uncomment the following line and enter the NAME of the
+# tftpserver you will be using to netboot. Whoever runs autotest will
+# need to be able to rcp file to this machine name without entering a
+# password.
+#------------------------------------------------------------------------------
+# Set these in your local CONFIG file
+###############################################################################
+
+set EARMS_AUTOTEST_CONCURRENCY 0
+
+set this_testbed ipsecw
+
+set BOOTDIR {/auto/tftp-ios-crypto}
+set TFTPDIR {/auto/tftp-ios-crypto}
+set IMAGEDIR {/auto/tftp-ios-crypto}
+
+global MAPDIR env
+global tb_tftp_server_name
+global tb_tftp_server_addr
+global tb_device_configs
+global tb_clean_cmd
+global tb_devices
+global _device
+global tb_passwd
+global csccon_default
+if { [ info exists env(AUTOTEST) ]} {
+    set MAPDIR $env(AUTOTEST)/etc
+} else {
+    set MAPDIR /auto/stg-devtest/earms/etc
+}
+
+###############################################################################
+# Step 2: Uncomment the following line and enter the IP address of the
+# tftpserver you entered in step 2.
+#------------------------------------------------------------------------------
+# Set these in your local CONFIG file
+###############################################################################
+
+set TFTPSERVERADDR 172.19.201.81
+set TFTPSERVERNAME nandigam-u10
+
+###############################################################################
+# Step 3: Optional -- Uncomment the following line and enter the Email
+# name of an administrator. This person gets notified every time a run
+# pauses. If no-one should be notified, just leave it commented out.
+#------------------------------------------------------------------------------
+# Set these in your local CONFIG file
+###############################################################################
+
+# set ADMIN ios-np-regression@cisco.com
+
+###############################################################################
+# Step 4: Optional -- Uncomment the following line and enter the Email
+# name of person who should see *all* run reports. If there is no-one
+# who should see all of these, just leave it commented out.
+# An autotest summary report is mailed to:
+#       1) The owner of the image
+#       2) The owner of the qfile (if not the same as owner of image)
+#       3) The alias that this REPORTS variable is set to
+# Note: Setting the mailto option in the queue file will override
+# all three of the above.
+#------------------------------------------------------------------------------
+# Set these in your local CONFIG file
+###############################################################################
+
+# set ADMIN
+
+#################################################################################
+# Step 5: The Automated Test System paramater.
+# Uncomment the following line and set the age (in days) for
+# files which to be expired from the images directory. Files older
+# than this will be purged nightly when you set up the appropriate
+# cron job (see the man page).
+#------------------------------------------------------------------------------
+# Set these in your local CONFIG file
+###############################################################################
+
+# set PURGE 21
+
+#################################################################################
+# Autotest will abort a test run when 10 catastrophic errors occur.
+# Uncomment the following line and set the number of catastrophic errors
+# to abort a test run. Setting this number to -1 will not abort a test
+# run regardless the number of catastrophic errors occur.
+#------------------------------------------------------------------------------
+# Set these in your local CONFIG file
+###############################################################################
+
+# set MAX_ERRORS 10
+
+###############################################################################
+# Step 6: Uncomment the following line to tell the system about its
+# testbeds. If a testbed doesn't appear in this list, Autotest will
+# never allow a run on it under any circumstances, even if you specify
+# the testbed in your queue file.
+#------------------------------------------------------------------------------
+# This needs to be treated equally in all config files, i.e., either comment
+# this statement out in all files or dont comment it in all files.
+###############################################################################
+
+if [info exists env(USE_EARMS)] {
+    set testbeds $this_testbed
+}
+
+###############################################################################
+# Step 7: Optional -- Uncomment the following line to tell autotest
+# which testbeds to do automatic selection on. When you don't specify
+# a testbed for an image in its queue file, autotest will select one
+# from this list. If you don't want autoselection, simply leave it
+# commented out.
+#------------------------------------------------------------------------------
+# Set these in your local CONFIG file
+###############################################################################
+
+# set AUTOSELECT {}
+
+###############################################################################
+# Step 8: Tell autotest about the routers in each testbed. The first
+# example says that testbed agsa contains three routers named agsa1,
+# agsa2 and agsa3. You can use whatever names you like, but we find
+# the convention useful.
+###############################################################################
+
+
+###############################################################################
+#ipsec testbeds ROUTERS array in absence of parallel testbed looks like this #
+###############################################################################
+
+set ROUTERS(ipsecw) {\
+                         ipsecw-p1    \
+                         ipsecw-p2    \
+                         ipsecw-p3    \
+                         ipsecw-18b   \
+                         ipsecw-3845b \
+                         ipsecw-18a   \
+                         ipsecw-3845a \
+                         ipsecw-72b   \
+                         ipsecw-72a   \
+                         ipsecw-871a  \
+			  ipsecw-sw1  \
+                     }
+
+
+
+set tb_devices($this_testbed) $ROUTERS($this_testbed)
+
+set OPTIONS($this_testbed) {60024 60025 172.19.216.102}
+
+###############################################################################
+# Step 9: Tell autotest about the various image types and how to
+# identify them using the image version string. The given examples
+# identify ags, 7k, ts, xx, igs and cancun as valid image types.
+# Any other image type submitted to autotest will not be recognized,
+# and will result in an image validation failure.
+# Note: The given string will be used as a regexp pattern
+#------------------------------------------------------------------------------
+# Set these in your local CONFIG file
+###############################################################################
+
+set IMAGE_TYPE(ags)     {GS Software \(GS3}
+set IMAGE_TYPE(ts)      {CS Software \(CS500}
+set IMAGE_TYPE(ls1010)  {IISP Software \(LS1010}
+set IMAGE_TYPE(1200)    {1200 Software}
+set IMAGE_TYPE(2500)    {2500 Software \(C2500|3000 Software \(IGS\-}
+set IMAGE_TYPE(2600)    {2600 Software \(C2600}
+set IMAGE_TYPE(3640)    {3600 Software \(C3640}
+set IMAGE_TYPE(3810)    {3810 Software}
+set IMAGE_TYPE(4000)    {4000 Software}
+set IMAGE_TYPE(xx)      {4000 Software|4500 Software}
+set IMAGE_TYPE(4500)    {4500 Software \(C4500|4500 Software \(4500}
+set IMAGE_TYPE(5000)    {5000 Software}
+set IMAGE_TYPE(5300)    {5300 Software}
+set IMAGE_TYPE(7k)      {GS Software \(GS7|7000 Software}
+set IMAGE_TYPE(7200P)   {7200 Software \(C7200P}
+set IMAGE_TYPE(7200)    {7200 Software \(C7200}
+set IMAGE_TYPE(rsp)     {GS Software \(RSP|RSP Software|7500 Software \(C7500}
+set IMAGE_TYPE(vip)     {VIP Software \(RVIP}
+set IMAGE_TYPE(805)     {805 Software \(C805}
+set IMAGE_TYPE(800)     {871 Software \(C871}
+set IMAGE_TYPE(831)     {831 Software \(C831}
+
+###############################################################################
+# Step 10: For each testbed you've detailed above, say what type of
+# testbed it is. one or more of above defined IMAGE_TYPES can be used.
+#------------------------------------------------------------------------------
+# Note: If multiple images are to be booted on the testbed, you need
+# to specify a TYPE for *each* router on the testbed. (See the corea
+# example below).
+###############################################################################
+
+set TYPE(ipsecw) {3845 3745 871 7200 7200P 1811}
+set TYPE(ipsecw-p1)  3745
+set TYPE(ipsecw-p2)  3745
+set TYPE(ipsecw-p3)  3745
+set TYPE(ipsecw-18a) 1811
+set TYPE(ipsecw-871a) 871
+set TYPE(ipsecw-18b) 1811
+set TYPE(ipsecw-3845a) 3845
+set TYPE(ipsecw-72a) 7200
+set TYPE(ipsecw-3845b) 3845
+set TYPE(ipsecw-72b) 7200P
+
+###############################################################################
+# Step 11: For each testbed you've detailed above, say what image
+# versions the testbed can run supports. Currently, you can say one or
+# more of 8.3, 9.0, 9.1, 9.21, 9.14, 9.17, or the string 'any'.
+###############################################################################
+
+set VERSIONS(ipsecw) any
+
+###############################################################################
+# Step 12: Optional -- If you have power cyclers connected to terminal
+# servers, tell Autotest which terminal server hosts/lines control the
+# power for which testbeds.  If you don't have power cyclers, just
+# leave these lines commented out.
+#
+# Example: set TERMINAL_SERVER(agsy) {tsy 6 tsy 7}
+#
+###############################################################################
+
+# set TERMINAL_SERVER(ipsecw) {}
+
+###############################################################################
+# Step 13: Optional -- Set up the enable, tacacs and line passwords.
+# You can then use the test_passwd subroutine to get these passwords.
+# If these are not set, the test_passwd routine returns the default
+# values.
+# Usage: test_passwd <type> <string>
+#    type  : This should be one of "enable", "tacacs", or "line"
+#    string: This is the string that the passwords are indexed by.
+#            (This defaults to an empty string if not specified).
+# This procedure checks for the existence of the specified
+# password in the CONFIG file, and if it exists, returns it.
+# If, however, the specified password does not exist, then
+# a default is returned. The defaults for the various types
+# are: enable: "lab", tacacs: "", and line: ""
+###############################################################################
+
+set LINEPW($this_testbed)  lab
+
+set ENABLEPW($this_testbed) lab
+set TACACSPW($this_testbed) {}
+set LINEPW($this_testbed)  lab
+
+# Enable easyclean
+set tb_passwd($this_testbed,enable)   "lab"
+set tb_passwd($this_testbed,tacacs)   ""
+set tb_passwd($this_testbed,line)     ""
+
+###############################################################################
+# Step 14: Optional -- The following strings are automatically
+# considered to be errors if a router outputs them on its console.
+# These are case sensitive (perl) regular expressions. If your router
+# produces any special error messages which don't already appear here,
+# you may want to add them to this list.
+###############################################################################
+
+#set ERROR {not supported|^Can't find|Illegal|^Unknown|^What|^%|Exception|overlaps|not yet defined|[uU]nconfig failed|[Nn]o memory available}
+
+###############################################################################
+# Step 15: Optional -- Some messages look like errors e.g ones which
+# begin with percent signs, but you want to ignore them because they
+# aren't really errors. Until Router Development fixes them, you can
+# add them to this list so Autotest doesn't report them as errors.
+# Note: The given string will be used as a regexp pattern
+###############################################################################
+
+#set IGNORE {^%LINK|^% Network not in table|^H|^%LINEPROTO-5-UPDOWN|^%SYS-5-RESTART|^%SYS-5-CONFIG_I|^LINK-3-UPDOWN|^%FDDI-O-STATUS|^%CBUS-3-DAUGHTER_NO_RSP|^AppleTalk route cache is not supported by hardware|^AppleTalk address gleaning is not supported by hardware }
+
+###############################################################################
+# Step 16: For netbooting, you need to set the default configuration
+# strings for each router in a testbed. Examples of how this is done
+# on the Test Technologies Production testbeds are shown below.
+###############################################################################
+
+global defaultconfig postconfig
+
+set defaultconfig(ipsecw-72a) {
+    hostname ipsecw-72a
+    enable password lab
+    no ip domain-lookup
+    no ip routing
+    ip default-gateway 10.2.221.1
+    service timestamps debug datetime msec localtime
+    no service config
+    clock timezone PST -8
+    clock summer-time PDT recurring
+    interface GigabitEthernet0/1
+        ip address 10.2.221.13 255.255.255.0
+        no shutdown
+}
+
+set defaultconfig(ipsecw-72b) {
+    hostname ipsecw-72b
+    enable password lab
+    no ip domain-lookup
+    no ip routing
+    ip default-gateway 10.2.221.1
+    service timestamps debug datetime msec localtime
+    no service config
+    clock timezone PST -8
+    clock summer-time PDT recurring
+    interface GigabitEthernet0/1
+        ip address 10.2.221.14 255.255.255.0
+        no shutdown
+}
+set defaultconfig(ipsecw-p1) {
+    hostname ipsecw-p1
+    ip host PAGENT-SECURITY-V3 24.41.30.95 68.73.0.0
+    enable password lab
+    no ip domain-lookup
+    no ip routing
+    ip default-gateway 10.2.221.1
+    service timestamps debug datetime msec localtime
+    no service config
+    clock timezone PST -8
+    clock summer-time PDT recurring
+    interface FastEthernet0/0
+        ip address 10.2.221.10 255.255.255.0
+        no shutdown
+}
+
+set defaultconfig(ipsecw-p2) {
+    hostname ipsecw-p2
+    ip host PAGENT-SECURITY-V3 65.08.63.35 14.72.0.0
+    enable password lab
+    no ip domain-lookup
+    no ip routing
+    ip default-gateway 10.2.221.1
+    service timestamps debug datetime msec localtime
+    no service config
+    clock timezone PST -8
+    clock summer-time PDT recurring
+    interface FastEthernet0/0
+        ip address 10.2.221.11 255.255.255.0
+        no shutdown
+}
+
+set defaultconfig(ipsecw-p3) {
+    hostname ipsecw-p3
+    ip host PAGENT-SECURITY-V3 89.12.81.24 52.37.0.0
+    enable password lab
+    no ip domain-lookup
+    no ip routing
+    ip default-gateway 10.2.221.1
+    service timestamps debug datetime msec localtime
+    no service config
+    clock timezone PST -8
+    clock summer-time PDT recurring
+    interface FastEthernet0/0
+        ip address 10.2.221.12 255.255.255.0
+        no shutdown
+}
+
+set defaultconfig(ipsecw-871a) {
+    hostname ipsecw-871a
+    enable password lab
+    no ip domain-lookup
+    ip default-gateway 10.2.221.1
+    service timestamps debug datetime msec localtime
+    no service config
+    ip routing
+    ip route 0.0.0.0 0.0.0.0 10.2.221.1
+    clock timezone PST -8
+    clock summer-time PDT recurring
+    boot system flash:bootimage.ipsecw-871a
+    interface Vlan1
+        ip address 10.2.221.17 255.255.255.0
+        no shutdown
+    interface FastEthernet0
+        no shutdown
+    interface FastEthernet1
+        no shutdown
+    interface FastEthernet2
+        no shutdown
+    interface FastEthernet3
+        no shutdown
+}
+
+set defaultconfig(ipsecw-18a) {
+    hostname ipsecw-18a
+    enable password lab
+    no ip domain-lookup
+    no ip routing
+    ip default-gateway 10.2.221.1
+    service timestamps debug datetime msec localtime
+    no service config
+    clock timezone PST -8
+    clock summer-time PDT recurring
+    interface FastEthernet0
+        ip address 10.2.221.16 255.255.255.0
+        no shutdown
+}
+
+set defaultconfig(ipsecw-18b) {
+    hostname ipsecw-18b
+    enable password lab
+    no ip routing
+    no ip domain-lookup
+    ip default-gateway 10.2.221.1
+    service timestamps debug datetime msec localtime
+    no service config
+    clock timezone PST -8
+    clock summer-time PDT recurring
+    interface FastEthernet0
+        ip address 10.2.221.19 255.255.255.0
+        no shutdown
+}
+
+set defaultconfig(ipsecw-3845a) {
+    hostname ipsecw-3845a
+    enable password lab
+    no ip domain-lookup
+    no ip routing
+    ip default-gateway 10.2.221.1
+    service timestamps debug datetime msec localtime
+    no service config
+    clock timezone PST -8
+    clock summer-time PDT recurring
+    interface GigabitEthernet0/0
+        ip address 10.2.221.15 255.255.255.0
+        no shutdown
+}
+
+set defaultconfig(ipsecw-3845b) {
+    hostname ipsecw-3845b
+    enable password lab
+    no ip domain-lookup
+    no ip routing
+    ip default-gateway 10.2.221.1
+    service timestamps debug datetime msec localtime
+    no service config
+    clock timezone PST -8
+    clock summer-time PDT recurring
+    interface GigabitEthernet0/0
+        ip address 10.2.221.21 255.255.255.0
+        no shutdown
+}
+
+
+#############################################################################
+# Now set the post config of each testbed here
+#############################################################################
+
+set postconfig(ipsecw-18a) {
+    no service config
+    hostname ipsecw-18a
+    enable password lab
+    ip routing
+    !
+    interface FastEthernet0
+        no ip address
+        shutdown
+    interface FastEthernet1
+        no ip address
+        shutdown
+    line vty 0 4
+    password lab
+    login
+}
+
+set postconfig(ipsecw-18b) {
+    no service config
+    hostname ipsecw-18b
+    enable password lab
+    ip routing
+    !
+    interface FastEthernet0
+        no ip address
+        shutdown
+    interface FastEthernet1
+        no ip address
+        shutdown
+    line vty 0 4
+    password lab
+    login
+}
+
+set postconfig(ipsecw-72a) {
+    service timestamps debug datetime msec localtime
+    service udp-small-servers
+    service tcp-small-servers
+    hostname ipsecw-72a
+    enable password lab
+    ip routing
+    !
+    interface GigabitEthernet0/1
+        no ip address
+        shutdown
+    interface GigabitEthernet0/2
+        no ip address
+        shutdown
+    interface GigabitEthernet0/3
+        no ip address
+        shutdown
+    interface Ethernet1/0
+        no ip address
+        shutdown
+    interface Ethernet1/1
+        no ip address
+        shutdown
+    interface Ethernet1/2
+        no ip address
+        shutdown
+    interface Ethernet1/3
+        no ip address
+        shutdown
+    interface Serial3/0
+        no ip address
+        shutdown
+    interface Serial3/1
+        no ip address
+        shutdown
+    interface Serial3/2
+        no ip address
+        no keepalive
+        shutdown
+    interface Serial3/3
+        no ip address
+        no keepalive
+        shutdown
+    !
+    no ip default-gateway
+    !
+    line con 0
+    exec-timeout 0 0
+    line aux 0
+    line vty 0 4
+    password lab
+    login
+}
+
+set postconfig(ipsecw-72b) {
+    hostname ipsecw-72b
+    service timestamps debug datetime msec localtime
+    service tcp-small-servers
+    enable password lab
+    ip routing
+    !
+    interface GigabitEthernet0/1
+        no ip address
+        shutdown
+    interface GigabitEthernet0/2
+        no ip address
+        shutdown
+    interface GigabitEthernet0/3
+        no ip address
+        shutdown
+    interface Ethernet1/0
+        no ip address
+        shutdown
+    interface Ethernet1/1
+        no ip address
+        shutdown
+    interface Ethernet1/2
+        no ip address
+        shutdown
+    interface Ethernet1/3
+        no ip address
+        shutdown
+    interface Serial3/0
+        no ip address
+        shutdown
+    interface Serial3/1
+        no ip address
+        shutdown
+    interface Serial3/2
+        no ip address
+        no keepalive
+        shutdown
+    interface Serial3/3
+        no ip address
+        no keepalive
+        shutdown
+    !
+    no ip default-gateway
+    !
+    line con 0
+    exec-timeout 0 0
+    line aux 0
+    line vty 0 4
+    password lab
+    login
+}
+
+set postconfig(ipsecw-p1) {
+    no service config
+    hostname ipsecw-p1
+    enable password lab
+    ip routing
+    !
+    interface FastEthernet0/0
+        no ip address
+        shutdown
+    interface FastEthernet0/1
+        no ip address
+        shutdown
+    interface FastEthernet1/0
+        no ip address
+        shutdown
+    interface FastEthernet1/1
+        no ip address
+        shutdown
+    interface FastEthernet2/0
+        no ip address
+        shutdown
+    interface FastEthernet2/1
+        no ip address
+        shutdown
+    !
+    ip classless
+    !
+    line vty 0 4
+    password lab
+    login
+}
+
+set postconfig(ipsecw-p2) {
+    no service config
+    hostname ipsecw-p2
+    enable password lab
+    ip routing
+    !
+    interface FastEthernet0/0
+        no ip address
+        shutdown
+    interface FastEthernet0/1
+        no ip address
+        shutdown
+    interface FastEthernet1/0
+        no ip address
+        shutdown
+    interface FastEthernet1/1
+        no ip address
+        shutdown
+    interface FastEthernet2/0
+        no ip address
+        shutdown
+    interface FastEthernet2/1
+        no ip address
+        shutdown
+    !
+    ip classless
+    !
+    line vty 0 4
+    password lab
+    login
+}
+
+set postconfig(ipsecw-p3) {
+    no service config
+    hostname ipsecw-p3
+    enable password lab
+    ip routing
+    !
+    interface FastEthernet0/0
+        no ip address
+        shutdown
+    interface FastEthernet0/1
+        no ip address
+        shutdown
+    interface FastEthernet1/0
+        no ip address
+        shutdown
+    interface FastEthernet1/1
+        no ip address
+        shutdown
+    interface FastEthernet2/0
+        no ip address
+        shutdown
+    interface FastEthernet2/1
+        no ip address
+        shutdown
+    !
+    ip classless
+    !
+    line vty 0 4
+    password lab
+    login
+}
+
+
+set postconfig(ipsecw-871a) {
+    no service config
+    hostname ipsecw-871a
+    enable password lab
+    ip routing
+    interface Vlan1
+        no ip address
+        shutdown
+    interface FastEthernet4
+        no ip address
+        shutdown
+    ip classless
+    exec-timeout 0 0
+    line vty 0 4
+    password lab
+    login
+ }
+
+set postconfig(ipsecw-3845a) {
+    hostname ipsecw-3845a
+    enable password lab
+    ip routing
+    !
+    card type t1 2
+    controller T1 2/0
+        shutdown
+    !
+    interface GigabitEthernet0/0
+        no ip address
+        shutdown
+    interface GigabitEthernet0/1
+        no ip address
+        shutdown
+    interface FastEthernet1/0
+        no ip address
+        shutdown
+    interface FastEthernet1/1
+        no ip address
+        shutdown
+    interface FastEthernet2/0
+        no ip address
+        shutdown
+    interface FastEthernet2/1
+        no ip address
+        shutdown
+    interface Serial3/0
+        no ip address
+        shutdown
+    interface Serial3/1
+        no ip address
+        shutdown
+    interface Serial3/2
+        no ip address
+        shutdown
+    interface Serial3/3
+        no ip address
+        shutdown
+    interface BRI0/0/0
+        no ip address
+        shutdown
+    !
+    no ip default-gateway
+    !
+    line con 0
+    exec-timeout 0 0
+    line aux 0
+    line vty 0 4
+    password lab
+    login
+}
+
+set postconfig(ipsecw-3845b) {
+    hostname ipsecw-3845b
+    enable password lab
+    ip routing
+    !
+    card type t1 2
+    controller T1 2/0
+        shutdown
+    !
+    interface GigabitEthernet0/0
+        no ip address
+        shutdown
+    interface GigabitEthernet0/1
+        no ip address
+        shutdown
+    interface FastEthernet1/0
+        no ip address
+        shutdown
+    interface FastEthernet1/1
+        no ip address
+        shutdown
+    interface FastEthernet2/0
+        no ip address
+        shutdown
+    interface FastEthernet2/1
+        no ip address
+        shutdown
+    interface Serial3/0
+        no ip address
+        shutdown
+    interface Serial3/1
+        no ip address
+        shutdown
+    interface Serial3/2
+        no ip address
+        shutdown
+    interface Serial3/3
+        no ip address
+        shutdown
+    interface BRI0/0/0
+        no ip address
+        shutdown
+    !
+    no ip default-gateway
+    !
+    line con 0
+    exec-timeout 0 0
+    line aux 0
+    line vty 0 4
+    password lab
+    login
+}
+
+#############################################################################
+# Step 17. CSCCON's console procedure expects the router console port
+# address to be defined in the /etc/hosts file or name service as
+# "<router_name>-con". For example, if your router is named agsi1,
+# then the name "agsi1-con" must be defined.  Notice that an IP
+# address for each router console is required.
+#
+# If you want to save IP addresses, then connect a communications
+# server asynchronous communications port to each router console port
+# and assign an IP address to the communications server's LAN
+# interface. If you decide to do this, then one needs to associate the
+# router name with the communications server's IP address and
+# asynchronous communications port number. CSCCON is expecting a Tcl
+# array, _device to provide the association.
+#
+# There are two ways to include _device entries in this CONFIG file:
+#
+# 1) Include all _device entries in this file. Use the following lines
+#    as an example if you want to use this method. The router name is
+#    agsi1. The communications server's IP address is 198.92.45.19.
+#    The communications server's asynchronous port is 6002.
+#
+#     global _device
+#     set _device(agsi1) "telnet 198.92.45.19 6002"
+#
+# 2) Store all _device entries in $AUTOTEST/local/lib/device.exp.
+#    If you want to use this method, uncomment the following seven lines:
+#
+#     global env
+#     set device_file $env(AUTOTEST)/local/lib/device.exp
+#     if { [file readable $device_file] && [file isfile $device_file] } {
+#         if [catch "uplevel #0 source $device_file" errmsg] {
+#             puts stderr "Error sourcing device file $device_file: $errmsg"
+#         }
+#     }
+#
+#############################################################################
+
+global _device
+
+set _device(ipsecw-p1)      "telnet ipsecw-cs1 2036"
+set _device(ipsecw-p2)      "telnet ipsecw-cs1 2037"
+set _device(ipsecw-p3)      "telnet ipsecw-cs1 2038"
+set _device(ipsecw-18b)     "telnet ipsecw-cs1 2039"
+set _device(ipsecw-3845b)   "telnet ipsecw-cs1 2040"
+set _device(ipsecw-18a)     "telnet ipsecw-cs1 2041"
+set _device(ipsecw-3845a)   "telnet ipsecw-cs1 2042"
+set _device(ipsecw-72b)     "telnet ipsecw-cs1 2043"
+set _device(ipsecw-72a)     "telnet ipsecw-cs1 2044"
+set _device(ipsecw-871a)    "telnet ipsecw-cs1 2045"
+set _device(ipsecw-sw1)      "telnet ipsecw-cs1 2033"
+
+#############################################################################
+# Step 18: Optional -- If you are using $AUTOTEST/etc/clean to execute
+# a list of commands, specify the lists here for each testbed. See the
+# $AUTOTEST/etc/clean script header for more information.
+#############################################################################
+if {[catch "source $MAPDIR/config.lib" errmsg]} {
+    error "Error in sourcing config.lib : $errmsg"
+}
+#########################################################################
+# default clean routine which loads flash, used below
+#################################################################
+
+#########################################################################
+# EARMS support
+set i 1
+if { [ info exists env(EARMS_ROUTERS_USED) ] } {
+     set clean_helper [ split $env(EARMS_ROUTERS_USED) "," ]
+     set clean_section {}
+     set CLEAN($this_testbed) {}
+     foreach rtr $clean_helper {
+          regsub -all -- {-|:|\.} $rtr {_} tmp_rtr
+          if { [ info exists env(EARMS_IMAGES_$tmp_rtr) ] } {
+                   lappend clean_section "$i stg_clean_router $rtr"
+               }
+               incr i 1
+     }
+     lappend CLEAN($this_testbed) $clean_section
+} else {
+    set CLEAN($this_testbed) {
+        {
+            {1 stg_clean_router ipsecw-72a }
+            {2 stg_clean_router ipsecw-3845a }
+            {3 stg_clean_router ipsecw-18a }
+            {4 stg_clean_router ipsecw-72b }
+            {5 stg_clean_router ipsecw-18b }
+            {7 stg_clean_router ipsecw-p1 }
+            {8 stg_clean_router ipsecw-p2 }
+            {9 stg_clean_router ipsecw-p3 }
+            {10 stg_clean_router ipsecw-871a }
+            {11 stg_clean_router ipsecw-3845b }
+        }
+    }
+}
+
+#
+# This is to allow "easyClean" to be used for loading
+# our routers.
+#
+foreach rtr $tb_devices($this_testbed) {
+    set tb_clean_cmd($rtr) stg_easyclean_router
+} ; # end foreach
+
+############################################################################
+# Step 19: Optional -- Uncomment the following line to tell autotest to use
+# the old (perl based) report generator instead of the default
+# $AUTOTEST/etc/reportgen program to create the autotest summary report.
+# (Note that the new reportgen program provides you with more features,
+# such as the ability to customize the autotest summary format).
+#############################################################################
+
+# set REPORTGEN old
+
+#############################################################################
+# Step 20: Optional -- The following keyword is used to customize the
+# autotest summary report format, and is supported only by the new
+# reportgen program. You need to source the file that defines your custom
+# report function, and then set the name of the custom report function to
+# the CUSTOM_REPORT_FUNC keyword. If the CUSTOM_REPORT_FUNC keyword is
+# defined, the reportgen program uses the function it points to to create
+# the autotest summary report. Look at the reportgen man page
+# ($AUTOTEST/man/manl/reportgen.l) and the file
+# $AUTOTEST/lib/reportgen/custom_report.template for more details on the
+# usage of the custom report feature.
+#############################################################################
+
+
+
+###############################################################################
+# Step 21. Optional -- These variables allow other testbed dependent parameters
+# like the PC addresses, BRI line phone numbers, etc to be used in a testbed
+# independent way in the suite files. The way to use them is exactly like
+# routers, i.e., simply use $option1 $option2 and so on in the order of
+# definition below.
+###############################################################################
+
+#Set OPTIONS(ipsec) {172.21.225.99 10.2.14.100 10.2.14.101}
+
+###############################################################################
+# Step 22. This ghastly code is a workaround for proper functioning of scripts
+# that still use coremap instead of the MAP file. The idea of the code is to
+# ensure that changes in the testbed require changes in only the MAP file and
+# not the coremap variable also.
+##############################################################################
+if { ![catch "source $MAPDIR/ipsecw.MAP" errmsg] } {
+    set coremap $tb_map
+    unset tb_map
+}  else {
+    error "Error in sourcing ipsecw.MAP: $errmsg"
+}
+
+
+###############################################################################
+# Step 23. Now run the installation script in the install directory,
+# if you haven't done so already.
+###############################################################################
+
+# -----------------------------------------------------------------------------
+#                            CVS MAINTENANCE LOGS
+#                            ~~~~~~~~~~~~~~~~~~~~
+# $Log: CONFIG.ipsecw,v $
+# Revision 1.1  2011/04/20 18:48:04  joaofer
+#   Clean file for ipsecw
+#
+# Revision 1.3  2010/12/10 19:07:15  gicarval
+# Added ipsecw-sw1 to ROUTER list
+#
+# Revision 1.2  2008/09/06 01:13:59  arjvenka
+# updated tftp server on testbed config files
+#
+# Revision 1.1  2007/06/07 04:50:22  gicarval
+#    Testbed creation
+#
+# -----------------------------------------------------------------------------
+# Local Variables:
+# mode: tcl
+# End:
+#### AUTOCOOKIE
+
+
+
+set testbeds { \
+ipsecw reventon1 reventon2\
+ }
+
+
+
+set REPORT_SUMMARY_PROC myCustomSummary
+
+    package require csv
+    package require mysqltcl
+    package require Csccon
+    package require TclUtils
+
+
+proc myCustomSummary { } {
+global env 
+set data "--- THIS is my report---\n"
+append data "
+ATS Version : [ats_get_record Summary AtsVersion]
+CLI Arguments: [ats_get_record Summary CliArgs]
+Requested : [ats_get_record Summary Requested]
+Archive File : [ats_get_record Summary ArchiveFile]"
+
+#########################
+# Get basic info from ats_get_record
+#########################
+
+set testresult ""
+set Successes [ats_get_record Summary Passed]
+set Failures [ats_get_record Summary Failed]
+set Aborted [ats_get_record Summary Aborted]
+set Never [ats_get_record Summary NeverRan]
+set Crashes [ats_get_record Summary Crashes]
+set Blocked [ats_get_record Summary Blocked]
+set this_testbed [ats_get_record Summary Testbed]
+set testresult "P-$Successes F-$Failures C-$Crashes A-$Aborted B-$Blocked N-$Never"
+
+#########################
+# Ok lets do something usefull
+#########################
+
+
+
+
+    set lf [open "/tmp/eARMSReportingLogfile" a+]
+    puts $lf "Entering earms_reporting"
+# Connect to the database on trinity:
+    puts $lf "Connecting to database"
+
+    if { [catch {
+        set conn [mysqlconnect -host joao-lnx -user tie -db TIE]
+	mysqluse $conn TIE
+	puts $lf "connected to database"
+    } result] } {
+        puts $lf "Cannot connect to database: $result"
+    }
+
+
+# old version
+#   if { [catch {
+#	source /tmp/test_being_run
+#	puts $lf "able to source file   TestID=$testid AND test=$test AND tree=$tree AND Project=$project   "
+#    } result]} {
+#        puts $lf "not able to source file $result"
+#   }
+
+    if { [catch {
+	set time [clock seconds]
+	set Date [clock format $time -format "%Y-%m-%d"]
+	 puts $lf "data e $Date"
+    } result] } {
+        puts $lf "not able to get time $result"
+    }
+
+    if { [catch {
+	set query [mysqlquery $conn "SELECT testID,Project,Tree,test,epohtime,testbed FROM RUNNING WHERE testbed='$this_testbed'"]
+		while { [set row [mysqlnext $query]]!="" } {
+			set testid [lindex $row 0]
+			set project [lindex $row 1]
+			set tree [lindex $row 2]
+			set test [lindex $row 3]
+			set time_started [lindex $row 4]
+			set testbed [lindex $row 5]
+		}
+	puts $lf "$time_started was able to parse results no need for that anymore testid:$testid project:$project tree:$tree testbed:$testbed  "
+    } result] } {
+        puts $lf "not able to get time $result"
+    }
+
+if { [catch {
+	set log [ats_get_record Summary ArchiveFile]
+	if { [ regexp {([0-9][0-9])-([0-9][0-9])/(.+)} $log all month year file ] } {
+		set dash "http://earms-trade.cisco.com/tradeui/CLResults.jsp?archive="
+		set ats "&ats="
+		puts " $month $year $file "
+		if { [ regexp {([0-9][0-9][0-9][0-9])[A-Za-z]+([0-9][0-9]).([0-9][0-9]):([0-9][0-9])} $file all yearcomplete day hour minutes ] } {
+			puts "this should be it $yearcomplete/$month/$day/$hour/$minutes/$file"
+			set log2 "$dash$yearcomplete/$month/$day/$hour/$minutes/$file$ats$env(AUTOTEST)"
+		}
+	} 
+	set trade "http://earms-trade.cisco.com/tradeui/resultsviewer.faces?ats="
+	set client "&client=eclipse&host=joao-lnx&archive="
+	set empty ""
+	regsub -all "$env(AUTOTEST)" $log $empty string
+	set log "$trade$env(AUTOTEST)$client$string"
+	puts $lf "the log is $log and trade is $trade"
+    } result] } {
+        puts $lf "changing log didn't work $result"
+    }
+
+
+   if { [catch {
+        set query [mysqlquery $conn "SELECT ID FROM RESULTS WHERE ID='$testid' AND test='$test' AND Testbed='$this_testbed' AND tree='$tree' AND Date='$Date' AND Project='$project' "]
+
+       while { [set row [mysqlnext $query]]!=""} {
+               set id [lindex $row 0]
+       }
+	
+	if { [info exists id] } {
+		puts $lf "test already exit should update"
+		set UPDATE "TRUE"
+	} else { 
+		set UPDATE "FALSE"
+	}
+	puts $lf "query worked"
+    } result] } {
+        puts $lf "query didn't work $result"
+    }
+    if { $UPDATE == "FALSE" } {
+	puts $lf "test never run today lets insert"
+	if { [catch {
+		mysqlexec $conn "INSERT INTO RESULTS (ID, Test, Project, Tree, Result, Testbed, Notes, Date ,LOG, LOG2) VALUES ( '$testid' , '$test' , '$project' , '$tree', '$testresult', '$testbed', '' , '$Date', '$log', '$log2' );"
+		puts $lf "inserted results"
+	} result] } {
+		puts $lf "not able to insert results $result"
+	}
+     } elseif { $UPDATE == "TRUE" } {
+	if { [catch {
+		mysqlexec $conn "UPDATE RESULTS SET Result='$testresult',LOG='$log',LOG2='$log2' WHERE ID='$testid' AND Date='Date' AND Tree='$Tree'"
+		puts $lf "inserted results"
+	} result]} {
+		puts $lf "not able to insert results $result"
+	}
+
+     }
+
+	if { [catch {
+
+		set time_ended [clock seconds]
+		set diference [expr $time_ended - $time_started]
+		set diference [expr $diference / 60 ]
+
+		switch $tree {
+			"baseline" { mysqlexec $conn "UPDATE Testsconfig SET Baseline='$testresult',Time='$diference',Date='$Date' WHERE ID='$testid'" }
+			"solid" { mysqlexec $conn "UPDATE Testsconfig SET M='$testresult',Time='$diference',Date='$Date' WHERE ID='$testid'" }
+			"testing" { mysqlexec $conn "UPDATE Testsconfig SET Testing='$testresult',Time='$diference',Date='$Date' WHERE ID='$testid'" }
+		}
+		puts $lf "updated main table results"
+	} result] } {
+		puts $lf "not able to insert results $result"
+	}
+if { [catch {
+        mysqlclose $conn
+	puts $lf " CONFIG - able to disconnect from database"
+    } result] } {
+        puts $lf "CONFIG no able to disconnect to database: $result"
+    }
+
+	return $data
+
+}
+
+set REPORT_SUBJECT_PROC myCustomSubject
+
+proc myCustomSubject { } {
+set title "to work on"
+   if { [catch {
+	#puts $lf "able to source file   TestID=$testid AND test=$test AND tree=$tree AND Project=$project   "
+	set title "$project $tree $test $testbed" 
+    } result] } {
+        #puts $lf "not able to source file $result"
+    }
+return $title
+}

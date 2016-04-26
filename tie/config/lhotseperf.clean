@@ -1,0 +1,80 @@
+
+######################  CLEAN CONFIG FILE FOR waasperf2 testbed  ##############
+#                                                                             #
+#     Header file for autotest. Follow the steps to customise as needed.      #
+#                                                                             #
+###############################################################################
+
+
+
+#####################
+## Sample config for
+##      router
+####################
+
+#to Do
+
+# Set a T train a Baseline and a Solid image for each router
+# Set a place for the start config and the post config
+# Set router type, using tftpdnld -r, normal boot or pagent
+
+
+
+
+#############################
+### lhotse_asr1k_a
+#############################
+
+set testing(lhotse_asr1k_a) "/auto/tftp-joaofer/lhotse/test/asr1000rp2-adventerprisek9."
+set baseline(lhotse_asr1k_a) "/auto/tftp-joaofer/lhotse/baseline/asr1000rp2-adventerprisek9."
+set solid(lhotse_asr1k_a) "/auto/tftp-joaofer/lhotse/main/asr1000rp2-adventerprisek9."
+set custom(lhotse_asr1k_a) ""
+set post(lhotse_asr1k_a) "flash:waasperf2.post"
+set start(lhotse_asr1k_a) "flash:waasperf2.start"
+set routertype(lhotse_asr1k_a) "NORMAL_TFTP"
+set router_image(lhotse_asr1k_a-testing) "asr1000rp2-adventerprisek9." 
+set router_image(lhotse_asr1k_a-baseline) "asr1000rp2-adventerprisek9." 
+set router_image(lhotse_asr1k_a-solid) "asr1000rp2-adventerprisek9."
+set router_image(lhotse_asr1k_a-custom) "asr1000rp2-adventerprisek9."
+
+#############################
+### lhotse_asr1k_b
+#############################
+
+set testing(lhotse_asr1k_b) "/auto/tftp-joaofer/lhotse/test/asr1000rp2-adventerprisek9."
+set baseline(lhotse_asr1k_b) "/auto/tftp-joaofer/lhotse/baseline/asr1000rp2-adventerprisek9."
+set solid(lhotse_asr1k_b) "/auto/tftp-joaofer/lhotse/main/asr1000rp2-adventerprisek9."
+set custom(lhotse_asr1k_b) ""
+set post(lhotse_asr1k_b) "flash:waasperf2.post"
+set start(lhotse_asr1k_b) "flash:waasperf2.start"
+set routertype(lhotse_asr1k_b) "NORMAL_TFTP"
+set router_image(lhotse_asr1k_b-testing) "asr1000rp2-adventerprisek9." 
+set router_image(lhotse_asr1k_b-baseline) "asr1000rp2-adventerprisek9." 
+set router_image(lhotse_asr1k_b-solid) "asr1000rp2-adventerprisek9."
+set router_image(lhotse_asr1k_b-custom) "asr1000rp2-adventerprisek9."
+
+#############################
+### lhotse_asr1k_c
+#############################
+
+set testing(lhotse_asr1k_c) "/auto/tftp-joaofer/lhotse/test/asr1000rp1-adventerprisek9."
+set baseline(lhotse_asr1k_c) "/auto/tftp-joaofer/lhotse/baseline/asr1000rp1-adventerprisek9."
+set solid(lhotse_asr1k_c) "/auto/tftp-joaofer/lhotse/main/asr1000rp1-adventerprisek9."
+set custom(lhotse_asr1k_c) ""
+set post(lhotse_asr1k_c) "flash:waasperf2.post"
+set start(lhotse_asr1k_c) "flash:waasperf2.start"
+set routertype(lhotse_asr1k_c) "NORMAL_TFTP"
+set router_image(lhotse_asr1k_c-testing) "asr1000rp1-adventerprisek9." 
+set router_image(lhotse_asr1k_c-baseline) "asr1000rp1-adventerprisek9." 
+set router_image(lhotse_asr1k_c-solid) "asr1000rp1-adventerprisek9."
+set router_image(lhotse_asr1k_c-custom) "asr1000rp1-adventerprisek9."
+
+#SET UP STUFF FOR CFLOW
+if { [info exists CFLOW] } {
+	if { $CFLOW == "TRUE" } {
+		set custom(waasperf2-3825b) "/auto/tftp-joaofer/waas/custom/c3825-PAGENT"
+		set custom(waasperf2-19a) "/auto/tftp-joaofer/waas/custom/c1900-universalk9-mz.SSA.cflow_post_sync"
+		set custom(waasperf2-3845c) "/auto/tftp-joaofer/waas/custom/c3845-advsecurityk9"
+	}
+}
+

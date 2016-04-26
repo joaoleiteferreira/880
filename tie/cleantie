@@ -1,0 +1,199 @@
+#!/bin/sh
+#\
+exec $AUTOTEST/bin/expect "$0" "$@" #
+set env(EARMS_SOURCING_CONFIG) 1
+package require AtsAuto
+package require mysqltcl
+global test_name test_priority test_file test_date test_project test_server CFLOW_DIRECTORY CFLOW_DEBUGS SSH_PWD
+global testing baseline solid post start routertype router_image source_directories destination_directories env ROUTERS OPTIONS
+
+puts { Sample: Mandatory autotie  -testbed [testbed] -project [project] -SSH_PWD [ssh_pwd] }
+puts { options: -tree [testing baseline solid custom auto] default auto}
+puts { options: -CFLOW 		[TRUE FALSE] 		default FALSE }
+puts { options: -TIMS  		[TRUE FALSE] 		default FALSE }
+puts { options: -EMAIL_WARN  	[any]  			default "none"}
+puts { options: -DEBUG  	[ON OFF]    		default OFF   }
+puts { options: -MODE   	[NORMAL VERTICAL]    	default NORMAL}
+
+
+    set man_args {
+	-testbed	      ANY
+	-project              ANY
+	-SSH_PWD	       ANY
+    } ; # end mandatory args
+
+    set opt_args {
+	-tree		      CHOICES baseline testing solid auto custom
+	DEFAULT		      auto
+	-CFLOW                CHOICES TRUE FALSE
+	DEFAULT 	      FALSE
+	-TIMS		      CHOICES TRUE FALSE
+	DEFAULT		      FALSE
+	-EMAIL_WARN           ANY
+	DEFAULT 	      "none"
+	-DEBUG		      CHOICES ON OFF
+	DEFAULT		      OFF
+	-MODE		      CHOICES NORMAL VERTICAL
+	DEFAULT		      NORMAL
+    } ; # end optional args
+
+    set args [lrange $argv 1 $argc]
+
+    parse_dashed_args                     \
+        -args $args                       \
+        -mandatory_args $man_args         \
+        -optional_args $opt_args
+
+# set line [exec ps -ef | grep expect | grep autotie]
+# if {[string match -nocase "*$testbed*" $line] && ![string match -nocase "*defunct*" $line]} {
+# 	puts " Hey I seem to already be running there in this testbed make ps -ef, are you sure you want to continue, press enter?"
+# 	set line [gets stdin]
+# }
+if { $DEBUG == "OFF" } { 
+	#log_user 0
+}
+
+
+set env(_ATS_TESTBED) $testbed
+set env(EARMS_SOURCING_CONFIG) 1
+source $env(AUTOTEST)/etc/CONFIG.$testbed
+aetest::_testbed $env(_ATS_TESTBED)
+set testbeds $env(_ATS_TESTBED)
+set run_globals(testbed) $testbed
+
+
+
+source $env(AUTOTEST)/stg_reg/utils/tie/config/$project.tie
+source $env(AUTOTEST)/stg_reg/utils/tie/config/$testbed.clean
+source $env(AUTOTEST)/stg_reg/utils/tie/exp/autotie.exp
+
+# check if main 
+
+
+# CREATE CONFIG FILE TO BE USED FOR THIS TEST
+system "cp $env(AUTOTEST)/etc/$testbed.config $env(AUTOTEST)/stg_reg/utils/tie/config/CONFIG.$testbed"
+system "cat $env(AUTOTEST)/stg_reg/utils/tie/exp/$project.exp >> $env(AUTOTEST)/stg_reg/utils/tie/config/CONFIG.$testbed"
+
+#if using performance will need to build diferent
+
+set FIRST_TIME TRUE
+if {$tree == "auto" && $CFLOW == "FALSE"} {
+	set enable_tree_selection TRUE
+} else {
+	set enable_tree_selection FALSE
+}
+
+if { $CFLOW =="TRUE" } {
+	set tree "custom"
+}
+
+
+autotie_clean -testbed reventon1 -mode normal -tree testing
+exit
+
+set tree_come_back $tree
+
+autotie_running_clean -project $project -testbed $testbed
+
+#### UPDATE TO LATEST IMAGE ALL BRANCHES
+update_images -tree testing
+update_images -tree baseline
+update_images -tree solid
+
+
+while { 1 } {
+	set time_started [clock seconds]
+	# LOAD CONFIG INFORMATION FROM PHP and Running tests
+	autotie_load_tests -project $project
+
+	# Update Router info
+	if { $FIRST_TIME == "TRUE" } { update_router_info -project $project }
+
+	set tests_in_queue [autotie_test_in_queue -project $project -testbed $testbed]
+	
+
+	#SELECT TEST and Tree to run
+	if { $tests_in_queue == "False" } {
+		puts " no tests in queue"
+		set test_to_run [autotie_select_next_test -mode $MODE -testbed $testbed -tree_selection $enable_tree_selection -project $project]
+		set test_id [lindex $test_to_run 0]
+		set tree_selected [lindex $test_to_run 1]
+		if { $tree_selected != "same" } { set tree $tree_selected } 
+		if { $test_id != "same" } { set test_selected $test_id } 
+	
+		#Inform database that test was selected
+		autotie_running_info -ID $test_selected -project $project -testbed $testbed -test $test_name($test_selected) -tree $tree -Date $time_started
+
+		# SEE IF THERE ARE NEW IMAGES
+		if { $tree != "custom" } {
+			update_images -tree $tree
+			update_to_latest_img -tree $tree		
+			puts "tie-Finish doing image update"
+		} 
+		
+		#SYNC VARIABLES TO IMAGES
+		if { $FIRST_TIME == "TRUE" } { 
+			autotie_clean -testbed $testbed -mode slow -tree $tree 
+		} else { 
+			autotie_clean -testbed $testbed -mode normal -tree $tree -ID $test_selected 
+			autotie_clean -testbed $testbed -mode quick -tree $tree
+		}
+	} elseif { $tests_in_queue == "True" } {
+		puts "tests in queue, select test to run"
+		set test_to_run [tie_queue_test_to_run -testbed $testbed -project $project]
+		set test_id [lindex $test_to_run 0]
+		set tree_selected [lindex $test_to_run 1]
+		if { $tree_selected != "same" } { set tree $tree_selected } 
+		if { $test_id != "same" } { set test_selected $test_id } 
+
+		if { $tree != "custom" } {
+			update_to_latest_img -tree $tree		
+			puts "tie-Finish doing image update"
+		} 
+
+		puts "##### Inform database that test started #######"	
+		autotie_running_info -ID $test_selected -project $project -testbed $testbed -test $test_name($test_selected) -tree $tree -Date $time_started
+		puts "##### STARTING CLEAN                    #######"
+		autotie_clean -testbed $testbed -mode normal -tree $tree -ID $test_selected 
+		autotie_clean -testbed $testbed -mode quick -tree $tree
+	}
+
+	#IF CLOW MODE RUN EXTRACT DATA FROM ROUTERS
+	if { $CFLOW == "TRUE" } { tie_cflow_clean -testID $test_selected -testbed $testbed -project $project }
+	
+	tie_run_before_test -tree $tree -project $project -testid $test_selected
+	#SUBMIT TEST
+
+	puts "SUBMIT TEST -testID $test_selected -testbed $testbed -tree $tree server $test_server($test_selected)"
+	
+
+
+	if { $test_server($test_selected) == "" } {
+		autotie_submit_test -testID $test_selected -testbed $testbed -tree $tree -project $project -TIMS $TIMS 
+	} else {
+		autotie_submit_test_server -testID $test_selected -testbed $testbed -tree $tree -project $project -TIMS $TIMS -server $test_server($test_selected)
+	}
+	#CFLOW RUN EXTRACT DATA FROM ROUTERS
+	if { $CFLOW == "TRUE" } {
+		tie_cflow_extract -testID $test_selected -testbed $testbed -project $project
+	}
+	#####
+	tie_run_after_test -tree $tree -project $project -testid $test_selected
+
+	#detect user exit
+	autotie_detect_stop -project $project -testbed $testbed
+	#Inform database that test was finished exit program if exit detected
+	autotie_running_delete -ID $test_selected -project $project -testbed $testbed -test $test_name($test_selected) -tree $tree -Date $time_started
+
+
+	#START ALL OVER AGAIN
+	set FIRST_TIME "FALSE"
+	#Tree come back (just in case something strange happen)
+	set tree $tree_come_back
+
+}
+
+
+
+
+

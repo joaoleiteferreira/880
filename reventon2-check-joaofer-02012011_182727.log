@@ -1,0 +1,3052 @@
+Csccon is opening a connection -  telnet reventon2-cs 2002 
+exp_spawn telnet reventon2-cs 2002
+Trying 172.27.240.86...
+Connected to reventon2-cs.
+Escape character is '^]'.
+
+Hostname: reventon2-cs
+Testbed:  Reventon2
+
+CON
+    Line     Device                         Port
+  -------------------------------------------------
+  01       reventon2-72a        (7200)      2002
+  02       reventon2-72b        (7200)      2003
+  03       reventon2-p1         (3845)      2004
+  04       reventon2-p2         (3845)      2005
+  05       reventon2-p3         (3825)      2006
+  06       reventon2-29a        (2921)      2007
+  07       reventon2-3945a      (3945)      2008
+  08       reventon2-3945b      (3945)      2009
+  09       reventon2-29b        (2911)      2010
+  10       reventon2-19a        (1941)      2011
+  11       reventon2-19b        (1941)      2012
+  12       reventon2-sw         (3500)      2024
+  13       reventon2-fw         (3500)      2025
+  -------------------------------------------------
+AUX
+    Line     Device                         Port
+  -------------------------------------------------
+  01       reventon2-72a        (7200)      2013
+  02       reventon2-72b        (7200)      2014
+  03       reventon2-p1         (3845)      2015
+  04       reventon2-p2         (3845)      2016
+  05       reventon2-p3         (3825)      2017
+  06       reventon2-29a        (2921)      2018
+  07       reventon2-3945a      (3945)      2019
+  08       reventon2-3945b      (3945)      2020
+  09       reventon2-29b        (2911)      2021
+  10       reventon2-19a        (1941)      2022
+  11       reventon2-19b        (1941)      2023
+  -------------------------------------------------
+
+reventon2-72a(boot)>enable
+Password: 
+reventon2-72a(boot)#terminal length 0
+reventon2-72a(boot)#config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+reventon2-72a(boot)(config)#no logging console
+reventon2-72a(boot)(config)#end
+reventon2-72a(boot)#show version
+Cisco IOS Software, 7200 Software (C7200P-BOOT-M), Version 12.4(15)T10, RELEASE SOFTWARE (fc3)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2009 by Cisco Systems, Inc.
+Compiled Mon 14-Sep-09 18:45 by prod_rel_team
+
+ROM: System Bootstrap, Version 12.4(12.2r)T, RELEASE SOFTWARE (fc1)
+
+reventon2-72a uptime is 2 hours, 0 minutes
+System returned to ROM by reload at 16:25:53 PST Tue Feb 1 2011
+System image file is "bootflash:c7200p-boot-mz.124-15.T10.bin"
+Last reload reason: Reload Command
+
+
+Cisco 7206VXR (NPE-G2) processor (revision A) with 917504K/65536K bytes of memory.
+Processor board ID 36958513
+MPC7448 CPU at 1666Mhz, Implementation 0, Rev 2.2
+6 slot VXR midplane, Version 2.11
+
+Last reset from power-on
+
+PCI bus mb1 (Slots 1, 3 and 5) has a capacity of 600 bandwidth points.
+Current configuration on bus mb1 has a total of 40 bandwidth points. 
+This configuration is within the PCI bus capacity and is supported. 
+
+PCI bus mb2 (Slots 2, 4 and 6) has a capacity of 600 bandwidth points.
+Current configuration on bus mb2 has a total of 40 bandwidth points.
+This configuration is within the PCI bus capacity and is supported. 
+
+Please refer to the following document "Cisco 7200 Series Port Adaptor
+Hardware Configuration Guidelines" on Cisco.com <http://www.cisco.com>
+for c7200 bandwidth points oversubscription and usage guidelines.
+
+
+8 Ethernet interfaces
+1 FastEthernet interface
+3 Gigabit Ethernet interfaces
+4 Serial interfaces
+2045K bytes of NVRAM.
+
+65536K bytes of Flash internal SIMM (Sector size 512K).
+Configuration register is 0x0
+
+reventon2-72a(boot)#term width 0
+reventon2-72a(boot)#config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+reventon2-72a(boot)(config)# no logging console
+reventon2-72a(boot)(config)#line con 0
+reventon2-72a(boot)(config-line)#exec-timeout 0
+reventon2-72a(boot)(config-line)#clock timezone PST -8
+reventon2-72a(boot)(config)#service timestamps debug datetime localtime show-timezone msec
+reventon2-72a(boot)(config)#service timestamps log datetime localtime show-timezone msec
+reventon2-72a(boot)(config)#end
+reventon2-72a(boot)#clock set 18:27:31 01 Feb 2011
+reventon2-72a(boot)#Csccon is opening a connection -  telnet reventon2-cs 2003 
+exp_spawn telnet reventon2-cs 2003
+Trying 172.27.240.86...
+Connected to reventon2-cs.
+Escape character is '^]'.
+
+Hostname: reventon2-cs
+Testbed:  Reventon2
+
+CON
+    Line     Device                         Port
+  -------------------------------------------------
+  01       reventon2-72a        (7200)      2002
+  02       reventon2-72b        (7200)      2003
+  03       reventon2-p1         (3845)      2004
+  04       reventon2-p2         (3845)      2005
+  05       reventon2-p3         (3825)      2006
+  06       reventon2-29a        (2921)      2007
+  07       reventon2-3945a      (3945)      2008
+  08       reventon2-3945b      (3945)      2009
+  09       reventon2-29b        (2911)      2010
+  10       reventon2-19a        (1941)      2011
+  11       reventon2-19b        (1941)      2012
+  12       reventon2-sw         (3500)      2024
+  13       reventon2-fw         (3500)      2025
+  -------------------------------------------------
+AUX
+    Line     Device                         Port
+  -------------------------------------------------
+  01       reventon2-72a        (7200)      2013
+  02       reventon2-72b        (7200)      2014
+  03       reventon2-p1         (3845)      2015
+  04       reventon2-p2         (3845)      2016
+  05       reventon2-p3         (3825)      2017
+  06       reventon2-29a        (2921)      2018
+  07       reventon2-3945a      (3945)      2019
+  08       reventon2-3945b      (3945)      2020
+  09       reventon2-29b        (2911)      2021
+  10       reventon2-19a        (1941)      2022
+  11       reventon2-19b        (1941)      2023
+  -------------------------------------------------
+
+reventon2-72b(boot)>enable
+Password: 
+reventon2-72b(boot)#terminal length 0
+reventon2-72b(boot)#config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+reventon2-72b(boot)(config)#no logging console
+reventon2-72b(boot)(config)#end
+reventon2-72b(boot)#show version
+Cisco IOS Software, 7200 Software (C7200-KBOOT-M), Version 15.0(1)M4.8, MAINTENANCE INTERIM SOFTWARE
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2011 by Cisco Systems, Inc.
+Compiled Wed 19-Jan-11 19:01 by prod_rel_team
+
+ROM: System Bootstrap, Version 12.3(4r)T3, RELEASE SOFTWARE (fc1)
+
+reventon2-72b uptime is 2 hours, 13 minutes
+System returned to ROM by reload at 16:09:04 PST Tue Feb 1 2011
+System image file is "bootflash:c7200-kboot-mz.150-1.M4.8"
+Last reload type: Normal Reload
+Last reload reason: Reload Command
+
+
+Cisco 7206VXR (NPE-G1) processor (revision B) with 491520K/32768K bytes of memory.
+Processor board ID 36322404
+SB-1 CPU at 700MHz, Implementation 1025, Rev 0.2, 512KB L2 Cache
+6 slot VXR midplane, Version 2.11
+
+Last reset from power-on
+
+PCI bus mb1 (Slots 1, 3 and 5) has a capacity of 600 bandwidth points.
+Current configuration on bus mb1 has a total of 40 bandwidth points. 
+This configuration is within the PCI bus capacity and is supported. 
+
+PCI bus mb2 (Slots 2, 4 and 6) has a capacity of 600 bandwidth points.
+Current configuration on bus mb2 has a total of 0 bandwidth points.
+This configuration is within the PCI bus capacity and is supported. 
+
+Please refer to the following document "Cisco 7200 Series Port Adaptor
+Hardware Configuration Guidelines" on Cisco.com <http://www.cisco.com>
+for c7200 bandwidth points oversubscription and usage guidelines.
+
+
+4 Ethernet interfaces
+3 Gigabit Ethernet interfaces
+4 Serial interfaces
+509K bytes of NVRAM.
+
+125440K bytes of ATA PCMCIA card at slot 2 (Sector size 512 bytes).
+16384K bytes of Flash internal SIMM (Sector size 256K).
+
+
+Configuration register is 0x0
+
+reventon2-72b(boot)#term width 0
+reventon2-72b(boot)#config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+reventon2-72b(boot)(config)# no logging console
+reventon2-72b(boot)(config)#line con 0
+reventon2-72b(boot)(config-line)#exec-timeout 0
+reventon2-72b(boot)(config-line)#clock timezone PST -8
+reventon2-72b(boot)(config)#service timestamps debug datetime localtime show-timezone msec
+reventon2-72b(boot)(config)#service timestamps log datetime localtime show-timezone msec
+reventon2-72b(boot)(config)#end
+reventon2-72b(boot)#clock set 18:27:36 01 Feb 2011
+reventon2-72b(boot)#Csccon is opening a connection -  telnet reventon2-cs 2010 
+exp_spawn telnet reventon2-cs 2010
+Trying 172.27.240.86...
+Connected to reventon2-cs.
+Escape character is '^]'.
+
+Hostname: reventon2-cs
+Testbed:  Reventon2
+
+CON
+    Line     Device                         Port
+  -------------------------------------------------
+  01       reventon2-72a        (7200)      2002
+  02       reventon2-72b        (7200)      2003
+  03       reventon2-p1         (3845)      2004
+  04       reventon2-p2         (3845)      2005
+  05       reventon2-p3         (3825)      2006
+  06       reventon2-29a        (2921)      2007
+  07       reventon2-3945a      (3945)      2008
+  08       reventon2-3945b      (3945)      2009
+  09       reventon2-29b        (2911)      2010
+  10       reventon2-19a        (1941)      2011
+  11       reventon2-19b        (1941)      2012
+  12       reventon2-sw         (3500)      2024
+  13       reventon2-fw         (3500)      2025
+  -------------------------------------------------
+AUX
+    Line     Device                         Port
+  -------------------------------------------------
+  01       reventon2-72a        (7200)      2013
+  02       reventon2-72b        (7200)      2014
+  03       reventon2-p1         (3845)      2015
+  04       reventon2-p2         (3845)      2016
+  05       reventon2-p3         (3825)      2017
+  06       reventon2-29a        (2921)      2018
+  07       reventon2-3945a      (3945)      2019
+  08       reventon2-3945b      (3945)      2020
+  09       reventon2-29b        (2911)      2021
+  10       reventon2-19a        (1941)      2022
+  11       reventon2-19b        (1941)      2023
+  -------------------------------------------------
+
+reventon2-29b>enable
+Password: 
+reventon2-29b#terminal length 0
+reventon2-29b#config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+reventon2-29b(config)#no logging console
+reventon2-29b(config)#end
+reventon2-29b#show version
+Cisco IOS Software, C2900 Software (C2900-UNIVERSALK9-M), Version 15.1(REVENTON_DEV_PAL_20110128)SW EARLY DEPLOYMENT DEVELOPMENT BUILD, synced to REVENTON_DEV_PAL_SYNC_BASE_201011210
+Copyright (c) 1986-2011 by Cisco Systems, Inc.
+Compiled Sat 29-Jan-11 02:21 by dranjit
+
+ROM: System Bootstrap, Version 15.0(1r)M9, RELEASE SOFTWARE (fc1)
+
+reventon2-29b uptime is 1 day, 2 hours, 36 minutes
+System returned to ROM by reload at 15:43:48 PST Mon Jan 31 2011
+System image file is "tftp://172.19.201.81//tftpboot/joaofer/c2900-20110128"
+Last reload type: Normal Reload
+Last reload reason: Reload Command
+
+
+
+This product contains cryptographic features and is subject to United
+States and local country laws governing import, export, transfer and
+use. Delivery of Cisco cryptographic products does not imply
+third-party authority to import, export, distribute or use encryption.
+Importers, exporters, distributors and users are responsible for
+compliance with U.S. and local country laws. By using this product you
+agree to comply with applicable laws and regulations. If you are unable
+to comply with U.S. and local laws, return this product immediately.
+
+A summary of U.S. laws governing Cisco cryptographic products may be found at:
+http://www.cisco.com/wwl/export/crypto/tool/stqrg.html
+
+If you require further assistance please contact us by sending email to
+export@cisco.com.
+
+Cisco CISCO2911/K9 (revision 1.0) with 2555840K/65536K bytes of memory.
+Processor board ID FTX1452AHJ6
+4 FastEthernet interfaces
+3 Gigabit Ethernet interfaces
+4 Serial(sync/async) interfaces
+2 terminal lines
+2 Virtual Private Network (VPN) Modules
+1 cisco ips sensor(s), ips monitoring on slot 1
+1 cisco ISM Crypto Engine(s)
+DRAM configuration is 64 bits wide with parity enabled.
+255K bytes of non-volatile configuration memory.
+999936K bytes of ATA System CompactFlash 0 (Read/Write)
+
+
+License Info:
+
+License UDI:
+
+-------------------------------------------------
+Device#	  PID			SN
+-------------------------------------------------
+*0  	  CISCO2911/K9          FTX1452AHJ6     
+
+
+
+Technology Package License Information for Module:'c2900' 
+
+----------------------------------------------------------------
+Technology    Technology-package          Technology-package
+              Current       Type          Next reboot  
+-----------------------------------------------------------------
+ipbase        ipbasek9      Permanent     ipbasek9
+security      securityk9    Permanent     securityk9
+uc            None          None          None
+data          None          None          None
+
+Configuration register is 0x0
+
+reventon2-29b#term width 0
+reventon2-29b#config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+reventon2-29b(config)# no logging console
+reventon2-29b(config)#line con 0
+reventon2-29b(config-line)#exec-timeout 0
+reventon2-29b(config-line)#clock timezone PST -8
+reventon2-29b(config)#service timestamps debug datetime localtime show-timezone msec
+reventon2-29b(config)#service timestamps log datetime localtime show-timezone msec
+reventon2-29b(config)#end
+reventon2-29b#clock set 18:27:42 01 Feb 2011
+reventon2-29b#Csccon is opening a connection -  telnet reventon2-cs 2007 
+exp_spawn telnet reventon2-cs 2007
+Trying 172.27.240.86...
+Connected to reventon2-cs.
+Escape character is '^]'.
+
+Hostname: reventon2-cs
+Testbed:  Reventon2
+
+CON
+    Line     Device                         Port
+  -------------------------------------------------
+  01       reventon2-72a        (7200)      2002
+  02       reventon2-72b        (7200)      2003
+  03       reventon2-p1         (3845)      2004
+  04       reventon2-p2         (3845)      2005
+  05       reventon2-p3         (3825)      2006
+  06       reventon2-29a        (2921)      2007
+  07       reventon2-3945a      (3945)      2008
+  08       reventon2-3945b      (3945)      2009
+  09       reventon2-29b        (2911)      2010
+  10       reventon2-19a        (1941)      2011
+  11       reventon2-19b        (1941)      2012
+  12       reventon2-sw         (3500)      2024
+  13       reventon2-fw         (3500)      2025
+  -------------------------------------------------
+AUX
+    Line     Device                         Port
+  -------------------------------------------------
+  01       reventon2-72a        (7200)      2013
+  02       reventon2-72b        (7200)      2014
+  03       reventon2-p1         (3845)      2015
+  04       reventon2-p2         (3845)      2016
+  05       reventon2-p3         (3825)      2017
+  06       reventon2-29a        (2921)      2018
+  07       reventon2-3945a      (3945)      2019
+  08       reventon2-3945b      (3945)      2020
+  09       reventon2-29b        (2911)      2021
+  10       reventon2-19a        (1941)      2022
+  11       reventon2-19b        (1941)      2023
+  -------------------------------------------------
+
+	      HW State    : READY
+reventon2-29a#terminal length 0
+reventon2-29a#config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+reventon2-29a(config)#no logging console
+reventon2-29a(config)#end
+reventon2-29a#show version
+Cisco IOS Software, C2951 Software (C2951-UNIVERSALK9-M), Version 15.1(REVENTON_DEV_PAL_20110128)SW EARLY DEPLOYMENT DEVELOPMENT BUILD, synced to REVENTON_DEV_PAL_SYNC_BASE_201011210
+Copyright (c) 1986-2011 by Cisco Systems, Inc.
+Compiled Sat 29-Jan-11 06:24 by dranjit
+
+ROM: System Bootstrap, Version 15.0(1r)M1, RELEASE SOFTWARE (fc1)
+
+reventon2-29a uptime is 3 hours, 17 minutes
+System returned to ROM by reload at 07:04:48 PST Tue Feb 1 2011
+System restarted at 15:10:12 PST Tue Feb 1 2011
+System image file is "tftp://172.19.201.81//auto/tftp-ios-crypto/bootimage.reventon2-29a"
+Last reload type: Normal Reload
+Last reload reason: Reload Command
+
+
+
+This product contains cryptographic features and is subject to United
+States and local country laws governing import, export, transfer and
+use. Delivery of Cisco cryptographic products does not imply
+third-party authority to import, export, distribute or use encryption.
+Importers, exporters, distributors and users are responsible for
+compliance with U.S. and local country laws. By using this product you
+agree to comply with applicable laws and regulations. If you are unable
+to comply with U.S. and local laws, return this product immediately.
+
+A summary of U.S. laws governing Cisco cryptographic products may be found at:
+http://www.cisco.com/wwl/export/crypto/tool/stqrg.html
+
+If you require further assistance please contact us by sending email to
+export@cisco.com.
+
+Cisco CISCO2951/K9 (revision 1.0) with 479232K/45056K bytes of memory.
+Processor board ID FHK1334F182
+3 Gigabit Ethernet interfaces
+2 Serial(sync/async) interfaces
+1 terminal line
+2 Virtual Private Network (VPN) Modules
+1 cisco ISM Crypto Engine(s)
+DRAM configuration is 72 bits wide with parity enabled.
+255K bytes of non-volatile configuration memory.
+248472K bytes of ATA System CompactFlash 0 (Read/Write)
+
+
+License Info:
+
+License UDI:
+
+-------------------------------------------------
+Device#	  PID			SN
+-------------------------------------------------
+*0  	  CISCO2951/K9          FHK1334F182     
+
+
+
+Technology Package License Information for Module:'c2951' 
+
+----------------------------------------------------------------
+Technology    Technology-package          Technology-package
+              Current       Type          Next reboot  
+-----------------------------------------------------------------
+ipbase        ipbasek9      Permanent     ipbasek9
+security      securityk9    Permanent     securityk9
+uc            uck9          Permanent     uck9
+data          datak9        Permanent     datak9
+
+Configuration register is 0x0
+
+reventon2-29a#term width 0
+reventon2-29a#config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+reventon2-29a(config)# no logging console
+reventon2-29a(config)#line con 0
+reventon2-29a(config-line)#exec-timeout 0
+reventon2-29a(config-line)#clock timezone PST -8
+reventon2-29a(config)#service timestamps debug datetime localtime show-timezone msec
+reventon2-29a(config)#service timestamps log datetime localtime show-timezone msec
+reventon2-29a(config)#end
+reventon2-29a#clock set 18:27:49 01 Feb 2011
+reventon2-29a#Csccon is opening a connection -  telnet reventon2-cs 2004 
+exp_spawn telnet reventon2-cs 2004
+Trying 172.27.240.86...
+Connected to reventon2-cs.
+Escape character is '^]'.
+
+Hostname: reventon2-cs
+Testbed:  Reventon2
+
+CON
+    Line     Device                         Port
+  -------------------------------------------------
+  01       reventon2-72a        (7200)      2002
+  02       reventon2-72b        (7200)      2003
+  03       reventon2-p1         (3845)      2004
+  04       reventon2-p2         (3845)      2005
+  05       reventon2-p3         (3825)      2006
+  06       reventon2-29a        (2921)      2007
+  07       reventon2-3945a      (3945)      2008
+  08       reventon2-3945b      (3945)      2009
+  09       reventon2-29b        (2911)      2010
+  10       reventon2-19a        (1941)      2011
+  11       reventon2-19b        (1941)      2012
+  12       reventon2-sw         (3500)      2024
+  13       reventon2-fw         (3500)      2025
+  -------------------------------------------------
+AUX
+    Line     Device                         Port
+  -------------------------------------------------
+  01       reventon2-72a        (7200)      2013
+  02       reventon2-72b        (7200)      2014
+  03       reventon2-p1         (3845)      2015
+  04       reventon2-p2         (3845)      2016
+  05       reventon2-p3         (3825)      2017
+  06       reventon2-29a        (2921)      2018
+  07       reventon2-3945a      (3945)      2019
+  08       reventon2-3945b      (3945)      2020
+  09       reventon2-29b        (2911)      2021
+  10       reventon2-19a        (1941)      2022
+  11       reventon2-19b        (1941)      2023
+  -------------------------------------------------
+
+reventon2-p1#terminal length 0
+reventon2-p1#config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+reventon2-p1(config)#no logging console
+reventon2-p1(config)#end
+reventon2-p1#show version
+Cisco IOS Software, 3800 Software (C3845-TPGEN+ADVENTERPRISEK9-M), Experimental Version 12.4(20090715:035219) [shgautam-v47-build2 210]
+Copyright (c) 1986-2009 by Cisco Systems, Inc.
+Compiled Wed 15-Jul-09 15:14 by shgautam
+
+ROM: System Bootstrap, Version 12.4(13r)T, RELEASE SOFTWARE (fc1)
+
+reventon2-p1 uptime is 2 hours, 59 minutes
+System returned to ROM by reload at 15:20:59 PST Tue Feb 1 2011
+System restarted at 15:28:18 PST Tue Feb 1 2011
+System image file is "tftp://172.19.201.81//tftpboot/joaofer/c3845-PAGENT"
+
+
+This product contains cryptographic features and is subject to United
+States and local country laws governing import, export, transfer and
+use. Delivery of Cisco cryptographic products does not imply
+third-party authority to import, export, distribute or use encryption.
+Importers, exporters, distributors and users are responsible for
+compliance with U.S. and local country laws. By using this product you
+agree to comply with applicable laws and regulations. If you are unable
+to comply with U.S. and local laws, return this product immediately.
+
+A summary of U.S. laws governing Cisco cryptographic products may be found at:
+http://www.cisco.com/wwl/export/crypto/tool/stqrg.html
+
+If you require further assistance please contact us by sending email to
+export@cisco.com.
+
+Cisco 3845 (revision 1.0) with 1007616K/40960K bytes of memory.
+Processor board ID FTX1213A0CD
+4 FastEthernet interfaces
+2 Gigabit Ethernet interfaces
+4 Serial interfaces
+1 ISDN Basic Rate interface
+2 Virtual Private Network (VPN) Modules
+DRAM configuration is 64 bits wide with parity enabled.
+479K bytes of NVRAM.
+250880K bytes of ATA System CompactFlash (Read/Write)
+
+Configuration register is 0x0
+
+reventon2-p1#term width 0
+reventon2-p1#config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+reventon2-p1(config)# no logging console
+reventon2-p1(config)#line con 0
+reventon2-p1(config-line)#exec-timeout 0
+reventon2-p1(config-line)#clock timezone PST -8
+reventon2-p1(config)#service timestamps debug datetime localtime show-timezone msec
+reventon2-p1(config)#service timestamps log datetime localtime show-timezone msec
+reventon2-p1(config)#end
+reventon2-p1#clock set 18:27:53 01 Feb 2011
+reventon2-p1#Csccon is opening a connection -  telnet reventon2-cs 2005 
+exp_spawn telnet reventon2-cs 2005
+Trying 172.27.240.86...
+Connected to reventon2-cs.
+Escape character is '^]'.
+
+Hostname: reventon2-cs
+Testbed:  Reventon2
+
+CON
+    Line     Device                         Port
+  -------------------------------------------------
+  01       reventon2-72a        (7200)      2002
+  02       reventon2-72b        (7200)      2003
+  03       reventon2-p1         (3845)      2004
+  04       reventon2-p2         (3845)      2005
+  05       reventon2-p3         (3825)      2006
+  06       reventon2-29a        (2921)      2007
+  07       reventon2-3945a      (3945)      2008
+  08       reventon2-3945b      (3945)      2009
+  09       reventon2-29b        (2911)      2010
+  10       reventon2-19a        (1941)      2011
+  11       reventon2-19b        (1941)      2012
+  12       reventon2-sw         (3500)      2024
+  13       reventon2-fw         (3500)      2025
+  -------------------------------------------------
+AUX
+    Line     Device                         Port
+  -------------------------------------------------
+  01       reventon2-72a        (7200)      2013
+  02       reventon2-72b        (7200)      2014
+  03       reventon2-p1         (3845)      2015
+  04       reventon2-p2         (3845)      2016
+  05       reventon2-p3         (3825)      2017
+  06       reventon2-29a        (2921)      2018
+  07       reventon2-3945a      (3945)      2019
+  08       reventon2-3945b      (3945)      2020
+  09       reventon2-29b        (2911)      2021
+  10       reventon2-19a        (1941)      2022
+  11       reventon2-19b        (1941)      2023
+  -------------------------------------------------
+
+reventon2-p2#terminal length 0
+reventon2-p2#config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+reventon2-p2(config)#no logging console
+reventon2-p2(config)#end
+reventon2-p2#show version
+Cisco IOS Software, 3800 Software (C3845-TPGEN+ADVENTERPRISEK9-M), Experimental Version 12.4(20090715:035219) [shgautam-v47-build2 210]
+Copyright (c) 1986-2009 by Cisco Systems, Inc.
+Compiled Wed 15-Jul-09 15:14 by shgautam
+
+ROM: System Bootstrap, Version 12.4(13r)T, RELEASE SOFTWARE (fc1)
+
+reventon2-p2 uptime is 13 hours, 40 minutes
+System returned to ROM by reload at 20:41:56 PST Mon Jan 31 2011
+System restarted at 04:47:20 PST Tue Feb 1 2011
+System image file is "tftp://172.19.201.81//auto/tftp-ios-crypto/bootimage.reventon2-p2"
+
+
+This product contains cryptographic features and is subject to United
+States and local country laws governing import, export, transfer and
+use. Delivery of Cisco cryptographic products does not imply
+third-party authority to import, export, distribute or use encryption.
+Importers, exporters, distributors and users are responsible for
+compliance with U.S. and local country laws. By using this product you
+agree to comply with applicable laws and regulations. If you are unable
+to comply with U.S. and local laws, return this product immediately.
+
+A summary of U.S. laws governing Cisco cryptographic products may be found at:
+http://www.cisco.com/wwl/export/crypto/tool/stqrg.html
+
+If you require further assistance please contact us by sending email to
+export@cisco.com.
+
+Cisco 3845 (revision 1.0) with 1007616K/40960K bytes of memory.
+Processor board ID FTX1213A0CC
+4 FastEthernet interfaces
+2 Gigabit Ethernet interfaces
+4 Serial interfaces
+2 Virtual Private Network (VPN) Modules
+DRAM configuration is 64 bits wide with parity enabled.
+479K bytes of NVRAM.
+125184K bytes of ATA System CompactFlash (Read/Write)
+
+Configuration register is 0x0
+
+reventon2-p2#term width 0
+reventon2-p2#config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+reventon2-p2(config)# no logging console
+reventon2-p2(config)#line con 0
+reventon2-p2(config-line)#exec-timeout 0
+reventon2-p2(config-line)#clock timezone PST -8
+reventon2-p2(config)#service timestamps debug datetime localtime show-timezone msec
+reventon2-p2(config)#service timestamps log datetime localtime show-timezone msec
+reventon2-p2(config)#end
+reventon2-p2#clock set 18:27:57 01 Feb 2011
+reventon2-p2#Csccon is opening a connection -  telnet reventon2-cs 2006 
+exp_spawn telnet reventon2-cs 2006
+Trying 172.27.240.86...
+Connected to reventon2-cs.
+Escape character is '^]'.
+
+Hostname: reventon2-cs
+Testbed:  Reventon2
+
+CON
+    Line     Device                         Port
+  -------------------------------------------------
+  01       reventon2-72a        (7200)      2002
+  02       reventon2-72b        (7200)      2003
+  03       reventon2-p1         (3845)      2004
+  04       reventon2-p2         (3845)      2005
+  05       reventon2-p3         (3825)      2006
+  06       reventon2-29a        (2921)      2007
+  07       reventon2-3945a      (3945)      2008
+  08       reventon2-3945b      (3945)      2009
+  09       reventon2-29b        (2911)      2010
+  10       reventon2-19a        (1941)      2011
+  11       reventon2-19b        (1941)      2012
+  12       reventon2-sw         (3500)      2024
+  13       reventon2-fw         (3500)      2025
+  -------------------------------------------------
+AUX
+    Line     Device                         Port
+  -------------------------------------------------
+  01       reventon2-72a        (7200)      2013
+  02       reventon2-72b        (7200)      2014
+  03       reventon2-p1         (3845)      2015
+  04       reventon2-p2         (3845)      2016
+  05       reventon2-p3         (3825)      2017
+  06       reventon2-29a        (2921)      2018
+  07       reventon2-3945a      (3945)      2019
+  08       reventon2-3945b      (3945)      2020
+  09       reventon2-29b        (2911)      2021
+  10       reventon2-19a        (1941)      2022
+  11       reventon2-19b        (1941)      2023
+  -------------------------------------------------
+
+reventon2-p3#terminal length 0
+reventon2-p3#config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+reventon2-p3(config)#no logging console
+reventon2-p3(config)#end
+reventon2-p3#show version
+Cisco IOS Software, 3800 Software (C3825-TPGEN+ADVENTERPRISEK9-M), Experimental Version 12.4(20100323:103320) [shgautam-v48-reg 115]
+Copyright (c) 1986-2010 by Cisco Systems, Inc.
+Compiled Tue 23-Mar-10 16:58 by shgautam
+
+ROM: System Bootstrap, Version 12.4(13r)T, RELEASE SOFTWARE (fc1)
+
+reventon2-p3 uptime is 2 days, 7 hours, 36 minutes
+System returned to ROM by reload at 02:45:53 PST Sun Jan 30 2011
+System restarted at 10:51:19 PST Sun Jan 30 2011
+System image file is "tftp://172.19.201.81//auto/tftp-ios-crypto/bootimage.reventon2-p3"
+
+
+This product contains cryptographic features and is subject to United
+States and local country laws governing import, export, transfer and
+use. Delivery of Cisco cryptographic products does not imply
+third-party authority to import, export, distribute or use encryption.
+Importers, exporters, distributors and users are responsible for
+compliance with U.S. and local country laws. By using this product you
+agree to comply with applicable laws and regulations. If you are unable
+to comply with U.S. and local laws, return this product immediately.
+
+A summary of U.S. laws governing Cisco cryptographic products may be found at:
+http://www.cisco.com/wwl/export/crypto/tool/stqrg.html
+
+If you require further assistance please contact us by sending email to
+export@cisco.com.
+
+Cisco 3825 (revision 1.2) with 484352K/39936K bytes of memory.
+Processor board ID FTX1212A1M2
+4 FastEthernet interfaces
+2 Gigabit Ethernet interfaces
+1 Virtual Private Network (VPN) Module
+DRAM configuration is 64 bits wide with parity enabled.
+479K bytes of NVRAM.
+500472K bytes of ATA System CompactFlash (Read/Write)
+
+Configuration register is 0x0
+
+reventon2-p3#term width 0
+reventon2-p3#config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+reventon2-p3(config)# no logging console
+reventon2-p3(config)#line con 0
+reventon2-p3(config-line)#exec-timeout 0
+reventon2-p3(config-line)#clock timezone PST -8
+reventon2-p3(config)#service timestamps debug datetime localtime show-timezone msec
+reventon2-p3(config)#service timestamps log datetime localtime show-timezone msec
+reventon2-p3(config)#end
+reventon2-p3#clock set 18:28:02 01 Feb 2011
+reventon2-p3#Csccon is opening a connection -  telnet reventon2-cs 2008 
+exp_spawn telnet reventon2-cs 2008
+Trying 172.27.240.86...
+Connected to reventon2-cs.
+Escape character is '^]'.
+
+Hostname: reventon2-cs
+Testbed:  Reventon2
+
+CON
+    Line     Device                         Port
+  -------------------------------------------------
+  01       reventon2-72a        (7200)      2002
+  02       reventon2-72b        (7200)      2003
+  03       reventon2-p1         (3845)      2004
+  04       reventon2-p2         (3845)      2005
+  05       reventon2-p3         (3825)      2006
+  06       reventon2-29a        (2921)      2007
+  07       reventon2-3945a      (3945)      2008
+  08       reventon2-3945b      (3945)      2009
+  09       reventon2-29b        (2911)      2010
+  10       reventon2-19a        (1941)      2011
+  11       reventon2-19b        (1941)      2012
+  12       reventon2-sw         (3500)      2024
+  13       reventon2-fw         (3500)      2025
+  -------------------------------------------------
+AUX
+    Line     Device                         Port
+  -------------------------------------------------
+  01       reventon2-72a        (7200)      2013
+  02       reventon2-72b        (7200)      2014
+  03       reventon2-p1         (3845)      2015
+  04       reventon2-p2         (3845)      2016
+  05       reventon2-p3         (3825)      2017
+  06       reventon2-29a        (2921)      2018
+  07       reventon2-3945a      (3945)      2019
+  08       reventon2-3945b      (3945)      2020
+  09       reventon2-29b        (2911)      2021
+  10       reventon2-19a        (1941)      2022
+  11       reventon2-19b        (1941)      2023
+  -------------------------------------------------
+
+reventon2-3945a>enable
+Password: 
+reventon2-3945a#terminal length 0
+reventon2-3945a#config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+reventon2-3945a(config)#no logging console
+reventon2-3945a(config)#end
+reventon2-3945a#show version
+Cisco IOS Software, C3900 Software (C3900-UNIVERSALK9-M), Version 15.1(REVENTON_DEV_PAL_20110128)SW EARLY DEPLOYMENT DEVELOPMENT BUILD, synced to REVENTON_DEV_PAL_SYNC_BASE_201011210
+Copyright (c) 1986-2011 by Cisco Systems, Inc.
+Compiled Sat 29-Jan-11 03:49 by dranjit
+
+ROM: System Bootstrap, Version 15.0(1r)M4, RELEASE SOFTWARE (fc1)
+
+reventon2-3945a uptime is 3 hours, 17 minutes
+System returned to ROM by reload at 07:05:24 PST Tue Feb 1 2011
+System restarted at 15:10:42 PST Tue Feb 1 2011
+System image file is "tftp://172.19.201.81//auto/tftp-ios-crypto/bootimage.reventon2-3945a"
+Last reload type: Normal Reload
+Last reload reason: Reload Command
+
+
+
+This product contains cryptographic features and is subject to United
+States and local country laws governing import, export, transfer and
+use. Delivery of Cisco cryptographic products does not imply
+third-party authority to import, export, distribute or use encryption.
+Importers, exporters, distributors and users are responsible for
+compliance with U.S. and local country laws. By using this product you
+agree to comply with applicable laws and regulations. If you are unable
+to comply with U.S. and local laws, return this product immediately.
+
+A summary of U.S. laws governing Cisco cryptographic products may be found at:
+http://www.cisco.com/wwl/export/crypto/tool/stqrg.html
+
+If you require further assistance please contact us by sending email to
+export@cisco.com.
+
+Cisco CISCO3945-CHASSIS (revision 1.0) with C3900-SPE150/K9 with 944128K/104448K bytes of memory.
+Processor board ID 
+16 FastEthernet interfaces
+3 Gigabit Ethernet interfaces
+4 Serial(sync/async) interfaces
+1 terminal line
+8 Channelized (E1 or T1)/PRI ports
+2 Virtual Private Network (VPN) Modules
+1 cisco ISM Crypto Engine(s)
+DRAM configuration is 72 bits wide with parity enabled.
+255K bytes of non-volatile configuration memory.
+250880K bytes of ATA System CompactFlash 0 (Read/Write)
+1000944K bytes of ATA CompactFlash 1 (Read/Write)
+
+
+License Info:
+
+License UDI:
+
+-------------------------------------------------
+Device#	  PID			SN
+-------------------------------------------------
+*0  	  C3900-SPE150/K9       FHH12250069     
+
+
+
+Technology Package License Information for Module:'c3900' 
+
+----------------------------------------------------------------
+Technology    Technology-package          Technology-package
+              Current       Type          Next reboot  
+-----------------------------------------------------------------
+ipbase        ipbasek9      None          ipbasek9
+security      securityk9    Permanent     securityk9
+uc            None          None          None
+data          None          None          None
+
+Configuration register is 0x0
+
+reventon2-3945a#term width 0
+reventon2-3945a#config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+reventon2-3945a(config)# no logging console
+reventon2-3945a(config)#line con 0
+reventon2-3945a(config-line)#exec-timeout 0
+reventon2-3945a(config-line)#clock timezone PST -8
+reventon2-3945a(config)#service timestamps debug datetime localtime show-timezone msec
+reventon2-3945a(config)#service timestamps log datetime localtime show-timezone msec
+reventon2-3945a(config)#end
+reventon2-3945a#clock set 18:28:09 01 Feb 2011
+reventon2-3945a#Csccon is opening a connection -  telnet reventon2-cs 2009 
+exp_spawn telnet reventon2-cs 2009
+Trying 172.27.240.86...
+Connected to reventon2-cs.
+Escape character is '^]'.
+
+Hostname: reventon2-cs
+Testbed:  Reventon2
+
+CON
+    Line     Device                         Port
+  -------------------------------------------------
+  01       reventon2-72a        (7200)      2002
+  02       reventon2-72b        (7200)      2003
+  03       reventon2-p1         (3845)      2004
+  04       reventon2-p2         (3845)      2005
+  05       reventon2-p3         (3825)      2006
+  06       reventon2-29a        (2921)      2007
+  07       reventon2-3945a      (3945)      2008
+  08       reventon2-3945b      (3945)      2009
+  09       reventon2-29b        (2911)      2010
+  10       reventon2-19a        (1941)      2011
+  11       reventon2-19b        (1941)      2012
+  12       reventon2-sw         (3500)      2024
+  13       reventon2-fw         (3500)      2025
+  -------------------------------------------------
+AUX
+    Line     Device                         Port
+  -------------------------------------------------
+  01       reventon2-72a        (7200)      2013
+  02       reventon2-72b        (7200)      2014
+  03       reventon2-p1         (3845)      2015
+  04       reventon2-p2         (3845)      2016
+  05       reventon2-p3         (3825)      2017
+  06       reventon2-29a        (2921)      2018
+  07       reventon2-3945a      (3945)      2019
+  08       reventon2-3945b      (3945)      2020
+  09       reventon2-29b        (2911)      2021
+  10       reventon2-19a        (1941)      2022
+  11       reventon2-19b        (1941)      2023
+  -------------------------------------------------
+
+reventon2-3945b#terminal length 0
+reventon2-3945b#config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+reventon2-3945b(config)#no logging console
+reventon2-3945b(config)#end
+reventon2-3945b#show version
+Cisco IOS Software, C3900 Software (C3900-UNIVERSALK9-M), Version 15.1(REVENTON_DEV_PAL_20110128)SW EARLY DEPLOYMENT DEVELOPMENT BUILD, synced to REVENTON_DEV_PAL_SYNC_BASE_201011210
+Copyright (c) 1986-2011 by Cisco Systems, Inc.
+Compiled Sat 29-Jan-11 03:49 by dranjit
+
+ROM: System Bootstrap, Version 15.0(1r)M8, RELEASE SOFTWARE (fc1)
+
+reventon2-3945b uptime is 12 hours, 49 minutes
+System returned to ROM by reload at 21:32:02 PST Mon Jan 31 2011
+System restarted at 05:38:18 PST Tue Feb 1 2011
+System image file is "tftp://172.19.201.81//auto/tftp-ios-crypto/bootimage.reventon2-3945b"
+Last reload type: Normal Reload
+Last reload reason: Reload Command
+
+
+
+This product contains cryptographic features and is subject to United
+States and local country laws governing import, export, transfer and
+use. Delivery of Cisco cryptographic products does not imply
+third-party authority to import, export, distribute or use encryption.
+Importers, exporters, distributors and users are responsible for
+compliance with U.S. and local country laws. By using this product you
+agree to comply with applicable laws and regulations. If you are unable
+to comply with U.S. and local laws, return this product immediately.
+
+A summary of U.S. laws governing Cisco cryptographic products may be found at:
+http://www.cisco.com/wwl/export/crypto/tool/stqrg.html
+
+If you require further assistance please contact us by sending email to
+export@cisco.com.
+
+Cisco CISCO3945-CHASSIS (revision 1.0) with C3900-SPE150/K9 with 944128K/104448K bytes of memory.
+Processor board ID FTX1446A10F
+16 FastEthernet interfaces
+3 Gigabit Ethernet interfaces
+4 Serial(sync/async) interfaces
+1 ISDN Basic Rate interface
+1 ATM interface
+2 terminal lines
+2 Virtual Private Network (VPN) Modules
+1 cisco ips sensor(s), ips monitoring on slot 4
+1 cisco ISM Crypto Engine(s)
+DRAM configuration is 72 bits wide with parity enabled.
+255K bytes of non-volatile configuration memory.
+250880K bytes of ATA System CompactFlash 0 (Read/Write)
+
+
+License Info:
+
+License UDI:
+
+-------------------------------------------------
+Device#	  PID			SN
+-------------------------------------------------
+*0  	  C3900-SPE150/K9       FOC14420WEK     
+
+
+
+Technology Package License Information for Module:'c3900' 
+
+----------------------------------------------------------------
+Technology    Technology-package          Technology-package
+              Current       Type          Next reboot  
+-----------------------------------------------------------------
+ipbase        ipbasek9      Permanent     ipbasek9
+security      securityk9    Permanent     securityk9
+uc            uck9          Evaluation    uck9
+data          datak9        Evaluation    datak9
+
+Configuration register is 0x0
+
+reventon2-3945b#term width 0
+reventon2-3945b#config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+reventon2-3945b(config)# no logging console
+reventon2-3945b(config)#line con 0
+reventon2-3945b(config-line)#exec-timeout 0
+reventon2-3945b(config-line)#clock timezone PST -8
+reventon2-3945b(config)#service timestamps debug datetime localtime show-timezone msec
+reventon2-3945b(config)#service timestamps log datetime localtime show-timezone msec
+reventon2-3945b(config)#end
+reventon2-3945b#clock set 18:28:16 01 Feb 2011
+reventon2-3945b#Csccon is opening a connection -  telnet reventon2-cs 2011 
+exp_spawn telnet reventon2-cs 2011
+Trying 172.27.240.86...
+Connected to reventon2-cs.
+Escape character is '^]'.
+
+Hostname: reventon2-cs
+Testbed:  Reventon2
+
+CON
+    Line     Device                         Port
+  -------------------------------------------------
+  01       reventon2-72a        (7200)      2002
+  02       reventon2-72b        (7200)      2003
+  03       reventon2-p1         (3845)      2004
+  04       reventon2-p2         (3845)      2005
+  05       reventon2-p3         (3825)      2006
+  06       reventon2-29a        (2921)      2007
+  07       reventon2-3945a      (3945)      2008
+  08       reventon2-3945b      (3945)      2009
+  09       reventon2-29b        (2911)      2010
+  10       reventon2-19a        (1941)      2011
+  11       reventon2-19b        (1941)      2012
+  12       reventon2-sw         (3500)      2024
+  13       reventon2-fw         (3500)      2025
+  -------------------------------------------------
+AUX
+    Line     Device                         Port
+  -------------------------------------------------
+  01       reventon2-72a        (7200)      2013
+  02       reventon2-72b        (7200)      2014
+  03       reventon2-p1         (3845)      2015
+  04       reventon2-p2         (3845)      2016
+  05       reventon2-p3         (3825)      2017
+  06       reventon2-29a        (2921)      2018
+  07       reventon2-3945a      (3945)      2019
+  08       reventon2-3945b      (3945)      2020
+  09       reventon2-29b        (2911)      2021
+  10       reventon2-19a        (1941)      2022
+  11       reventon2-19b        (1941)      2023
+  -------------------------------------------------
+
+reventon2-19a#terminal length 0
+reventon2-19a#config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+reventon2-19a(config)#no logging console
+reventon2-19a(config)#end
+reventon2-19a#show version
+Cisco IOS Software, C1900 Software (C1900-UNIVERSALK9-M), Version 15.1(REVENTON_DEV_PAL_20110128)SW EARLY DEPLOYMENT DEVELOPMENT BUILD, synced to REVENTON_DEV_PAL_SYNC_BASE_201011210
+Copyright (c) 1986-2011 by Cisco Systems, Inc.
+Compiled Sat 29-Jan-11 04:26 by dranjit
+
+ROM: System Bootstrap, Version 15.0(1r)M3, RELEASE SOFTWARE (fc1)
+
+reventon2-19a uptime is 3 hours, 1 minute
+System returned to ROM by reload at 23:21:24 GMT Tue Feb 1 2011
+System restarted at 15:26:41 PST Tue Feb 1 2011
+System image file is "tftp://172.19.201.81//tftpboot/joaofer/c1900-20110128"
+Last reload type: Normal Reload
+Last reload reason: Reload Command
+
+
+
+This product contains cryptographic features and is subject to United
+States and local country laws governing import, export, transfer and
+use. Delivery of Cisco cryptographic products does not imply
+third-party authority to import, export, distribute or use encryption.
+Importers, exporters, distributors and users are responsible for
+compliance with U.S. and local country laws. By using this product you
+agree to comply with applicable laws and regulations. If you are unable
+to comply with U.S. and local laws, return this product immediately.
+
+A summary of U.S. laws governing Cisco cryptographic products may be found at:
+http://www.cisco.com/wwl/export/crypto/tool/stqrg.html
+
+If you require further assistance please contact us by sending email to
+export@cisco.com.
+
+Cisco CISCO1941/K9 (revision 1.0) with 483328K/40960K bytes of memory.
+Processor board ID FCZ1413917Q
+2 Gigabit Ethernet interfaces
+1 ISDN Basic Rate interface
+1 terminal line
+2 Virtual Private Network (VPN) Modules
+1 cisco ISM Crypto Engine(s)
+DRAM configuration is 64 bits wide with parity disabled.
+255K bytes of non-volatile configuration memory.
+125184K bytes of ATA System CompactFlash 0 (Read/Write)
+
+
+License Info:
+
+License UDI:
+
+-------------------------------------------------
+Device#	  PID			SN
+-------------------------------------------------
+*0  	  CISCO1941/K9          FCZ1413917Q     
+
+
+
+Technology Package License Information for Module:'c1900' 
+
+----------------------------------------------------------------
+Technology    Technology-package          Technology-package
+              Current       Type          Next reboot  
+-----------------------------------------------------------------
+ipbase        ipbasek9      Permanent     ipbasek9
+security      securityk9    Permanent     securityk9
+data          None          None          None
+
+Configuration register is 0x0
+
+reventon2-19a#term width 0
+reventon2-19a#config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+reventon2-19a(config)# no logging console
+reventon2-19a(config)#line con 0
+reventon2-19a(config-line)#exec-timeout 0
+reventon2-19a(config-line)#clock timezone PST -8
+reventon2-19a(config)#service timestamps debug datetime localtime show-timezone msec
+reventon2-19a(config)#service timestamps log datetime localtime show-timezone msec
+reventon2-19a(config)#end
+reventon2-19a#clock set 18:28:21 01 Feb 2011
+reventon2-19a#Csccon is opening a connection -  telnet reventon2-cs 2012 
+exp_spawn telnet reventon2-cs 2012
+Trying 172.27.240.86...
+Connected to reventon2-cs.
+Escape character is '^]'.
+
+Hostname: reventon2-cs
+Testbed:  Reventon2
+
+CON
+    Line     Device                         Port
+  -------------------------------------------------
+  01       reventon2-72a        (7200)      2002
+  02       reventon2-72b        (7200)      2003
+  03       reventon2-p1         (3845)      2004
+  04       reventon2-p2         (3845)      2005
+  05       reventon2-p3         (3825)      2006
+  06       reventon2-29a        (2921)      2007
+  07       reventon2-3945a      (3945)      2008
+  08       reventon2-3945b      (3945)      2009
+  09       reventon2-29b        (2911)      2010
+  10       reventon2-19a        (1941)      2011
+  11       reventon2-19b        (1941)      2012
+  12       reventon2-sw         (3500)      2024
+  13       reventon2-fw         (3500)      2025
+  -------------------------------------------------
+AUX
+    Line     Device                         Port
+  -------------------------------------------------
+  01       reventon2-72a        (7200)      2013
+  02       reventon2-72b        (7200)      2014
+  03       reventon2-p1         (3845)      2015
+  04       reventon2-p2         (3845)      2016
+  05       reventon2-p3         (3825)      2017
+  06       reventon2-29a        (2921)      2018
+  07       reventon2-3945a      (3945)      2019
+  08       reventon2-3945b      (3945)      2020
+  09       reventon2-29b        (2911)      2021
+  10       reventon2-19a        (1941)      2022
+  11       reventon2-19b        (1941)      2023
+  -------------------------------------------------
+
+reventon2-19b>enable
+Password: 
+reventon2-19b#terminal length 0
+reventon2-19b#config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+reventon2-19b(config)#no logging console
+reventon2-19b(config)#end
+reventon2-19b#show version
+Cisco IOS Software, C1900 Software (C1900-UNIVERSALK9-M), Version 15.1(REVENTON_DEV_PAL_20110125)SW EARLY DEPLOYMENT DEVELOPMENT BUILD, synced to REVENTON_DEV_PAL_SYNC_BASE_201011210
+Copyright (c) 1986-2011 by Cisco Systems, Inc.
+Compiled Wed 26-Jan-11 04:23 by dranjit
+
+ROM: System Bootstrap, Version 15.0(1r)M3, RELEASE SOFTWARE (fc1)
+
+reventon2-19b uptime is 6 days, 7 hours, 59 minutes
+System returned to ROM by reload at 10:28:19 PST Wed Jan 26 2011
+System image file is "tftp://172.19.201.81//tftpboot/joaofer/c1900-20110125"
+Last reload type: Normal Reload
+Last reload reason: Reload Command
+
+
+
+This product contains cryptographic features and is subject to United
+States and local country laws governing import, export, transfer and
+use. Delivery of Cisco cryptographic products does not imply
+third-party authority to import, export, distribute or use encryption.
+Importers, exporters, distributors and users are responsible for
+compliance with U.S. and local country laws. By using this product you
+agree to comply with applicable laws and regulations. If you are unable
+to comply with U.S. and local laws, return this product immediately.
+
+A summary of U.S. laws governing Cisco cryptographic products may be found at:
+http://www.cisco.com/wwl/export/crypto/tool/stqrg.html
+
+If you require further assistance please contact us by sending email to
+export@cisco.com.
+
+Cisco CISCO1941/K9 (revision 1.0) with 483328K/40960K bytes of memory.
+Processor board ID FTX140781Q4
+2 Gigabit Ethernet interfaces
+1 terminal line
+2 Virtual Private Network (VPN) Modules
+1 cisco ISM Crypto Engine(s)
+DRAM configuration is 64 bits wide with parity disabled.
+255K bytes of non-volatile configuration memory.
+248472K bytes of ATA System CompactFlash 0 (Read/Write)
+
+
+License Info:
+
+License UDI:
+
+-------------------------------------------------
+Device#	  PID			SN
+-------------------------------------------------
+*0  	  CISCO1941/K9          FTX140781Q4     
+
+
+
+Technology Package License Information for Module:'c1900' 
+
+----------------------------------------------------------------
+Technology    Technology-package          Technology-package
+              Current       Type          Next reboot  
+-----------------------------------------------------------------
+ipbase        ipbasek9      Permanent     ipbasek9
+security      securityk9    Permanent     securityk9
+data          None          None          None
+
+Configuration register is 0x0
+
+reventon2-19b#term width 0
+reventon2-19b#config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+reventon2-19b(config)# no logging console
+reventon2-19b(config)#line con 0
+reventon2-19b(config-line)#exec-timeout 0
+reventon2-19b(config-line)#clock timezone PST -8
+reventon2-19b(config)#service timestamps debug datetime localtime show-timezone msec
+reventon2-19b(config)#service timestamps log datetime localtime show-timezone msec
+reventon2-19b(config)#end
+reventon2-19b#clock set 18:28:27 01 Feb 2011
+reventon2-19b#
++++ 18:28:27 reventon2-72a config +++
+config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+reventon2-72a(boot)(config)#hostname reventon2-72a
+reventon2-72a(boot)(config)#enable password lab
+reventon2-72a(boot)(config)#no ip domain-lookup
+reventon2-72a(boot)(config)#no ip routing
+no ip routing
+       ^
+% Invalid input detected at '^' marker.
+
+reventon2-72a(boot)(config)#ip default-gateway 10.5.51.1
+reventon2-72a(boot)(config)#service timestamps debug datetime msec localtime
+reventon2-72a(boot)(config)#no service config
+reventon2-72a(boot)(config)#clock timezone PST -8
+reventon2-72a(boot)(config)#clock summer-time PDT recurring
+reventon2-72a(boot)(config)#interface GigabitEthernet0/1
+reventon2-72a(boot)(config-if)#no ip address
+reventon2-72a(boot)(config-if)#shutdown
+reventon2-72a(boot)(config-if)#end
+reventon2-72a(boot)#
+--- 18:28:29 ---
+
++++ 18:28:29 reventon2-72b config +++
+config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+reventon2-72b(boot)(config)#hostname reventon2-72b
+reventon2-72b(boot)(config)#enable password lab
+reventon2-72b(boot)(config)#no ip domain-lookup
+reventon2-72b(boot)(config)#no ip routing
+no ip routing
+       ^
+% Invalid input detected at '^' marker.
+
+reventon2-72b(boot)(config)#ip default-gateway 10.5.51.1
+reventon2-72b(boot)(config)#service timestamps debug datetime msec localtime
+reventon2-72b(boot)(config)#no service config
+reventon2-72b(boot)(config)#clock timezone PST -8
+reventon2-72b(boot)(config)#clock summer-time PDT recurring
+reventon2-72b(boot)(config)#interface GigabitEthernet0/1
+reventon2-72b(boot)(config-if)#no ip address
+reventon2-72b(boot)(config-if)#shutdown
+reventon2-72b(boot)(config-if)#end
+reventon2-72b(boot)#
+--- 18:28:31 ---
+
++++ 18:28:31 reventon2-29b config +++
+config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+reventon2-29b(config)#hostname reventon2-29b
+reventon2-29b(config)#enable password lab
+reventon2-29b(config)#no ip domain-lookup
+reventon2-29b(config)#no ip routing
+reventon2-29b(config)#ip default-gateway 10.5.51.1
+reventon2-29b(config)#service timestamps debug datetime msec localtime
+reventon2-29b(config)#no service config
+reventon2-29b(config)#clock timezone PST -8
+reventon2-29b(config)#clock summer-time PDT recurring
+reventon2-29b(config)#interface GigabitEthernet0/0
+reventon2-29b(config-if)#no ip address
+reventon2-29b(config-if)#shutdown
+reventon2-29b(config-if)#end
+reventon2-29b#
+--- 18:28:32 ---
+
++++ 18:28:32 reventon2-29a config +++
+config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+reventon2-29a(config)#no service config
+reventon2-29a(config)#hostname reventon2-29a
+reventon2-29a(config)#enable password lab
+reventon2-29a(config)#ip routing
+reventon2-29a(config)#interface GigabitEthernet0/0
+reventon2-29a(config-if)#no ip address
+reventon2-29a(config-if)#shutdown
+reventon2-29a(config-if)#interface GigabitEthernet0/1
+reventon2-29a(config-if)#no ip address
+reventon2-29a(config-if)#shutdown
+reventon2-29a(config-if)#interface GigabitEthernet0/2
+reventon2-29a(config-if)#no ip address
+reventon2-29a(config-if)#interface Serial0/0/0
+reventon2-29a(config-if)#no ip address
+reventon2-29a(config-if)#shutdown
+reventon2-29a(config-if)#interface Serial0/0/1
+reventon2-29a(config-if)#no ip address
+reventon2-29a(config-if)#shutdown
+reventon2-29a(config-if)#line vty 0 4
+reventon2-29a(config-line)#password lab
+reventon2-29a(config-line)#login
+reventon2-29a(config-line)#end
+reventon2-29a#
+--- 18:28:36 ---
+
++++ 18:28:36 reventon2-p1 config +++
+config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+reventon2-p1(config)#hostname reventon2-p1
+reventon2-p1(config)#ip host PAGENT-SECURITY-V3 6.92.37.19 60.94.0.0
+reventon2-p1(config)#enable password lab
+reventon2-p1(config)#no ip domain-lookup
+reventon2-p1(config)#no ip routing
+reventon2-p1(config)#ip default-gateway 10.5.51.1
+reventon2-p1(config)#service timestamps debug datetime msec localtime
+reventon2-p1(config)#no service config
+reventon2-p1(config)#clock timezone PST -8
+reventon2-p1(config)#clock summer-time PDT recurring
+reventon2-p1(config)#interface GigabitEthernet0/0
+reventon2-p1(config-if)#no ip address
+reventon2-p1(config-if)#shutdown
+reventon2-p1(config-if)#end
+reventon2-p1#
+--- 18:28:38 ---
+
++++ 18:28:38 reventon2-p2 config +++
+config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+reventon2-p2(config)#hostname reventon2-p2
+reventon2-p2(config)#ip host PAGENT-SECURITY-V3 94.32.80.16 14.0.0.0
+reventon2-p2(config)#enable password lab
+reventon2-p2(config)#no ip domain-lookup
+reventon2-p2(config)#no ip routing
+reventon2-p2(config)#ip default-gateway 10.5.51.1
+reventon2-p2(config)#service timestamps debug datetime msec localtime
+reventon2-p2(config)#no service config
+reventon2-p2(config)#clock timezone PST -8
+reventon2-p2(config)#clock summer-time PDT recurring
+reventon2-p2(config)#interface GigabitEthernet0/0
+reventon2-p2(config-if)#no ip address
+reventon2-p2(config-if)#shutdown
+reventon2-p2(config-if)#end
+reventon2-p2#
+--- 18:28:40 ---
+
++++ 18:28:40 reventon2-p3 config +++
+config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+reventon2-p3(config)#hostname reventon2-p3
+reventon2-p3(config)#ip host PAGENT-SECURITY-V3 15.31.23.65 18.7.0.0
+reventon2-p3(config)#enable password lab
+reventon2-p3(config)#no ip domain-lookup
+reventon2-p3(config)#no ip routing
+reventon2-p3(config)#ip default-gateway 10.5.51.1
+reventon2-p3(config)#service timestamps debug datetime msec localtime
+reventon2-p3(config)#no service config
+reventon2-p3(config)#clock timezone PST -8
+reventon2-p3(config)#clock summer-time PDT recurring
+reventon2-p3(config)#interface GigabitEthernet0/0
+reventon2-p3(config-if)#no ip address
+reventon2-p3(config-if)#shutdown
+reventon2-p3(config-if)#end
+reventon2-p3#
+--- 18:28:42 ---
+
++++ 18:28:42 reventon2-3945a config +++
+config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+reventon2-3945a(config)#hostname reventon2-3945a
+reventon2-3945a(config)#enable password lab
+reventon2-3945a(config)#no ip domain-lookup
+reventon2-3945a(config)#no ip routing
+reventon2-3945a(config)#ip default-gateway 10.5.51.1
+reventon2-3945a(config)#service timestamps debug datetime msec localtime
+reventon2-3945a(config)#no service config
+reventon2-3945a(config)#clock timezone PST -8
+reventon2-3945a(config)#clock summer-time PDT recurring
+reventon2-3945a(config)#interface GigabitEthernet0/0
+reventon2-3945a(config-if)#no ip address
+reventon2-3945a(config-if)#shutdown
+reventon2-3945a(config-if)#end
+reventon2-3945a#
+--- 18:28:45 ---
+
++++ 18:28:45 reventon2-3945b config +++
+config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+reventon2-3945b(config)#hostname reventon2-3945b
+reventon2-3945b(config)#enable password lab
+reventon2-3945b(config)#no ip domain-lookup
+reventon2-3945b(config)#no ip routing
+reventon2-3945b(config)#ip default-gateway 10.5.51.1
+reventon2-3945b(config)#service timestamps debug datetime msec localtime
+reventon2-3945b(config)#no service config
+reventon2-3945b(config)#clock timezone PST -8
+reventon2-3945b(config)#clock summer-time PDT recurring
+reventon2-3945b(config)#interface GigabitEthernet0/0
+reventon2-3945b(config-if)#no ip address
+reventon2-3945b(config-if)#shutdown
+reventon2-3945b(config-if)#end
+reventon2-3945b#
+--- 18:28:47 ---
+
++++ 18:28:47 reventon2-19a config +++
+config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+reventon2-19a(config)#hostname reventon2-19a
+reventon2-19a(config)#enable password lab
+reventon2-19a(config)#no ip domain-lookup
+reventon2-19a(config)#no ip routing
+reventon2-19a(config)#ip default-gateway 10.5.51.1
+reventon2-19a(config)#service timestamps debug datetime msec localtime
+reventon2-19a(config)#no service config
+reventon2-19a(config)#clock timezone PST -8
+reventon2-19a(config)#clock summer-time PDT recurring
+reventon2-19a(config)#interface GigabitEthernet0/0
+reventon2-19a(config-if)#no ip address
+reventon2-19a(config-if)#shutdown
+reventon2-19a(config-if)#end
+reventon2-19a#
+--- 18:28:49 ---
+
++++ 18:28:49 reventon2-19b config +++
+config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+reventon2-19b(config)#hostname reventon2-19b
+reventon2-19b(config)#enable password lab
+reventon2-19b(config)#no ip domain-lookup
+reventon2-19b(config)#no ip routing
+reventon2-19b(config)#ip default-gateway 10.5.51.1
+reventon2-19b(config)#service timestamps debug datetime msec localtime
+reventon2-19b(config)#no service config
+reventon2-19b(config)#clock timezone PST -8
+reventon2-19b(config)#clock summer-time PDT recurring
+reventon2-19b(config)#interface GigabitEthernet0/0
+reventon2-19b(config-if)#no ip address
+reventon2-19b(config-if)#shutdown
+reventon2-19b(config-if)#end
+reventon2-19b#
+--- 18:28:50 ---
+
++++ 18:28:50 reventon2-3945a config +++
+config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+reventon2-3945a(config)#interface Serial0/0/1
+reventon2-3945a(config-if)#ip address 220.1.1.1 255.255.255.0
+reventon2-3945a(config-if)#no shut
+reventon2-3945a(config-if)#end
+reventon2-3945a#
+--- 18:28:51 ---
+
++++ 18:28:51 reventon2-3945b config +++
+config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+reventon2-3945b(config)#interface Serial0/1/1
+reventon2-3945b(config-if)#ip address 220.1.1.2 255.255.255.0
+reventon2-3945b(config-if)#no shut
+reventon2-3945b(config-if)#end
+reventon2-3945b#
+--- 18:28:52 ---
+
++++ 18:28:52 reventon2-3945b ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.1.1.1
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.1.1.1, timeout is 2 seconds:
+.!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 98 percent (49/50), round-trip min/avg/max = 1/1/4 ms
+reventon2-3945b#
+--- 18:28:55 ---
+
++++ 18:28:55 reventon2-3945a ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.1.1.2
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.1.1.2, timeout is 2 seconds:
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 100 percent (50/50), round-trip min/avg/max = 1/1/4 ms
+reventon2-3945a#
+--- 18:28:56 ---
+
++++ 18:28:56 reventon2-3945b config +++
+config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+reventon2-3945b(config)#interface Serial0/1/1
+reventon2-3945b(config-if)#no ip address
+reventon2-3945b(config-if)#shut
+reventon2-3945b(config-if)#end
+reventon2-3945b#
+--- 18:28:57 ---
+
++++ 18:28:57 reventon2-3945a config +++
+config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+reventon2-3945a(config)#interface Serial0/0/1
+reventon2-3945a(config-if)#no ip address
+reventon2-3945a(config-if)#shut
+reventon2-3945a(config-if)#end
+reventon2-3945a#
+--- 18:28:58 ---
+
++++ 18:28:58 reventon2-29a config +++
+config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+reventon2-29a(config)#interface Serial0/0/1
+reventon2-29a(config-if)#ip address 220.2.2.1 255.255.255.0
+reventon2-29a(config-if)#no shut
+reventon2-29a(config-if)#end
+reventon2-29a#
+--- 18:28:58 ---
+
++++ 18:28:58 reventon2-3945b config +++
+config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+reventon2-3945b(config)#interface Serial0/1/0
+reventon2-3945b(config-if)#ip address 220.2.2.2 255.255.255.0
+reventon2-3945b(config-if)#no shut
+reventon2-3945b(config-if)#end
+reventon2-3945b#
+--- 18:28:59 ---
+
++++ 18:28:59 reventon2-3945b ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.2.2.1
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.2.2.1, timeout is 2 seconds:
+.!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 98 percent (49/50), round-trip min/avg/max = 1/1/4 ms
+reventon2-3945b#
+--- 18:29:03 ---
+
++++ 18:29:03 reventon2-29a ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.2.2.2
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.2.2.2, timeout is 2 seconds:
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 100 percent (50/50), round-trip min/avg/max = 1/1/4 ms
+reventon2-29a#
+--- 18:29:04 ---
+
++++ 18:29:04 reventon2-3945b config +++
+config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+reventon2-3945b(config)#interface Serial0/1/0
+reventon2-3945b(config-if)#no ip address
+reventon2-3945b(config-if)#shut
+reventon2-3945b(config-if)#end
+reventon2-3945b#
+--- 18:29:05 ---
+
++++ 18:29:05 reventon2-29a config +++
+config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+reventon2-29a(config)#interface Serial0/0/1
+reventon2-29a(config-if)#no ip address
+reventon2-29a(config-if)#shut
+reventon2-29a(config-if)#end
+reventon2-29a#
+--- 18:29:05 ---
+
++++ 18:29:05 reventon2-72a config +++
+config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+reventon2-72a(boot)(config)#interface GigabitEthernet0/3
+reventon2-72a(boot)(config-if)#ip address 220.3.3.1 255.255.255.0
+reventon2-72a(boot)(config-if)#no shut
+reventon2-72a(boot)(config-if)#end
+reventon2-72a(boot)#
+--- 18:29:06 ---
+
++++ 18:29:06 reventon2-72b config +++
+config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+reventon2-72b(boot)(config)#interface GigabitEthernet0/3
+reventon2-72b(boot)(config-if)#ip address 220.3.3.2 255.255.255.0
+reventon2-72b(boot)(config-if)#no shut
+reventon2-72b(boot)(config-if)#end
+reventon2-72b(boot)#
+--- 18:29:07 ---
+
++++ 18:29:07 reventon2-29b config +++
+config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+reventon2-29b(config)#interface GigabitEthernet0/2
+reventon2-29b(config-if)#ip address 220.3.3.3 255.255.255.0
+reventon2-29b(config-if)#no shut
+reventon2-29b(config-if)#end
+reventon2-29b#
+--- 18:29:07 ---
+
++++ 18:29:07 reventon2-29a config +++
+config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+reventon2-29a(config)#interface GigabitEthernet0/2
+reventon2-29a(config-if)#ip address 220.3.3.4 255.255.255.0
+reventon2-29a(config-if)#no shut
+reventon2-29a(config-if)#end
+reventon2-29a#
+--- 18:29:08 ---
+
++++ 18:29:08 reventon2-p1 config +++
+config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+reventon2-p1(config)#interface FastEthernet1/0
+reventon2-p1(config-if)#ip address 220.3.3.5 255.255.255.0
+reventon2-p1(config-if)#no shut
+reventon2-p1(config-if)#end
+reventon2-p1#
+--- 18:29:09 ---
+
++++ 18:29:09 reventon2-p2 config +++
+config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+reventon2-p2(config)#interface FastEthernet1/0
+reventon2-p2(config-if)#ip address 220.3.3.6 255.255.255.0
+reventon2-p2(config-if)#no shut
+reventon2-p2(config-if)#end
+reventon2-p2#
+--- 18:29:09 ---
+
++++ 18:29:09 reventon2-p3 config +++
+config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+reventon2-p3(config)#interface FastEthernet1/0
+reventon2-p3(config-if)#ip address 220.3.3.7 255.255.255.0
+reventon2-p3(config-if)#no shut
+reventon2-p3(config-if)#end
+reventon2-p3#
+--- 18:29:10 ---
+
++++ 18:29:10 reventon2-3945a config +++
+config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+reventon2-3945a(config)#interface GigabitEthernet0/1
+reventon2-3945a(config-if)#ip address 220.3.3.8 255.255.255.0
+reventon2-3945a(config-if)#no shut
+reventon2-3945a(config-if)#end
+reventon2-3945a#
+--- 18:29:11 ---
+
++++ 18:29:11 reventon2-3945b config +++
+config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+reventon2-3945b(config)#interface GigabitEthernet0/1
+reventon2-3945b(config-if)#ip address 220.3.3.9 255.255.255.0
+reventon2-3945b(config-if)#no shut
+reventon2-3945b(config-if)#end
+reventon2-3945b#
+--- 18:29:12 ---
+
++++ 18:29:12 reventon2-p1 ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.3.3.1
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.3.3.1, timeout is 2 seconds:
+.........!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 82 percent (41/50), round-trip min/avg/max = 1/25/996 ms
+reventon2-p1#
+--- 18:29:40 ---
+
++++ 18:29:40 reventon2-p1 ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.3.3.6
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.3.3.6, timeout is 2 seconds:
+..!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 96 percent (48/50), round-trip min/avg/max = 1/1/4 ms
+reventon2-p1#
+--- 18:29:45 ---
+
++++ 18:29:45 reventon2-p1 ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.3.3.4
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.3.3.4, timeout is 2 seconds:
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 100 percent (50/50), round-trip min/avg/max = 1/21/1000 ms
+reventon2-p1#
+--- 18:29:46 ---
+
++++ 18:29:46 reventon2-p1 ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.3.3.2
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.3.3.2, timeout is 2 seconds:
+.!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 98 percent (49/50), round-trip min/avg/max = 1/1/4 ms
+reventon2-p1#
+--- 18:29:49 ---
+
++++ 18:29:49 reventon2-p1 ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.3.3.8
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.3.3.8, timeout is 2 seconds:
+.!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 98 percent (49/50), round-trip min/avg/max = 1/1/4 ms
+reventon2-p1#
+--- 18:29:51 ---
+
++++ 18:29:51 reventon2-p1 ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.3.3.7
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.3.3.7, timeout is 2 seconds:
+.!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 98 percent (49/50), round-trip min/avg/max = 1/1/4 ms
+reventon2-p1#
+--- 18:29:54 ---
+
++++ 18:29:54 reventon2-p1 ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.3.3.3
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.3.3.3, timeout is 2 seconds:
+.!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 98 percent (49/50), round-trip min/avg/max = 1/1/4 ms
+reventon2-p1#
+--- 18:29:56 ---
+
++++ 18:29:56 reventon2-p1 ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.3.3.9
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.3.3.9, timeout is 2 seconds:
+.!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 98 percent (49/50), round-trip min/avg/max = 1/1/4 ms
+reventon2-p1#
+--- 18:29:59 ---
+
++++ 18:29:59 reventon2-72a ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.3.3.5
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.3.3.5, timeout is 2 seconds:
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 100 percent (50/50), round-trip min/avg/max = 1/1/4 ms
+reventon2-72a(boot)#
+--- 18:29:59 ---
+
++++ 18:29:59 reventon2-72a ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.3.3.6
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.3.3.6, timeout is 2 seconds:
+.!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 98 percent (49/50), round-trip min/avg/max = 1/1/4 ms
+reventon2-72a(boot)#
+--- 18:30:02 ---
+
++++ 18:30:02 reventon2-72a ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.3.3.4
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.3.3.4, timeout is 2 seconds:
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 100 percent (50/50), round-trip min/avg/max = 1/21/1000 ms
+reventon2-72a(boot)#
+--- 18:30:03 ---
+
++++ 18:30:03 reventon2-72a ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.3.3.2
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.3.3.2, timeout is 2 seconds:
+.!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 98 percent (49/50), round-trip min/avg/max = 1/1/4 ms
+reventon2-72a(boot)#
+--- 18:30:06 ---
+
++++ 18:30:06 reventon2-72a ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.3.3.8
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.3.3.8, timeout is 2 seconds:
+.!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 98 percent (49/50), round-trip min/avg/max = 1/1/4 ms
+reventon2-72a(boot)#
+--- 18:30:09 ---
+
++++ 18:30:09 reventon2-72a ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.3.3.7
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.3.3.7, timeout is 2 seconds:
+.!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 98 percent (49/50), round-trip min/avg/max = 1/1/4 ms
+reventon2-72a(boot)#
+--- 18:30:11 ---
+
++++ 18:30:11 reventon2-72a ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.3.3.3
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.3.3.3, timeout is 2 seconds:
+.!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 98 percent (49/50), round-trip min/avg/max = 1/1/4 ms
+reventon2-72a(boot)#
+--- 18:30:14 ---
+
++++ 18:30:14 reventon2-72a ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.3.3.9
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.3.3.9, timeout is 2 seconds:
+.!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 98 percent (49/50), round-trip min/avg/max = 1/1/4 ms
+reventon2-72a(boot)#
+--- 18:30:16 ---
+
++++ 18:30:16 reventon2-p2 ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.3.3.5
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.3.3.5, timeout is 2 seconds:
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 100 percent (50/50), round-trip min/avg/max = 1/1/4 ms
+reventon2-p2#
+--- 18:30:17 ---
+
++++ 18:30:17 reventon2-p2 ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.3.3.1
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.3.3.1, timeout is 2 seconds:
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 100 percent (50/50), round-trip min/avg/max = 1/1/4 ms
+reventon2-p2#
+--- 18:30:17 ---
+
++++ 18:30:17 reventon2-p2 ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.3.3.4
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.3.3.4, timeout is 2 seconds:
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 100 percent (50/50), round-trip min/avg/max = 1/21/1000 ms
+reventon2-p2#
+--- 18:30:19 ---
+
++++ 18:30:19 reventon2-p2 ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.3.3.2
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.3.3.2, timeout is 2 seconds:
+.!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 98 percent (49/50), round-trip min/avg/max = 1/1/4 ms
+reventon2-p2#
+--- 18:30:21 ---
+
++++ 18:30:21 reventon2-p2 ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.3.3.8
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.3.3.8, timeout is 2 seconds:
+.!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 98 percent (49/50), round-trip min/avg/max = 1/1/4 ms
+reventon2-p2#
+--- 18:30:24 ---
+
++++ 18:30:24 reventon2-p2 ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.3.3.7
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.3.3.7, timeout is 2 seconds:
+.!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 98 percent (49/50), round-trip min/avg/max = 1/1/4 ms
+reventon2-p2#
+--- 18:30:26 ---
+
++++ 18:30:26 reventon2-p2 ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.3.3.3
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.3.3.3, timeout is 2 seconds:
+.!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 98 percent (49/50), round-trip min/avg/max = 1/1/4 ms
+reventon2-p2#
+--- 18:30:29 ---
+
++++ 18:30:29 reventon2-p2 ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.3.3.9
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.3.3.9, timeout is 2 seconds:
+.!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 98 percent (49/50), round-trip min/avg/max = 1/1/4 ms
+reventon2-p2#
+--- 18:30:31 ---
+
++++ 18:30:31 reventon2-29a ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.3.3.5
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.3.3.5, timeout is 2 seconds:
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 100 percent (50/50), round-trip min/avg/max = 1/1/4 ms
+reventon2-29a#
+--- 18:30:32 ---
+
++++ 18:30:32 reventon2-29a ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.3.3.1
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.3.3.1, timeout is 2 seconds:
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 100 percent (50/50), round-trip min/avg/max = 1/1/4 ms
+reventon2-29a#
+--- 18:30:33 ---
+
++++ 18:30:33 reventon2-29a ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.3.3.6
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.3.3.6, timeout is 2 seconds:
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 100 percent (50/50), round-trip min/avg/max = 1/1/4 ms
+reventon2-29a#
+--- 18:30:34 ---
+
++++ 18:30:34 reventon2-29a ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.3.3.2
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.3.3.2, timeout is 2 seconds:
+..!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 96 percent (48/50), round-trip min/avg/max = 1/1/4 ms
+reventon2-29a#
+--- 18:30:38 ---
+
++++ 18:30:38 reventon2-29a ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.3.3.8
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.3.3.8, timeout is 2 seconds:
+..!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 96 percent (48/50), round-trip min/avg/max = 1/1/4 ms
+reventon2-29a#
+--- 18:30:43 ---
+
++++ 18:30:43 reventon2-29a ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.3.3.7
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.3.3.7, timeout is 2 seconds:
+..!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 96 percent (48/50), round-trip min/avg/max = 1/1/4 ms
+reventon2-29a#
+--- 18:30:48 ---
+
++++ 18:30:48 reventon2-29a ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.3.3.3
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.3.3.3, timeout is 2 seconds:
+..!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 96 percent (48/50), round-trip min/avg/max = 1/1/4 ms
+reventon2-29a#
+--- 18:30:52 ---
+
++++ 18:30:52 reventon2-29a ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.3.3.9
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.3.3.9, timeout is 2 seconds:
+..!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 96 percent (48/50), round-trip min/avg/max = 1/1/4 ms
+reventon2-29a#
+--- 18:30:57 ---
+
++++ 18:30:57 reventon2-72b ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.3.3.5
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.3.3.5, timeout is 2 seconds:
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 100 percent (50/50), round-trip min/avg/max = 1/1/4 ms
+reventon2-72b(boot)#
+--- 18:30:58 ---
+
++++ 18:30:58 reventon2-72b ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.3.3.1
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.3.3.1, timeout is 2 seconds:
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 100 percent (50/50), round-trip min/avg/max = 1/1/4 ms
+reventon2-72b(boot)#
+--- 18:30:58 ---
+
++++ 18:30:58 reventon2-72b ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.3.3.6
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.3.3.6, timeout is 2 seconds:
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 100 percent (50/50), round-trip min/avg/max = 1/1/8 ms
+reventon2-72b(boot)#
+--- 18:30:59 ---
+
++++ 18:30:59 reventon2-72b ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.3.3.4
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.3.3.4, timeout is 2 seconds:
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 100 percent (50/50), round-trip min/avg/max = 1/1/4 ms
+reventon2-72b(boot)#
+--- 18:31:00 ---
+
++++ 18:31:00 reventon2-72b ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.3.3.8
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.3.3.8, timeout is 2 seconds:
+.!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 98 percent (49/50), round-trip min/avg/max = 1/1/4 ms
+reventon2-72b(boot)#
+--- 18:31:02 ---
+
++++ 18:31:02 reventon2-72b ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.3.3.7
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.3.3.7, timeout is 2 seconds:
+.!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 98 percent (49/50), round-trip min/avg/max = 1/1/4 ms
+reventon2-72b(boot)#
+--- 18:31:05 ---
+
++++ 18:31:05 reventon2-72b ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.3.3.3
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.3.3.3, timeout is 2 seconds:
+.!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 98 percent (49/50), round-trip min/avg/max = 1/1/4 ms
+reventon2-72b(boot)#
+--- 18:31:07 ---
+
++++ 18:31:07 reventon2-72b ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.3.3.9
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.3.3.9, timeout is 2 seconds:
+.!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 98 percent (49/50), round-trip min/avg/max = 1/1/4 ms
+reventon2-72b(boot)#
+--- 18:31:10 ---
+
++++ 18:31:10 reventon2-3945a ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.3.3.5
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.3.3.5, timeout is 2 seconds:
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 100 percent (50/50), round-trip min/avg/max = 1/1/4 ms
+reventon2-3945a#
+--- 18:31:11 ---
+
++++ 18:31:11 reventon2-3945a ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.3.3.1
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.3.3.1, timeout is 2 seconds:
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 100 percent (50/50), round-trip min/avg/max = 1/1/4 ms
+reventon2-3945a#
+--- 18:31:11 ---
+
++++ 18:31:11 reventon2-3945a ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.3.3.6
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.3.3.6, timeout is 2 seconds:
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 100 percent (50/50), round-trip min/avg/max = 1/1/4 ms
+reventon2-3945a#
+--- 18:31:12 ---
+
++++ 18:31:12 reventon2-3945a ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.3.3.4
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.3.3.4, timeout is 2 seconds:
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 100 percent (50/50), round-trip min/avg/max = 1/1/4 ms
+reventon2-3945a#
+--- 18:31:13 ---
+
++++ 18:31:13 reventon2-3945a ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.3.3.2
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.3.3.2, timeout is 2 seconds:
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 100 percent (50/50), round-trip min/avg/max = 1/1/4 ms
+reventon2-3945a#
+--- 18:31:14 ---
+
++++ 18:31:14 reventon2-3945a ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.3.3.7
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.3.3.7, timeout is 2 seconds:
+.!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 98 percent (49/50), round-trip min/avg/max = 1/1/4 ms
+reventon2-3945a#
+--- 18:31:16 ---
+
++++ 18:31:16 reventon2-3945a ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.3.3.3
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.3.3.3, timeout is 2 seconds:
+.!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 98 percent (49/50), round-trip min/avg/max = 1/1/4 ms
+reventon2-3945a#
+--- 18:31:19 ---
+
++++ 18:31:19 reventon2-3945a ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.3.3.9
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.3.3.9, timeout is 2 seconds:
+.!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 98 percent (49/50), round-trip min/avg/max = 1/1/4 ms
+reventon2-3945a#
+--- 18:31:22 ---
+
++++ 18:31:22 reventon2-p3 ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.3.3.5
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.3.3.5, timeout is 2 seconds:
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 100 percent (50/50), round-trip min/avg/max = 1/1/4 ms
+reventon2-p3#
+--- 18:31:22 ---
+
++++ 18:31:22 reventon2-p3 ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.3.3.1
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.3.3.1, timeout is 2 seconds:
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 100 percent (50/50), round-trip min/avg/max = 1/1/4 ms
+reventon2-p3#
+--- 18:31:23 ---
+
++++ 18:31:23 reventon2-p3 ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.3.3.6
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.3.3.6, timeout is 2 seconds:
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 100 percent (50/50), round-trip min/avg/max = 1/1/4 ms
+reventon2-p3#
+--- 18:31:24 ---
+
++++ 18:31:24 reventon2-p3 ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.3.3.4
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.3.3.4, timeout is 2 seconds:
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 100 percent (50/50), round-trip min/avg/max = 1/1/4 ms
+reventon2-p3#
+--- 18:31:24 ---
+
++++ 18:31:24 reventon2-p3 ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.3.3.2
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.3.3.2, timeout is 2 seconds:
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 100 percent (50/50), round-trip min/avg/max = 1/1/4 ms
+reventon2-p3#
+--- 18:31:25 ---
+
++++ 18:31:25 reventon2-p3 ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.3.3.8
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.3.3.8, timeout is 2 seconds:
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 100 percent (50/50), round-trip min/avg/max = 1/1/4 ms
+reventon2-p3#
+--- 18:31:25 ---
+
++++ 18:31:25 reventon2-p3 ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.3.3.3
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.3.3.3, timeout is 2 seconds:
+.!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 98 percent (49/50), round-trip min/avg/max = 1/1/4 ms
+reventon2-p3#
+--- 18:31:28 ---
+
++++ 18:31:28 reventon2-p3 ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.3.3.9
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.3.3.9, timeout is 2 seconds:
+.!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 98 percent (49/50), round-trip min/avg/max = 1/1/4 ms
+reventon2-p3#
+--- 18:31:30 ---
+
++++ 18:31:30 reventon2-29b ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.3.3.5
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.3.3.5, timeout is 2 seconds:
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 100 percent (50/50), round-trip min/avg/max = 1/1/4 ms
+reventon2-29b#
+--- 18:31:31 ---
+
++++ 18:31:31 reventon2-29b ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.3.3.1
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.3.3.1, timeout is 2 seconds:
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 100 percent (50/50), round-trip min/avg/max = 1/1/4 ms
+reventon2-29b#
+--- 18:31:32 ---
+
++++ 18:31:32 reventon2-29b ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.3.3.6
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.3.3.6, timeout is 2 seconds:
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 100 percent (50/50), round-trip min/avg/max = 1/1/4 ms
+reventon2-29b#
+--- 18:31:32 ---
+
++++ 18:31:32 reventon2-29b ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.3.3.4
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.3.3.4, timeout is 2 seconds:
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 100 percent (50/50), round-trip min/avg/max = 1/1/4 ms
+reventon2-29b#
+--- 18:31:33 ---
+
++++ 18:31:33 reventon2-29b ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.3.3.2
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.3.3.2, timeout is 2 seconds:
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 100 percent (50/50), round-trip min/avg/max = 1/1/4 ms
+reventon2-29b#
+--- 18:31:34 ---
+
++++ 18:31:34 reventon2-29b ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.3.3.8
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.3.3.8, timeout is 2 seconds:
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 100 percent (50/50), round-trip min/avg/max = 1/1/4 ms
+reventon2-29b#
+--- 18:31:34 ---
+
++++ 18:31:34 reventon2-29b ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.3.3.7
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.3.3.7, timeout is 2 seconds:
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 100 percent (50/50), round-trip min/avg/max = 1/1/4 ms
+reventon2-29b#
+--- 18:31:35 ---
+
++++ 18:31:35 reventon2-29b ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.3.3.9
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.3.3.9, timeout is 2 seconds:
+.!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 98 percent (49/50), round-trip min/avg/max = 1/1/4 ms
+reventon2-29b#
+--- 18:31:38 ---
+
++++ 18:31:38 reventon2-3945b ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.3.3.5
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.3.3.5, timeout is 2 seconds:
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 100 percent (50/50), round-trip min/avg/max = 1/1/4 ms
+reventon2-3945b#
+--- 18:31:38 ---
+
++++ 18:31:38 reventon2-3945b ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.3.3.1
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.3.3.1, timeout is 2 seconds:
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 100 percent (50/50), round-trip min/avg/max = 1/1/4 ms
+reventon2-3945b#
+--- 18:31:39 ---
+
++++ 18:31:39 reventon2-3945b ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.3.3.6
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.3.3.6, timeout is 2 seconds:
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 100 percent (50/50), round-trip min/avg/max = 1/1/4 ms
+reventon2-3945b#
+--- 18:31:40 ---
+
++++ 18:31:40 reventon2-3945b ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.3.3.4
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.3.3.4, timeout is 2 seconds:
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 100 percent (50/50), round-trip min/avg/max = 1/1/4 ms
+reventon2-3945b#
+--- 18:31:41 ---
+
++++ 18:31:41 reventon2-3945b ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.3.3.2
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.3.3.2, timeout is 2 seconds:
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 100 percent (50/50), round-trip min/avg/max = 1/1/4 ms
+reventon2-3945b#
+--- 18:31:41 ---
+
++++ 18:31:42 reventon2-3945b ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.3.3.8
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.3.3.8, timeout is 2 seconds:
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 100 percent (50/50), round-trip min/avg/max = 1/1/4 ms
+reventon2-3945b#
+--- 18:31:42 ---
+
++++ 18:31:42 reventon2-3945b ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.3.3.7
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.3.3.7, timeout is 2 seconds:
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 100 percent (50/50), round-trip min/avg/max = 1/1/4 ms
+reventon2-3945b#
+--- 18:31:43 ---
+
++++ 18:31:43 reventon2-3945b ping +++
+ping
+Protocol [ip]: 
+Target IP address: 220.3.3.3
+Repeat count [5]: 50
+Datagram size [100]: 
+Timeout in seconds [2]: 
+Extended commands [n]: no
+Sweep range of sizes [n]: n
+Type escape sequence to abort.
+Sending 50, 100-byte ICMP Echos to 220.3.3.3, timeout is 2 seconds:
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 100 percent (50/50), round-trip min/avg/max = 1/1/4 ms
+reventon2-3945b#
+--- 18:31:44 ---
+
++++ 18:31:44 reventon2-p1 config +++
+config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+reventon2-p1(config)#interface FastEthernet1/0
+reventon2-p1(config-if)#no ip address
+reventon2-p1(config-if)#shut
+reventon2-p1(config-if)#end
+reventon2-p1#
+--- 18:31:44 ---
+
++++ 18:31:44 reventon2-72a config +++
+config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+reventon2-72a(boot)(config)#interface GigabitEthernet0/3
+reventon2-72a(boot)(config-if)#no ip address
+reventon2-72a(boot)(config-if)#shut
+reventon2-72a(boot)(config-if)#end
+reventon2-72a(boot)#
+--- 18:31:45 ---
+
++++ 18:31:45 reventon2-p2 config +++
+config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+reventon2-p2(config)#interface FastEthernet1/0
+reventon2-p2(config-if)#no ip address
+reventon2-p2(config-if)#shut
+reventon2-p2(config-if)#end
+reventon2-p2#
+--- 18:31:45 ---
+
++++ 18:31:45 reventon2-29a config +++
+config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+reventon2-29a(config)#interface GigabitEthernet0/2
+reventon2-29a(config-if)#no ip address
+reventon2-29a(config-if)#shut
+reventon2-29a(config-if)#end
+reventon2-29a#
+--- 18:31:46 ---
+
++++ 18:31:46 reventon2-72b config +++
+config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+reventon2-72b(boot)(config)#interface GigabitEthernet0/3
+reventon2-72b(boot)(config-if)#no ip address
+reventon2-72b(boot)(config-if)#shut
+reventon2-72b(boot)(config-if)#end
+reventon2-72b(boot)#
+--- 18:31:47 ---
+
++++ 18:31:47 reventon2-3945a config +++
+config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+reventon2-3945a(config)#interface GigabitEthernet0/1
+reventon2-3945a(config-if)#no ip address
+reventon2-3945a(config-if)#shut
+reventon2-3945a(config-if)#end
+reventon2-3945a#
+--- 18:31:48 ---
+
++++ 18:31:48 reventon2-p3 config +++
+config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+reventon2-p3(config)#interface FastEthernet1/0
+reventon2-p3(config-if)#no ip address
+reventon2-p3(config-if)#shut
+reventon2-p3(config-if)#end
+reventon2-p3#
+--- 18:31:48 ---
+
++++ 18:31:48 reventon2-29b config +++
+config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+reventon2-29b(config)#interface GigabitEthernet0/2
+reventon2-29b(config-if)#no ip address
+reventon2-29b(config-if)#shut
+reventon2-29b(config-if)#end
+reventon2-29b#
+--- 18:31:49 ---
+
++++ 18:31:49 reventon2-3945b config +++
+config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+reventon2-3945b(config)#interface GigabitEthernet0/1
+reventon2-3945b(config-if)#no ip address
+reventon2-3945b(config-if)#shut
+reventon2-3945b(config-if)#end
+reventon2-3945b#
+--- 18:31:50 ---
+
++++ 18:31:50 reventon2-72a config +++
+config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+reventon2-72a(boot)(config)#interface Ethernet1/0
+reventon2-72a(boot)(config-if)#ip address 220.4.4.1 255.255.255.0
+reventon2-72a(boot)(config-if)#no shut
+reventon2-72a(boot)(config-if)#end
+reventon2-72a(boot)#
+--- 18:31:50 ---
+
++++ 18:31:50 reventon2-72b config +++
+config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+reventon2-72b(boot)(config)#interface Ethernet1/0
+reventon2-72b(boot)(config-if)#ip address 220.4.4.2 255.255.255.0
+reventon2-72b(boot)(config-if)#no shut
+reventon2-72b(boot)(config-if)#end
+reventon2-72b(boot)#
+--- 18:31:51 ---
+
++++ 18:31:51 reventon2-p1 config +++
+config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+reventon2-p1(config)#interface FastEthernet1/1
+reventon2-p1(config-if)#ip address 220.4.4.3 255.255.255.0
+reventon2-p1(config-if)#no shut
+reventon2-p1(config-if)#end
+reventon2-p1#
+--- 18:31:51 ---
+
++++ 18:31:51 reventon2-p2 config +++
+config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+reventon2-p2(config)#interface FastEthernet1/1
+reventon2-p2(config-if)#ip address 220.4.4.4 255.255.255.0
+reventon2-p2(config-if)#no shut
+reventon2-p2(config-if)#end
+reventon2-p2#
+--- 18:31:52 ---
+
++++ 18:31:52 reventon2-p3 config +++
+config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+reventon2-p3(config)#interface FastEthernet1/1
+reventon2-p3(config-if)#ip address 220.4.4.5 255.255.255.0
+reventon2-p3(config-if)#no shut
+reventon2-p3(config-if)#end
+reventon2-p3#
+--- 18:31:52 ---
+
++++ 18:31:52 reventon2-3945a config +++
+config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+reventon2-3945a(config)#interface FastEthernet3/0
+reventon2-3945a(config-if)#ip address 220.4.4.6 255.255.255.0
+
+% IP addresses may not be configured on L2 links.
+
+reventon2-3945a(config-if)#no shut
+reventon2-3945a(config-if)#end
+reventon2-3945a#
+--- 18:31:53 ---
+
++++ 18:31:53 reventon2-3945b config +++
+config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+reventon2-3945b(config)#interface FastEthernet3/0
+reventon2-3945b(config-if)#ip address 220.4.4.7 255.255.255.0
+
+% IP addresses may not be configured on L2 links.
+
+reventon2-3945b(config-if)#no shut
+reventon2-3945b(config-if)#end
+reventon2-3945b#
+--- 18:31:54 ---
+
++++ 18:31:54 reventon2-3945b ping +++
+ping
+Protocol [ip]: 
+% Unknown protocol - "", type "ping ?" for help
+reventon2-3945b#
+--- 18:31:54 ---

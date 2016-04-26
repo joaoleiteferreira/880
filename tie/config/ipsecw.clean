@@ -1,0 +1,187 @@
+
+######################  CLEAN CONFIG FILE FOR ipsecw testbed  ##############
+#                                                                             #
+#     Header file for autotest. Follow the steps to customise as needed.      #
+#                                                                             #
+###############################################################################
+
+
+set source_directories(testing) "/auto/tftp-reventon/bin/"
+set source_directories(baseline) "/auto/bxb-swarchives4/ARTG/weekly/t_pi16_sec/images/bin/"
+set source_directories(solid) "/release/"
+
+# Depeding on the releases developers end up releasing in diferent was
+# so take a look at the folder and see if releases are made with 15.?????
+# using DATE sill set if we look for XXXX-XX-XX format or just lastest image
+
+set source_directory_format(testing) "DATE"
+set source_directory_format(baseline) "NODATE"
+set source_directory_format(solid) "NODATE"
+
+set destination_directories(testing) "/auto/tftp-joaofer/ipsecw/testing/"
+set destination_directories(baseline) "/auto/tftp-joaofer/ipsecw/baseline/"
+set destination_directories(solid) "/auto/tftp-joaofer/ipsecw/solid/"
+
+#####################
+## Sample config for
+##      router
+####################
+
+#to Do
+
+# Set a T train a Baseline and a Solid image for each router
+# Set a place for the start config and the post config
+# Set router type, using tftpdnld -r, normal boot or pagent
+
+
+#############################
+### ipsecw-p1
+#############################
+
+set testing(ipsecw-p1) " "
+set baseline(ipsecw-p1) " "
+set solid(ipsecw-p1) " "
+set post(ipsecw-p1) "flash:ipsecw.post"
+set start(ipsecw-p1) "flash:ipsecw.start"
+set routertype(ipsecw-p1) "PAGENT_NOTFTP"
+set router_image(ipsecw-p1-testing) "c3745-PAGENT" 
+set router_image(ipsecw-p1-baseline) "c3745-PAGENT" 
+set router_image(ipsecw-p1-solid) "c3745-PAGENT" 
+
+#############################
+### ipsecw-p2
+#############################
+
+set testing(ipsecw-p2) " "
+set baseline(ipsecw-p2) " "
+set solid(ipsecw-p2) " "
+set post(ipsecw-p2) "flash:ipsecw.post"
+set start(ipsecw-p2) "flash:ipsecw.start"
+set routertype(ipsecw-p2) "PAGENT_NOTFTP"
+set router_image(ipsecw-p2-testing) "c3745-PAGENT" 
+set router_image(ipsecw-p2-baseline) "c3745-PAGENT" 
+set router_image(ipsecw-p2-solid) "c3745-PAGENT" 
+
+#############################
+### ipsecw-p3
+#############################
+
+set testing(ipsecw-p3) " "
+set baseline(ipsecw-p3) " "
+set solid(ipsecw-p3) " "
+set post(ipsecw-p3) "flash:ipsecw.post"
+set start(ipsecw-p3) "flash:ipsecw.start"
+set routertype(ipsecw-p3) "PAGENT_NOTFTP"
+set router_image(ipsecw-p3-testing) "c3745-PAGENT"
+set router_image(ipsecw-p3-baseline) "c3745-PAGENT"
+set router_image(ipsecw-p3-solid) "c3745-PAGENT"
+
+#############################
+### ipsecw-871a
+#############################
+
+set testing(ipsecw-871a) " "
+set baseline(ipsecw-871a) " "
+set solid(ipsecw-871a) " "
+set post(ipsecw-871a) "flash:ipsecw.post"
+set start(ipsecw-871a) "flash:ipsecw.start"
+set routertype(ipsecw-871a) "NORMAL_TFTP"
+set router_image(ipsecw-871a-testing) "c871-" 
+set router_image(ipsecw-871a-baseline) "c870-advsecurityk9-mz" 
+set router_image(ipsecw-871a-solid) "c871-advsecurityk9-mz.SSA"
+
+#############################
+### ipsecw-3845a
+#############################
+
+set testing(ipsecw-3845a) " "
+set baseline(ipsecw-3845a) " "
+set solid(ipsecw-3845a) " "
+set post(ipsecw-3845a) "flash:ipsecw.post"
+set start(ipsecw-3845a) "flash:ipsecw.start"
+set routertype(ipsecw-3845a) "NORMAL_TFTP"
+set router_image(ipsecw-3845a-testing) "c3845-" 
+set router_image(ipsecw-3845a-baseline) "c3845-advsecurityk9-mz" 
+set router_image(ipsecw-3845a-solid) "c3845-advsecurityk9-mz"
+
+#############################
+### ipsecw-3945b
+#############################
+
+set testing(ipsecw-3845b) " "
+set baseline(ipsecw-3845b) " "
+set solid(ipsecw-3845b) " "
+set post(ipsecw-3845b) "flash:ipsecw.post"
+set start(ipsecw-3845b) "flash:ipsecw.start"
+set routertype(ipsecw-3845b) "NORMAL_TFTP"
+set router_image(ipsecw-3845b-testing) "c3845-" 
+set router_image(ipsecw-3845b-baseline) "c3845-advsecurityk9-mz" 
+set router_image(ipsecw-3845b-solid) "c3845-advsecurityk9-mz.SSA"
+
+#############################
+### ipsecw-18a
+#############################
+
+set testing(ipsecw-18a) ""
+set baseline(ipsecw-18a) " "
+set solid(ipsecw-18a) " "
+set post(ipsecw-18a) "flash:ipsecw.post"
+set start(ipsecw-18a) "flash:ipsecw.start"
+set routertype(ipsecw-18a) "NORMAL_TFTP"
+set router_image(ipsecw-18a-testing) "c181x-" 
+set router_image(ipsecw-18a-baseline) "c181x-adven" 
+set router_image(ipsecw-18a-solid) "c181x-adven"
+
+
+#############################
+### ipsecw-18b
+#############################
+
+set testing(ipsecw-18b) " "
+set baseline(ipsecw-18b) " "
+set solid(ipsecw-18b) " "
+set post(ipsecw-18b) "flash:ipsecw.post"
+set start(ipsecw-18b) "flash:ipsecw.start"
+set routertype(ipsecw-18b) "NORMAL_TFTP"
+set router_image(ipsecw-18b-testing) "c181x-" 
+set router_image(ipsecw-18b-baseline)  "c181x-adven" 
+set router_image(ipsecw-18b-solid)  "c181x-adven" 
+
+
+#############################
+### ipsecw-72a
+#############################
+
+# Initial images, this can be used to specify images, in case you are not using autoupdate
+# leave them since this images will be set
+	set testing(ipsecw-72a) " "
+	set baseline(ipsecw-72a) " "
+	set solid(ipsecw-72a) " "
+
+
+
+set post(ipsecw-72a) "disk2:ipsecw.post"
+set start(ipsecw-72a) "disk2:ipsecw.start"
+set routertype(ipsecw-72a) "NORMAL_NOTFTP"
+set router_image(ipsecw-72a-testing) "c7200-"
+set router_image(ipsecw-72a-baseline) "c7200-advsec"
+set router_image(ipsecw-72a-solid) "c7200-advsec"
+
+#############################
+### ipsecw-72b
+#############################
+
+# Initial images, this can be used to specify images, in case you are not using autoupdate
+# leave them since this images will be set
+set testing(ipsecw-72a) " "
+set baseline(ipsecw-72a) " "
+set solid(ipsecw-72a) " "
+
+set post(ipsecw-72b) "disk2:ipsecw.post"
+set start(ipsecw-72b) "disk2:ipsecw.start"
+set routertype(ipsecw-72b) "NORMAL_NOTFTP"
+set router_image(ipsecw-72b-testing) "c7200p-"
+set router_image(ipsecw-72b-baseline) "c7200p-advsec"
+set router_image(ipsecw-72b-solid) "c7200p-advsec"
+
+

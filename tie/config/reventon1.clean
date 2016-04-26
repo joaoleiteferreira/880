@@ -1,0 +1,219 @@
+
+######################  CLEAN CONFIG FILE FOR reventon1 testbed  ##############
+#                                                                             #
+#     Header file for autotest. Follow the steps to customise as needed.      #
+#                                                                             #
+###############################################################################
+
+
+
+#####################
+## Sample config for
+##      router
+####################
+
+#to Do
+
+# Set a T train a Baseline and a Solid image for each router
+# Set a place for the start config and the post config
+# Set router type, using tftpdnld -r, normal boot or pagent
+
+
+#############################
+### reventon1-p1
+#############################
+
+set testing(reventon1-p1) "/auto/tftp-joaofer/testing/c3845-PAGENT"
+set baseline(reventon1-p1) "/auto/tftp-joaofer/baseline/c3845-PAGENT"
+set solid(reventon1-p1) "/auto/tftp-joaofer/solid/c3845-PAGENT"
+set custom(reventon1-p1) ""
+set post(reventon1-p1) "flash:reventon1.post"
+set start(reventon1-p1) "flash:reventon1.start"
+set routertype(reventon1-p1) "PAGENT_TFTP"
+set router_image(reventon1-p1-testing) "c3845-PAGENT" 
+set router_image(reventon1-p1-baseline) "c3845-PAGENT" 
+set router_image(reventon1-p1-solid) "c3845-PAGENT" 
+set router_image(reventon1-p1-custom) "c3845-PAGENT" 
+
+#############################
+### reventon1-p2
+#############################
+
+set testing(reventon1-p2) "/auto/tftp-joaofer/testing/c3845-PAGENT"
+set baseline(reventon1-p2) "/auto/tftp-joaofer/baseline/c3845-PAGENT"
+set solid(reventon1-p2) "/auto/tftp-joaofer/solid/c3845-PAGENT"
+set custom(reventon1-p2) ""
+set post(reventon1-p2) "flash:reventon1.post"
+set start(reventon1-p2) "flash:reventon1.start"
+set routertype(reventon1-p2) "PAGENT_TFTP"
+set router_image(reventon1-p2-testing) "c3845-PAGENT" 
+set router_image(reventon1-p2-baseline) "c3845-PAGENT" 
+set router_image(reventon1-p2-solid) "c3845-PAGENT" 
+set router_image(reventon1-p2-custom) "c3845-PAGENT" 
+
+#############################
+### reventon1-p3
+#############################
+
+set testing(reventon1-p3) "/auto/tftp-joaofer/testing/c3825-PAGENT"
+set baseline(reventon1-p3) "/auto/tftp-joaofer/baseline/c3825-PAGENT"
+set solid(reventon1-p3) "/auto/tftp-joaofer/solid/c3825-PAGENT"
+set custom(reventon1-p3) ""
+set post(reventon1-p3) "flash:reventon1.post"
+set start(reventon1-p3) "flash:reventon1.start"
+set routertype(reventon1-p3) "PAGENT_TFTP"
+set router_image(reventon1-p3-testing) "c3825-PAGENT" 
+set router_image(reventon1-p3-baseline) "c3825-PAGENT" 
+set router_image(reventon1-p3-solid) "c3825-PAGENT" 
+set router_image(reventon1-p3-custom) "c3825-PAGENT" 
+
+#############################
+### reventon1-29a
+#############################
+
+set testing(reventon1-29a) "/auto/tftp-joaofer/testing/c2900-20110308"
+set baseline(reventon1-29a) "/auto/tftp-joaofer/baseline/c2900-securityk9-mz.SSA.152-3.22.4.PIB16"
+set solid(reventon1-29a) "/auto/tftp-joaofer/solid/c2900-baseline"
+set custom(reventon1-29a) ""
+set post(reventon1-29a) "flash:reventon1.post"
+set start(reventon1-29a) "flash:reventon1.start"
+set routertype(reventon1-29a) "NORMAL_TFTP"
+set router_image(reventon1-29a-testing) "c2900-universalk9-mz" 
+set router_image(reventon1-29a-baseline) "c2900-universalk9-mz" 
+set router_image(reventon1-29a-solid) "c2900-solid"
+set router_image(reventon1-29a-custom) "c2900"
+
+#############################
+### reventon1-29b
+#############################
+
+set testing(reventon1-29b) "/auto/tftp-joaofer/testing/c2900-20110308"
+set baseline(reventon1-29b) "/auto/tftp-joaofer/baseline/c2900--securityk9-mz.SSA.152-3.22.4.PIB16"
+set solid(reventon1-29b) "/auto/tftp-joaofer/solid/c2900-baseline"
+set custom(reventon1-29b) ""
+set post(reventon1-29b) "flash:reventon1.post"
+set start(reventon1-29b) "flash:reventon1.start"
+set routertype(reventon1-29b) "NORMAL_TFTP"
+set router_image(reventon1-29b-testing) "c2900-universalk9-mz" 
+set router_image(reventon1-29b-baseline) "c2900-universalk9-mz" 
+set router_image(reventon1-29b-solid) "c2900-solid"
+set router_image(reventon1-29b-custom) "c2900" 
+
+#############################
+### reventon1-3945a
+#############################
+
+set testing(reventon1-3945a) "/auto/tftp-joaofer/testing/c3900-20110308"
+set baseline(reventon1-3945a) "/auto/tftp-joaofer/baseline/c3900--securityk9-mz.SSA.152-3.22.4.PIB16"
+set solid(reventon1-3945a) "/auto/tftp-joaofer/solid/c3900-baseline"
+set custom(reventon1-3945a) ""
+set post(reventon1-3945a) "flash:reventon1.post"
+set start(reventon1-3945a) "flash:reventon1.start"
+set routertype(reventon1-3945a) "NORMAL_TFTP"
+set router_image(reventon1-3945a-testing) "c3900-universalk9-mz" 
+set router_image(reventon1-3945a-baseline) "c3900-universalk9-mz" 
+set router_image(reventon1-3945a-solid) "c3900-solid"
+set router_image(reventon1-3945a-custom) "c3900" 
+
+#############################
+### reventon1-3945b
+#############################
+
+set testing(reventon1-3945b) "/auto/tftp-joaofer/testing/c3900-20110308"
+set baseline(reventon1-3945b) "/auto/tftp-joaofer/baseline/c3900--securityk9-mz.SSA.152-3.22.4.PIB16"
+set solid(reventon1-3945b) "/auto/tftp-joaofer/solid/c3900-baseline"
+set custom(reventon1-3945b) ""
+set post(reventon1-3945b) "flash:reventon1.post"
+set start(reventon1-3945b) "flash:reventon1.start"
+set routertype(reventon1-3945b) "NORMAL_TFTP"
+set router_image(reventon1-3945b-testing) "c3900-universalk9-mz" 
+set router_image(reventon1-3945b-baseline) "c3900-universalk9-mz" 
+set router_image(reventon1-3945b-solid) "c3900-solid"
+set router_image(reventon1-3945b-custom) "c3900" 
+
+#############################
+### reventon1-19a
+#############################
+
+set testing(reventon1-19a) "/auto/tftp-joaofer/testing/c1900-20110308"
+set baseline(reventon1-19a) "/auto/tftp-joaofer/baseline/c1900-securityk9-mz.SSA.152-3.22.4.PIB16"
+set solid(reventon1-19a) "/auto/tftp-joaofer/solid/c1900-baseline"
+set custom(reventon1-19a) ""
+set post(reventon1-19a) "flash:reventon1.post"
+set start(reventon1-19a) "flash:reventon1.start"
+set routertype(reventon1-19a) "NORMAL_TFTP"
+set router_image(reventon1-19a-testing) "c1900-universalk9-mz" 
+set router_image(reventon1-19a-baseline) "c1900-universalk9-mz" 
+set router_image(reventon1-19a-solid) "c1900-solid"
+set router_image(reventon1-19a-custom) "c1900" 
+
+#############################
+### reventon1-19b
+#############################
+
+set testing(reventon1-19b) "/auto/tftp-joaofer/testing/c1900-20110308"
+set baseline(reventon1-19b) "/auto/tftp-joaofer/baseline/c1900-securityk9-mz.SSA.152-3.22.4.PIB16"
+set solid(reventon1-19b) "/auto/tftp-joaofer/solid/c1900-baseline"
+set custom(reventon1-19b) ""
+set post(reventon1-19b) "flash:reventon1.post"
+set start(reventon1-19b) "flash:reventon1.start"
+set routertype(reventon1-19b) "NORMAL_TFTP"
+set router_image(reventon1-19b-testing) "c1900-universalk9-mz" 
+set router_image(reventon1-19b-baseline) "c1900-universalk9-mz" 
+set router_image(reventon1-19b-solid) "c1900-solid"
+set router_image(reventon1-19b-custom) "c1900" 
+
+#############################
+### reventon1-72a
+#############################
+
+# Initial images, this can be used to specify images, in case you are not using autoupdate
+# leave them since this images will be set
+set testing(reventon1-72a) "/auto/tftp-joaofer/testing/c7200p-baseline"
+set baseline(reventon1-72a) "/auto/tftp-joaofer/baseline/c7200p-baseline"
+set solid(reventon1-72a) "/auto/tftp-joaofer/solid/c7200p-solid"
+set custom(reventon1-72a) ""
+set post(reventon1-72a) "disk2:reventon1.post"
+set start(reventon1-72a) "disk2:reventon1.start"
+set routertype(reventon1-72a) "NORMAL_NOTFTP"
+set router_image(reventon1-72a-testing) "c7200p-baseline"
+set router_image(reventon1-72a-baseline) "c7200p-baseline"
+set router_image(reventon1-72a-solid) "c7200p-solid"
+set router_image(reventon1-72a-custom) "c7200p-" 
+
+#############################
+### reventon1-72b
+#############################
+
+# Initial images, this can be used to specify images, in case you are not using autoupdate
+# leave them since this images will be set
+set testing(reventon1-72b) " "
+set baseline(reventon1-72b) " "
+set solid(reventon1-72b) " "
+set custom(reventon1-72b) ""
+
+set post(reventon1-72b) "disk2:reventon1.post"
+set start(reventon1-72b) "disk2:reventon1.start"
+set routertype(reventon1-72b) "NORMAL_NOTFTP"
+set router_image(reventon1-72b-testing) "c7200-adventerprisek9-mz"
+set router_image(reventon1-72b-baseline) "c7200-baseline"
+set router_image(reventon1-72b-solid) "c7200-solid"
+set router_image(reventon1-72b-custom) "c7200-"
+
+#SET UP STUFF FOR CFLOW
+if { [info exists CFLOW] } {
+	if { $CFLOW == "TRUE" } {
+		set custom(reventon1-p1) "/auto/tftp-joaofer/testing/c3845-PAGENT"
+		set custom(reventon1-p2) "/auto/tftp-joaofer/testing/c3845-PAGENT"
+		set custom(reventon1-p3) "/auto/tftp-joaofer/testing/c3845-PAGENT"
+		set custom(reventon1-72a) "/auto/tftp-joaofer/testing/c7200p-baseline"
+		set custom(reventon1-72b) "/auto/tftp-joaofer/baseline/c7200-baseline"
+		set custom(reventon1-19a) "/tftpboot/users/dranjit/c1900-universalk9-mz.SSA.cflow"
+		set custom(reventon1-19b) "/tftpboot/users/dranjit/c1900-universalk9-mz.SSA.cflow"
+		set custom(reventon1-3945b) "/tftpboot/users/dranjit/c3900-universalk9-mz.SSA.cflow"
+		set custom(reventon1-3945a) "/tftpboot/users/dranjit/c3900-universalk9-mz.SSA.cflow"
+		set custom(reventon1-29a) "/tftpboot/users/dranjit/c2900-universalk9-mz.SSA.cflow"
+		set custom(reventon1-29b) "/tftpboot/users/dranjit/c2900-universalk9-mz.SSA.cflow"
+	}
+}
+

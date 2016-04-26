@@ -1,0 +1,566 @@
+#!/bin/sh
+   set kludge { $*
+   shift
+   shift
+   if [ "X$AUTOTEST" = "X" ]; then
+	  echo Error: Environment variable AUTOTEST is not set.
+	  echo Please set the environment variable AUTOTEST to point to
+	  echo the root of the autotest tree.
+	  exit 1
+   fi
+   exec $AUTOTEST/local/bin/expect $0 $*
+   }
+
+#################################################################################
+# checkmap.ping
+###############################################################################
+# This is a modified version of ARF's original script
+#
+# this standalone TCL script checks connectivity inside a Testbed.
+# It compares the actual connectivity of the Testbed with the .MAP file.
+#
+###############################################################################
+
+source $expect_library/utilities.exp
+source $expect_library/csccon.exp
+source $expect_library/contrib/corelib.exp
+
+#
+# Read testbed map and store network into NetList, Rtrs into RtrList
+#
+proc ReadTBMap {}  {
+	global RtrList NetList InputRtr InputNet env Testbed myTestbedMap ROUTERS
+
+	ats_read_config
+
+	# Read .MAP file from a directory if given
+	if { [info exists env(AUTOTEST)] } {
+   		set env(TBMDIR) $env(AUTOTEST)/etc
+	} else {
+		puts "Fatal error: env(AUTOTEST) is not defined!!!"
+		exit 1
+	}
+
+	puts "\nStep 1: checkmap.ping is feching testbed $Testbed's information... "
+	puts "\nUsing $Testbed's config and MAP files from $env(TBMDIR)... "
+
+	if { [set myTestbedMap [build_testbed_map $Testbed ]] == "FAILED" } {
+   		puts "Failed to load $env(TBMDIR)/$Testbed.MAP file."
+   		exit 1
+	} elseif {![file exists $env(TBMDIR)/$Testbed.config]} {
+        puts "Failed to load $env(TBMDIR)/$Testbed.config file!!!"
+        exit 1
+    } else {
+        source $env(TBMDIR)/$Testbed.config
+    }
+
+	foreach Rtr [keylkeys myTestbedMap] {
+
+		# if user input routers, skip this step
+		if { !$InputRtr } { lappend RtrList $Rtr }
+
+		foreach RtrIntf [keylget myTestbedMap $Rtr.interfaces] {
+			set RtrNet 	[lindex $RtrIntf 1]
+   			set RtrIntf [lindex $RtrIntf 0]
+
+			# if Rtr's network is NULL, continue;
+			if {$RtrNet == "NULL"} { continue }
+
+			# if this RtrNet is not in NetList, add it
+			if { [lsearch $NetList $RtrNet ] == -1  } {
+				# if user input network, skip this step
+				if { !$InputNet } { lappend NetList $RtrNet }
+			}
+		}
+	}
+
+	lsort $NetList
+	lsort $RtrList
+}
+
+proc PrintList { l } {
+   foreach i $l {
+	  puts $i
+   }
+}
+
+proc ParseArgs {} {
+	global Octet1 SuiteFileName InputSuite NetList InputNet RtrList InputRtr Testbed argv Quick
+
+	set Argc [llength $argv]
+	for { set i 1} { $i < $Argc } { incr i } {
+		set Arg [lindex $argv $i]
+
+		# Compatible for old parameters
+		if {$i == 1 && ![regexp "^-" $Arg]} {
+			set Testbed $Arg
+			continue
+		}
+
+		if [regexp "^-quick" $Arg] {
+			set Quick 1
+			continue
+		}
+
+		if [regexp "^-tftp_check" $Arg] {
+			set TFTP_check 1
+			continue
+		}
+
+		if [regexp "^-tb" $Arg] {
+			incr i
+			set Testbed [lindex $argv $i]
+			continue
+		}
+
+		if [regexp "^-num" $Arg] {
+			incr i
+			set Octet1 [lindex $argv $i]
+			continue
+		}
+
+		if [regexp "^-suite" $Arg] {
+			incr i
+			set SuiteFileName [lindex $argv $i]
+			set InputSuite 1
+			continue
+		}
+
+		if [regexp "^-net" $Arg] {
+			set InputNet 1
+			incr i
+			while {$i < $Argc} {
+				set Arg [lindex $argv $i]
+				if [regexp "^-" $Arg] {
+					decr i
+					break
+				}
+			   	lappend NetList $Arg
+				incr i
+			}
+			continue
+		}
+
+		if [regexp "^-rtr" $Arg] {
+			set InputRtr 1
+			incr i
+			while {$i < $Argc} {
+				set Arg [lindex $argv $i]
+				if [regexp "^-" $Arg] {
+					decr i
+					break
+				}
+			   	lappend RtrList $Arg
+				incr i
+			}
+			continue
+		}
+	}
+}
+
+proc Usage {} {
+	puts "\nCheckmap.ping : An automatic tool to check the connectivity on a testbed\n"
+	puts "USAGE: checkmap.ping -tb testbed_name -net <net_name> -rtr <rtr_name> -num <net_num>"
+	puts "-tb:  testbed name"
+	puts "-net: list of network connections to be checked"
+	puts "-rtr: list of Rtrs to be checked"
+	puts "-num: 1st oct of ip address, default is from 220.1.1.1"
+	puts "-suite: suite file name"
+	puts "-quick: enable quick mode, not postconfig and only ping 10 times instead of 50"
+	puts ""
+	puts "For example: "
+	puts "Check all of the connections on testbed ios17:"
+	puts "   checkmap.ping -tb ios17"
+	puts "Only to check Rtr1 & 2's lanethernet0 connections:"
+	puts "   checkmap.ping -tb ios17 -net lanethernet0 -rtr ios17_1 ios17_2"
+	puts "Only to check Rtr1 & 2's lanethernet0 and R1-R2-1 connections, ip addres from 190.x.x."
+	puts "   checkmap.ping -tb ios17 -net lanethernet0 -rtr ios17_1 ios17_2 -num 190"
+	puts "Check used connections in suite file rsp-jsv-mz.124-2.T1.CIPERT-OSPF-NEG.suite"
+	puts "   checkmap.ping -tb ios17 -suite rsp-jsv-mz.124-2.T1.CIPERT-OSPF-NEG.suite"
+}
+
+proc BuildMatrix {} {
+	global InputSuite SuiteFileName NetRtrMatrix NetList RtrList myTestbedMap Testbed ROUTERS
+
+	set CurrentRtr ""
+
+	# If user input suite file, parse suite line and get NetRtrMatrix
+	if { $InputSuite } {
+		if [catch {open $SuiteFileName r} FileId] {
+			puts "FATAL ERROR: can't read suite file $SuiteFileName!!!\n"
+			exit 1
+		}
+
+		while {[gets $FileId line] >= 0} {
+			if {[regexp "^#" $line]} continue
+
+			foreach word [split $line " "] {
+				regsub -all {\{} $word "" word
+				regsub -all {\}} $word "" word
+
+				# if the word is $router[0-9]*, convert it to real router name
+				if {[regexp {^\$router([0-9]*)} $word dummy RtrNum]} {
+					set word [lindex $ROUTERS($Testbed) [expr $RtrNum-1]]
+				}
+
+				# if we see router name, assume it is changed to new router
+				if {[lsearch $ROUTERS($Testbed) $word] != -1} {
+					set CurrentRtr $word
+				}
+
+				# if see a network name, add the current router to NetRtrMatrix
+				# $word = lanethernet1
+				if {[lsearch $NetList $word] != -1 && $CurrentRtr != ""} {
+					foreach RtrIntf [keylget myTestbedMap $CurrentRtr.interfaces] {
+						set RtrNet [lindex $RtrIntf 1]
+						set RtrIntf	[lindex $RtrIntf 0]
+
+						if {$RtrNet == $word} {
+						if { ![llength [array get NetRtrMatrix $word]] } {
+							lappend NetRtrMatrix($word) "$CurrentRtr\:\:$RtrIntf"
+						} elseif { [lsearch $NetRtrMatrix($word) "$CurrentRtr\:\:$RtrIntf"] == -1 } {
+							lappend NetRtrMatrix($word) "$CurrentRtr\:\:$RtrIntf"
+						}
+						}
+					}
+				}
+			}
+
+		}
+		# Suite file parse doen, close it
+		close $FileId
+	} else {
+		foreach Net $NetList {
+			foreach Rtr $RtrList {
+				foreach RtrIntf [keylget myTestbedMap $Rtr.interfaces] {
+					set RtrNet [lindex $RtrIntf 1]
+					set RtrIntf	[lindex $RtrIntf 0]
+
+					# if this router has connection on this Network, record it
+					if {$RtrNet == $Net} {
+						lappend NetRtrMatrix($Net) "$Rtr\:\:$RtrIntf"
+					}
+				}
+			}
+		}
+	}
+}
+
+
+#############################################################################
+# Start of Main
+#############################################################################
+
+if {[llength $argv] < 2 || [regexp "^-h" [lindex $argv 1]]} {
+	Usage
+	exit 1
+}
+
+global Testbed
+global csccon_default
+
+#catch {exec /users/gicarval/bin/logger $argv}
+
+set InputNet 0
+set InputRtr 0
+set InputSuite 0
+set Quick 0
+set TFTP_check 0
+set NetList ""
+set RtrList ""
+set Octet1 220
+set ResultStr "\n"
+set ResultStrPass "\n"
+set ResultStrFail "\n"
+set ErrCount 0
+
+# Parse argument and store in above variables
+ParseArgs
+
+set timestamp [timestamp -format "%m%d%Y_%H%M%S"]
+
+set tmp_fname "$Testbed-check-$env(USER)-$timestamp.log"
+catch {file delete $tmp_fname}
+set csccon_default(log_file) $tmp_fname
+
+# Read TB Map
+ReadTBMap
+
+# Build Matrix
+BuildMatrix
+
+set ResultStr "checkmap.ping details............... \n"
+set ResultStr "$ResultStr\nDetailed log can be found at [dirs]/$tmp_fname\n"
+
+if { $InputNet || $InputRtr || $InputSuite } {
+	puts "\ncheckmap.ping is checking following network/router:"
+	set ResultStr "$ResultStr\ncheckmap.ping checked the following net/router:"
+} else {
+	puts "\ncheckmap.ping is checking all of the connections:\n"
+	set ResultStr "$ResultStr\ncheckmap.ping checked all connections in $Testbed:\n"
+}
+
+	foreach {key value} [array get NetRtrMatrix] {
+		# if only one rtr-intf in this network, skip
+		if {[llength $value] <= 1} {
+			continue
+		}
+
+		set R [join $value "  "]
+		puts "$key"
+
+		foreach entry $value {
+			puts " |--- $entry"
+		}
+	}
+
+log_user 0
+EnablePw lab
+
+foreach Rtr $RtrList {
+	console $Rtr
+}
+
+puts "\nStep 2: Loading postconfig to clean Rtrs ..."
+if { $Quick } {
+	puts "..... quick mode configured, skipping postconfig ......\n"
+} else {
+	puts ".......................................................\n"
+	foreach Rtr $RtrList {
+		$Rtr config $postconfig($Rtr)
+	}
+}
+
+puts "\nStep 3: Starting to check network connections ... \n"
+set Octet2	1
+set Octet3	1
+set Octet4	0
+set NetworkFailed 0
+
+foreach {key value} [array get NetRtrMatrix] {
+
+	# Store Pass and Fail results to append to ResultStr at the end
+	set TmpResult ""
+
+	# if only one rtr-intf in this network, must be a stub intf, skip
+	if {[llength $value] <= 1} {
+		continue
+	}
+
+	puts "$key $Octet1.$Octet2.$Octet3.x  ....."
+	set TmpResult "$TmpResult\n$key $Octet1.$Octet2.$Octet3.x  ....."
+
+	catch {unset IpMap}
+	set PingFailed 0
+
+    catch {unset isdn_dial_nbr}
+    catch {unset peer_ip}
+
+	# Configure ip address on all connecting int/f on all routers
+	foreach Entry $value {
+		puts " |---$Entry"
+		set TmpResult "$TmpResult\n |---$Entry"
+
+		set ConfigString " "
+
+		regexp {(.*)::(.*)} $Entry dummy Rtr Intf
+
+		incr Octet4
+		set ip [format "%d.%d.%d.%d" $Octet1 $Octet2 $Octet3 $Octet4]
+
+        set isATM [regexp -nocase {(atm).*} $Intf match int_type]
+
+        # Support for ISDN connections
+
+        set isBRI [regexp -nocase {(bri).*} $Intf match int_type]
+        set isPRI [regexp -nocase {Serial([0-9]/[0-9]):23} $Intf match int_nb]
+
+        if {$isBRI || $isPRI} {
+            # This code is based on the assumption that
+            # option1 corresponds to dial # to router7
+            # and option2 corresponds to dial # to peer router
+            if {[lsearch $ROUTERS($Testbed) $Rtr] == 6} {
+                # option2 corresponds to the dial # to peer router
+                set peer_dial_nbr [lindex $OPTIONS($Testbed) 1]
+            } else {
+                # option1 corresponds to the dial # to router7
+                set peer_dial_nbr [lindex $OPTIONS($Testbed) 0]
+            }
+            if {![info exists peer_ip]} {
+                set peer_ip [format "%d.%d.%d.%d" $Octet1 $Octet2 $Octet3 [expr {$Octet4+1}]]
+            } else {
+                set peer_ip [format "%d.%d.%d.%d" $Octet1 $Octet2 $Octet3 [expr {$Octet4-1}]]
+            }
+    
+            if {$isBRI} {
+                $Rtr config "
+                    ip routing
+                    isdn switch-type basic-5ess
+                    interface $Intf
+                        encapsulation ppp
+                        dialer-group 1
+                        dialer map ip $peer_ip $peer_dial_nbr
+                        exit
+                    dialer-list 1 protocol ip permit
+                "
+            } else {
+                $Rtr config "
+                    ip routing
+                    isdn switch-type primary-5ess
+                    controller T1 $int_nb
+                        no shutdown
+                        framing esf
+                        linecode b8zs
+                        pri-group timeslots 1-24
+                        exit
+                    interface $Intf
+                        encapsulation ppp
+                        dialer-group 1
+                        dialer map ip $peer_ip $peer_dial_nbr
+                        exit
+                    dialer-list 1 protocol ip permit
+                "
+            }
+        }
+
+		if {!($isATM)} {
+			$Rtr config	"interface $Intf
+						 ip address $ip 255.255.255.0
+						 no shut"
+			# Store $Rtr's$Intf vs. ip mapping in IpMap
+			set key [format "%s's %s" $Rtr $Intf]
+		} else {
+			$Rtr config	 "interface $Intf
+							 no shut"
+			$Rtr config	 "interface $Intf.1 point-to-point
+							 ip address $ip 255.255.255.0
+							 pvc 3/300
+							 no shut"
+
+			set key [format "%s's %s" $Rtr $Intf.1]
+		}
+
+		set IpMap($key) $ip
+	}
+
+	foreach {key ip} [array get IpMap] {
+		regexp {(.*)'s (.*)} $key dummy r i
+
+		foreach {key1 ip1} [array get IpMap] {
+
+			#Skip if we're trying to ping our own interface
+			if {$ip1 == $ip} {
+				continue
+			}
+
+			# If quick mode or already found ping failure, reduce # of ping to 10 to save time
+			# Else use 50 pings for 7600's slow comming up
+			if { $Quick || $PingFailed } {
+				set PingResult [$r ping -count 10 -addr $ip1]
+			} else {
+				set PingResult [$r ping -count 50 -addr $ip1]
+			}
+
+			if {[regexp {([0-9]+)\ percent} $PingResult - Percent] != 1} {
+				puts " |-->Error: $r can't ping ip address of $key1"
+				set TmpResult "$TmpResult\n |-->Error: $r can't ping ip address of $key1"
+				set PingFailed 1
+			}
+
+			if {$Percent < 40} {
+				puts " |-->Warning: $key ($ip) -> $key1 ($ip1) : ping percent $Percent\%"
+				set TmpResult "$TmpResult\n |-->Error: $key ($ip) -> $key1 ($ip1) : ping percent $Percent\%"
+				set PingFailed 1
+			} else {
+				puts " |-->Success: $key ($ip) -> $key1 ($ip1) : ping percent $Percent\%"
+				set TmpResult "$TmpResult\n |-->Pass: $key ($ip) -> $key1 ($ip1) : ping percent $Percent\%"
+			}
+		}
+	}
+
+	# If no ping failure, clean the config
+
+	if { !$PingFailed } {
+        catch {unset isdn_dial_nbr}
+        catch {unset peer_ip}
+		foreach {key ip} [array get IpMap] {
+			regexp {(.*)'s (.*)} $key dummy r i
+
+        	set isBRI [regexp -nocase {(bri).*} $i match int_type]
+	        set isPRI [regexp -nocase {Serial([0-9]/[0-9]):23} $i match int_nb]
+            if {$isBRI || $isPRI} {
+                if {[lsearch $ROUTERS($Testbed) $r] == 6} {
+                    set peer_dial_nbr [lindex $OPTIONS($Testbed) 1]
+                } else {
+                    set peer_dial_nbr [lindex $OPTIONS($Testbed) 0]
+                }
+                if {![info exists peer_ip]} {
+                    set peer_ip [format "%d.%d.%d.%d" $Octet1 $Octet2 $Octet3 [expr {$Octet4+1}]]
+                } else {
+                    set peer_ip [format "%d.%d.%d.%d" $Octet1 $Octet2 $Octet3 [expr {$Octet4-1}]]
+                }
+                if {$isBRI} {
+                    $r config "
+                        no isdn switch-type basic-5ess
+                        interface $i
+                            no encapsulation ppp
+                            no dialer-group 1
+                            no dialer map ip $peer_ip $peer_dial_nbr
+                            no isdn switch-type basic-5ess
+                        no dialer-list 1 protocol ip permit
+                    "
+                } else {
+                    $r config "
+                        controller T1 $int_nb
+                            shutdown
+                            no framing esf
+                            no linecode b8zs
+                            no pri-group timeslots 1-24
+                        no isdn switch-type primary-5ess
+                        no dialer-list 1 protocol ip permit
+                    "
+                }
+            }
+			$r config   "interface $i
+						 no ip address
+						 shut"
+		}
+		puts " |-->all pings are successful\n"
+	    set ResultStrPass "$ResultStrPass\n$TmpResult"
+	} else {
+		set FailedNetwork($key) $Octet1.$Octet2.$Octet3.x
+		incr NetworkFailed
+	    set ResultStrFail "$ResultStrFail\n$TmpResult"
+	}
+
+
+	incr Octet2
+	incr Octet3
+	set Octet4 0
+	catch {unset bri_ip_addr}
+	catch {unset pri_ip_addr}
+}
+
+##############################################################################
+# End of checking
+##############################################################################
+
+
+if { !$NetworkFailed } {
+	set ResultStr "\nAll connections checked in testbed $Testbed are perfect!!! \
+                   $ResultStr\n$ResultStrPass"
+} else {
+	set ResultStr "\nThere is $NetworkFailed errors in testbed $Testbed \
+                   \n$ResultStr \
+                   Bad connections \n$ResultStrFail \
+                   Good connections \n$ResultStrPass"
+}
+
+puts "\n====== SUMMARY ======="
+puts $ResultStr
+
+#exec echo "Checkmap.ping Report:\n$ResultStr\n" | \
+	#mail -s "Checkmap.ping Report on testbed $Testbed" $env(USER)
+
+sendMailMsg $env(USER) "Checkmap.ping Report on testbed $Testbed" \
+            "Checkmap.ping Report:\n$ResultStr\n"

@@ -1,0 +1,6047 @@
+ Sample: Mandatory autotie  -testbed [testbed] -project [project] -SSH_PWD [ssh_pwd] 
+ options: -tree [testing baseline solid custom auto] default auto
+ options: -CFLOW 		[TRUE FALSE] 		default FALSE 
+ options: -TIMS  		[TRUE FALSE] 		default FALSE 
+ options: -EMAIL_WARN  	[any]  			default "none"
+ options: -DEBUG  	[ON OFF]    		default OFF   
+ options: -MODE   	[NORMAL VERTICAL]    	default NORMAL
+1: : 2012-04-09T22:15:25: %aetest-5-NOTICE: The testbed selected is sfr
+/auto/tftp-joaofer/sfr/testing/c1900-universalk9-mz.SSA04-04-12 /auto/tftp-joaofer/sfr/testing/c890-universalk9-mz2012-04-09 /auto/tftp-joaofer/sfr/testing/c3825-PAGENT /auto/tftp-joaofer/sfr/testing/c3845-PAGENT /auto/tftp-joaofer/sfr/testing/c3845-advsecurityk9 /auto/tftp-joaofer/sfr/testing/c7200p-PAGENT /auto/tftp-joaofer/sfr/testing/c2900-universalk9-mz.SSA2012-04-09 /auto/tftp-joaofer/sfr/testing/c2951-universalk9-mz.SSA2012-04-06 
+ router waasperf2-waas is not defined in clean.sfr 
+
+ router waasperf2-ixia is not defined in clean.sfr 
+
+ router waasperf2-avalanche is not defined in clean.sfr 
+
+ router waasperf2-reflector is not defined in clean.sfr 
+
+/auto/tftp-joaofer/sfr/baseline/c2900-universalk9-mz.SSA04-08-12 /auto/tftp-joaofer/sfr/baseline/c2951-universalk9-mz.SSA04-08-12 /auto/tftp-joaofer/sfr/baseline/c1900-universalk9-mz.SSA04-08-12 /auto/tftp-joaofer/sfr/baseline/c3845-advsecurityk904-08-12 /auto/tftp-joaofer/sfr/baseline/c3825-PAGENT /auto/tftp-joaofer/sfr/baseline/c890-universalk9-mz04-09-12 /auto/tftp-joaofer/sfr/baseline/c3845-PAGENT /auto/tftp-joaofer/sfr/baseline/c7200p-PAGENT 
+ 1333924824 and 1330301966
+ 1333924824 and 1333924824
+ 1333924824 and 1333578542
+ 1333924824 and 0
+ 1333924824 and 1333924824
+ 1333924824 and 1326675054
+ 1333924824 and 1327278752
+ 1333924824 and 1327825814
+ 1333924824 and 1328159903
+ 1333924824 and 1329902766
+ 1333924824 and 1331503156
+ 1333924824 and 1332106868
+ 1333924824 and 1332366976
+ 1333924824 and 1332908633
+ 1333925766 and 1330302965
+ 1333925766 and 1333925766
+ 1333925766 and 1333579738
+ 1333925766 and 0
+ 1333925766 and 1333925766
+ 1333925766 and 1326676532
+ 1333925766 and 1327280035
+ 1333925766 and 1327827339
+ 1333925766 and 1328161167
+ 1333925766 and 1329903884
+ 1333925766 and 1331504298
+ 1333925766 and 1332107890
+ 1333925766 and 1332368059
+ 1333925766 and 1332909730
+ 1333924061 and 1330301128
+ 1333924061 and 1333924061
+ 1333924061 and 1333577516
+ 1333924061 and 0
+ 1333924061 and 1333924061
+ 1333924061 and 1326673875
+ 1333924061 and 1327277633
+ 1333924061 and 1327824338
+ 1333924061 and 1328158575
+ 1333924061 and 1329901788
+ 1333924061 and 1331502222
+ 1333924061 and 1332106005
+ 1333924061 and 1332366091
+ 1333924061 and 1332907714
+ 1333962102 and 1330337936
+ 1333962102 and 1333962102
+ 1333962102 and 1333618675
+ 1333962102 and 0
+ 1333962102 and 1333962102
+ 1333962102 and 1326723017
+ 1333962102 and 1327329547
+ 1333962102 and 1327872528
+ 1333962102 and 1328205431
+ 1333962102 and 1329941200
+ 1333962102 and 1331541489
+ 1333962102 and 1332143724
+ 1333962102 and 1332405913
+ 1333962102 and 1332946880
+ 1333943748 and 1330319865
+ 1333943748 and 1333943748
+ 1333943748 and 1333599238
+ 1333943748 and 0
+ 1333943748 and 1333943748
+ 1333943748 and 1326699757
+ 1333943748 and 1327302417
+ 1333943748 and 1327849953
+ 1333943748 and 1328182767
+ 1333943748 and 1329922809
+ 1333943748 and 1331522475
+ 1333943748 and 1332125258
+ 1333943748 and 1332386017
+ 1333943748 and 1332928558
+ router waasperf2-waas is not defined in clean.sfr 
+
+ router waasperf2-ixia is not defined in clean.sfr 
+
+ router waasperf2-avalanche is not defined in clean.sfr 
+
+ router waasperf2-reflector is not defined in clean.sfr 
+
+ 
+no image for the router waasperf2-72b, lets get one, search for c7200p-PAGENT 
+
+/release/91-interim
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.1.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.10.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.2.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.3.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.30.GOSIP.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.4.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.5.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.6.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.7.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.8.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.9.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/914.1.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/914.2.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/914.3.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/914.4.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/A100
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/914.5.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/914.6.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/921.1.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/921.2.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/921.3.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/IOSXE
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/IOSXE-3
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/IOU-test
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/IOX
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/build
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/ccaudit
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/diags
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/ha-matrix
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/rel
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/release-hard
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/rom.test
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/rom.test.new
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/sprs
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/sprs.be
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/100
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/102
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/103
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/110
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/111
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/a
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/README.CDS
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/112
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/113
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/120
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/121
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/122
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/123
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/124
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/125
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/150
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/151
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/199
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/8X
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/90.9.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.11.READONLY.PRETAPE
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.12.READONLY.PRETAPE
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/917.4.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/917.6.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91clean
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/9X
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/BB
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/CEMF
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/IJ
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/ISP
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/access
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/ciscosecure
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/cpm
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/eng-specials
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/ga
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/help
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/ibu
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/ios
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/netbu
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/non-ios
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/nsmbu
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/nubu
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/wanbu
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/stdout.build19.log
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/152
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/IOSXE-15
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/IOSXE-15.old
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+no image for the router waasperf2-3825b, lets get one, search for c3825-PAGENT 
+
+/release/91-interim
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.1.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.10.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.2.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.3.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.30.GOSIP.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.4.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.5.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.6.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.7.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.8.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.9.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/914.1.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/914.2.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/914.3.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/914.4.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/A100
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/914.5.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/914.6.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/921.1.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/921.2.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/921.3.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/IOSXE
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/IOSXE-3
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/IOU-test
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/IOX
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/build
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/ccaudit
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/diags
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/ha-matrix
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/rel
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/release-hard
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/rom.test
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/rom.test.new
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/sprs
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/sprs.be
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/100
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/102
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/103
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/110
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/111
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/a
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/README.CDS
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/112
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/113
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/120
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/121
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/122
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/123
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/124
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/125
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/150
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/151
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/199
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/8X
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/90.9.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.11.READONLY.PRETAPE
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.12.READONLY.PRETAPE
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/917.4.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/917.6.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91clean
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/9X
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/BB
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/CEMF
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/IJ
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/ISP
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/access
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/ciscosecure
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/cpm
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/eng-specials
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/ga
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/help
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/ibu
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/ios
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/netbu
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/non-ios
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/nsmbu
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/nubu
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/wanbu
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/stdout.build19.log
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/152
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/IOSXE-15
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/IOSXE-15.old
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+no image for the router waasperf2-29a, lets get one, search for c2900-universalk9-mz.SPA 
+
+/release/91-interim
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.1.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.10.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.2.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.3.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.30.GOSIP.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.4.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.5.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.6.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.7.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.8.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.9.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/914.1.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/914.2.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/914.3.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/914.4.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/A100
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/914.5.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/914.6.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/921.1.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/921.2.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/921.3.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/IOSXE
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/IOSXE-3
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/IOU-test
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/IOX
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/build
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/ccaudit
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/diags
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/ha-matrix
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/rel
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/release-hard
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/rom.test
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/rom.test.new
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/sprs
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/sprs.be
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/100
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/102
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/103
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/110
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/111
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/a
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/README.CDS
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/112
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/113
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/120
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/121
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/122
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/123
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/124
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/125
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/150
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/151
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/199
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/8X
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/90.9.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.11.READONLY.PRETAPE
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.12.READONLY.PRETAPE
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/917.4.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/917.6.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91clean
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/9X
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/BB
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/CEMF
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/IJ
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/ISP
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/access
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/ciscosecure
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/cpm
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/eng-specials
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/ga
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/help
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/ibu
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/ios
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/netbu
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/non-ios
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/nsmbu
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/nubu
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/wanbu
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/stdout.build19.log
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/152
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/IOSXE-15
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/IOSXE-15.old
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+no image for the router waasperf2-2951a, lets get one, search for c2951-universalk9-mz.SPA 
+
+/release/91-interim
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.1.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.10.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.2.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.3.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.30.GOSIP.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.4.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.5.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.6.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.7.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.8.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.9.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/914.1.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/914.2.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/914.3.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/914.4.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/A100
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/914.5.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/914.6.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/921.1.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/921.2.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/921.3.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/IOSXE
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/IOSXE-3
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/IOU-test
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/IOX
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/build
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/ccaudit
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/diags
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/ha-matrix
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/rel
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/release-hard
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/rom.test
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/rom.test.new
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/sprs
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/sprs.be
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/100
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/102
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/103
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/110
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/111
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/a
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/README.CDS
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/112
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/113
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/120
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/121
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/122
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/123
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/124
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/125
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/150
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/151
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/199
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/8X
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/90.9.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.11.READONLY.PRETAPE
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.12.READONLY.PRETAPE
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/917.4.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/917.6.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91clean
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/9X
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/BB
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/CEMF
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/IJ
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/ISP
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/access
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/ciscosecure
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/cpm
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/eng-specials
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/ga
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/help
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/ibu
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/ios
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/netbu
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/non-ios
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/nsmbu
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/nubu
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/wanbu
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/stdout.build19.log
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/152
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/IOSXE-15
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/IOSXE-15.old
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+no image for the router waasperf2-19a, lets get one, search for c1900-universalk9-mz.SPA.151 
+
+/release/91-interim
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.1.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.10.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.2.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.3.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.30.GOSIP.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.4.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.5.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.6.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.7.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.8.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.9.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/914.1.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/914.2.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/914.3.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/914.4.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/A100
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/914.5.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/914.6.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/921.1.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/921.2.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/921.3.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/IOSXE
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/IOSXE-3
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/IOU-test
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/IOX
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/build
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/ccaudit
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/diags
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/ha-matrix
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/rel
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/release-hard
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/rom.test
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/rom.test.new
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/sprs
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/sprs.be
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/100
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/102
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/103
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/110
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/111
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/a
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/README.CDS
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/112
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/113
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/120
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/121
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/122
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/123
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/124
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/125
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/150
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/151
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/199
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/8X
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/90.9.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.11.READONLY.PRETAPE
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.12.READONLY.PRETAPE
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/917.4.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/917.6.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91clean
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/9X
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/BB
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/CEMF
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/IJ
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/ISP
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/access
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/ciscosecure
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/cpm
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/eng-specials
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/ga
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/help
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/ibu
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/ios
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/netbu
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/non-ios
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/nsmbu
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/nubu
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/wanbu
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/stdout.build19.log
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/152
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/IOSXE-15
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/IOSXE-15.old
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+no image for the router waasperf2-800a, lets get one, search for c890-universalk9-mz 
+
+/release/91-interim
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.1.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.10.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.2.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.3.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.30.GOSIP.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.4.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.5.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.6.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.7.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.8.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.9.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/914.1.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/914.2.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/914.3.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/914.4.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/A100
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/914.5.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/914.6.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/921.1.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/921.2.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/921.3.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/IOSXE
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/IOSXE-3
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/IOU-test
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/IOX
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/build
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/ccaudit
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/diags
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/ha-matrix
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/rel
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/release-hard
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/rom.test
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/rom.test.new
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/sprs
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/sprs.be
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/100
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/102
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/103
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/110
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/111
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/a
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/README.CDS
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/112
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/113
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/120
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/121
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/122
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/123
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/124
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/125
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/150
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/151
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/199
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/8X
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/90.9.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.11.READONLY.PRETAPE
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.12.READONLY.PRETAPE
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/917.4.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/917.6.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91clean
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/9X
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/BB
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/CEMF
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/IJ
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/ISP
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/access
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/ciscosecure
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/cpm
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/eng-specials
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/ga
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/help
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/ibu
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/ios
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/netbu
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/non-ios
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/nsmbu
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/nubu
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/wanbu
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/stdout.build19.log
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/152
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/IOSXE-15
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/IOSXE-15.old
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+no image for the router waasperf2-3845c, lets get one, search for c3845-advsecurityk9 
+
+/release/91-interim
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.1.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.10.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.2.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.3.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.30.GOSIP.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.4.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.5.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.6.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.7.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.8.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.9.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/914.1.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/914.2.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/914.3.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/914.4.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/A100
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/914.5.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/914.6.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/921.1.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/921.2.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/921.3.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/IOSXE
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/IOSXE-3
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/IOU-test
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/IOX
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/build
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/ccaudit
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/diags
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/ha-matrix
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/rel
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/release-hard
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/rom.test
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/rom.test.new
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/sprs
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/sprs.be
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/100
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/102
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/103
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/110
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/111
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/a
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/README.CDS
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/112
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/113
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/120
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/121
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/122
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/123
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/124
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/125
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/150
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/151
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/199
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/8X
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/90.9.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.11.READONLY.PRETAPE
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91.12.READONLY.PRETAPE
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/917.4.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/917.6.READONLY
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/91clean
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/9X
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/BB
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/CEMF
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/IJ
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/ISP
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/access
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/ciscosecure
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/cpm
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/eng-specials
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/ga
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/help
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/ibu
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/ios
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/netbu
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/non-ios
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/nsmbu
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/nubu
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/wanbu
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/stdout.build19.log
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/152
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/IOSXE-15
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+/release/IOSXE-15.old
+
+ I should arrived here
+ 2 < 0 
+
+ 2 and 0
+ router waasperf2-waas is not defined in clean.sfr 
+
+ router waasperf2-ixia is not defined in clean.sfr 
+
+ router waasperf2-avalanche is not defined in clean.sfr 
+
+ router waasperf2-reflector is not defined in clean.sfr 
+
+/auto/tftp-joaofer/sfr/testing/c1900-universalk9-mz.SSA04-04-12 /auto/tftp-joaofer/sfr/testing/c890-universalk9-mz2012-04-09 /auto/tftp-joaofer/sfr/testing/c3825-PAGENT /auto/tftp-joaofer/sfr/testing/c3845-PAGENT /auto/tftp-joaofer/sfr/testing/c3845-advsecurityk9 /auto/tftp-joaofer/sfr/testing/c7200p-PAGENT /auto/tftp-joaofer/sfr/testing/c2900-universalk9-mz.SSA2012-04-09 /auto/tftp-joaofer/sfr/testing/c2951-universalk9-mz.SSA2012-04-06 
+ Image for waasperf2-72b set to /auto/tftp-joaofer/sfr/testing/c7200p-PAGENT 
+
+ Image for waasperf2-3825b set to /auto/tftp-joaofer/sfr/testing/c3825-PAGENT 
+
+ Image for waasperf2-29a set to /auto/tftp-joaofer/sfr/testing/c2900-universalk9-mz.SSA2012-04-09 
+
+ Image for waasperf2-2951a set to /auto/tftp-joaofer/sfr/testing/c2951-universalk9-mz.SSA2012-04-06 
+
+ Image for waasperf2-19a set to /auto/tftp-joaofer/sfr/testing/c1900-universalk9-mz.SSA04-04-12 
+
+ Image for waasperf2-800a set to /auto/tftp-joaofer/sfr/testing/c890-universalk9-mz2012-04-09 
+
+ Image for waasperf2-3845c set to /auto/tftp-joaofer/sfr/testing/c3845-advsecurityk9 
+
+ router waasperf2-waas is not defined in clean.sfr, that is fine if you don't want to reload and load new images on it 
+
+ router waasperf2-ixia is not defined in clean.sfr, that is fine if you don't want to reload and load new images on it 
+
+ router waasperf2-avalanche is not defined in clean.sfr, that is fine if you don't want to reload and load new images on it 
+
+ router waasperf2-reflector is not defined in clean.sfr, that is fine if you don't want to reload and load new images on it 
+
+found images for all routers 
+
+/auto/tftp-joaofer/sfr/baseline/c2900-universalk9-mz.SSA04-08-12 /auto/tftp-joaofer/sfr/baseline/c2951-universalk9-mz.SSA04-08-12 /auto/tftp-joaofer/sfr/baseline/c1900-universalk9-mz.SSA04-08-12 /auto/tftp-joaofer/sfr/baseline/c3845-advsecurityk904-08-12 /auto/tftp-joaofer/sfr/baseline/c3825-PAGENT /auto/tftp-joaofer/sfr/baseline/c890-universalk9-mz04-09-12 /auto/tftp-joaofer/sfr/baseline/c3845-PAGENT /auto/tftp-joaofer/sfr/baseline/c7200p-PAGENT 
+ Image for waasperf2-72b set to /auto/tftp-joaofer/sfr/baseline/c7200p-PAGENT 
+
+ Image for waasperf2-3825b set to /auto/tftp-joaofer/sfr/baseline/c3825-PAGENT 
+
+ Image for waasperf2-29a set to /auto/tftp-joaofer/sfr/baseline/c2900-universalk9-mz.SSA04-08-12 
+
+ Image for waasperf2-2951a set to /auto/tftp-joaofer/sfr/baseline/c2951-universalk9-mz.SSA04-08-12 
+
+ Image for waasperf2-19a set to /auto/tftp-joaofer/sfr/baseline/c1900-universalk9-mz.SSA04-08-12 
+
+ Image for waasperf2-800a set to /auto/tftp-joaofer/sfr/baseline/c890-universalk9-mz04-09-12 
+
+ Image for waasperf2-3845c set to /auto/tftp-joaofer/sfr/baseline/c3845-advsecurityk904-08-12 
+
+ router waasperf2-waas is not defined in clean.sfr, that is fine if you don't want to reload and load new images on it 
+
+ router waasperf2-ixia is not defined in clean.sfr, that is fine if you don't want to reload and load new images on it 
+
+ router waasperf2-avalanche is not defined in clean.sfr, that is fine if you don't want to reload and load new images on it 
+
+ router waasperf2-reflector is not defined in clean.sfr, that is fine if you don't want to reload and load new images on it 
+
+found images for all routers 
+
+ 
+WARNING - NO IMAGE DETECTED FOR THIS ROUTER - waasperf2-72b 
+
+autotie:Load configuration from PHP 
+
+SFR20M_MACE_DE
+ sfr is inside sfr 
+NEW TEST ADDED SFR20M_MACE_DE tree:/auto/td-devtest/joaoferixia/ats5.2.0
+SFR20M_MACE_300sec
+ sfr is inside sfr 
+NEW TEST ADDED SFR20M_MACE_300sec tree:/auto/td-devtest/joaoferixia/ats5.2.0
+SFR20M_MACE
+ sfr is inside sfr 
+NEW TEST ADDED SFR20M_MACE tree:/auto/td-devtest/joaoferixia/ats5.2.0
+SFR60M_MACE_NBAR
+ sfr is inside sfr 
+NEW TEST ADDED SFR60M_MACE_NBAR tree:/auto/td-devtest/joaoferixia/ats5.2.0
+SFR60M_MACE_NBAR_QOS
+ sfr is inside sfr 
+NEW TEST ADDED SFR60M_MACE_NBAR_QOS tree:/auto/td-devtest/joaoferixia/ats5.2.0
+SFR60M_NBAR
+ sfr is inside sfr 
+NEW TEST ADDED SFR60M_NBAR tree:/auto/td-devtest/joaoferixia/ats5.2.0
+SFR60M_NOFEATURES
+ sfr is inside sfr 
+NEW TEST ADDED SFR60M_NOFEATURES tree:/auto/td-devtest/joaoferixia/ats5.2.0
+SFR20M_MACE
+ sfr is inside sfr 
+NEW TEST ADDED SFR20M_MACE tree:/auto/td-devtest/joaoferixia/ats5.2.0
+SFR60M_MACE
+ sfr is inside sfr 
+NEW TEST ADDED SFR60M_MACE tree:/auto/td-devtest/joaoferixia/ats5.2.0
+SFR20M_MACE_1ms
+ sfr is inside sfr 
+NEW TEST ADDED SFR20M_MACE_1ms tree:/auto/td-devtest/joaoferixia/ats5.2.0
+SFR20M_MACE_NBAR
+ sfr is inside sfr 
+NEW TEST ADDED SFR20M_MACE_NBAR tree:/auto/td-devtest/joaoferixia/ats5.2.0
+SFR20M_MACE_NBAR
+ sfr is inside sfr 
+NEW TEST ADDED SFR20M_MACE_NBAR tree:/auto/td-devtest/joaoferixia/ats5.2.0
+SFR20M_NBAR
+ sfr is inside sfr 
+NEW TEST ADDED SFR20M_NBAR tree:/auto/td-devtest/joaoferixia/ats5.2.0
+SFR20M_NBAR
+ sfr is inside sfr 
+NEW TEST ADDED SFR20M_NBAR tree:/auto/td-devtest/joaoferixia/ats5.2.0
+SFR20M_MACE_NBAR_QOS
+ sfr is inside sfr 
+NEW TEST ADDED SFR20M_MACE_NBAR_QOS tree:/auto/td-devtest/joaoferixia/ats5.2.0
+SFR20M_MACE_NBAR_QOS
+ sfr is inside sfr 
+NEW TEST ADDED SFR20M_MACE_NBAR_QOS tree:/auto/td-devtest/joaoferixia/ats5.2.0
+MAIN_10M_NOFEATURES
+ sfr is inside sfr 
+NEW TEST ADDED MAIN_10M_NOFEATURES tree:/auto/td-devtest/joaoferixia/ats5.2.0
+MAIN_20M_NOFEATURES
+ sfr is inside sfr 
+NEW TEST ADDED MAIN_20M_NOFEATURES tree:/auto/td-devtest/joaoferixia/ats5.2.0
+MAIN_10M_MACE
+ sfr is inside sfr 
+NEW TEST ADDED MAIN_10M_MACE tree:/auto/td-devtest/joaoferixia/ats5.2.0
+MAIN_20M_MACE
+ sfr is inside sfr 
+NEW TEST ADDED MAIN_20M_MACE tree:/auto/td-devtest/joaoferixia/ats5.2.0
+MAIN_10M_MACE_NBAR
+ sfr is inside sfr 
+NEW TEST ADDED MAIN_10M_MACE_NBAR tree:/auto/td-devtest/joaoferixia/ats5.2.0
+MAIN_20M_MACE_NBAR
+ sfr is inside sfr 
+NEW TEST ADDED MAIN_20M_MACE_NBAR tree:/auto/td-devtest/joaoferixia/ats5.2.0
+MAIN_20M_MACE_NBAR_QOS
+ sfr is inside sfr 
+NEW TEST ADDED MAIN_20M_MACE_NBAR_QOS tree:/auto/td-devtest/joaoferixia/ats5.2.0
+MAIN_10M_MACE_NBAR_QOS
+ sfr is inside sfr 
+NEW TEST ADDED MAIN_10M_MACE_NBAR_QOS tree:/auto/td-devtest/joaoferixia/ats5.2.0
+MAIN_10M_NBAR
+ sfr is inside sfr 
+NEW TEST ADDED MAIN_10M_NBAR tree:/auto/td-devtest/joaoferixia/ats5.2.0
+MAIN_20M_NBAR
+ sfr is inside sfr 
+NEW TEST ADDED MAIN_20M_NBAR tree:/auto/td-devtest/joaoferixia/ats5.2.0
+MAIN_10M_MACE_HTTP
+ sfr is inside sfr 
+NEW TEST ADDED MAIN_10M_MACE_HTTP tree:/auto/td-devtest/joaoferixia/ats5.2.0
+MAIN_20M_MACE_KANG
+ sfr is inside sfr 
+NEW TEST ADDED MAIN_20M_MACE_KANG tree:/auto/td-devtest/joaoferixia/ats5.2.0
+MAIN_60M_MACE
+ sfr is inside sfr 
+NEW TEST ADDED MAIN_60M_MACE tree:/auto/td-devtest/joaoferixia/ats5.2.0
+SECONDARY_20M_MACE
+ sfr is inside sfr 
+NEW TEST ADDED SECONDARY_20M_MACE tree:/auto/td-devtest/joaoferixia/ats5.2.0
+autotie:Load configuration from PHP:done 
+
+autotie:Evaluating if there jobs in queue that we can process 
+
+autotie: no tests in queue
+ the test probability MAIN_20M_MACE_KANG  is 0
+ the test probability MAIN_60M_MACE  is 10
+ the test probability SFR60M_MACE_NBAR  is 1
+ the test probability SECONDARY_20M_MACE  is 10
+ the test probability SFR60M_MACE_NBAR_QOS  is 4
+ the test probability SFR60M_NBAR  is 1
+ the test probability SFR60M_NOFEATURES  is 4
+ the test probability SFR20M_MACE_1ms  is 1
+ the test probability MAIN_10M_NOFEATURES  is 10
+ the test probability SFR20M_MACE_DE  is 1
+ the test probability MAIN_20M_NOFEATURES  is 10
+ the test probability SFR20M_MACE_NBAR  is 5
+ the test probability MAIN_10M_MACE  is 10
+ the test probability SFR20M_MACE_NBAR  is 1
+ the test probability MAIN_20M_MACE  is 10
+ the test probability SFR20M_NBAR  is 1
+ the test probability MAIN_10M_MACE_NBAR  is 10
+ the test probability SFR20M_NBAR  is 1
+ the test probability MAIN_20M_MACE_NBAR  is 10
+ the test probability SFR20M_MACE_NBAR_QOS  is 1
+ the test probability MAIN_20M_MACE_NBAR_QOS  is 10
+ the test probability SFR20M_MACE_NBAR_QOS  is 1
+ the test probability MAIN_10M_MACE_NBAR_QOS  is 10
+ the test probability SFR20M_MACE  is 1
+ the test probability SFR20M_MACE  is 5
+ the test probability MAIN_10M_NBAR  is 10
+ the test probability SFR20M_MACE_300sec  is 1
+ the test probability MAIN_10M_MACE_HTTP  is 10
+ the test probability MAIN_20M_NBAR  is 10
+ the test probability SFR60M_MACE  is 4
+Select point 60.8217361243
+test selected was MAIN_10M_MACE
+ This test runs in a different tree set it up
+/auto/tftp-joaofer/sfr/testing/c1900-universalk9-mz.SSA04-04-12 /auto/tftp-joaofer/sfr/testing/c890-universalk9-mz2012-04-09 /auto/tftp-joaofer/sfr/testing/c3825-PAGENT /auto/tftp-joaofer/sfr/testing/c3845-PAGENT /auto/tftp-joaofer/sfr/testing/c3845-advsecurityk9 /auto/tftp-joaofer/sfr/testing/c7200p-PAGENT /auto/tftp-joaofer/sfr/testing/c2900-universalk9-mz.SSA2012-04-09 /auto/tftp-joaofer/sfr/testing/c2951-universalk9-mz.SSA2012-04-06 
+ router waasperf2-waas is not defined in clean.sfr 
+
+ router waasperf2-ixia is not defined in clean.sfr 
+
+ router waasperf2-avalanche is not defined in clean.sfr 
+
+ router waasperf2-reflector is not defined in clean.sfr 
+
+/auto/tftp-joaofer/sfr/testing/c1900-universalk9-mz.SSA04-04-12 /auto/tftp-joaofer/sfr/testing/c890-universalk9-mz2012-04-09 /auto/tftp-joaofer/sfr/testing/c3825-PAGENT /auto/tftp-joaofer/sfr/testing/c3845-PAGENT /auto/tftp-joaofer/sfr/testing/c3845-advsecurityk9 /auto/tftp-joaofer/sfr/testing/c7200p-PAGENT /auto/tftp-joaofer/sfr/testing/c2900-universalk9-mz.SSA2012-04-09 /auto/tftp-joaofer/sfr/testing/c2951-universalk9-mz.SSA2012-04-06 
+ Image for waasperf2-72b set to /auto/tftp-joaofer/sfr/testing/c7200p-PAGENT 
+
+ Image for waasperf2-3825b set to /auto/tftp-joaofer/sfr/testing/c3825-PAGENT 
+
+ Image for waasperf2-29a set to /auto/tftp-joaofer/sfr/testing/c2900-universalk9-mz.SSA2012-04-09 
+
+ Image for waasperf2-2951a set to /auto/tftp-joaofer/sfr/testing/c2951-universalk9-mz.SSA2012-04-06 
+
+ Image for waasperf2-19a set to /auto/tftp-joaofer/sfr/testing/c1900-universalk9-mz.SSA04-04-12 
+
+ Image for waasperf2-800a set to /auto/tftp-joaofer/sfr/testing/c890-universalk9-mz2012-04-09 
+
+ Image for waasperf2-3845c set to /auto/tftp-joaofer/sfr/testing/c3845-advsecurityk9 
+
+ router waasperf2-waas is not defined in clean.sfr, that is fine if you don't want to reload and load new images on it 
+
+ router waasperf2-ixia is not defined in clean.sfr, that is fine if you don't want to reload and load new images on it 
+
+ router waasperf2-avalanche is not defined in clean.sfr, that is fine if you don't want to reload and load new images on it 
+
+ router waasperf2-reflector is not defined in clean.sfr, that is fine if you don't want to reload and load new images on it 
+
+found images for all routers 
+
+tie-Finish doing image update
+## Starting slow cleaning ## 
+ Cleaning waasperf2-72b 
+ Cleaning waasperf2-3825b 
+ Cleaning waasperf2-29a 
+ Cleaning waasperf2-2951a 
+ Cleaning waasperf2-19a 
+ Cleaning waasperf2-800a 
+ Cleaning waasperf2-3845c 
+ Cleaning waasperf2-waas 
+ router waasperf2-waas is not defined in clean.sfr or not part of the suite 
+
+ Cleaning waasperf2-ixia 
+ router waasperf2-ixia is not defined in clean.sfr or not part of the suite 
+
+ Cleaning waasperf2-avalanche 
+ router waasperf2-avalanche is not defined in clean.sfr or not part of the suite 
+
+ Cleaning waasperf2-reflector 
+ router waasperf2-reflector is not defined in clean.sfr or not part of the suite 
+
+##### Results coming up #####
+
+exp_spawn telnet waasperf2-cs 2035
+exp_spawn telnet waasperf2-cs 2036
+exp_spawn telnet waasperf2-cs 2021
+exp_spawn telnet waasperf2-cs 2038
+exp_spawn telnet waasperf2-cs 2018
+exp_spawn telnet waasperf2-cs 2040
+exp_spawn telnet waasperf2-cs 2037
+Trying 172.19.147.111...
+Trying 172.19.147.111...
+Connected to waasperf2-cs.cisco.com (172.19.147.111).
+Escape character is '^]'.
+Connected to waasperf2-cs.cisco.com (172.19.147.111).
+Escape character is '^]'.
+Connected to waasperf2-cs.cisco.com (172.19.147.111).
+Escape character is '^]'.
+Trying 172.19.147.111...
+Connected to waasperf2-cs.cisco.com (172.19.147.111).
+Escape character is '^]'.
+Trying 172.19.147.111...
+Trying 172.19.147.111...
+Connected to waasperf2-cs.cisco.com (172.19.147.111).
+Escape character is '^]'.
+Connected to waasperf2-cs.cisco.com (172.19.147.111).
+Escape character is '^]'.
+Trying 172.19.147.111...
+Connected to waasperf2-cs.cisco.com (172.19.147.111).
+Escape character is '^]'.
+C
+Hostname: waasperf2-cs
+Testbed:  waasperf2
+
+FRONT
+    Line     Device                         Port
+  -------------------------------------------------
+  P0       waasperf2-19a_aux    (1900)      2034
+  P1       waasperf2-72b        (7200)      2035  working
+  P2       waasperf2-3825b      (3825)      2036  working
+  P3       waasperf2-29a        (2921)      2037  working
+  P4       waasperf2-19a        (1941)      2038  working
+  P5       waasperf2-29a_aux    (2921)      2039
+  P6       waasperf2-800a       (3945)      2040
+  P7       waasperf2-3825b-aux  (3945)      2041
+  -------------------------------------------------
+BACK
+    Line     Device                         Port
+  -------------------------------------------------
+  P0       waasperf2-3845c      (3845)      2018 workind new flash
+  P1       waasperf2-sw         (7200)      2019 working
+  P2       waasperf2-fw         (1900)      2020 working
+  P3       waasperf2-2951a       (88x)       2021
+  P4       Waas application     (512c)      2022 working
+  P5       waasperf2-power      (power)     2023 working
+  P6       waasperf2-3845c_aux  (3845)      2024
+  P7       waasperf2-sw2        (3945)      2025
+  -------------------------------------------------
+Lhotse
+    Line     Device                         Port
+  -------------------------------------------------
+  P0       lhotseperf-fw        (1900)       2050 
+  P1       lhotse-asr1k_a       (ASR1K1004)  2051
+  P2       lhotse-asr1k_a-aux   (ASR1K1004)  2052
+  P3       lhotse-asr1k_b       (ASR1K1004)  2053
+  P4       lhotse-asr1k_b-aux   (ASR1K1004)  2054
+  P5       lhotse-asr1k_c       (ASR1K1002)  2055
+  P6       lhotse-asr1k_c-aux   (ASR1K1002)  2056
+  
+  P0       lhotseperf-sw      (512c)      2058 working
+  -------------------------------------------------
+C
+Hostname: waasperf2-cs
+Testbed:  waasperf2
+
+FRONT
+    Line     Device                         Port
+  -------------------------------------------------
+  P0       waasperf2-19a_aux    (1900)      2034
+  P1       waasperf2-72b        (7200)      2035  working
+  P2       waasperf2-3825b      (3825)      2036  working
+  P3       waasperf2-29a        (2921)      2037  working
+  P4       waasperf2-19a        (1941)      2038  working
+  P5       waasperf2-29a_aux    (2921)      2039
+  P6       waasperf2-800a       (3945)      2040
+  P7       waasperf2-3825b-aux  (3945)      2041
+  -------------------------------------------------
+BACK
+    Line     Device                         Port
+  -------------------------------------------------
+  P0       waasperf2-3845c      (3845)      2018 workind new flash
+  P1       waasperf2-sw         (7200)      2019 working
+  P2       waasperf2-fw         (1900)      2020 working
+  P3       waasperf2-2951a       (88x)       2021
+  P4       Waas application     (512c)      2022 working
+  P5       waasperf2-power      (power)     2023 working
+  P6       waasperf2-3845c_aux  (3845)      2024
+  P7       waasperf2-sw2        (3945)      2025
+  -------------------------------------------------
+Lhotse
+    Line     Device                         Port
+  -------------------------------------------------
+  P0       lhotseperf-fw        (1900)       2050 
+  P1       lhotse-asr1k_a       (ASR1K1004)  2051
+  P2       lhotse-asr1k_a-aux   (ASR1K1004)  2052
+  P3       lhotse-asr1k_b       (ASR1K1004)  2053
+  P4       lhotse-asr1k_b-aux   (ASR1K1004)  2054
+  P5       lhotse-asr1k_c       (ASR1K1002)  2055
+  P6       lhotse-asr1k_c-aux   (ASR1K1002)  2056
+  
+  P0       lhotseperf-sw      (512c)      2058 working
+  -------------------------------------------------
+C
+Hostname: waasperf2-cs
+Testbed:  waasperf2
+
+FRONT
+    Line     Device                         Port
+  -------------------------------------------------
+  P0       waasperf2-19a_aux    (1900)      2034
+  P1       waasperf2-72b        (7200)      2035  working
+  P2       waasperf2-3825b      (3825)      2036  working
+  P3       waasperf2-29a        (2921)      2037  working
+  P4       waasperf2-19a        (1941)      2038  working
+  P5       waasperf2-29a_aux    (2921)      2039
+  P6       waasperf2-800a       (3945)      2040
+  P7       waasperf2-3825b-aux  (3945)      2041
+  -------------------------------------------------
+BACK
+    Line     Device                         Port
+  -------------------------------------------------
+  P0       waasperf2-3845c      (3845)      2018 workind new flash
+  P1       waasperf2-sw         (7200)      2019 working
+  P2       waasperf2-fw         (1900)      2020 working
+  P3       waasperf2-2951a       (88x)       2021
+  P4       Waas application     (512c)      2022 working
+  P5       waasperf2-power      (power)     2023 working
+  P6       waasperf2-3845c_aux  (3845)      2024
+  P7       waasperf2-sw2        (3945)      2025
+  -------------------------------------------------
+Lhotse
+    Line     Device                         Port
+  -------------------------------------------------
+  P0       lhotseperf-fw        (1900)       2050 
+  P1       lhotse-asr1k_a       (ASR1K1004)  2051
+  P2       lhotse-asr1k_a-aux   (ASR1K1004)  2052
+  P3       lhotse-asr1k_b       (ASR1K1004)  2053
+  P4       lhotse-asr1k_b-aux   (ASR1K1004)  2054
+  P5       lhotse-asr1k_c       (ASR1K1002)  2055
+  P6       lhotse-asr1k_c-aux   (ASR1K1002)  2056
+  
+  P0       lhotseperf-sw      (512c)      2058 working
+  -------------------------------------------------
+C
+Hostname: waasperf2-cs
+Testbed:  waasperf2
+
+FRONT
+    Line     Device                         Port
+  -------------------------------------------------
+  P0       waasperf2-19a_aux    (1900)      2034
+  P1       waasperf2-72b        (7200)      2035  working
+  P2       waasperf2-3825b      (3825)      2036  working
+  P3       waasperf2-29a        (2921)      2037  working
+  P4       waasperf2-19a        (1941)      2038  working
+  P5       waasperf2-29a_aux    (2921)      2039
+  P6       waasperf2-800a       (3945)      2040
+  P7       waasperf2-3825b-aux  (3945)      2041
+  -------------------------------------------------
+BACK
+    Line     Device                         Port
+  -------------------------------------------------
+  P0       waasperf2-3845c      (3845)      2018 workind new flash
+  P1       waasperf2-sw         (7200)      2019 working
+  P2       waasperf2-fw         (1900)      2020 working
+  P3       waasperf2-2951a       (88x)       2021
+  P4       Waas application     (512c)      2022 working
+  P5       waasperf2-power      (power)     2023 working
+  P6       waasperf2-3845c_aux  (3845)      2024
+  P7       waasperf2-sw2        (3945)      2025
+  -------------------------------------------------
+Lhotse
+    Line     Device                         Port
+  -------------------------------------------------
+  P0       lhotseperf-fw        (1900)       2050 
+  P1       lhotse-asr1k_a       (ASR1K1004)  2051
+  P2       lhotse-asr1k_a-aux   (ASR1K1004)  2052
+  P3       lhotse-asr1k_b       (ASR1K1004)  2053
+  P4       lhotse-asr1k_b-aux   (ASR1K1004)  2054
+  P5       lhotse-asr1k_c       (ASR1K1002)  2055
+  P6       lhotse-asr1k_c-aux   (ASR1K1002)  2056
+  
+  P0       lhotseperf-sw      (512c)      2058 working
+  -------------------------------------------------
+C
+Hostname: waasperf2-cs
+Testbed:  waasperf2
+
+FRONT
+    Line     Device                         Port
+  -------------------------------------------------
+  P0       waasperf2-19a_aux    (1900)      2034
+  P1       waasperf2-72b        (7200)      2035  working
+  P2       waasperf2-3825b      (3825)      2036  working
+  P3       waasperf2-29a        (2921)      2037  working
+  P4       waasperf2-19a        (1941)      2038  working
+  P5       waasperf2-29a_aux    (2921)      2039
+  P6       waasperf2-800a       (3945)      2040
+  P7       waasperf2-3825b-aux  (3945)      2041
+  -------------------------------------------------
+BACK
+    Line     Device                         Port
+  -------------------------------------------------
+  P0       waasperf2-3845c      (3845)      2018 workind new flash
+  P1       waasperf2-sw         (7200)      2019 working
+  P2       waasperf2-fw         (1900)      2020 working
+  P3       waasperf2-2951a       (88x)       2021
+  P4       Waas application     (512c)      2022 working
+  P5       waasperf2-power      (power)     2023 working
+  P6       waasperf2-3845c_aux  (3845)      2024
+  P7       waasperf2-sw2        (3945)      2025
+  -------------------------------------------------
+Lhotse
+    Line     Device                         Port
+  -------------------------------------------------
+  P0       lhotseperf-fw        (1900)       2050 
+  P1       lhotse-asr1k_a       (ASR1K1004)  2051
+  P2       lhotse-asr1k_a-aux   (ASR1K1004)  2052
+  P3       lhotse-asr1k_b       (ASR1K1004)  2053
+  P4       lhotse-asr1k_b-aux   (ASR1K1004)  2054
+  P5       lhotse-asr1k_c       (ASR1K1002)  2055
+  P6       lhotse-asr1k_c-aux   (ASR1K1002)  2056
+  
+  P0       lhotseperf-sw      (512c)      2058 working
+  -------------------------------------------------
+C
+Hostname: waasperf2-cs
+Testbed:  waasperf2
+
+FRONT
+    Line     Device                         Port
+  -------------------------------------------------
+  P0       waasperf2-19a_aux    (1900)      2034
+  P1       waasperf2-72b        (7200)      2035  working
+  P2       waasperf2-3825b      (3825)      2036  working
+  P3       waasperf2-29a        (2921)      2037  working
+  P4       waasperf2-19a        (1941)      2038  working
+  P5       waasperf2-29a_aux    (2921)      2039
+  P6       waasperf2-800a       (3945)      2040
+  P7       waasperf2-3825b-aux  (3945)      2041
+  -------------------------------------------------
+BACK
+    Line     Device                         Port
+  -------------------------------------------------
+  P0       waasperf2-3845c      (3845)      2018 workind new flash
+  P1       waasperf2-sw         (7200)      2019 working
+  P2       waasperf2-fw         (1900)      2020 working
+  P3       waasperf2-2951a       (88x)       2021
+  P4       Waas application     (512c)      2022 working
+  P5       waasperf2-power      (power)     2023 working
+  P6       waasperf2-3845c_aux  (3845)      2024
+  P7       waasperf2-sw2        (3945)      2025
+  -------------------------------------------------
+Lhotse
+    Line     Device                         Port
+  -------------------------------------------------
+  P0       lhotseperf-fw        (1900)       2050 
+  P1       lhotse-asr1k_a       (ASR1K1004)  2051
+  P2       lhotse-asr1k_a-aux   (ASR1K1004)  2052
+  P3       lhotse-asr1k_b       (ASR1K1004)  2053
+  P4       lhotse-asr1k_b-aux   (ASR1K1004)  2054
+  P5       lhotse-asr1k_c       (ASR1K1002)  2055
+  P6       lhotse-asr1k_c-aux   (ASR1K1002)  2056
+  
+  P0       lhotseperf-sw      (512c)      2058 working
+  -------------------------------------------------
+C
+Hostname: waasperf2-cs
+Testbed:  waasperf2
+
+FRONT
+    Line     Device                         Port
+  -------------------------------------------------
+  P0       waasperf2-19a_aux    (1900)      2034
+  P1       waasperf2-72b        (7200)      2035  working
+  P2       waasperf2-3825b      (3825)      2036  working
+  P3       waasperf2-29a        (2921)      2037  working
+  P4       waasperf2-19a        (1941)      2038  working
+  P5       waasperf2-29a_aux    (2921)      2039
+  P6       waasperf2-800a       (3945)      2040
+  P7       waasperf2-3825b-aux  (3945)      2041
+  -------------------------------------------------
+BACK
+    Line     Device                         Port
+  -------------------------------------------------
+  P0       waasperf2-3845c      (3845)      2018 workind new flash
+  P1       waasperf2-sw         (7200)      2019 working
+  P2       waasperf2-fw         (1900)      2020 working
+  P3       waasperf2-2951a       (88x)       2021
+  P4       Waas application     (512c)      2022 working
+  P5       waasperf2-power      (power)     2023 working
+  P6       waasperf2-3845c_aux  (3845)      2024
+  P7       waasperf2-sw2        (3945)      2025
+  -------------------------------------------------
+Lhotse
+    Line     Device                         Port
+  -------------------------------------------------
+  P0       lhotseperf-fw        (1900)       2050 
+  P1       lhotse-asr1k_a       (ASR1K1004)  2051
+  P2       lhotse-asr1k_a-aux   (ASR1K1004)  2052
+  P3       lhotse-asr1k_b       (ASR1K1004)  2053
+  P4       lhotse-asr1k_b-aux   (ASR1K1004)  2054
+  P5       lhotse-asr1k_c       (ASR1K1002)  2055
+  P6       lhotse-asr1k_c-aux   (ASR1K1002)  2056
+  
+  P0       lhotseperf-sw      (512c)      2058 working
+  -------------------------------------------------
+
+waasperf2-800a#terminal length 0
+waasperf2-800a#
+waasperf2-3825b#
+waasperf2-3845c#config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+waasperf2-800a(config)#terminal lterminal lno logging console
+waasperf2-800a(config)#ength 0ength 0end
+waasperf2-800a#show version
+
+waasperf2-3825b#
+waasperf2-3845c#Cisco IOS Software, C890 Software (C890-UNIVERSALK9-M), Version 15.2(SFR_NIGHTLY_20120409)T, EARLY DEPLOYMENT DEVELOPMENT BUILD, synced to V152_3_5_T
+Copyright (c) 1986-2012 by Cisco Systems, Inc.
+Cconfig terconfig terompiled Mon 09-Apr-12 19:09 by ymittal
+
+ROM: System Bootstrap, Version 12.4(22r)YB3, RELEASE SOFTWARE (fc1)
+
+waasperf2-800a uptime is 46 minutes
+System returned to ROM by reload at 21:26:56 PDT Mminalminalon Apr 9 2012
+System restarted at 21:29:22 PDT Mon Apr 9 2012
+System image file is "tftp://128.107.150.5//auto/tftp-joaofer/sfr/testing/c890-universalk9-mz2012-04-09"
+Last reload type: Normal Reload
+Last reload reason: Reload Command
+
+
+
+This product contains cryptographic features and is subject to United
+States and local country laws governing import, export, transfer and
+use. Delivery of Cisco cryptographic products does not imply
+third-party authority to import, export, distribute 
+waasperf2-29a>or use encryption.
+Importers, exporters, distributors and users are responsible for
+compliance with U.S. and local country laws. By using this product you
+agree to comply with applicable laws and regulations. If you are unable
+to comply with U.S. and local laws, return this product immediately.enable
+
+A summary of U.S. laws governing Cisco cryptographic products may be found at:
+http://www.cisco.com/wwl/export/crypto/tool/stqrg.html
+
+If you require further assistance please contact us by sending email to
+export@cisco.com.
+
+Cisco 891 (MPC8300) processor (revision 1.0) with 747520K/38912K 
+Password: bytes of memory.
+Processor board ID FTX1504016F
+
+9 FastEthernet interfaces
+1 Gigabit Ethernet in
+Enter configuration commands, one per line.  End with CNTL/Z.
+waasperf2-3825b(config)#
+Enter configuration commands, one per line.  End with CNTL/Z.
+waasperf2-3845c(config)#terface
+1 Serial interface
+1 terminal line
+1 Virtual Private Network (VPN) Module
+256K bytes of non-volatile configuration memory.
+250880K bytes of ATA CompactFlash (Read/Write)
+
+
+License Info:
+
+License UDI:
+
+-------------------------------------------------
+Device#	  PID			SN
+--------no loggingno logging-----------------------------------------
+*0  	  CISCO891-K9           FTX1504016F     
+
+
+
+License Information for 'c890'
+    License Level: advipservices   Type: Permanent
+    Next reboot lice
+waasperf2-29a#nse Level: advipservices
+
+
+Configuration register is 0x1820
+
+waasperf2-800a# console consoleterm width 0
+waasperf2-800a#config terminal
+waasperf2-3845c(config)#
+Enter configuration commands, one per line.  End with CNTL/Z.
+waasperf2-800a(config)#
+waasperf2-3825b(config)# no logging console
+waasperf2-800a(config)#terminal lline con 0
+end
+waasperf2-3845c#waasperf2-800a(config-line)#end
+waasperf2-3825b#exec-timeout 0
+waasperf2-800a(config-line)#show versiclock timeshow versizone PDT -7ength 0
+waasperf2-800a(config)#ononservice ti
+waasperf2-2951a>mestamps debug datetime localtime show-timezone msec
+waasperf2-800a(config)#
+waasperf2-29a#service timestamps log datetime localtime show-timezone msec
+waasperf2-800a(config)#enableend
+waasperf2-800a#clock set 22:15:35 09 Apr 2012
+waasperf2-800a#
+Password: write erasconfig tere
+
+Cisco IOS Software, 3800 Software (C3825-TPGEN+ADVENTERPRISEK9-M), Experimental Version 12.4(20100
+Cisco IOS Software, 3800 Software (C3845-ADVSECURITYK9-M), Version 15.1(4)M0.1, MAINTENANCE INTERIErasing the nvram filesystem will remove all configuration files! Continue? [confirm]minal
+waasperf2-2951a#323:103320) [shgautam-v48-reg 115]
+Copyright (c) 1986-2010 by Cisco Systems, Inc.
+Compiled Tue 23-M SOFTWARE
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2011 by Cisco Syterminal l
+Enter configuration commands, one per line.  End with CNTL/Z.
+waasperf2-29a(config)#ength 0Mar-10 16:58 by shgautam
+
+ROM: System Bootstrap, Version 12.3(11r)T2, RELEASE SOFTWARE (fc1)
+
+wastems, Inc.
+Compiled Sun 10-Apr-11 13:47 by prod_rel_team
+
+ROM: System Bootstrap, Version 12.4(13
+waasperf2-19a>
+waasperf2-2951a#enableno logging
+Password: 
+waasperf2-72b>config terenable consoleasperf2-3825b uptime is 44 minutes
+System returned to ROM by reload at 21:27:01 PDT Mon Apr 9 2012r)T11, RELEASE SOFTWARE (fc1)
+
+waasperf2-3845c uptime is 6 hours, 43 minutes
+System returned to R
+Password: 
+waasperf2-19a#minal
+waasperf2-29a(config)#
+waasperf2-72b#terminal lterminal lend
+waasperf2-29a#
+System restarted at 21:31:20 PDT Mon Apr 9 2012
+System image file is "tftp://128.107.150.5//auto/tOM by reload at 15:27:51 PDT Mon Apr 9 2012
+System restarted at 15:32:12 PDT Mon Apr 9 2012
+Systemength 0ength 0
+waasperf2-72b#
+Enter configuration commands, one per line.  End with CNTL/Z.
+waasperf2-2951a(config)#show versiconfig ter
+waasperf2-19a#onminalftp-joaofer/sfr/testing/c3825-PAGENT"
+
+
+This product contains cryptographic features and is subje image file is "tftp://128.107.150.5//auto/tftp-joaofer/sfr/testing/c3845-advsecurityk9"
+Last reloa
+no loggingconfig ter consoleminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+waasperf2-72b(config)#ct to United
+States and local country laws governing import, export, transfer and
+use. Delivery ofd type: Normal Reload
+
+
+This product contains cryptographic features and is subject to United
+St
+waasperf2-2951a(config)#no loggingCisco IOS Software, C2900 Software (C2900-UNIVERSALK9-M), Version 15.2(SFR_NIGHTLY_20120404)T, EARLY consoleend
+waasperf2-2951a#
+waasperf2-72b(config)# Cisco cryptographic products does not imply
+third-party authority to import, export, distribute orates and local country laws governing import, export, transfer and
+use. Delivery of Cisco cryptogra
+Enter configuration commands, one per line.  End with CNTL/Z.
+waasperf2-19a(config)#end
+waasperf2-72b# DEPLOYMENT DEVELOPMENT BUILD, synced to V152_3_5_T
+Copyright (c) 1986-2012 by Cisco Systems, Inc.show versishow versiononno logging use encryption.
+Importers, exporters, distributors and users are responsible for
+compliance with phic products does not imply
+third-party authority to import, export, distribute or use encryption.
+ console
+Compiled Thu 05-Apr-12 02:24 by ymittal
+
+ROM: System Bootstrap, Version 15.0(1r)M9, RELEASE SOFTW
+Cisco IOS Software, 7200 Software (C7200P-TSPGEN-M), Experimental Version 12.4(20100315:110942) [s
+waasperf2-19a(config)#U.S. and local country laws. By using this product you
+agree to comply with applicable laws and reg
+Importers, exporters, distributors and users are responsible for
+compliance with U.S. and local cend
+waasperf2-19a#ARE (fc1)
+
+waasperf2-29a uptime is 7 hours, 3 minutes
+System returned to ROM by reload at 15:07:5hgautam-v48-reg 111]
+Copyright (c) 1986-2010 by Cisco Systems, Inc.
+Compiled Mon 22-Mar-10 14:07 bulations. If you are unable
+to comply with U.S. and local laws, return this product immediately.
+ountry laws. By using this product you
+agree to comply with applicable laws and regulations. If youshow versionCisco IOS Software, C2951 Software (C2951-UNIVERSALK9-M), Version 15.2(SFR_NIGHTLY_20120406)T, EARLY
+0 PDT Mon Apr 9 2012
+System restarted at 14:12:23 PDT Mon Apr 9 2012
+System image file is "tftp://y shgautam
+
+ROM: System Bootstrap, Version 12.4(4r)XD5, RELEASE SOFTWARE (fc1)
+BOOTLDR: Cisco IOS
+A summary of U.S. laws governing Cisco cryptographic products may be found at:
+http://www.cisco.co are unable
+to comply with U.S. and local laws, return this product immediately.
+
+A summary of U. DEPLOYMENT DEVELOPMENT BUILD, synced to V152_3_5_T
+Copyright (c) 1986-2012 by Cisco Systems, Inc. Software, 7200 Software (C7200P-KBOOT-M), Version 12.4(4)XD5, RELEASE SOFTWARE (fc1)
+
+waasperf2-7128.107.150.5//auto/tftp-joaofer/sfr/testing/c2900-universalk9-mz.SSA2012-04-"
+Last reload type: Nom/wwl/export/crypto/tool/stqrg.html
+
+If you require further assistance please contact us by sendinS. laws governing Cisco cryptographic products may be found at:
+http://www.cisco.com/wwl/export/cryCisco IOS Software, C1900 Software (C1900-UNIVERSALK9-M), Version 15.2(3.7)T, ENGINEERING WEEKLY BUI
+[OK]
+Erase of nvram: complete
+waasperf2-800a#reload
+
+System configuration has been modified. Save? [yes/no]: n
+Compiled Sat 07-Apr-12 03:43 by ymittal
+
+ROM: System Bootstrap, Version 15.0(1r)M6, RELEASE SOFTW2b uptime is 7 hours, 18 minutes
+System returned to ROM by reload at 14:54:38 PDT Mon Apr 9 2012
+Srmal Reload
+Last reload reason: Reload Command
+
+
+
+This product contains cryptographic features g email to
+export@cisco.com.
+
+Cisco 3825 (revision 1.0) with 1009664K/38912K bytes of memory.
+Prpto/tool/stqrg.html
+
+If you require further assistance please contact us by sending email to
+expoLD, synced to V151_4_M3_12
+Copyright (c) 1986-2012 by Cisco Systems, Inc.
+Compiled Wed 04-Apr-12 1ARE (fc1)
+
+waasperf2-2951a uptime is 1 hour, 47 minutes
+System returned to ROM by reload at 20:23ystem restarted at 13:57:13 PDT Mon Apr 9 2012
+System image file is "tftp://128.107.150.5//auto/tft
+Proceed with reload? [confirm]ocessor board ID FTX1003C1WH
+2 Gigabit Ethernet interfaces
+4 Serial(sync/async) interfaces
+1 Virtrt@cisco.com.
+
+Cisco 3845 (revision 1.0) with 1007616K/40960K bytes of memory.
+Processor board IDand is subject to United
+States and local country laws governing import, export, transfer and
+use.5:06 by hlo
+
+ROM: System Bootstrap, Version 15.0(1r)M3, RELEASE SOFTWARE (fc1)
+
+waasperf2-19a upp-joaofer/sfr/testing/c7200p-PAGENT"
+Last reload reason: Reload Command
+
+
+Cisco 7206VXR (NPE-G2):46 PDT Mon Apr 9 2012
+System restarted at 19:28:07 PDT Mon Apr 9 2012
+System image file is "tftp:ual Private Network (VPN) Module
+DRAM configuration is 64 bits wide with parity enabled.
+479K byte FTX1340AJJT
+2 FastEthernet interfaces
+2 Gigabit Ethernet interfaces
+1 Virtual Private Network (V Delivery of Cisco cryptographic products does not imply
+third-party authority to import, export, dtime is 6 hours, 51 minutes
+System returned to ROM by reload at 15:19:34 PDT Mon Apr 9 2012
+System processor (revision A) with 917504K/65536K bytes of memory.
+Processor board ID 34850032
+MPC7448 Cs of NVRAM.
+250368K bytes of ATA System CompactFlash (Read/Write)
+
+Configuration register is 0x0PN) Module
+DRAM configuration is 64 bits wide with parity enabled.
+479K bytes of NVRAM.
+62720K by//128.107.150.5//auto/tftp-joaofer/sfr/testing/c2951-universalk9-mz.SSA2012-04-"
+Last reload type: istribute or use encryption.
+Importers, exporters, distributors and users are responsible for
+comp
+
+waasperf2-3825b# restarted at 14:23:44 PDT Mon Apr 9 2012
+System image file is "tftp://128.107.150.5//auto/tftp-joaterm width 0PU at 1666Mhz, Implementation 0, Rev 2.2
+6 slot VXR midplane, Version 2.11
+
+Last reset from powertes of ATA System CompactFlash (Read/Write)
+
+
+License Info:
+
+License UDI:
+
+------------------Normal Reload
+Last reload reason: Reload Command
+
+
+
+This product contains cryptographic feature
+waasperf2-3825b#liance with U.S. and local country laws. By using this product you
+agree to comply with applicable config terofer/sfr/testing/c1900-universalk9-mz.SSA04-04-12"
+Last reload type: Normal Reload
+Last reload reaminal-on
+
+PCI bus mb1 (Slots 1, 3 and 5) has a capacity of 600 bandwidth points.
+Current configuration-------------------------------
+Device#	  PID			SN
+-----------------------------------------------s and is subject to United
+States and local country laws governing import, export, transfer and
+uslaws and regulations. If you are unable
+to comply with U.S. and local laws, return this product immson: Reload Command
+
+
+
+This product contains cryptographic features and is subject to United
+St
+Enter configuration commands, one per line.  End with CNTL/Z.
+waasperf2-3825b(config)# on bus mb1 has a total of 0 bandwidth points. 
+This configuration is within the PCI bus capacity a--
+*0  	  CISCO3845-MB          FOC13374FEZ     
+
+
+
+Configuration register is 0x0
+
+waasperf2- no loggin3845c#g consolee. Delivery of Cisco cryptographic products does not imply
+third-party authority to import, export,term widthediately.
+
+A summary of U.S. laws governing Cisco cryptographic products may be found at:
+http:// 0
+waasperf2-3825b(config)#ates and local country laws governing import, export, transfer and
+use. Delivery of Cisco cryptogrand is supported. 
+
+PCI bus mb2 (Slots 2, 4 and 6) has a capacity of 600 bandwidth points.
+Currentline con 0
+waasperf2-3845c#config ter
+waasperf2-3825b(config-line)# distribute or use encryption.
+Importers, exporters, distributors and users are responsible for
+cominalwww.cisco.com/wwl/export/crypto/tool/stqrg.html
+
+If you require further assistance please contact exec-timeophic products does not imply
+third-party authority to import, export, distribute or use encryption.ut 0 configuration on bus mb2 has a total of 300 bandwidth points.
+This configuration is within the PCI
+waasperf2-3825b(config-line)#mpliance with U.S. and local country laws. By using this product you
+agree to comply with applicabl
+Enter configuration commands, one per line.  End with CNTL/Z.
+waasperf2-3845c(config)#clock timeus by sending email to
+export@cisco.com.
+
+Cisco CISCO2921/K9 (revision 1.0) with 2555840K/65536K  no logginzone PDT -7 bus capacity and is supported. 
+
+Please refer to the following document "Cisco 7200 Series Port A
+Importers, exporters, distributors and users are responsible for
+compliance with U.S. and local cg console
+waasperf2-3825b(config)#
+waasperf2-3845c(config)#service tie laws and regulations. If you are unable
+to comply with U.S. and local laws, return this product iline con 0bytes of memory.
+Processor board ID FTX1504AHQX
+2 DSL controllers
+3 Gigabit Ethernet interfaces
+daptor
+Hardware Configuration Guidelines" on Cisco.com <http://www.cisco.com>
+for c7200 bandwidth ountry laws. By using this product you
+agree to comply with applicable laws and regulations. If you
+waasperf2-3845c(config-line)#mestamps debug datetime localtime show-timezone msecexec-timeout 0mmediately.
+
+A summary of U.S. laws governing Cisco cryptographic products may be found at:
+http:
+waasperf2-3825b(config)#points oversubscription and usage guidelines.
+
+
+1 FastEthernet interface
+3 Gigabit Ethernet inte4 Serial(sync/async) interfaces
+1 ATM interface
+1 terminal line
+1 Virtual Private Network (VPN) Mservice ti
+waasperf2-3845c(config-line)# are unable
+to comply with U.S. and local laws, return this product immediately.
+
+A summary of U.clock timezone PDT -7mestamps log datetime localtime show-timezone msec//www.cisco.com/wwl/export/crypto/tool/stqrg.html
+
+If you require further assistance please contacrfaces
+1 ATM interface
+2045K bytes of NVRAM.
+
+250880K bytes of ATA PCMCIA card at slot 2 (Sectorodule
+DRAM configuration is 64 bits wide with parity enabled.
+255K bytes of non-volatile configura
+waasperf2-3845c(config)#
+waasperf2-3825b(config)#S. laws governing Cisco cryptographic products may be found at:
+http://www.cisco.com/wwl/export/cryservice tiend
+waasperf2-3825b#clock set t us by sending email to
+export@cisco.com.
+
+Cisco CISCO2951/K9 (revision 1.1) with 1888256K/20889 size 512 bytes).
+65536K bytes of Flash internal SIMM (Sector size 512K).
+Configuration register imestamps debug datetime localtime show-timezone msection memory.
+1000944K bytes of ATA System CompactFlash 0 (Read/Write)
+
+
+License Info:
+
+License22:15:38 09 Apr 2012s 0x0
+
+waasperf2-72b#pto/tool/stqrg.html
+
+If you require further assistance please contact us by sending email to
+expo
+waasperf2-3845c(config)#
+waasperf2-3825b#term widthservice ti 0reload6K bytes of memory.
+Processor board ID FTX1448AKW9
+3 Gigabit Ethernet interfaces
+2 Serial(sync/as
+waasperf2-72b# UDI:
+
+-------------------------------------------------
+Device#	  PID			SN
+--------------------rt@cisco.com.
+
+Cisco CISCO1941/K9 (revision 1.0) with 2510784K/110592K bytes of memory.
+Processorconfig termestamps log datetime localtime show-timezone msec
+
+System configuration has been modified. Save? [yes/no]: minal
+waasperf2-3845c(config)#ync) interfaces
+1 terminal line
+1 Virtual Private Network (VPN) Module
+DRAM configuration is 72 bn
+Proceed with reload? [confirm]end
+waasperf2-3845c#-----------------------------
+*0  	  CISCO2921/K9          FTX1504AHQX     
+
+
+
+Technology Packa board ID FTX140582T9
+1 DSL controller
+2 Gigabit Ethernet interfaces
+2 Serial(sync/async) interfaclock set 
+Enter configuration commands, one per line.  End with CNTL/Z.
+waasperf2-72b(config)#22:15:38 09 Apr 2012 no logginits wide with parity enabled.
+255K bytes of non-volatile configuration memory.
+500472K bytes of AT
+waasperf2-3845c#g consolege License Information for Module:'c2900' 
+
+------------------------------------------------------write erasces
+1 ATM interface
+2 terminal lines
+2 Virtual Private Network (VPN) Modules
+1 cisco ISM Crypto 
+waasperf2-72b(config)#eline con 0A System CompactFlash 0 (Read/Write)
+
+
+License Info:
+
+License UDI:
+
+-------------------------
+waasperf2-72b(config-line)#-----------
+Technology    Technology-package           Technology-package
+              Current   exec-timeoEngine(s)
+DRAM configuration is 64 bits wide with parity disabled.
+255K bytes of non-volatile conf
+Erasing the nvram filesystem will remove all configuration files! Continue? [confirm]ut 0
+waasperf2-72b(config-line)#------------------------
+Device#	  PID			SN
+-------------------------------------------------
+*0     Type           Next reboot  
+------------------------------------------------------------------clock timeiguration memory.
+4099032K bytes of ATA System CompactFlash 0 (Read/Write)
+
+
+License Info:
+
+Lizone PDT -7
+waasperf2-72b(config)# 	  CISCO2951/K9          FTX1448AKW9     
+
+
+
+Technology Package License Information for Module:service ti
+ipbase        ipbasek9      Permanent      ipbasek9
+security      securityk9    Permanent      secense UDI:
+
+-------------------------------------------------
+Device#	  PID			SN
+---------------mestamps debug datetime localtime show-timezone msec'c2951' 
+
+-----------------------------------------------------------------
+Technology    Technol
+waasperf2-72b(config)#curityk9
+uc            None          None           None
+data          None          None         ----------------------------------
+*0  	  CISCO1941/K9          FTX140582T9     
+
+
+
+Technology service ti  None
+
+Configuration register is 0x0
+
+waasperf2-29a#ogy-package           Technology-package
+              Current       Type           Next reboot  
+mestamps log datetime localtime show-timezone msecterm width 0Package License Information for Module:'c1900' 
+
+-------------------------------------------------
+waasperf2-72b(config)#
+waasperf2-29a#end
+waasperf2-72b#config ter------------------------------------------------------------------
+ipbase        ipbasek9      Permminalclock set ----------------
+Technology    Technology-package           Technology-package
+              Curre22:15:39 09 Apr 2012
+
+waasperf2-72b#anent      ipbasek9
+security      securityk9    RightToUse     securityk9
+uc            uck9      copy disk2
+Enter configuration commands, one per line.  End with CNTL/Z.
+waasperf2-29a(config)# no logginnt       Type           Next reboot  
+-------------------------------------------------------------:waasperf2.start startup-configg console
+    RightToUse     uck9
+data          datak9        RightToUse     datak9
+
+Configuration register
+waasperf2-29a(config)#line con 0Destination filename [startup-config]?  is 0x0
+
+waasperf2-2951a#-----
+ipbase        ipbasek9      Permanent      ipbasek9
+security      securityk9    Permanent   
+
+waasperf2-29a(config-line)#exec-timeoterm widthut 0 0   securityk9
+data          None          None           None
+
+Configuration register is 0x0
+
+w
+waasperf2-29a(config-line)#aasperf2-19a#
+waasperf2-2951a#clock timeterm widthzone PDT -7 0config ter
+waasperf2-19a#
+waasperf2-29a(config)#config terservice timinalminalmestamps debug datetime localtime show-timezone msec
+waasperf2-29a(config)#
+Enter configuration commands, one per line.  End with CNTL/Z.
+waasperf2-2951a(config)#
+Enter configuration commands, one per line.  End with CNTL/Z.
+waasperf2-19a(config)#service ti no logging console no logginmestamps log datetime localtime show-timezone msec
+waasperf2-19a(config)#line con 0
+waasperf2-29a(config)#g consoleend
+waasperf2-29a#
+waasperf2-19a(config-line)#
+waasperf2-2951a(config)#clock set exec-timeout 022:15:39 09 Apr 2012line con 0
+waasperf2-29a#
+waasperf2-19a(config-line)#clock timewrite eras
+waasperf2-2951a(config-line)#ezone PDT -7
+waasperf2-19a(config)#exec-timeoservice tiut 0
+Erasing the nvram filesystem will remove all configuration files! Continue? [confirm]mestamps debug datetime localtime show-timezone msec
+waasperf2-2951a(config-line)#
+waasperf2-19a(config)#service ticlock timemestamps log datetime localtime show-timezone mseczone PDT -7
+waasperf2-19a(config)#
+waasperf2-2951a(config)#end
+waasperf2-19a#clock set service ti22:15:40 09 Apr 2012
+waasperf2-19a#write erasemestamps debug datetime localtime show-timezone msec
+waasperf2-2951a(config)#
+Erasing the nvram filesystem will remove all configuration files! Continue? [confirm]service timestamps log datetime localtime show-timezone msec
+waasperf2-2951a(config)#end
+waasperf2-2951a#[OK]
+1177 bytes copied in 1.556 secs (756 bytes/sec)
+waasperf2-72b#
+reloadclock set 
+Proceed with reload? [confirm]22:15:40 09 Apr 2012
+waasperf2-2951a#write erase
+Erasing the nvram filesystem will remove all configuration files! Continue? [confirm]
+
+[OK]
+Erase of nvram: complete
+waasperf2-3845c#reload
+
+System configuration has been modified. Save? [yes/no]: n
+Proceed with reload? [confirm]
+System Bootstrap, Version 12.4(22r)YB3, RELEASE SOFTWARE (fc1)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 2009 by cisco Systems, Inc.
+
+C890 platform with 786432 Kbytes of main memory
+
+Readonly ROMMON initialized
+rommon 1 > 
+[OK]
+Erase of nvram: complete
+waasperf2-29a#reload
+
+System configuration has been modified. Save? [yes/no]: n
+[OK]
+Erase of nvram: complete
+waasperf2-2951a#reload
+
+System configuration has been modified. Save? [yes/no]: 
+n
+[OK]
+Erase of nvram: complete
+waasperf2-19a#reload
+Proceed with reload? [confirm]
+
+System configuration has been modified. Save? [yes/no]: n
+Proceed with reload? [confirm]
+rommon 1 > boot 
+
+Proceed with reload? [confirm]
+
+
+
+System Bootstrap, Version 12.4(13r)T, RELEASE SOFTWARE (fc1)
+Technical Support: http://www.cisco.
+System Bootstrap, Version 15.0(1r)M6, RELEASE SOFTWARE (fc1)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 2006 by cisco Systems, Inc.
+com/techsupport
+Copyright (c) 2010 by cisco Systems, Inc.
+
+System Bootstrap, Version 12.3(11r)T1, RELEASE SOFTWARE (fc1)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 2004 by cisco Systems, Inc.
+program load complete, entry point: 0x80020000, size: 0x1cba870
+
+System Bootstrap, Version 12.4(13r)T11, RELEASE SOFTWARE (fc1)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 2008 by cisco Systems, Inc.
+
+Total memory size = 4096 MB - DIMM0 = 2048 MB, DIMM1 = 2048 MB
+Self decompressing the image : #############################################
+System Bootstrap, Version 12.3(11r)T2, RELEASE SOFTWARE (fc1)
+Technical Support: http://www.cisco###.com/techsupport
+Copyright (c) 2005 by cisco Systems, Inc.
+#####
+Total memory size = 1024 MB - DIMM0 = 512 MB, DIMM1 = 512 MB
+##########c3825 processor with 1048576 Kbytes of main memory
+Main memory is configured to 72/72(dimm 0/1) bit####### mode with ECC enabled
+
+
+Upgrade ROMMON initialized
+rommon 1 > ##########################################################
+rommon 1 > #####################################
+System Bootstrap, Version 12.4(4r)XD5, RELEASE SOFTWARE (fc1)
+Technical Support: http://www.cisco#################.com/techsupport
+Copyright (c) 2006 by cisco Systems, Inc.
+Socket jumper: not present Failsafe jum#####per: present = normal
+FPGA revision 0x00000026
+######CISCO2951/K9 platform with 4194304 Kbytes of main memory
+Main memory is configured to 72/72(dimm 0/######1) bit mode with ECC enabled
+
+Readonly ROMMON initialized
+rommon 1 > ####################################################
+Total memory size = 1024 MB - DIMM0 = 512 MB, DIMM1 = 512 MB
+
+rommon 1 > ###boot 
+########c3845 platform with 1048576 Kbytes of main memory
+Main memory is configured to 72/72(dimm 0/1) bit ##### [OK]
+program load complete, entry point: 0x4000000, size: 0x18fa0
+mode with ECC enabled
+
+
+Upgrade ROMMON initialized
+rommon 1 > stack
+stack: kernel context state is invalid, can not proceed
+rommon 2 > reset
+program load complete, entry point: 0x4000000, size: 0x18fa0
+
+
+              Restricted Rights Legend
+
+Use, duplication, or disclosure by the Government is
+su
+System Bootstrap, Version 12.4(13r)T, RELEASE SOFTWARE (fc1)
+Technical Support: http://www.cisco.bject to restrictions as set forth in subparagraph
+(c) of the Commercial Computer Software - Restricted
+Rights clause at FAR sec. 52.227-19 and subparagraph
+(c) (1) (ii) of the Rights in Technical Data and Computer
+Software clause at DFARS sec. 252.227-7013.
+
+           cisco Systems, Inc.
+           170 West Tasman Drive
+           San Jose, California 95134-1706
+
+
+
+Cisco IOS Software, C890 Software (C890-UNIVERSALK9-M), Version 15.0(1)M4, RELEASE SOFTWARE (fc1)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2010 by Cisco Systems, Inc.
+Compiled Fri 29-Oct-10 00:19 by prod_rel_team
+Image text-base: 0x800200E4, data-base: 0x830485B4
+
+com/techsupport
+Copyright (c) 2006 by cisco Systems, Inc.
+
+System Bootstrap, Version 12.4(13r)T11, RELEASE SOFTWARE (fc1)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 2008 by cisco Systems, Inc.
+C7200 platform with 1046528 Kbytes of main memory
+
+
+Upgrade ROMMON initialized
+rommon 1 > tack
+
+monitor: command "tack" not found
+rommon 2 > reset
+
+Total memory size = 1024 MB - DIMM0 = 512 MB, DIMM1 = 512 MB
+c3845 platform with 1048576 Kbytes of main memory
+Main memory is configured to 72/72(dimm 0/1) bit mode with ECC enabled
+
+
+Upgrade ROMMON initialized
+rommon 1 > 
+rommon 1 > boot 
+program load complete, entry point: 0x8000f000, size: 0xcb40
+
+System Bootstrap, Version 15.0(1r)M9, RELEASE SOFTWARE (fc1)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 2010 by cisco Systems, Inc.
+
+Total memory size = 2560 MB - On-board = 512 MB, DIMM0 = 2048 MB
+CISCO2921/K9 platform with 2621440 Kbytes of main memory
+Main memory is configured to 72/72(On-board/DIMM0) bit mode with ECC enabled
+
+
+Readonly ROMMON initialized
+rommon 1 > 
+System Bootstrap, Version 15.0(1r)M3, RELEASE SOFTWARE (fc1)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 2009 by cisco Systems, Inc.
+
+Total memory size = 2560 MB - On-board = 512 MB, DIMM0 = 2048 MB
+
+rommon 1 > boot 
+program load complete, entry point: 0x80803000, size: 0x1b340
+program load complete, entry point: 0x80803000, size: 0x1b340
+
+program load complete, entry point: 0x8000f000, size: 0xcb40
+CISCO1941/K9 platform with 2621440 Kbytes of main memory
+Main memory is configured to 64/72(On-board/DIMM0) bit mode with ECC disabled
+
+
+Readonly ROMMON initialized
+rommon 1 > 
+
+rommon 1 > boot 
+program load complete, entry point: 0x80803000, size: 0x1b340
+program load complete, entry point: 0x80803000, size: 0x1b340
+
+
+System Bootstrap, Version 12.4(4r)XD5, RELEASE SOFTWARE (fc1)
+Technical Support: http://www.cisco
+This product contains cryptographic features and is subject to United
+States and local country laws governing import, export, transfer and
+use. Delivery of Cisco cryptographic products does not imply
+third-party authority to import, export, distribute or use encryption.
+Importers, exporters, d.com/techsupport
+Copyright (c) 2006 by cisco Systems, Inc.
+Socket jumper: not present Failsafe jumistributors and users are responsible for
+compliance with U.S. and local country laws. By using this product you
+agree to comply with applicable laws and regulations. If you are unable
+to comply with U.S. and local laws, return this product immediately.
+
+A summary of U.S. laws governing Cisco cryptographic products may be found at:
+http://www.cisco.com/wwl/export/crypto/tool/stqrg.html
+
+If you require further assistance please contact us by sending email to
+export@cisco.com.
+
+per: present = normal
+FPGA revision 0x00000026
+Installed image archive
+Cisco 891 (MPC8300) processor (revision 1.0) with 747520K/38912K bytes of memory.
+Processor board ID FTX1504016F
+
+9 FastEthernet interfaces
+1 Gigabit Ethernet interface
+1 Serial interface
+1 terminal line
+1 Virtual Private Network (VPN) Module
+256K bytes of non-volatile configuration memory.
+250880K bytes of ATA CompactFlash (Read/Write)
+
+IOS Image Load Test 
+___________________ 
+Digitally Signed Release Software 
+program load complete, entry point: 0x81000000, size: 0x3bc7164
+Self decompressing the image : ######C7200 platform with 1046528 Kbytes of main memory
+
+
+Upgrade ROMMON initialized
+rommon 1 > #########################################
+rommon 1 > #boot /auto###/tftp-joaofer/sfr/testing/c7200p-PAGENT 128.107.150.5 
+#####################################################################################################################################################################################################################################################################################
+############################################## [OK]
+Self decompressing the image : ################################################################################################################TFTP_FILE=/auto/tftp-joaofer/sfr/testing/c3825-PAGENT
+rommon 2 > TFTP_SERVER=128.107.150.5
+rommon 3 > sync###########
+###### [OK]
+
+IOS Image Load Test 
+___________________ 
+rommon 4 > 
+Smart Init is enabled
+smart init is sizing iomem
+                 TYPE      MEMORY_REQ
+          HWIC Slot 0      0x00200000
+          HWIC Slot 1      0x00200000
+          HWIC Slot 2      0x00200000
+    Onboard devices &
+         buffer pools      0x0228F000 
+----------------------------tftpdnld -r-------------------
+               TOTAL:      0x0288F000
+
+Rounded IOMEM up to: 44Mb.
+Using 1 percent iomem. [44Mb/2560Mb]
+
+
+          IP_ADDRESS: 10.1.1.3
+      IP_SUBNET_MASK: 255.255.255.0
+     DEFAULT_GATEWAY: 10.1.1.1
+         TFTP_SERVER: 128.107.150.5
+           TFTP_FILE: /auto/tftp-joaofer/sfr/testing/c3825-PAGENT
+             GE_PORT: Ge0/1
+     TFTP_MEDIA_TYPE: Copper
+       GE_SPEED_MODE: Auto
+
+              Restricted Rights Legend
+
+Use, duplication, or disclosure by the Government is
+subject to restrictions as set forth in subparagraph
+(c) of the Commercial Computer Software - Restri
+%SYS-6-CLOCKUPDATE: System clock has been updated from 21:53:51 UTC Sun Apr 8 2012 to 13:53:51 PSTcted
+Rights clause at FAR sec. 52.227-19 and subparagraph
+(c) (1) (ii) of the Rights in Technical  Sun Apr 8 2012, configured from console by console.
+%SYS-6-CLOCKUPDATE: System clock has been updaData and Computer
+Software clause at DFARS sec. 252.227-7013.
+
+           cisco Systems, Inc.
+  ted from 13:53:51 PST Sun Apr 8 2012 to 14:53:51 PDT Sun Apr 8 2012, configured from console by console.         170 West Tasman Drive
+           San Jose, California 95134-1706
+
+
+
+Cisco IOS Software, C2900 Software (C2900-UNIVERSALK9-M), Version 15.0(1)M4, RELEASE SOFTWARE (fc1)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2010 by Cisco Systems, Inc.
+Compiled Thu 28-Oct-10 18:32 by prod_rel_team
+Image text-base: 0x2100F058, data-base: 0x25940780
+
+
+Mac Address: 0016.9de6.0cf1
+
+Receiving /auto/tftp-joaofer/sfr/testing/c3825-PAGENT from 128.107.150.5 !!!!!!!!!!!!
+IOS Image Load Test 
+___________________ 
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Digitally Signed Development Software 
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!program load complete, entry point: 0x81000000, size: 0x3f4f588
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Self decompressing the image : !#!!#!!#!!#!!!#!!#!!#!!!#!!#!!#!!!##!#!#!#!!#!!#!!#!#!!#!!#!!#!#!!!#!!#!#!!##!!#!!#!!#!#!!#!!#!!#!!!#!!#!!#!!!#!!#!!#!#!!!#!!#!!#!!##!!#!#!!#!!#!!#!!#!#!!!#!!#!#!!!#!#!!#!!!#!!program load complete, entry point: 0x80010000, size: 0x2d7c964
+#!#!!#!!#!#!!#!!!#!!#!#!#!!!#!!#!!!#!!#!!!#!!#!!#!!!#!!#!!#!!#!!#!!!#!!#!!!#!#!!!#!#!!##!#!#!!##!!#!!#!!#!!#!!#!!!#!#!!#!!Self decompressing the image : ##!#!#Digitally Signed Development Software 
+!##!!#!#!#!#!#!#!#!##!!###!!##!!##!#!#!#!#!!##!##!!#!##!!##!!##!#!!##!#!#!##!#!#!!##!#!#!#!#!!##!##!#!#!##!!##!!##!!##!!##!!###!!#!##!!##!!#!##!!##!!##!#!#!#!#!!##!!##!#program load complete, entry point: 0x4000000, size: 0x3e1e5ac
+!#!##!#!##!#!##!!##!!##!#!#!##!#!#!###!##!#!##!!##!!####!##!!##!!##!!##!#!#!#!#!##!!##!!##!!##!#!!#!Self decompressing the image : #####!##########!###!####!##!#!####!#!#!#!#####!#######!##!#!##!#!#!##!##!###############!###!##!!########!##!##!##!#!##!#########!###!!##!##!##!#!#############!#!###!#######!##!##!##!##!##!#!###################!##!###!##!##!####!###!##!!###!!##!!#!##!##################!!###!###!#!#!##!#!#!#!#!##############!#!####!##!#!####!!#####!###!!#!!!##########!#################!##!##!#!##!!##########!!#!#!############!##!#!##!#!#!######!##!#!###################!###!##!#!##!#####!###!##!###!###!##!###!###!###!#######!#!####!######!#!#######!###!####!###!#!#####!#!##!#######!##!##!#!#####!#!##!###!#!##!########!#!###!###!##!###!##!###!#####!#!#####!#!###!##!##!##!###!##!##!###!##!#!##!##!#!####!##!##!##!###!##!######################################################################!#!!#########!##!#!#!########!##!#########################!######!##!########!##!###!##!#!####!##!###################!#!#!##########!##!#########!####!########!###!#######!#!#!#####!!##########!###########!!##!!##!!###!!###!#!##!#!#!##!#!###!!##! [OK]
+!!! [OK]
+!!!!!!!!!!!!!!!!!!!!!!!!!#!!!###!!!######!#!#!!###!!###!##!#!##!#!#!#!!!!#####!!!!!##########!!####!!#!!#!#!!#!#!#!!!#!!#!#!#!##!!!#!#!#!#!!!!!###########!#!#!!!###!!##!#!!#!!#!!#!#!
+
+         --- System Configuration Dialog ---
+
+Would you like to enter the initial configuration dialog? [yes/no]: #!no#!#!#!!!!!!!!!!!!!!!!!!!!!!!!!!!!#!!!!!!!!!!!!################!!!!!!!!!!!!!!!####################################!!!!##########!!!!!!!!!!!!############################### [OK]
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Smart Init is disabled. IOMEM set to: 10 
+
+Using iomem percentage: 10
+!!!!!!!!!!!!!!!!!!
+Smart Init is enabled
+smart init is sizing iomem
+  ID            MEMORY_REQ                 TYPE!
+!!!!!!!!!!!!!!!!!!!!!!!!00042C          0X010D78F3 C3845 motherboard
+!!!!
+Smart Init is enabled
+smart init is sizing iomem
+                 TYPE      MEMORY_REQ
+        !!!000397          0X00178610 Dual FE Combo Port Module with ISL, 2 WAN
+                0X001E0000 OIR! memory
+!!  HWIC Slot 0      0x00200000
+          HWIC Slot 1      0x00200000
+           ISM Slot 0      0x0!!!!!0600000
+    Onboard devices &
+         buffer pools      0x01E8F000 
+----------------------------!!!                0X00288860 Onboard PVDM2 SIMM
+                0X00281F0A Onboard VPN
+             !!   0X000021B8 Onboard USB
+!-------------------
+               TOTAL:      0x0288F000
+
+Extended memory present. IOMEM set to !!!!!!the maximum: 88Mb.
+
+Rounded IOMEM up to: 88Mb.
+Using 3 percent iomem. [88Mb/2560Mb]
+!!!                0X00660670 public buffer pools
+                0X0078F000 public particle pools
+--!!!!!!---------------------------------------------
+TOTAL:          0X0272BE95
+
+If any of the above Mem!!!!!!ory Requirements are 
+"UNKNOWN", you may be using an unsupported
+configuration or there is a softw!!!!!are problem and
+system operation may be compromised.
+Rounded IOMEM up to: 40Mb.
+Using 3 percent i!!omem. [40Mb/1024Mb]
+!!!!!!!!!!!
+              Restricted Rights Legend
+
+Use, duplication, or disclosure by the Government is
+su!!!!!!!bject to restrictions as set forth in subparagraph
+(c) of the Commercial Computer Software - Restri!!!!!!cted
+Rights clause at FAR sec. 52.227-19 and subparagraph
+(c) (1) (ii) of the Rights in Technical !!!!!!Data and Computer
+Software clause at DFARS sec. 252.227-7013.
+
+           cisco Systems, Inc.
+  !!!!!!!         170 West Tasman Drive
+           San Jose, California 95134-1706
+
+
+
+Cisco IOS Software!!!!!!, C2951 Software (C2951-UNIVERSALK9-M), Version 15.2(LAKECOMO_DT10_20110727), EARLY DEPLOYMENT DEVEL!!!!!!OPMENT BUILD, synced to V152_0_14_T
+Copyright (c) 1986-2011 by Cisco Systems, Inc.
+Compiled Wed 27!!!-Jul-11 16:39 by suneetha
+
+!!!!!!!!!!!!!!!!!!!!
+              Restricted Rights Legend
+
+Use, duplication, or disclosure by the Government is
+su!!!!!!!bject to restrictions as set forth in subparagraph
+(c) of the Commercial Computer Software - Restri!!!!!!cted
+Rights clause at FAR sec. 52.227-19 and subparagraph
+(c) (1) (ii) of the Rights in Technical !!!!!!Data and Computer
+Software clause at DFARS sec. 252.227-7013.
+
+           cisco Systems, Inc.
+  !!!!!!         170 West Tasman Drive
+           San Jose, California 95134-1706
+
+
+
+Cisco IOS Software!!!!!!!, C1900 Software (C1900-UNIVERSALK9-M), Experimental Version 15.2(20111226:082350) [dranjit-t_base_2!!!!!!_1225 159]
+Copyright (c) 1986-2011 by Cisco Systems, Inc.
+Compiled Fri 30-Dec-11 09:59 by dranjit!
+
+!!!!!!!!!!!!!!
+
+
+Press RETURN to get started!
+
+
+*Mar  1 00:00:02.719: %IOS_LICENSE_IMAGE_APPLICATION-6-LICE!NSE_LEVEL: Module name = c890 Next reboot level = advipservices and License = advipservices
+*Apr 10 05:11:12.039: %IFMGR-7-NO_IFINDEX_FILE: Unable to open nvram:/ifIndex-table No such file or directo!ry
+*Apr 10 05:11:12.127: %VPN_HW-6-INFO_LOC: Crypto engine: onboard 0  State changed to: Initialized 
+*Apr 10 05:11:12.131: %VPN_HW-6-INFO_LOC: Crypto engine: onboard 0  State changed to: Enabled 
+!*Apr 10 05:11:25.295: %LINK-3-UPDOWN: Interface FastEthernet8, changed state to up
+*Apr 10 05:11:25.295: %LINK-3-UPDOWN: Interface GigabitEthernet0, changed state to up
+*Apr 10 05:11:26.247: %LINEPR!OTO-5-UPDOWN: Line protocol on Interface Vlan1, changed state to down
+*Apr 10 05:11:26.295: %LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet8, changed state to up
+*Apr 10 05:11:26.295: %!LINEPROTO-5-UPDOWN: Line protocol on Interface GigabitEthernet0, changed state to up
+*Apr 10 05:12:14.235: %LINK-5-CHANGED: Interf!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!ace FastEthernet8, changed state to administratively down
+*Apr 10 05:12:14.235: %LINK-5-CHANGED: In!terface GigabitEthernet0, changed state to administratively down
+*Apr 10 05:12:17.107: %LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet8, changed state to down
+*Apr 10 05:12:17.107: %LIN!EPROTO-5-UPDOWN: Line protocol on Interface GigabitEthernet0, changed state to down
+*Apr 10 05:12:17.107: %LINK-3-UPDOWN: Interface FastEthernet0, changed state to up
+*Apr 10 05:12:17.111: %SYS-5-RE!START: System restarted --
+Cisco IOS Software, C890 Software (C890-UNIVERSALK9-M), Version 15.0(1)M4, RELEASE SOFTWARE (fc1)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2!010 by Cisco Systems, Inc.
+Compiled Fri 29-Oct-10 00:19 by prod_rel_team
+*Apr 10 05:12:17.111: %SNMP-5-COLDSTART: SNMP agent on host Router is undergoing a cold start
+*Apr 10 05:12:17.119: %SYS-6-B!OOTTIME: Time taken to reboot after reload =   95 seconds
+*Apr 10 05:12:17.135: %CRYPTO-6-ISAKMP_O!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+              Restricted Rights Legend
+
+Use, duplication, or disclosure by the Government is
+su!!!N_OFF: ISAKMP is OFF
+*Apr 10 05:12:17.135: %CRYPTO-6-GDOI_ON_OFF: GDOI is OFF
+*Apr 10 05:12:17.963: %CDP-4-NATIVE_VLAN_MISMATCH: Native VLAN mismatch discovered on FastEthernet0 (1), with waasperf2-!sw GigabitEthernet1/0/11 (100).
+*Apr 10 05:12:18.107: %LINEPROTO-5-UPDOWN: Line protocol on Interfa!ce FastEthernet0, changed state to up
+*Apr 10 05:12:18.107: %LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet1, changed state to down
+*Apr 10 05:12:18.107: %LINEPROTO-5-UPDOWN: Line proto!col on Interface FastEthernet2, changed state to down
+*Apr 10 05:12:18.107: %LINEPROTO-5-UPDOWN: Libject to restrictions as set forth in subparagraph
+(c) of the Commercial Computer Software - Restrine protocol on Interface FastEthernet3, changed state to down
+*Apr 10 05:12:18.971: %CDP-4-NATIVE_V!LAN_MISMATCH: Native VLAN mismatch discovered on FastEthernet0 (1), with waasperf2-sw GigabitEthernet1/0/11 (100).
+*Apr 10 05:12:19.979: %CDP-4-NATIVE_VLAN_MISMATCH: Native VLAN mismatch discovered o!n FastEthernet0 (1), with waasperf2-sw GigabitEthernet1/0/11 (100).!!!!cted
+Rights clause at FAR sec. 52.227-19 and subparagraph
+(c) (1) (ii) of the Rights in Technical !!!!!Data and Computer
+Software clause at DFARS sec. 252.227-7013.
+
+           cisco Systems, Inc.
+  !!!!!!         170 West Tasman Drive
+           San Jose, California 95134-1706
+
+
+
+Cisco IOS Software!!!!!!, 3800 Software (C3845-ADVSECURITYK9-M), Version 15.1(4)M0.1, MAINTENANCE INTERIM SOFTWARE
+Technica!!!!!l Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2011 by Cisco Systems, Inc.
+Compile!!!!d Sun 10-Apr-11 13:47 by prod_rel_team
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Loading /auto/tftp-joaofer/sfr/testing/c7200p-PAGENT from 128.107.150.5 (via GigabitEthernet0/1): !!!!!!
+Router>!enable
+Router#!terminal length 0
+Router#!config terminal
+!Enter configuration commands, one per line.  End with CNTL/Z.
+Router(config)#no logging console!
+Router(config)#end
+Router#!show version
+!Cisco IOS Software, C890 Software (C890-UNIVERSALK9-M), Version 15.0(1)M4, RELEASE SOFTWARE (fc1)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2010 by Cisco Systems, Inc.
+!Compiled Fri 29-Oct-10 00:19 by prod_rel_team
+
+ROM: System Bootstrap, Version 12.4(22r)YB3, RELEASE SOFTWARE (fc1)
+
+Router uptime is 1 minute
+System returned to ROM by reload at 22:15:36 PDT Mon !Apr 9 2012
+System image file is "flash:c890-universalk9-mz.150-1.M4.bin"
+Last reload type: Normal Reload
+Last reload reason: Reload Command
+
+
+
+This product contains cryptographic features and i!s subject to United
+States and local country laws governing import, export, transfer and
+use. Deli!very of Cisco cryptographic products does not imply
+third-party authority to import, export, distribute or use encryption.
+Importers, exporters, distributors and users are responsible for
+complianc!e with U.S. and local country laws. By using this product you
+agree to comply with applicable laws and regulations. If you are unable
+to comply with U.S. and local laws, return this product immediat!ely.
+
+A summary of U.S. laws governing Cisco cryptographic products may be found at:
+http://www.cisco.com/wwl/export/crypto/tool/stqrg.html
+
+If you require further assistance please contact us by! sending email to
+export@cisco.com.
+
+Cisco 891 (MPC8300) processor (revision 1.0) with 747520K/38912K bytes of memory.
+Processor board ID FTX1504016F
+
+9 FastEthernet interfaces
+1 Gigabit Ethern!et interface
+1 Serial interface
+1 terminal line
+1 Virtual Private Network (VPN) Module
+256K bytes of non-volatile configuration memory.
+250880K bytes of ATA CompactFlash (Read/Write)
+
+
+License! Info:
+
+License UDI:
+
+-------------------------------------------------
+Device#	  PID			SN
+-------------------------------------------------
+*0  	  CISCO891-K9           FTX1504016F     
+
+
+!
+License Information for 'c890'
+    License Level: advipservices   Type: Permanent
+    Next reboot license Level: advipservices
+
+
+Configuration register is 0x1820
+
+Router#!term width 0
+Router#!config terminal!
+Enter configuration commands, one per line.  End with CNTL/Z.
+Router(config)# no logging console!
+Router(config)#line con 0
+Router(config-line)#!exec-timeout 0
+Router(config-line)#!clock timezone PDT -7!
+Router(config)#!service timestamps debug datetime localtime show-t!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!imezone msec!
+Router(config)#service ti!mestamps log datetime localtime show-timezone msec
+Router(config)#!end
+Router#clock set !22:17:25 09 Apr 2012
+Router#config ter!minal
+Enter configuration commands, one per line.  End with CNTL/Z.
+Router(config)#!hostname waasperf2-800a!
+waasperf2-800a(config)#enable pas!sword lab
+waasperf2-800a(config)#end
+waasperf2-800a#!config terminal!
+Enter configuration commands, one per line.  End with CNTL/Z.
+waasperf2-800a(config)#hostname w!aasperf2-800a
+waasperf2-800a(config)#!enable password lab
+waasperf2-800a(config)#!no ip domain-lookup
+!waasperf2-800a(config)#no ip routing!
+waasperf2-800a(config)#ip default!-gateway 10.1.1.1
+waasperf2-800a(config)#!service timestamps debug datetime msec localtime
+!waasperf2-800a(config)#no service config!
+waasperf2-800a(config)#clock time!zone PST -8
+waasperf2-800a(config)#clock summ!er-time PDT recurring
+waasperf2-800a(config)#!interface FastEthernet0!
+waasperf2-800a(config-if)#no shutdown!
+waasperf2-800a(config-if)#duplex ful!l
+Duplex will not be set until speed is set to non-auto value
+waasperf2-800a(config-if)#!speed 100
+!waasperf2-800a(config-if)#!vlan 1
+!!!!waasperf2-800a(config-vlan)#!interface VLAN1
+!waasperf2-800a(config-if)#ip address! 10.1.1.7 255.255.255.0
+waasperf2-800a(config-if)#!no shutdown
+waasperf2-800a(config-if)#end
+!waasperf2-800a#copy runni!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!ng-config flash:waasperf2.start
+!Destination filename [waasperf2.start]? !
+%Warning:There is a file already existing with this name 
+Do you want to over write? [confirm]!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+1493 bytes copied in 1.068 secs (1398 bytes/sec)
+
+waasperf2-800a#copy runni!ng-config startup-config
+Destination filename [startup-config]? !
+!!!!Building configu!!!ration...
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!![OK]
+waasperf2-800a#!reload
+!!
+Proceed with reload? [confirm]!!!!!!!!!!!!!!!!!
+This product contains cryptographic features and is subject to United
+States and local country la!!!!!!ws governing import, export, transfer and
+use. Delivery of Cisco cryptographic products does not im!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!ply
+third-party authority to import, export, distribute or use encryption.
+Importers, exporters, d!!!!!!!istributors and users are responsible for
+compliance with U.S. and local country laws. By using thi!!!!!!s product you
+agree to comply with applicable laws and regulations. If you are unable
+to comply wi!!!!!!th U.S. and local laws, return this product immediately.
+
+A summary of U.S. laws governing Cisco c!!!!!!!ryptographic products may be found at:
+http://www.cisco.com/wwl/export/crypto/tool/stqrg.html
+
+If!!!!!! you require further assistance please contact us by sending email to
+export@cisco.com.
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Installed image archive
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Cisco CISCO2921/K9 (revision 1.0) with 2576383K/45056K bytes of memory.
+Processor board ID FTX1504A!!!!!!HQX
+2 DSL controllers
+3 Gigabit Ethernet interfaces
+4 Serial(sync/async) interfaces
+1 Virtual Pr!!!!!!ivate Network (VPN) Module
+DRAM configuration is 64 bits wide with parity enabled.
+255K bytes of n!!!!!!!on-volatile configuration memory.
+1000944K bytes of ATA System CompactFlash 0 (Read/Write)
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+System Bootstrap, Version 12.4(22r)YB3, RELEASE SOFTWARE (fc1)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 2009 by cisco Systems, Inc.
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!C890 platform with 786432 Kbytes of main memory
+
+Readonly ROMMON initialized
+rommon 1 > !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+rommon 1 > !!!!!!!!!!!!!!!!!
+This product contains cryptographic features and is subject to United
+States and local country la!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!ws governing import, export, transfer and
+use. Delivery of Cisco cryptographic products does not im!!!
+This product contains cryptographic features and is subject to United
+States and local country la!!ply
+third-party authority to import, export, distribute or use encryption.
+Importers, exporters, d!!!!ws governing import, export, transfer and
+use. Delivery of Cisco cryptographic products does not im!!istributors and users are responsible for
+compliance with U.S. and local country laws. By using thi!!!!!ply
+third-party authority to import, export, distribute or use encryption.
+Importers, exporters, d!s product you
+agree to comply with applicable laws and regulations. If you are unable
+to comply wi!!!!!istributors and users are responsible for
+compliance with U.S. and local country laws. By using thi!th U.S. and local laws, return this product immediately.
+
+A summary of U.S. laws governing Cisco c!!!!!ryptographic products may be found at:
+http://www.cisco.com/wwl/export/crypto/tool/stqrg.html
+
+If!s product you
+agree to comply with applicable laws and regulations. If you are unable
+to comply wi!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! you require further assistance please contact us by sending email to
+export@cisco.com.
+
+!th U.S. and local laws, return this product immediately.
+
+A summary of U.S. laws governing Cisco c!!!!!!ryptographic products may be found at:
+http://www.cisco.com/wwl/export/crypto/tool/stqrg.html
+
+If!!!!!!! you require further assistance please contact us by sending email to
+export@cisco.com.
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Installed image archive
+Installed image archive
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Cisco 3845 (revision 1.0) with 1007616K/40960K bytes of memory.
+Processor board ID FTX1340AJJT
+2 F!!Cisco CISCO2951/K9 (revision 1.1) with 1888256K/208896K bytes of memory.
+Processor board ID FTX1448!!!!astEthernet interfaces
+2 Gigabit Ethernet interfaces
+1 Virtual Private Network (VPN) Module
+DRAM !!AKW9
+3 Gigabit Ethernet interfaces
+2 Serial(sync/async) interfaces
+1 terminal line
+1 Virtual Pri!!!!configuration is 64 bits wide with parity enabled.
+479K bytes of NVRAM.
+62720K bytes of ATA System!! CompactFlash (Read/Write)
+!vate Network (VPN) Module
+DRAM configuration is 72 bits wide with parity enabled.
+255K bytes of no!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!n-volatile configuration memory.
+500472K bytes of ATA System CompactFlash 0 (Read/Write)
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+This product contains cryptographic features and is subject to United
+States and local country la!!!!!!ws governing import, export, transfer and
+use. Delivery of Cisco cryptographic products does not im!!!!!!ply
+third-party authority to import, export, distribute or use encryption.
+Importers, exporters, d!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!istributors and users are responsible for
+compliance with U.S. and local country laws. By using thi!!!!!!s product you
+agree to comply with applicable laws and regulations. If you are unable
+to comply wi!!!!!!th U.S. and local laws, return this product immediately.
+
+A summary of U.S. laws governing Cisco c!!!!!!!ryptographic products may be found at:
+http://www.cisco.com/wwl/export/crypto/tool/stqrg.html
+
+If!!!!!! you require further assistance please contact us by sending email to
+export@cisco.com.
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Installed image archive
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Cisco CISCO1941/K9 (revision 1.0) with 2531264K/90112K bytes of memory.
+Processor board ID FTX14058!!!!!!!2T9
+1 DSL controller
+2 Gigabit Ethernet interfaces
+2 Serial(sync/async) interfaces
+2 terminal li!!!!!!nes
+1 Virtual Private Network (VPN) Module
+1 cisco ISM Crypto Engine(s)
+DRAM configuration is 64 !!!!!!!bits wide with parity disabled.
+255K bytes of non-volatile configuration memory.
+4099032K bytes of!!! ATA System CompactFlash 0 (Read/Write)
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+[OK - 26223948 bytes]
+
+%SYS-6-BOOT_MESSAGES: Messages above this line are !!!from the boot loader.
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Self decompressing the image : #####################################################################!!!!!!!!!!!!!####################################################################################################!!!!!!!!!!!####################################################################################################!!!!!!!!!!!!!####################################################################################################!#######!!!!!!!!!!##########################!!##!#!!####!#!!!!!!!!!#################################### [OK]
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+              Restricted Rights Legend
+
+Use, duplication, or disclosure by the Government is
+su!!!!!!!!bject to restrictions as set forth in subparagraph
+(c) of the Commercial Computer Software - Restri!!!!!!!!cted
+Rights clause at FAR sec. 52.227-19 and subparagraph
+(c) (1) (ii) of the Rights in Technical !!!!!!!!Data and Computer
+Software clause at DFARS sec. 252.227-7013.
+
+           cisco Systems, Inc.
+  !!!!!!!!         170 West Tasman Drive
+           San Jose, California 95134-1706
+
+
+
+Cisco IOS Software!!!!!!!!, 7200 Software (C7200P-TSPGEN-M), Experimental Version 12.4(20100315:110942) [shgautam-v48-reg 111]!!!!!!!!
+Copyright (c) 1986-2010 by Cisco Systems, Inc.
+Compiled Mon 22-Mar-10 14:07 by shgautam
+Image te!!!!xt-base: 0x0000A334, data-base: 0x02BDC000
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+******************************************************************************
+**                !!!!!!!!                                                          **
+**                Welcome to Pagent V4!!!!!!!!.8!                                   **
+**              Pagent: "Make your net work"              !!!!!!!!                  **
+**                                                                          **!!!!!!!!
+**                  W  A  R  N  I  N  G                                     **
+**                !!!!!!!!                                                          **
+**          Pagent is Cisco proprietar!!!!!!!!y technology. All pagent              **
+**          images use license keys which you can obtain f!!!!!!!!rom:              **
+**                                                                          **!!!!!!!!
+** For Cisco customers:                                                     **
+** http://www.cisc!!!!!!!!o.com/kobayashi/sw-center/support/nvt/nvt-licensing.shtml **
+**                                    !!!!!!!!                                      **
+** For Cisco employees:                                   !!!!!!!!                  **
+** http://wwwin-pagent.cisco.com/protected-cgi/get_key.cgi                  **!!!!!!!!
+**                                                                          **
+**          Distri!!!!!!!!buting pagent outside of the company without              **
+**          the appropriate permission!!!!
+
+         --- System Configuration Dialog ---
+
+Would you like to enter the initial configurati!!on dialog? [yes/no]: !! is a serious offense.                **
+**          Only secure  Pagent images with license key ma!!no
+
+Would you like to terminate autoinstall? [yes]: !!yes!!!!y be              **
+**          run outside of Cisco facilities.                                **!!!!!!!!
+**                                                                          **
+******************!!!!!!************************************************************
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Cisco 7206VXR (NPE-G2) processor (revision A) with 917504K/65536K bytes of memory.
+Processor board !!!!!!!!ID 34850032
+MPC7448 CPU at 1666Mhz, Implementation 0, Rev 2.2
+6 slot VXR midplane, Version 2.11
+!!!!!!!!
+Last reset from power-on
+
+PCI bus mb1 (Slots 1, 3 and 5) has a capacity of 600 bandwidth points.!!!!!!!!
+Current configuration on bus mb1 has a total of 0 bandwidth points. 
+This configuration is within !!!!!!!!the PCI bus capacity and is supported. 
+
+PCI bus mb2 (Slots 2, 4 and 6) has a capacity of 600 band!!!!!!!!width points.
+Current configuration on bus mb2 has a total of 300 bandwidth points.
+This configura!!!!!!!!tion is within the PCI bus capacity and is supported. 
+
+Please refer to the following document "Ci!!!!!!!!sco 7200 Series Port Adaptor
+Hardware Configuration Guidelines" on Cisco.com <http://www.cisco.com>!!!!!!!!
+for c7200 bandwidth points oversubscription and usage guidelines.
+
+
+1 FastEthernet interface
+3!!!!!! Gigabit Ethernet interfaces
+1 ATM interface
+2045K bytes of NVRAM.
+!!!!!!!!!
+250880K bytes of ATA PCMCIA card at slot 2 (Sector size 512 bytes).
+65536K bytes of Flash interna!!!l SIMM (Sector size 512K).!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+Press RETURN to get started!
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+         --- System Configuration Dialog ---
+
+Would you like to enter the initial configurati!!on dialog? [yes/no]: !!!!!no
+
+Would you like to terminate autoinstall? [yes]: !!yes!!!!!!!
+
+         --- System Configuration Dialog ---
+
+Would you like to enter the initial configurati!!on dialog? [yes/no]: !no!!!!!!!!!!TFTP_FILE=/auto/tftp-joaofer/sfr/testing/c890-universalk9-mz2012-04-09
+rommon 2 > TFTP_SERVER=128.107.150.5
+rommon 3 > sync
+!!!rommon 4 > !!!!!!!!!!!!!!!!!!!!!!!!!!!
+waasperf2-72b>!!enable!
+!Password: !!
+waasperf2-72b#!!terminal l!ength 0!!
+waasperf2-72b#!!config ter!minal!!!!!!
+Enter configuration commands, one per line.  End with CNTL/Z.
+waasperf2-72b(config)#!!no logging! console!!
+waasperf2-72b(config)#!!!end
+waasperf2-72b#!show versi!on!!!!!!
+Cisco IOS Software, 7200 Software (C7200P-TSPGEN-M), Experimental Version 12.4(20100315:110942) [s!!!!!!hgautam-v48-reg 111]
+Copyright (c) 1986-2010 by Cisco Systems, Inc.
+Compiled Mon 22-Mar-10 14:07 b!!!!!!y shgautam
+
+ROM: System Bootstrap, Version 12.4(4r)XD5, RELEASE SOFTWARE (fc1)
+BOOTLDR: Cisco IOS!!!!! Software, 7200 Software (C7200P-KBOOT-M), Version 12.4(4)XD5, RELEASE SOFTWARE (fc1)
+
+waasperf2-7!
+
+
+Press RETURN to get started!
+
+
+*Mar  1 00:00:08.007: %IOS_LICENSE_IMAGE_APPLICATION-6-LICE!!!!!2b uptime is 0 minutes
+System returned to ROM by reload at 22:15:40 PDT Mon Apr 9 2012
+System imag!NSE_LEVEL: Module name = c2900 Next reboot level = ipbasek9 and License = ipbasek9
+*Mar  1 00:00:08!!!!!e file is "tftp://128.107.150.5//auto/tftp-joaofer/sfr/testing/c7200p-PAGENT"
+Last reload reason: R!.043: %IOS_LICENSE_IMAGE_APPLICATION-6-LICENSE_LEVEL: Module name = c2900 Next reboot level = securi!!!!!eload Command
+
+
+Cisco 7206VXR (NPE-G2) processor (revision A) with 917504K/65536K bytes of memory!!tyk9 and License = securityk9
+*Apr 10 05:18:10.623: %IFMGR-7-NO_IFINDEX_FILE: Unable to open nvram:!!!.
+Processor board ID 34850032
+MPC7448 CPU at 1666Mhz, Implementation 0, Rev 2.2
+6 slot VXR midpla!!!/ifIndex-table No such file or directory
+*Apr 10 05:18:31.163: %HWIC_SERIAL-6-STARTUP: HWIC Serial !!!ne, Version 2.11
+
+Last reset from power-on
+
+PCI bus mb1 (Slots 1, 3 and 5) has a capacity of 600!initialized
+*Apr 10 05:18:45.223: %VPN_HW-6-INFO_!!!!! bandwidth points.
+Current configuration on bus mb1 has a total of 0 bandwidth points. 
+This confi!!!!!!guration is within the PCI bus capacity and is supported. 
+
+PCI bus mb2 (Slots 2, 4 and 6) has a c!!!!!apacity of 600 bandwidth points.
+Current configuration on bus mb2 has a total of 300 bandwidth poin!!!!!!ts.
+This configuration is within the PCI bus capacity and is supported. 
+
+Please refer to the fol!!!!!LOC: Crypto engine: onboard 0  State changed to: Initialized 
+*Apr 10 05:18:45.227: %VPN_HW-6-INFO_!lowing document "Cisco 7200 Series Port Adaptor
+Hardware Configuration Guidelines" on Cisco.com <ht!!!!!!LOC: Crypto engine: onboard 0  State changed to: Enabled 
+*Apr 10 05:18:45.627: %LINK-3-UPDOWN: Inttp://www.cisco.com>
+for c7200 bandwidth points oversubscription and usage guidelines.
+
+
+1 FastEt!!!!!!hernet interface
+3 Gigabit Ethernet interfaces
+1 ATM interface
+2045K bytes of NVRAM.
+
+250880K berface GigabitEthernet0/0, changed state to up
+*Apr 10 05:18:45.627: %LINK-3-UPDOWN: Interface Giga!!!!!ytes of ATA PCMCIA card at slot 2 (Sector size 512 bytes).
+65536K bytes of Flash internal SIMM (Sec!bitEthernet0/1, changed state to up
+*Apr 10 05:18:45.627: %LINK-3-UPDOWN: Interface GigabitEthernet!!!!tor size 512K).
+Configuration register is 0x0
+
+waasperf2-72b#!term width!0/2, changed state to down
+*Apr 10 05:18:45.627: %LINK-3-UPDOWN: Interface Serial0/0/0, changed sta! 0!te to down
+waasperf2-72b#!!config ter!minal!!!!!!
+Enter configuration commands, one per line.  End with CNTL/Z.
+waasperf2-72b(config)#!! no loggin!!g console!!
+waasperf2-72b(config)#!!line con 0!!
+waasperf2-72b(config-line)#!!exec-timeo!ut 0!!!
+waasperf2-72b(config-line)#!clock time!!
+*Apr 10 05:18:45.627: %LINK-3-UPDOWN: Interface Serial0/0/1, changed state to down
+*Apr 10 05:18:4zone PDT -7!!
+waasperf2-72b(config)#!!service ti!!5.627: %LINK-3-UPDOWN: Interface Serial0/0/2, changed state to down
+*Apr 10 05:18:45.627: %LINK-3-U!!mestamps debug datetime localtime show-timezone msec!!!
+waasperf2-72b(config)#!service tiPDOWN: Interface Serial0/0/3, changed state to down
+*Apr 10 05:18:46.783: %LINEPROTO-5-UPDOWN: Line!!!!!mestamps log datetime localtime show-timezone msec
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!By default, the following "voice se!! protocol on Interface GigabitEthernet0/0, changed state to up
+*Apr 10 05:18:46.783: %LINEPROTO-5-U
+waasperf2-72b(config)#!!end
+waasperf2-72b#!!clock set rvice voip"         !!
+!!sub-command is enabled:                                !!
+!!   ip address!!22:18:29 09 Apr 2012PDOWN: Line protocol on Interface GigabitEthernet0/1, changed state to up
+*Apr 10 05:18:46.783: %LI!NEPROTO-5-U!
+waasperf2-72b#!!config ter trusted authenticate                     !!
+!!                                                    !minal!!!!!!   !!
+!!The command enables the ip address authentication      !!
+!!on incoming H.323 or SIP trunk
+Enter configuration commands, one per line.  End with CNTL/Z.
+waasperf2-72b(config)#!!hostname w!aasperf2-72b!!!
+waasperf2-72b(config)# calls for toll fraud    !!
+!!prevention supports.                                   !!
+!!        !enable pas!!sword lab!!
+waasperf2-72b(config)#!                                               !!
+!!Please use "show ip address trusted list" comma!no ip doma!!in-lookup!!
+waasperf2-72b(config)#!nd      !!
+!!to display a list of valid ip addresses for incoming   !!
+!!H.323 or SIP trunk calls.!no ip routPDOWN: Line protocol on Interface GigabitEthernet0/2, changed state to down
+*Apr 10 05:18:46.783: %!ing!
+!!!!                              !!
+!!                                                       !!
+!!AddLINEPROTO-5-UPDOWN: Line protocol on Interface Serial0/0/0, changed state to down
+*Apr 10 05:18:46.!!!!!!itional valid ip addresses can be added via the     !!
+!!following command line:                   783: %LINEPROTO-5-UPDOWN: Line protocol on Interface Serial0/0/1, changed state to down
+*Apr 10 05:!!waasperf2-72b(config)#!!ip default!!-gateway 10.1.1.1!18:46.783: %LINEPROTO-5-UPDOWN: Line protocol on Interface Serial0/0/2, changed state to down
+*Apr              !!
+!!  voice service voip                                   !!
+!!   ip address trust!
+waasperf2-72b(config)#!!service ti!!!10 05:18:46.783: %LINEPROTO-5-UPDOWN: Line protocol on Interface Serial0/0/3, changed state to down!mestamps debug datetime msec localtime
+*Apr 10 05!!
+waasperf2-72b(config)#!!no service! config!!
+waasperf2-72b(config)#!!clock time!!zone PST -8!!
+waasperf2-72b(config)#!!clock summ!!er-time PDT recurring!!
+waasperf2-72b(config)#!ed list         !ip host PA!!!GENT-SECURITY-V3 24.47.99.65 81.29.0.0!!!
+waasperf2-72b(config)#!interface !:19:32.627: %IP-5-WEBINST_KILL: Terminating DNS process
+*Apr 10 05:19:33.879: %LINK-5-CHANGED: Intetftpdnld -r
+
+          IP_ADDRESS: 10.1.1.6
+      IP_SUBNET_MASK: 255.255.255.0
+     DEFAULT_GATEWAY: 10.1.!1.1
+         TFTP_SERVER: 128.107.150.5
+           TFTP_FILE: /auto/tftp-joaofer/sfr/testing/c890-universalk9-mz2012-04-09!GigabitEthernet0/1!!
+waasperf2-72b(config-if)#!!no ip addrrface Serial0/0/0, changed state to administratively down
+*Apr 10 05:19:33.879: %LINK-5-CHANGED: In!ess!!
+waasperf2-72b(config-if)#!
+        TFTP_MACADDR: e0:5f:b9:69:e9:1a
+        TFTP_VERBOSE: Progress
+    TFTP_RETRY_COUNT: 18
+        TFTP_TIMEOUT: 7200
+       TFTP_CHECKSUM: Yes
+             FE_PORT: 0
+!shutdown!
+terface GigabitEthernet0/0, changed state to administratively down
+*Apr 10 05:19:33.879: %LINK-5-CH!!!waasperf2-72b(config-if)#!!end
+waasperf2-72b#!copy runni!ANGED: Interface GigabitEthernet0/1, changed state to administratively down
+*Apr 10 05:19:33.879: %!!ng-config disk2:waasperf2.post                    !!
+!!    ipv4 <ipv4-address> [<ipv4 network-mask>]          !!
+!!!!!!!!!!!!!!!!
+!!!LINK-5-CHANGED: Interface GigabitEthernet0/2, changed state to administratively down
+*Apr 10 05:19:!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!33.879: %LI!!!!!!!Destination filename [waasperf2.post]? !!!!!!!
+%Warning:There is a file already existing with this name 
+Do you want to over write? [confirm]!!!!!!!!!!
+Receiving /auto/tftp-joaofer/sfr/testing/c890-universalk9-mz2012-04-09 from 128.107.150.5 !!!!!!!!!!!!!!!!!NK-5-CHANGED: Interface Serial0/0/1, changed state to administratively down
+*Apr 10 05:19:33.879: %!!!!!!!!!!!!!!!!!!!!!!LINK-5-CHANGED: Interface Serial0/0/2, changed state to administratively down
+*Apr 10 05:19:33.879:!!!!!!!!!!!!!!!!!!!!!! %LINK-5-CHANGED: Interface Serial0/0/3, changed state to administratively down
+*Apr 10 05:19:34.88!!!!!!!!!!!!!!!!!!!!!!3: %LINEPROTO-5-UPDOWN: Line protocol on Interface GigabitEthernet0/0, changed state to down
+*Apr 1!!!!!!!!!!!!!!!!!!!!!!0 05:19:34.883: %LINEPROTO-5-UPDOWN: Line protocol on Interface GigabitEthernet0/1, changed state to!!!!!! down
+*Apr!!!!!!!!!!!!!!!!!
+
+1405 bytes copied in 0.756 secs (1858 bytes/sec)
+waasperf2-72b#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 10 05:19:36.123: %SYS-5-RESTART: System restarted --
+Cisco IOS Software, C2900 Software (C2900-UNI!!!!!!!!!!!!!!!!!!!!!!!VERSALK9-M), Version 15.0(1)M4, RELEASE SOFTWARE (fc1)
+Technical Support: http://www.cisco.com/tech!!!!!!!!!!!!!!!!!!!!!!support
+Copyright (c) 1986-2010 by Cisco Systems, Inc.
+Compiled Thu 28-Oct-10 18:32 by prod_rel_te!!!!!!!!!!!!!!!!!!!!!!am
+*Apr 10 05:19:36.127: %SNMP-5-COLDSTART: SNMP agent on host Router is undergoing a cold start
+*!!!!!!!!!!!!!!!!!!!!!!!Apr 10 05:19:36.739: %SYS-6-BOOTTIME: Time taken to reboot after reload =  157 seconds
+*Apr 10 05:1!!!!9:37.467: %!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!CRYPTO-6-ISAKMP_ON_OFF: ISAKMP is OFF
+*Apr 10 05:19:37.467: %CRYPTO-6-GDOI_ON_OFF: GDOI is OFF
+*Ap!!!
+
+
+Press RETURN to get started!
+
+
+*Apr 10 05:18:48.703: %VPN_HW-6-INFO_LOC: Crypto engine: on!!!!!!!!!!!!!!!!!!r 10 05:19:37.467: %CRYPTO-6-ISAKMP_ON_OFF: ISAKMP is OFF
+*Apr 10 05:19:37.467: %CRYPTO-6-GDOI_ON_O!board 0  State changed to: Initialized 
+*Apr 10 05:18:48.707: %VPN_HW-6-INFO_LOC: Crypto engine: on clean of waasperf2-72b was OK 
+!!!!!!FF: GDOI is OFF!!!!!!!!!!!!!!board 0  State changed to: Enabled 
+*Apr 10 05:18:49.487: %LINK-5-CHANGED: Interface GigabitEtherne!!!!!!!!!!!!!!!!!!!!t0/0, changed state to reset
+*Apr 10 05:18:49.487: %LINK-5-CHANGED: Interface GigabitEthernet0/1, c!!!!!!!!!!!!!!!!!!!!!hanged state to reset
+*Apr 10 05:18:49.491: %LINK-3-UPDOWN: Interface FastEthernet1/0, changed stat!!!!!!!!!!!!!!!!!!!e to up
+*Apr 10 05:18:49.491: %LINK-3-UPDOWN: Interface FastEthernet1/1, changed state to up
+*Apr !!!!!!!!!!!!!!!!!!!!10 05:18:49.783: %LINEPROTO-5-UPDOWN: Line protocol on Interface Onboard VPN, changed state to up
+*!!!!!!!!!!!!!!!!!!!!!Apr 10 05:18:50.487: %LINEPROTO-5-UPDOWN: Line protocol on Interface GigabitEthernet0/0, changed sta!!!!!!!!!!!!!!!!!!!!te to up
+*Apr 10 05:18:50.487: %LINEPROTO-5-UPDOWN: Line protocol on Interface GigabitEthernet0/1, !!!!!!!!!!!!!!!!!!!!changed state to up
+*Apr 10 05:18:50.491: %LINEPROTO-5-UPDOWN: Line protocol on Interface FastEther!!!!!!!!!!!!!!!!!!!!net1/0, changed state to down
+*Apr 10 05:18:50.491: %LINEPROTO-5-UPDOWN: Line protocol on Interface!!!!!!!!!!!!!!!!!!!! FastEthernet1/1, changed state to down
+*Apr 10 05:18:51.491: %LINK-3-UPDOWN: Interface GigabitEthe!!!!!!!!!!!!!!!!!!!!rnet0/0, changed state to up
+*Apr 10 05:18:51.491: %LINK-3-UPDOWN: Interface GigabitEthernet0/1, ch!!!!!!!!!!!!!!!!!!!!!anged state to up
+*Apr 10 05:19:13.323: %LINEPROTO-5-UPDOWN: Line protocol on Interface FastEtherne!!!!!!!!!!!!!!!!!!!t1/0, changed state to up
+*Apr 10 05:19:36.411: %IP-5-WEBINST_KILL: Terminating DNS process
+*Apr 1!!!!!!!!!!!!!!!!!!!!0 05:19:37.611: %SYS-5-RESTART: System restarted --
+Cisco IOS Software, 3800 Software (C3845-ADVSEC!!!!!!!!!!!!!!!!!!!!!URITYK9-M), Version 15.1(4)M0.1, MAINTENANCE INTERIM SOFTWARE
+Technical Support: http://www.cisco.c!!!!!!!!!!!!!!!!!!!!om/techsupport
+Copyright (c) 1986-2011 by Cisco Systems, Inc.
+Compiled Sun 10-Apr-11 13:47 by prod!!!!!!!!!!!!!!!!!!!!_rel_team
+*Apr 10 05:19:37.615: %SNMP-5-COLDSTART: SNMP agent on host Router is undergoing a cold s!!!!!!!!!!!!!!!!!!!!tart
+*Apr 10 05:19:37.779: %SYS-6-BOOTTIME: Time taken to reboot after reload =  166 seconds
+*Apr !!!!!!!!!!!!!!!!!!!!10 05:19:37.999: %LINK-5-CHANGED: Interface GigabitEthernet0/0, changed state to administratively do!!!!!!!!!!!!!!!!!!!!!wn
+*Apr 10 05:19:37.999: %LINK-5-CHANGED: Interface GigabitEthernet0/1, changed state to administra!!!!!!!!!!!!!!!!!!!!tively down
+*Apr 10 05:19:37.999: %LINK-5-CHANGED: Interface FastEthernet1/0, changed state to admi!!!!!!!!!!!!!!!!!!
+
+
+Press RETURN to get started!
+
+
+Mar 30 01:27:40.763: %IOS_LICENSE_IMAGE_APPLICATION-6-LICEN!nistratively down
+*Apr 10 05:19:37.999: %LINK-5-CHANGED: Interface FastEthernet1/1, changed state t!!!!!!!!!!!!!!!!!!!!SE_LEVEL: Module name = c2951 Next reboot level = ipbasek9 and License = ipbasek9
+Mar 30 01:27:40.8!o administratively down
+*Apr 10 05:19:38.007: %CRYPTO-6-ISAKMP_ON_OFF: ISAKMP is OFF
+*Apr 10 05:19!!!!!!!!!!!!!!!!!!!!:38.007: %CRYPTO-6-ISAKMP_ON_OFF: ISAKMP is OFF
+*Apr 10 05:19:38.007: %CRYPTO-6-ISAKMP_ON_OFF: ISAK!!55: %IOS_LICENSE_IMAGE_APPLICATION-6-LICENSE_LEVEL: Module name = c2951 Next reboot level = security!!!!!!!!!!!!!!!!!!MP is OFF
+*Apr 10 05:19:38.007: %CRYPTO-6-GDOI_ON_OFF: GDOI is OFF
+*Apr 10 05:19:38.999: %LINEPROT!!!!k9 and License = securityk9
+Mar 30 01:27:40.951: %IOS_LICENSE_IMAGE_APPLICATION-6-LICENSE_LEVEL: Mo!!!!!!!!!!!!!!!!!O-5-UPDOWN: Line protocol on Interface GigabitEthernet0/0, changed state to down
+*Apr 10 05:19:38.9!!!!!dule name = c2951 Next reboot level = uck9 and License = uck9
+Mar 30 01:27:41.039: %IOS_LICENSE_IMA!!!!!!!!!!!!!!99: %LINEPROTO-5-UPDOWN: Line protocol on Interface GigabitEthernet0/1, changed state to down
+*Apr !!!!!!!!!GE_APPLICATION-6-LICENSE_LEVEL: Module name = c2951 Next reboot level = datak9 and License = datak9!!!!!!!!!!!10 05:19:38.999: %LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet1/0, changed state to d!!!!own!!!!!!
+Apr 10 05:20:20.627: %IFMGR-7-NO_IFINDEX_FILE: Unable to open nvram:/ifIndex-table No such file or !!!!!!!!!!!!!!!!!!!!!!directory
+Apr 10 05:20:21.463: %VPN_HW-6-INFO_LOC: Crypto engine: onboard 0  State changed to: Init!!!!!!!!!!!!!!!!!!!!!!!ialized 
+Apr 10 05:20:21.507: %VPN_HW-6-INFO_LOC: Crypto engine: onboard 0  State changed to: Enabl!!!!!!!!!!!!!!!!!!!!!!ed 
+Apr 10 05:20:26.699: %PVDM-6-UNSUPPORTED: Codec G.723 is not supported on PVDM3.
+Apr 10 05:20:!!!!!!!!!!!!!!!!!!!!!31.819: IOS-WAAS(waas_dma_get_mem) (PRO): Dimm0: 2048MB, Total Size: 2048MB
+
+Apr 10 05:20:31.819: !!!!!!!!!!!!!!!!!!!!!!!IOS-WAAS(waas_dma_get_mem) (PRO): Dimm1: 2048MB, Total Size: 4096MB
+
+Apr 10 05:20:31.819: IOS-WAAS!!!!!!!!!!!!!!!!!!!!!!(waas_dma_get_mem) (PRO): Returned size = 4294967296
+
+Apr 10 05:20:31.819: HTTP AO Initialized
+
+!!!!!!!!!!!!!!!!!!!!!!!Apr 10 05:20:31.819: SMB AO Initialized ;-)
+
+Apr 10 05:20:39.475: %LINEPROTO-5-UPDOWN: Line protoc!!!!!!!!!!!!!!!!!!!!!!ol on Interface VoIP-Null0, changed state to up
+Apr 10 05:20:39.475: %LINEPROTO-5-UPDOWN: Line prot!!!!!!!!!!!!!!!!!!!!!ocol on Interface LI-Null0, changed state to up
+Apr 10 05:20:39.475: %LINK-3-UPDOWN: Interface Giga!!!!!!!!!!!!!!!!!!!!!!!bitEthernet0/0, changed state to up
+Apr 10 05:20:39.475: %LINK-3-UPDOWN: Interface GigabitEthernet0!!!!!!!!!!!!!!!!!!!!!!/1, changed state to up
+Apr 10 05:20:39.475: %LINK-3-UPDOWN: Interface GigabitEthernet0/2, changed !!!!!!!!!!!!!!!!!!!!!!state to down
+Apr 10 05:20:39.475: %LINK-3-UPDOWN: Interface Serial0/0/0, changed state to down
+Ap!!!!!!!!!!!!!!!!!!!!!!!r 10 05:20:39.475: %LINK-3-UPDOWN: Interface Serial0/0/1, changed state to down
+Apr 10 05:20:40.475!!!!!!!!!!!!!!!!!!!!!: %LINEPROTO-5-UPDOWN: Line protocol on Interface GigabitEthernet0/0, changed state to up
+Apr 10 05!!!!!!!!!!!!!!!!!!!!!!!:20:40.475: %LINEPROTO-5-UPDOWN: Line protocol on Interface GigabitEthernet0/1, changed state to up!!!!!!!!!!!!!!!!!!!!!!
+Apr 10 05:20:40.475: %LINEPROTO-5-UPDOWN: Line protocol on Interface GigabitEthernet0/2, changed st!!!!!!!!!!!!!!!!!!!!!!ate to down
+Apr 10 05:20:40.475: %LINEPROTO-5-UPDOWN: Line protocol on Interface Serial0/0/0, chang!!!!!!!!!!!!!!!!!!!!!!!ed state to down
+Apr 10 05:20:40.475: %LINEPROTO-5-UPDOWN: Line protocol on Interface Serial0/0/1, !!!!!!!!!!!!!!!!!!!!!!changed state to down
+Apr 10 05:21:26.047: %IP-5-WEBINST_KILL: Terminating DNS process
+Apr 10 05:2!!!!!!!!!!!!!!!!!!!!!!1:27.335: %LINK-5-CHANGED: Interface Serial0/0/0, changed state to administratively down
+Apr 10 05:!!!!!!!!!!!!!!!!!!!!!!!21:27.335: %LINK-5-CHANGED: Interface Embedded-Service-Engine0/0, changed state to administratively !!!!!!!!!!!!!!!!!!!!!down
+Apr 10 05:21:27.335: %LINK-5-CHANGED: Interface GigabitEthernet0/0, changed state to administr!!!!!!!!!!!!!!!!!!!!!!atively down
+Apr 10 05:21:27.519: %LINK-5-CHANGED: Interface GigabitEthernet0/1, changed state to a!!!!!!!!!!!!!!!!!!!!!!!dministratively down
+Apr 10 05:21:27.519: %LINK-5-CHANGED: Interface GigabitEthernet0/2, changed st!!!!!!!!!!!!!!
+Router>!!!!enable!!!!ate to administratively down
+Apr 10 05:21:27.619: %LINK-5-CHANGED: Interface Serial0/0/1, changed s!!
+Router#!!!!!!!terminal l!!!!ength 0!!!!!
+Router#!!!!!tate to administratively down
+Apr 10 05:21:28.443: %LINEPROTO-5-UPDOWN: Line protocol on Interface !config ter!!!!minal!!!!!!!!!!!!!!!!!Embedded-Service-Engine0/0, changed state to down
+Apr 10 05:21:28.443: %LINEPROTO-5-UPDOWN: Line pr!!!!
+Enter configuration commands, one per line.  End with CNTL/Z.
+Router(config)#!!!!!!no logging!!!! console!!!!!!!otocol on Interface GigabitEthernet0/0, changed state to down
+Apr 10 05:21:28.543: %LINEPROTO-5-UPD
+Router(config)#!!!!!!!end
+Router#!!!!!!show versi!!!on!!!!!!!OWN: Line protocol on Interface GigabitEthernet0/1, changed state to down
+Apr 10 05:21:30.579: %SYS!!!!!!!!!!!!!!!
+Cisco IOS Software, C2900 Software (C2900-UNIVERSALK9-M), Version 15.0(1)M4, RELEASE SOFTWARE (fc1!!!!!!!-5-RESTART: System restarted --
+Cisco IOS Software, C2951 Software (C2951-UNIVERSALK9-M), Version 1!!!!!!!!!!!!!!!)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2010 by Cisco Systems, In!!!!!!!5.2(LAKECOMO_DT10_20110727), EARLY DEPLOYMENT DEVELOPMENT BUILD, synced to V152_0_14_T
+Copyright (c!!!!!!!!!!!!!!!!c.
+Compiled Thu 28-Oct-10 18:32 by prod_rel_team
+
+ROM: System Bootstrap, Version 15.0(1r)M9, RELE!!!!!!!) 1986-2011 by Cisco Systems, Inc.
+Compiled Wed 27-Jul-11 16:39 by suneetha
+Apr 10 05:21:30.579: %!!!!!!!!!!!!!!!ASE SOFTWARE (fc1)
+
+Router uptime is 1 minute
+System returned to ROM by reload at 22:15:42 PDT Mo!!!!!!SNMP-5-COLDSTART: SNMP agent on host Router is undergoing a cold start
+Apr 10 05:21:30.591: %SYS-6-!!!!!!!!!!!!!!!!!n Apr 9 2012
+System image file is "flash0:c2900-universalk9-mz.SPA.150-1.M4.bin"
+Last reload type:!!!!!BOOTTIME: Time taken to reboot after reload =  166 seconds
+Apr 10 05:21:30.603: %CRYPTO-6-ISAKMP_ON!!!!!!!!!!!!!!!! Normal Reload
+Last reload reason: Reload Command
+
+
+
+This product contains cryptographic featur!!!!_OFF: ISAKMP is OFF
+Apr 10 05:21:30.603: %CRYPTO-6-GDOI_ON_OFF: GDOI is OFF!!!!!!!!!!!!!!!!!!es and is subject to United
+States and local country laws governing import, export, transfer and
+u!!!!!!!!!!!!!!!!!!!!!!!se. Delivery of Cisco cryptographic products does not imply
+third-party authority to import, export!!!!!!!!!!!!!!!!!!!!!!, distribute or use encryption.
+Importers, exporters, distributors and users are responsible for
+c!!!!!!!!!!!!!!!!!!!!!!ompliance with U.S. and local country laws. By using this product you
+agree to comply with applicab!!!!!!!!!!!!!!!!!!!!!!le laws and regulations. If you are unable
+to comply with U.S. and local laws, return this product !!!!!!!!!!!!!!!!!!!!!!immediately.
+
+A summary of U.S. laws governing Cisco cryptographic products may be found at:
+http!!!!!!!!!!!!!!!!!!!!!!!://www.cisco.com/wwl/export/crypto/tool/stqrg.html
+
+If you require further assistance please conta!!!!!!!!!!!!!!!!!!!!!!ct us by sending email to
+export@cisco.com.
+
+Cisco CISCO2921/K9 (revision 1.0) with 2576383K/4505!!!!!!!!!!!!!!!!!!!!!!6K bytes of memory.
+Processor board ID FTX1504AHQX
+2 DSL controllers
+3 Gigabit Ethernet interface!!!!!!!!!!!!!!!!!!!!!!s
+4 Serial(sync/async) interfaces
+1 Virtual Private Network (VPN) Module
+DRAM configuration is 64!!!!!!!!!!!!!!!!!!!!!! bits wide with parity enabled.
+255K bytes of non-volatile configuration memory.
+1000944K bytes of!!!!!!!!!!!!!!!!!!!!!! ATA System CompactFlash 0 (Read/Write)
+
+
+License Info:
+
+License UDI:
+
+----------------------!!!!!!!!!!!!!!!!!!!!!!!---------------------------
+Device#	  PID			SN
+-------------------------------------------------
+!!!!!!!!!!!!!!!!!!!!!!*0  	  CISCO2921/K9          FTX1504AHQX     
+
+
+
+Technology Package License Information for Modu!!!!!!!!!!!!!!!!!!!!!!le:'c2900' 
+
+----------------------------------------------------------------
+Technology    Techn!!!!!!!!!!!!!!!!!!!!!!ology-package          Technology-package
+              Current       Type          Next reboot  
+!!!!!!!
+Router>!!!!enable!!!!!!
+Router#!!!!!-----------------------------------------------------------------
+ipbase        ipbasek9      Perma!terminal l!!!!!ength 0!!!!!
+Router#!!!!!!config ter!!!!minal!!nent     ipbasek9
+security      securityk9    Permanent     securityk9
+uc            None         !!!!!!!!!!!!!!!!!
+Enter configuration commands, one per line.  End with CNTL/Z.
+Router(config)#!!!!! None          None
+data          None          None          None
+
+Configuration register is 0x0!no logging!!!
+
+Router#!! console!!!!!term width!!
+Router(config)#! 0!!!!end
+Router#!!
+Router#!!!!show versi!!!config terminalon!!!!!!!!!!!!!!!!!!!!!
+Enter configuration commands, one per line.  End with CNTL/Z.
+Router(config)#!
+Cisco IOS Software, 3800 Software (C3845-ADVSECURITYK9-M), Version 15.1(4)M0.1, MAINTENANCE INTERI!!!! no loggin!!!!!g console!!!!!!!
+Router(config)#!!!!!M SOFTWARE
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2011 by Cisco Syline con 0!!!!!!!!!
+Router(config-line)#!!!!!exec-timeo!!!!!ut 0!stems, Inc.
+Compiled Sun 10-Apr-11 13:47 by prod_rel_team
+
+ROM: System Bootstrap, Version 12.4(13!!!!!!!
+Router(config-line)#!!!!!clock time!!!!!!zone PDT -7!!r)T11, RELEASE SOFTWARE (fc1)
+
+Router uptime is 1 minute
+System returned to ROM by reload at 22:1!!!!!
+Router(config)#!!!!!!service ti!!!!!!!!!!5:41 PDT Mon Apr 9 2012
+System image file is "flash:c3845-advsecurityk9-mz.151-4.M0.1"
+Last reload!!!!mestamps debug datetime localtime show-timezone msec!!!!!!!
+Router(config)#!!!!!!service ti!! type: Normal Reload
+
+
+This product contains cryptographic features and is subject to United
+Sta!!!!!!!!!!!!!mestamps log datetime localtime show-timezone msec!!!!!!!
+Router(config)#!tes and local country laws governing import, export, transfer and
+use. Delivery of Cisco cryptograp!!!!end
+Router#!!!!!!clock set !!!!!!!22:18:44 09 Apr 2012!!!hic products does not imply
+third-party authority to import, export, distribute or use encryption.!!!
+Router#!!!!!!!config ter!!!!minal!!!!!!!
+Importers, exporters, distributors and users are responsible for
+compliance with U.S. and local co!!!!!!!!!!!!!!
+Enter configuration commands, one per line.  End with CNTL/Z.
+Router(config)#!!!!!hostname w!untry laws. By using this product you
+agree to comply with applicable laws and regulations. If you !!!!!aasperf2-29a!!!!!!!!!
+waasperf2-29a(config)#!!!!!enable pasare unable
+to comply with U.S. and local laws, return this product immediately.
+
+A summary of U.S!!!!!!sword lab!!!!!!!!
+waasperf2-29a(config)#!!!!!!!. laws governing Cisco cryptographic products may be found at:
+http://www.cisco.com/wwl/export/crypend
+waasperf2-29a#!!!!!!config ter!!!!minal!!!!!!!!!!to/tool/stqrg.html
+
+If you require further assistance please contact us by sending email to
+expor!!!!!!!!!!!!
+Enter configuration commands, one per line.  End with CNTL/Z.
+waasperf2-29a(config)#!!!!!!hostname w!!t@cisco.com.
+
+Cisco 3845 (revision 1.0) with 1007616K/40960K bytes of memory.
+Processor board ID !!!!aasperf2-29a!!!!!!!!
+waasperf2-29a(config)#!!!!!!enable pas!!FTX1340AJJT
+2 FastEthernet interfaces
+2 Gigabit Ethernet interfaces
+1 Virtual Private Network (VP!!!sword lab!!!!!!!!!
+waasperf2-29a(config)#!!!!!no ip doma!!!N) Module
+DRAM configuration is 64 bits wide with parity enabled.
+479K bytes of NVRAM.
+62720K byt!!!in-lookup!!!!!!!!
+waasperf2-29a(config)#!!!!!!no ip rout!!!ing!es of ATA System CompactFlash (Read/Write)
+
+
+License Info:
+
+License UDI:
+
+-------------------!!!!!!!!!
+waasperf2-29a(config)#!!!!!ip default!!!!!!------------------------------
+Device#	  PID			SN
+------------------------------------------------!-gateway 10.1.1.1!!!!!!!!!
+waasperf2-29a(config)#!!!!!service ti!!!!!!!-
+*0  	  CISCO3845-MB          FOC13374FEZ     
+
+
+
+Configuration register is 0x0
+
+Router#!!!!mestamps debug datetime msec localtime!!term width!!! 0!!!!
+waasperf2-29a(config)#!
+Router#!!!!no service!!!config terminal!! config!!!!!!!!
+waasperf2-29a(config)#!!!!!!clock time!!!
+Enter configuration commands, one per line.  End with CNTL/Z.
+Router(config)#!!zone PST -8!!!! no loggin!!!!!g console!
+waasperf2-29a(config)#!!!!!!
+Router(config)#!clock summer-time PD!!!!line con 0!!T recurring!!!!!!!
+Router(config-line)#!
+waasperf2-29a(config)#!!!!exec-timeo!!interface !ut 0!!!!!!GigabitEthernet0/0!!!
+Router(config-line)#!!!!!clock time!
+waasperf2-29a(config-if)#!!!!!zone PDT -7!ip address!!!!!
+Router(config)#!!! 10.1.1.4 255.255.255.0!!!service ti!!!!!!
+waasperf2-29a(config-if)#!!!!!!no shutdow!!mestamps debug datetime localtime show-timezone msec!n!!!!
+!!
+Router(config)#!!!!!!service ti!!!!!waasperf2-29a(config-if)#!!!!!!controller!!!mestamps log datetime localtime show-timezone msec!!! SHDSL 0/1/0!!!!
+Router(config)#!!!!!!end
+Router#
+waasperf2-29a(config-controller)#!!!!!clock set terminatio!!!!!n cpe!!22:18:46 09 Apr 2012!!
+Router>!!!!
+Router#!!!
+waasperf2-29a(config-controller)#!!enable!config ter!!dsl-group !!minal!
+Router#!auto!!!!!!!!!!!!!!!terminal l!!
+Enter configuration commands, one per line.  End with CNTL/Z.
+Router(config)#!!!!!!
+dsl-group auto
+          ^
+% Invalid input detected at '^' marker.
+
+waasperf2-29a(config-contrhostname w!!!ength 0!oller)#!!aasperf2-3845c!!
+Router#!!!end
+waasperf2-29a#!!!
+waasperf2-3845c(config)#!!!!copy runni!!enable pas!!!config ter!!sword lab!!!ng-config flash:waasperf2.start!!!!minal!!
+waasperf2-3845c(config)#!!!!!
+Destination filename [waasperf2.start]? !!end
+waasperf2-3845c#!!!!!!!config ter!!!!minal!
+Enter configuration commands, one per line.  End with CNTL/Z.
+Router(config)#!!!!!!!!!!!!!!!!no logging!
+%Warning:There is a file already existing with this name 
+Do you want to over write? [confirm]!!!
+Enter configuration commands, one per line.  End with CNTL/Z.
+waasperf2-3845c(config)#!!!!!hostname w!! console!!!!aasperf2-3845c!!!!
+Router(config)#!!!!
+waasperf2-3845c(config)#!!!!!!end
+Router#enable pas!!!!!!sword lab!!!!!!!!
+waasperf2-3845c(config)#show versi!!!!!!onno ip doma!!!!
+in-lookup!!!!!!!!
+waasperf2-3845c(config)#!!!!!!no ip rout!!!!ing!!!!!!!!!!
+waasperf2-3845c(config)#!!!!!ip default!!!!!!!!-gateway 10.1.1.1!!!!!!!!
+waasperf2-3845c(config)#!Cisco IOS Software, C2951 Software (C2951-UNIVERSALK9-M), Version 15.2(LAKECOMO_DT10_20110727), EARL!!!!service ti!!
+
+1599 bytes copied in 0.464 secs (3446 bytes/sec)
+
+waasperf2-29a#!!!!!!copy runni!!!!mestamps debug datetime msec localtime!!!!ng-config startup-config!!Y DEPLOYMENT DEVELOPMENT BUILD, synced to V152_0_14_T
+Copyright (c) 1986-2011 by Cisco Systems, Inc!!
+waasperf2-3845c(config)#!!!!!!no service!!!
+Destination filename [startup-config]? ! config!!!!!!
+!
+waasperf2-3845c(config)#!!.
+Compiled Wed 27-Jul-11 16:39 by suneetha
+
+ROM: System Bootstrap, Version 15.0(1r)M6, RELEASE SO!!!!clock time!!!!!!zone PST -8!!!!!!!Building configuration...
+!
+waasperf2-3845c(config)#!!!!FTWARE (fc1)
+
+Router uptime is 1 minute
+System returned to ROM by reload at 22:15:43 PDT Mon Apr !!!!clock summer-time PD!!!!!!T recurring!!!!!!!!
+waasperf2-3845c(config)#!!!!!9 2012
+System restarted at 05:20:15 UTC Tue Apr 10 2012
+System image file is "flash0:c2951-univers!interface !!!!!!FastEthernet1/0!!!!!!!!!
+waasperf2-3845c(config-if)#!!!!!!ip addressalk9-mz.SSA.dt10_20110727"
+Last reload type: Normal Reload
+Last reload reason: Reload Command
+
+!!!!!!! 10.1.1.6 255.255.255.0!!!!!!!!!!
+waasperf2-3845c(config-if)#!!!!!
+
+This product contains cryptographic features and is subject to United
+States and local country l!no shutdow!!!n!!!!!!!!!!
+waasperf2-3845c(config-if)#!!!!!!!!end
+waasperf2-3845c#aws governing import, export, transfer and
+use. Delivery of Cisco cryptographic products does not i!!!!!copy runni!!!!!!!!!!!ng-config flash:waasperf2.start!!!!!!mply
+third-party authority to import, export, distribute or use encryption.
+Importers, exporters, !!!!!!
+Destination filename [waasperf2.start]? !!!!!!!!!!!!!!!!!distributors and users are responsible for
+compliance with U.S. and local country laws. By using th!!!!!!!!!
+%Warning:There is a file already existing with this name 
+Do you want to over write? [confirm]!!!!!!!!!!!!!is product you
+agree to comply with applicable laws and regulations. If you are unable
+to comply w!!!!!!!!!!!!!!!!!!!!!!ith U.S. and local laws, return this product immediately.
+
+A summary of U.S. laws governing Cisco !!!!!!!!!!!!!!!!!!!!!!!cryptographic products may be found at:
+http://www.cisco.com/wwl/export/crypto/tool/stqrg.html
+
+I!!!!!!!!!!!!!!!!!!!!!f you require further assistance please contact us by sending email to
+export@cisco.com.
+
+Cisco C!!!!!!!!!!!!!!!!!!!!!
+1392 bytes copied in 0.424 secs (3283 bytes/sec)
+
+waasperf2-3845c#!ISCO2951/K9 (revision 1.1) with 1888256K/208896K bytes of memory.
+Processor board ID FTX1448AKW9
+3!!!!!!copy runni!!!!!!!!ng-config startup-config!!!!!!!!! Gigabit Ethernet interfaces
+2 Serial(sync/async) interfaces
+1 terminal line
+1 Virtual Private Ne!!
+Destination filename [startup-config]? !!!!!!!!!
+!!!!!!!!!!!twork (VPN) Module
+DRAM configuration is 72 bits wide with parity enabled.
+255K bytes of non-volat!!!!!!!!!!!!!!!!!!!!!!!ile configuration memory.
+500472K bytes of ATA System CompactFlash 0 (Read/Write)
+
+
+License Info!!!!!!!!!!!!!!!!!!!!!!:
+
+License UDI:
+
+-------------------------------------------------
+Device#	  PID			SN
+--------!!!!!!!!!!!!!!!!!!!!!-----------------------------------------
+*0  	  CISCO2951/K9          FTX1448AKW9     
+
+
+
+Tech!!!!!!!!!!!!!!!!Building configurati!!!!!!!nology Package License Information for Module:'c2951' 
+
+------------------------------------------!!!!!!!!!!!!!!!!!!!!!!-----------------------
+Technology    Technology-package           Technology-package
+            !!!!!!!!!!!!!!!!!!!!!!!  Current       Type           Next reboot  
+------------------------------------------------------!!!!!!!!!!!!!!!!!!!!!!------------
+ipbase        ipbasek9      Permanent      ipbasek9
+security      securityk9    Right!!!!!!!!!!!!!!!!!!!!!ToUse     securityk9
+uc            uck9          RightToUse     uck9
+data          datak9        R!!!!!!!!!!!!!!!!!ightToUse     datak9
+
+Configuration register is 0x0
+
+Router#!!!!!!!!!!!!!!!!term width!!!!! 0!!!!!!
+Router#!!!!!!!!!on...
+!config terminal!!!!!!!!!!!!!!!!!!!!!
+Enter configuration commands, one per line.  End with CNTL/Z.
+Router(config)#!!!!!!!!!!!!!!! no loggin!!!!!!!!!!!!!g console!!!!!!!!
+Router(config)#!!!!!!!!!!![OK]
+waasperf2-29a#!!!line con 0!!!reload!!!!
+!!
+Router(config-line)#!!!!!!!!!!!!!!!exec-timeo!!!!!!!ut 0!!!
+Proceed with reload? [confirm]!!!!!!
+Router(config-line)#!!!!!!!!!!!!!!!clock time!!!!!!!!!!!!!!zone PDT -7!!!!!!!!
+Router(config)#!!!!!!!!!!!!!!service ti!!!!!!!!!!!!!!!!!!!!!!!!mestamps debug datetime localtime show-timezone msec!!!!!!!!
+Router(config)#!!!!!!!!!!!!!!!service ti!!!!!!!!!!!!!!!!!!!!!mestamps log datetime localtime show-timezone msec!!!!!!!!
+Router(config)#!!!!!!!!!!end
+Router#!!!!!!!!!!!!!!clock set !!!!!!!!!!!!!22:18:51 09 Apr 2012!!!!!
+Router#!!!!!!!!!!!!!!!!config ter!!!!!!!!minal!!!!!!!!!!!!!!!!!!!!!!
+Enter configuration commands, one per line.  End with CNTL/Z.
+Router(config)#!!!!!!!!!!!!!!!!hostname w!!!!!!!!aasperf2-2951a!!!!!!!!!!
+waasperf2-2951a(config)#!!!!!!!!!!!!!!enable pas!!!!!!!!!!!!!sword lab!!!!!!!!!!
+waasperf2-2951a(config)#!!!!!!!!!!!!end
+waasperf2-2951a#!!!!!!!!!!!!!!config ter!!!!!!!!!minal!!!!!!!!!!!!!!!!!!!!!!!
+Enter configuration commands, one per line.  End with CNTL/Z.
+waasperf2-2951a(config)#!!!!!!!!!!!!!!!hostname w!!!!!!!!!aasperf2-2951a!!!!!!!!!!
+waasperf2-2951a(config)#[OK]
+waasperf2-3845c#!!!!!!

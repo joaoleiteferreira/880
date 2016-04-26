@@ -1,0 +1,1165 @@
+#######################  CONFIG FILE FOR reventon2 testbed  ######################
+#                                                                             #
+#     Header file for autotest. Follow the steps to customise as needed.      #
+#                                                                             #
+###############################################################################
+
+###############################################################################
+# Step 1: Uncomment the following line and enter the NAME of the
+# tftpserver you will be using to netboot. Whoever runs autotest will
+# need to be able to rcp file to this machine name without entering a
+# password.
+#------------------------------------------------------------------------------
+# Set these in your local CONFIG file
+###############################################################################
+
+set EARMS_AUTOTEST_CONCURRENCY 0
+
+set this_testbed reventon2
+
+set BOOTDIR {/auto/tftp-ios-crypto}
+set TFTPDIR {/auto/tftp-ios-crypto}
+set IMAGEDIR {/auto/tftp-ios-crypto}
+
+global MAPDIR env
+global tb_tftp_server_name
+global tb_tftp_server_addr
+global tb_device_configs
+global tb_clean_cmd
+global tb_devices
+global _device
+global tb_passwd
+global csccon_default
+global defaultconfig 
+global postconfig
+if { [ info exists env(AUTOTEST) ]} {
+    #set MAPDIR $env(AUTOTEST)/etc
+    set MAPDIR /auto/stg-devtest/lakshmik/etc
+} else {
+    #set MAPDIR /auto/stg-devtest/eArms/etc
+    #set MAPDIR $env(AUTOTEST)/etc
+    set MAPDIR /auto/stg-devtest/lakshmik/etc
+}
+
+# platform pattern used by csccon_get_platform_info for the 3845 & 2811
+set csccon_default(platform_pattern) {platform {^(.+) \(revision.+\)}}
+
+###############################################################################
+# Step 2: Uncomment the following line and enter the IP address of the
+# tftpserver you entered in step 2.
+#------------------------------------------------------------------------------
+# Set these in your local CONFIG file
+###############################################################################
+
+set TFTPSERVERADDR 172.19.201.81
+set TFTPSERVERNAME nandigam-u10
+set tb_tftp_server_name($this_testbed) nandigam-u10
+set tb_tftp_server_addr($this_testbed) 172.19.201.81
+
+#set TFTPSERVERADDR 171.69.1.129
+#set TFTPSERVERNAME  dirt
+#set tb_tftp_server_addr($this_testbed) 171.69.1.129
+#set tb_tftp_server_name($this_testbed) dirt
+
+###############################################################################
+# Step 3: Optional -- Uncomment the following line and enter the Email
+# name of an administrator. This person gets notified every time a run
+# pauses. If no-one should be notified, just leave it commented out.
+#------------------------------------------------------------------------------
+# Set these in your local CONFIG file
+###############################################################################
+
+set ADMIN cipe-sec-earms@cisco.com
+
+###############################################################################
+# Step 4: Optional -- Uncomment the following line and enter the Email
+# name of person who should see *all* run reports. If there is no-one
+# who should see all of these, just leave it commented out.
+# An autotest summary report is mailed to:
+#       1) The owner of the image
+#       2) The owner of the qfile (if not the same as owner of image)
+#       3) The alias that this REPORTS variable is set to
+# Note: Setting the mailto option in the queue file will override
+# all three of the above.
+#------------------------------------------------------------------------------
+# Set these in your local CONFIG file
+###############################################################################
+
+# set ADMIN
+
+###############################################################################
+# Step 5: The Automated Test System paramater.
+# Uncomment the following line and set the age (in days) for
+# files which to be expired from the images directory. Files older
+# than this will be purged nightly when you set up the appropriate
+# cron job (see the man page).
+#------------------------------------------------------------------------------
+# Set these in your local CONFIG file
+###############################################################################
+
+# set PURGE 21
+
+###############################################################################
+# Autotest will abort a test run when 10 catastrophic errors occur.
+# Uncomment the following line and set the number of catastrophic errors
+# to abort a test run. Setting this number to -1 will not abort a test
+# run regardless the number of catastrophic errors occur.
+#------------------------------------------------------------------------------
+# Set these in your local CONFIG file
+###############################################################################
+
+# set MAX_ERRORS 10
+
+###############################################################################
+# Step 6: Uncomment the following line to tell the system about its
+# testbeds. If a testbed doesn't appear in this list, Autotest will
+# never allow a run on it under any circumstances, even if you specify
+# the testbed in your queue file.
+#------------------------------------------------------------------------------
+# This needs to be treated equally in all config files, i.e., either comment
+# this statement out in all files or dont comment it in all files.
+###############################################################################
+
+if {[info exists env(USE_EARMS)]} {
+    set testbeds $this_testbed
+}
+
+###############################################################################
+# Step 7: Optional -- Uncomment the following line to tell autotest
+# which testbeds to do automatic selection on. When you don't specify
+# a testbed for an image in its queue file, autotest will select one
+# from this list. If you don't want autoselection, simply leave it
+# commented out.
+#------------------------------------------------------------------------------
+# Set these in your local CONFIG file
+###############################################################################
+
+# set AUTOSELECT {}
+
+###############################################################################
+# Step 8: Tell autotest about the routers in each testbed. The first
+# example says that testbed agsa contains three routers named agsa1,
+# agsa2 and agsa3. You can use whatever names you like, but we find
+# the convention useful.
+###############################################################################
+
+
+###############################################################################
+# ipsec testbeds ROUTERS array in absence of parallel testbed looks like this #
+###############################################################################
+
+
+set ROUTERS(reventon2) {\
+                         reventon2-p1    \
+                         reventon2-p2    \
+                         reventon2-p3    \
+                         reventon2-29a   \
+                         reventon2-3945b \
+                         reventon2-19a \
+                         reventon2-3945a \
+                         reventon2-29b   \
+                         reventon2-72a   \
+                         reventon2-19b   \
+                         reventon2-72b  \
+                     }
+
+set tb_devices($this_testbed) $ROUTERS($this_testbed)
+
+###############################################################################
+# Step 9: Tell autotest about the various image types and how to
+# identify them using the image version string. The given examples
+# identify ags, 7k, ts, xx, igs and cancun as valid image types.
+# Any other image type submitted to autotest will not be recognized,
+# and will result in an image validation failure.
+# Note: The given string will be used as a regexp pattern
+#------------------------------------------------------------------------------
+# Set these in your local CONFIG file
+###############################################################################
+
+set IMAGE_TYPE(ags)     {GS Software \(GS3}
+set IMAGE_TYPE(ts)      {CS Software \(CS500}
+set IMAGE_TYPE(1000)    {1000 Software \(C1000}
+set IMAGE_TYPE(ls1010)  {IISP Software \(LS1010}
+set IMAGE_TYPE(1200)    {1200 Software}
+set IMAGE_TYPE(1600)    {1600 Software \(C1600}
+set IMAGE_TYPE(2500)    {2500 Software \(C2500|3000 Software \(IGS\-}
+set IMAGE_TYPE(2600)    {2600 Software \(C2600}
+set IMAGE_TYPE(2800)    {2800 Software \(C2800}
+set IMAGE_TYPE(3620)    {3600 Software \(C3620}
+set IMAGE_TYPE(3640)    {3600 Software \(C3640}
+set IMAGE_TYPE(3745)    {3700 Software \(C3745}
+set IMAGE_TYPE(3825)    {3800 Software \(C3825}
+set IMAGE_TYPE(3845)    {3800 Software \(C3845}
+set IMAGE_TYPE(3945)    {3900 Software \(C3945}
+set IMAGE_TYPE(2900)    {2900 Software \(C2900}
+set IMAGE_TYPE(1900)    {1900 Software \(C1900}
+set IMAGE_TYPE(4000)    {4000 Software}
+set IMAGE_TYPE(xx)      {4000 Software|4500 Software}
+set IMAGE_TYPE(4500)    {4500 Software \(C4500|4500 Software \(4500}
+set IMAGE_TYPE(5000)    {5000 Software}
+set IMAGE_TYPE(5200)    {5200 Software \(AS5200|5200 Software \(C5200}
+set IMAGE_TYPE(5300)    {5200 Software \(AS5200|5200 Software \(C5200}
+set IMAGE_TYPE(7k)      {GS Software \(GS7|7000 Software}
+set IMAGE_TYPE(7200P)   {7200 Software \(C7200P}
+set IMAGE_TYPE(7200)    {7200 Software \(C7200}
+set IMAGE_TYPE(7606)    {7606 Software \(C7606}
+set IMAGE_TYPE(C5RSM)   {C5RSP Software \(C5RSP}
+set IMAGE_TYPE(rsp)     {GS Software \(VIP|VIP Software|RSP|RSP Software|7500 Software \(C7500}
+set IMAGE_TYPE(vip)     {VIP Software \(RVIP}
+set IMAGE_TYPE(805)     {805}
+set IMAGE_TYPE(800)     {800}
+set IMAGE_TYPE(870)     {870}
+
+###############################################################################
+# Step 10: For each testbed you've detailed above, say what type of
+# testbed it is. one or more of above defined IMAGE_TYPES can be used.
+#------------------------------------------------------------------------------
+# Note: If multiple images are to be booted on the testbed, you need
+# to specify a TYPE for *each* router on the testbed. (See the corea
+# example below).
+###############################################################################
+
+set TYPE($this_testbed)    {3845 7200  7200P 2900 3945 1900 3825}
+
+set TYPE(reventon2-p1)  3845
+set TYPE(reventon2-p2)  3845
+set TYPE(reventon2-p3)  3825
+set TYPE(reventon2-29a) 2900
+set TYPE(reventon2-29b) 2900
+set TYPE(reventon2-19a) 1900
+set TYPE(reventon2-19b) 1900
+set TYPE(reventon2-3945a) 3945
+set TYPE(reventon2-3945b) 3945
+set TYPE(reventon2-72a) 7200P
+set TYPE(reventon2-72b) 7200
+
+
+set tb_type(reventon2-p1)  3845
+set tb_type(reventon2-p2)  3845
+set tb_type(reventon2-p3)  3825
+set tb_type(reventon2-29a) 2900
+set tb_type(reventon2-29b) 2900
+set tb_type(reventon2-19a) 1900
+set tb_type(reventon2-19b) 1900
+set tb_type(reventon2-3945a) 3945
+set tb_type(reventon2-3945b) 3945
+set tb_type(reventon2-72a) 7200P
+set tb_type(reventon2-72b) 7200
+
+###############################################################################
+# Step 11: For each testbed you've detailed above, say what image
+# versions the testbed can run supports. Currently, you can say one or
+# more of 8.3, 9.0, 9.1, 9.21, 9.14, 9.17, or the string 'any'.
+###############################################################################
+
+set VERSIONS($this_testbed) any
+
+###############################################################################
+# Step 12: Optional -- If you have power cyclers connected to terminal
+# servers, tell Autotest which terminal server hosts/lines control the
+# power for which testbeds.  If you don't have power cyclers, just
+# leave these lines commented out.
+#
+# Example: set TERMINAL_SERVER(agsy) {tsy 6 tsy 7}
+#
+###############################################################################
+
+#set TERMINAL_SERVER($this_testbed) {reventon1-cs1 67} Need to check for power cycle !!!!!!
+
+###############################################################################
+# Step 13: Optional -- Set up the enable, tacacs and line passwords.
+# You can then use the test_passwd subroutine to get these passwords.
+# If these are not set, the test_passwd routine returns the default
+# values.
+# Usage: test_passwd <type> <string>
+#    type  : This should be one of "enable", "tacacs", or "line"
+#    string: This is the string that the passwords are indexed by.
+#            (This defaults to an empty string if not specified).
+# This procedure checks for the existence of the specified
+# password in the CONFIG file, and if it exists, returns it.
+# If, however, the specified password does not exist, then
+# a default is returned. The defaults for the various types
+# are: enable: "lab", tacacs: "", and line: ""
+###############################################################################
+
+set LINEPW($this_testbed)  lab
+
+set ENABLEPW($this_testbed) lab
+set TACACSPW($this_testbed) {}
+
+# Enable easyclean
+set tb_passwd($this_testbed,enable)   "lab"
+set tb_passwd($this_testbed,tacacs)   ""
+set tb_passwd($this_testbed,line)     "lab"
+
+###############################################################################
+# Step 14: Optional -- The following strings are automatically
+# considered to be errors if a router outputs them on its console.
+# These are case sensitive (perl) regular expressions. If your router
+# produces any special error messages which don't already appear here,
+# you may want to add them to this list.
+###############################################################################
+
+#set ERROR
+
+###############################################################################
+# Step 15: Optional -- Some messages look like errors e.g ones which
+# begin with percent signs, but you want to ignore them because they
+# aren't really errors. Until Router Development fixes them, you can
+# add them to this list so Autotest doesn't report them as errors.
+# Note: The given string will be used as a regexp pattern
+###############################################################################
+
+#set IGNORE
+
+###############################################################################
+# Step 16: For netbooting, you need to set the default configuration
+# strings for each router in a testbed. Examples of how this is done
+# on the Test Technologies Production testbeds are shown below.
+###############################################################################
+
+
+global defaultconfig postconfig
+
+set defaultconfig(reventon2-72a) {
+    hostname reventon2-72a
+    enable password lab
+    no ip domain-lookup
+    no ip routing
+    ip default-gateway 10.5.51.1
+    service timestamps debug datetime msec localtime
+    no service config
+    clock timezone PST -8
+    clock summer-time PDT recurring
+    interface GigabitEthernet0/1
+     ip address 10.5.51.2 255.255.255.0
+     no shutdown
+}
+
+set defaultconfig(reventon2-72b) {
+    hostname reventon2-72b
+    enable password lab
+    no ip domain-lookup
+    no ip routing
+    ip default-gateway 10.5.51.1
+    service timestamps debug datetime msec localtime
+    no service config
+    clock timezone PST -8
+    clock summer-time PDT recurring
+    interface GigabitEthernet0/1
+       ip address 10.5.51.3 255.255.255.0
+       no shutdown
+}
+set defaultconfig(reventon2-p1) {
+    hostname reventon2-p1
+    ip host PAGENT-SECURITY-V3 06.92.37.19 60.94.0.0
+    enable password lab
+    no ip domain-lookup
+    no ip routing
+    ip default-gateway 10.5.51.1
+    service timestamps debug datetime msec localtime
+    no service config
+    clock timezone PST -8
+    clock summer-time PDT recurring
+    interface GigabitEthernet0/0
+      ip address 10.5.51.4 255.255.255.0
+      no shutdown
+}   
+    
+set defaultconfig(reventon2-p2) {
+    hostname reventon2-p2
+    ip host PAGENT-SECURITY-V3 94.32.80.16 14.0.0.0
+    enable password lab
+    no ip domain-lookup
+    no ip routing
+    ip default-gateway 10.5.51.1
+    service timestamps debug datetime msec localtime
+    no service config
+    clock timezone PST -8
+    clock summer-time PDT recurring
+    interface GigabitEthernet0/0
+      ip address 10.5.51.5 255.255.255.0
+      no shutdown
+}
+
+set defaultconfig(reventon2-p3) {
+    hostname reventon2-p3
+    ip host PAGENT-SECURITY-V3 92.28.86.71 2.71.0.0
+    enable password lab
+    no ip domain-lookup
+    no ip routing
+    ip default-gateway 10.5.51.1
+    service timestamps debug datetime msec localtime
+    no service config
+    clock timezone PST -8
+    clock summer-time PDT recurring
+    interface GigabitEthernet0/0
+    ip address 10.5.51.6 255.255.255.0
+      no shutdown
+}   
+    
+set defaultconfig(reventon2-29a) {
+    hostname reventon2-29a 
+    enable password lab
+    no ip domain-lookup
+    no ip routing
+    ip default-gateway 10.5.51.1 
+    service timestamps debug datetime msec localtime
+    no service config
+    clock timezone PST -8
+    clock summer-time PDT recurring
+    interface GigabitEthernet0/0
+      ip address 10.5.51.7 255.255.255.0
+      no shutdown
+}   
+set defaultconfig(reventon2-3945b) {
+    hostname reventon2-3945b
+    enable password lab
+  no ip domain-lookup
+    no ip routing
+    ip default-gateway 10.5.51.1
+    service timestamps debug datetime msec localtime
+    no service config
+    clock timezone PST -8
+    clock summer-time PDT recurring
+    interface GigabitEthernet0/0
+      ip address 10.5.51.9 255.255.255.0
+      no shutdown
+    interface FastEthernet3/0
+      no switchport
+    interface FastEthernet3/1
+      no switchport
+    interface FastEthernet3/2
+      no switchport
+}
+set defaultconfig(reventon2-29b) {
+    hostname reventon2-29b
+    enable password lab
+    no ip domain-lookup
+    no ip routing
+    ip default-gateway 10.5.51.1
+    service timestamps debug datetime msec localtime
+    no service config
+    clock timezone PST -8
+    clock summer-time PDT recurring
+     interface GigabitEthernet0/0
+      ip address 10.5.51.10 255.255.255.0
+      no shutdown
+}   
+set defaultconfig(reventon2-3945a) {
+    hostname reventon2-3945a
+    enable password lab
+    no ip domain-lookup
+    no ip routing
+    ip default-gateway 10.5.51.1
+    service timestamps debug datetime msec localtime
+    no service config
+    clock timezone PST -8
+    clock summer-time PDT recurring
+    card type t1 4
+    interface GigabitEthernet0/0
+      ip address 10.5.51.8 255.255.255.0
+      no shutdown
+    interface FastEthernet3/0
+      no switchport
+    interface FastEthernet3/1
+      no switchport
+    interface FastEthernet3/2
+      no switchport
+}   
+set defaultconfig(reventon2-19a) {
+    hostname reventon2-19a
+    enable password lab
+  no ip domain-lookup
+    no ip routing
+    ip default-gateway 10.5.51.1
+    service timestamps debug datetime msec localtime
+    no service config
+    clock timezone PST -8
+    clock summer-time PDT recurring
+    interface GigabitEthernet0/0
+      ip address 10.5.51.11 255.255.255.0
+      no shutdown
+
+}
+set defaultconfig(reventon2-19b) {
+    hostname reventon2-19b
+    enable password lab
+    no ip domain-lookup
+    no ip routing
+    ip default-gateway 10.5.51.1
+    service timestamps debug datetime msec localtime
+    no service config
+    clock timezone PST -8
+  clock summer-time PDT recurring
+    interface GigabitEthernet0/0
+     ip address 10.5.51.12 255.255.255.0
+     no shutdown
+}   
+    
+    
+#############################################################################
+# Now set the post config of each testbed here
+#############################################################################
+
+set postconfig(reventon2-29a) {
+    no service config
+    hostname reventon2-29a
+    enable password lab
+    ip routing
+    interface GigabitEthernet0/0
+    no ip address
+    shutdown
+    interface GigabitEthernet0/1
+    no ip address
+  shutdown
+    interface GigabitEthernet0/2
+    no ip address
+    interface Serial0/0/0
+    no ip address
+    shutdown
+    interface Serial0/0/1
+    no ip address
+    shutdown
+    line vty 0 4
+    password lab
+    login
+}
+set postconfig(reventon2-72a) {
+    hostname reventon2-72a
+    enable password lab
+    no ip domain-lookup
+    no ip routing
+    ip default-gateway 10.5.51.1
+    service timestamps debug datetime msec localtime
+    no service config
+
+  clock timezone PST -8
+    clock summer-time PDT recurring
+    interface GigabitEthernet0/1
+     no ip address 
+     shutdown
+}   
+    
+set postconfig(reventon2-72b) {
+    hostname reventon2-72b
+    enable password lab
+    no ip domain-lookup
+    no ip routing
+    ip default-gateway 10.5.51.1
+    service timestamps debug datetime msec localtime
+    no service config
+    clock timezone PST -8
+    clock summer-time PDT recurring
+    interface GigabitEthernet0/1
+       no ip address 
+       shutdown
+}   
+
+set postconfig(reventon2-p1) {
+    hostname reventon2-p1
+    ip host PAGENT-SECURITY-V3 06.92.37.19 60.94.0.0
+    enable password lab
+    no ip domain-lookup
+    no ip routing
+    ip default-gateway 10.5.51.1
+    service timestamps debug datetime msec localtime
+    no service config
+    clock timezone PST -8
+    clock summer-time PDT recurring
+    interface GigabitEthernet0/0
+      no ip address
+      shutdown
+}
+
+set postconfig(reventon2-p2) {
+    hostname reventon2-p2
+    ip host PAGENT-SECURITY-V3 94.32.80.16 14.0.0.0
+    enable password lab
+    no ip domain-lookup
+    no ip routing
+    ip default-gateway 10.5.51.1
+    service timestamps debug datetime msec localtime
+    no service config
+    clock timezone PST -8
+    clock summer-time PDT recurring
+    interface GigabitEthernet0/0
+      no ip address 
+      shutdown 
+}   
+    
+set postconfig(reventon2-p3) {
+    hostname reventon2-p3
+    ip host PAGENT-SECURITY-V3 92.28.86.71 2.71.0.0
+    enable password lab
+    no ip domain-lookup
+    no ip routing
+    ip default-gateway 10.5.51.1
+    service timestamps debug datetime msec localtime
+    no service config
+    clock timezone PST -8
+   clock summer-time PDT recurring
+    interface GigabitEthernet0/0
+      no ip address
+      shutdown
+}
+
+set postconfig(reventon2-29b) {
+    hostname reventon2-29b
+    enable password lab
+    no ip domain-lookup
+    no ip routing
+    ip default-gateway 10.5.51.1
+    service timestamps debug datetime msec localtime
+    no service config
+    clock timezone PST -8
+    clock summer-time PDT recurring
+    interface GigabitEthernet0/0
+      no ip address
+      shutdown
+}
+set postconfig(reventon2-3945b) {
+ hostname reventon2-3945b
+    enable password lab
+    no ip domain-lookup
+    no ip routing
+    ip default-gateway 10.5.51.1
+    service timestamps debug datetime msec localtime
+    no service config
+    clock timezone PST -8
+    clock summer-time PDT recurring
+    interface GigabitEthernet0/0
+      no ip address
+      shutdown
+    interface FastEthernet3/0
+      no switchport
+    interface FastEthernet3/1
+      no switchport
+    interface FastEthernet3/2
+      no switchport
+}   
+set postconfig(reventon2-3945a) {
+    hostname reventon2-3945a 
+    enable password lab
+    no ip domain-lookup
+    no ip routing
+    ip default-gateway 10.5.51.1
+    service timestamps debug datetime msec localtime
+    no service config
+    card type t1 2
+    clock timezone PST -8
+    clock summer-time PDT recurring
+    interface GigabitEthernet0/0
+      no ip address
+      shutdown
+    interface FastEthernet3/0
+      no switchport
+    interface FastEthernet3/1
+      no switchport
+    interface FastEthernet3/2
+      no switchport
+}
+set postconfig(reventon2-19a) {
+    hostname reventon2-19a
+    enable password lab
+    no ip domain-lookup
+    no ip routing
+    ip default-gateway 10.5.51.1
+    service timestamps debug datetime msec localtime
+    no service config
+    clock timezone PST -8
+    clock summer-time PDT recurring
+    interface GigabitEthernet0/0
+      no ip address
+      shutdown
+
+}
+
+set postconfig(reventon2-19b) {
+    hostname reventon2-19b
+    enable password lab
+    no ip domain-lookup
+    no ip routing
+    ip default-gateway 10.5.51.1
+    service timestamps debug datetime msec localtime
+    no service config
+    clock timezone PST -8
+    clock summer-time PDT recurring
+    interface GigabitEthernet0/0
+     no ip address 
+     shutdown
+}   
+    
+# populate the Easy style config variables
+#
+
+#############################################################################
+# Step 17. CSCCON's console procedure expects the router console port
+# address to be defined in the /etc/hosts file or name service as
+# "<router_name>-con". For example, if your router is named agsi1,
+# then the name "agsi1-con" must be defined.  Notice that an IP
+# address for each router console is required.
+#
+# If you want to save IP addresses, then connect a communications
+# server asynchronous communications port to each router console port
+# and assign an IP address to the communications server's LAN
+# interface. If you decide to do this, then one needs to associate the
+# router name with the communications server's IP address and
+# asynchronous communications port number. CSCCON is expecting a Tcl
+# array, _device to provide the association.
+#
+# There are two ways to include _device entries in this CONFIG file:
+#
+# 1) Include all _device entries in this file. Use the following lines
+#    as an example if you want to use this method. The router name is
+#    agsi1. The communications server's IP address is 198.92.45.19.
+#    The communications server's asynchronous port is 6002.
+#
+#     global _device
+#     set _device(agsi1) "telnet 198.92.45.19 6002"
+#
+# 2) Store all _device entries in $AUTOTEST/local/lib/device.exp.
+#    If you want to use this method, uncomment the following seven lines:
+#
+#     global env
+#     set device_file $env(AUTOTEST)/local/lib/device.exp
+#     if { [file readable $device_file] && [file isfile $device_file] } {
+#         if [catch "uplevel #0 source $device_file" errmsg] {
+#             puts stderr "Error sourcing device file $device_file: $errmsg"
+#         }
+#     }
+#
+#############################################################################
+
+
+
+global _device
+
+set _device(reventon2-p1)      "telnet reventon2-cs 2004"
+set _device(reventon2-p2)      "telnet reventon2-cs 2005"
+set _device(reventon2-p3)      "telnet reventon2-cs 2006"
+set _device(reventon2-19a)     "telnet reventon2-cs 2011"
+set _device(reventon2-19b)     "telnet reventon2-cs 2012"
+set _device(reventon2-3945a)   "telnet reventon2-cs 2008"
+set _device(reventon2-3945b)   "telnet reventon2-cs 2009"
+set _device(reventon2-29a)     "telnet reventon2-cs 2007"
+set _device(reventon2-29b)     "telnet reventon2-cs 2010"
+set _device(reventon2-72b)     "telnet reventon2-cs 2003"
+set _device(reventon2-72a)     "telnet reventon2-cs 2002"
+
+
+#############################################################################
+# Step 18: Optional -- If you are using $AUTOTEST/etc/clean to execute
+# a list of commands, specify the lists here for each testbed. See the
+# $AUTOTEST/etc/clean script header for more information.
+#############################################################################
+
+if {[catch "source $MAPDIR/config.lib" errmsg]} {
+    error "Error in sourcing $MAPDIR/config.lib : $errmsg"
+}
+
+#########################################################################
+# EARMS support
+#########################################################################
+
+set USE_DEFAULT_IMAGES 0
+
+# Proc to mail error messages to testbed admin
+proc mail_error { } {
+    uplevel 1 {
+        set body "
+            eARMS Testbed: $env(EARMS_TESTBED_USED)
+            eARMS Request ID: $env(EARMS_REQUEST_ID)
+            eARMS Suite: [file join $env(EARMS_CATEGORY_PATH) $env(EARMS_SUITE_NAME)]
+            Error Messages:\n$err
+        "
+        sendMailMsg "$ADMIN" {e-ARMS testbed config source error} "$body"
+    }
+}
+
+set i 1
+if { [ info exists env(EARMS_ROUTERS_USED) ] } {
+    set clean_helper [ split $env(EARMS_ROUTERS_USED) "," ]
+    set clean_section {}
+    set CLEAN($this_testbed) {}
+    foreach rtr $clean_helper {
+        lappend clean_section "$i stg_clean_router $rtr"
+        regsub -all -- {-|:|\.} $rtr {_} tmp_rtr
+        # If image has not been provided by submitter
+        if {![info exists env(EARMS_IMAGES_$tmp_rtr)]} {
+            set USE_DEFAULT_IMAGES 1
+        }
+        incr i 1
+    }
+    # If we need to use default images because the submitter didn't \
+    # provide images for all platforms involved in the test then we
+    # need to source the file earms.images
+    if {$USE_DEFAULT_IMAGES} {
+        if {[info exists env(AUTOTEST) ]} {
+            if {[catch {source $env(AUTOTEST)/etc/earms.images} err]} {
+                puts stderr "Failed to source \
+                    $env(AUTOTEST)/etc/earms.image: $err"
+                # Need to send error message to ADMIN
+                catch {mail_error}
+            }
+        }
+    }
+    lappend CLEAN($this_testbed) $clean_section
+} else {
+    set CLEAN($this_testbed) {
+        {
+            {1 stg_clean_router reventon2-p1 }
+            {2 stg_clean_router reventon2-p2 }
+            {3 stg_clean_router reventon2-p3 }
+            {4 stg_clean_router reventon2-29a }
+            {5 stg_clean_router reventon2-3945b }
+            {6 stg_clean_router reventon2-19a }
+            {7 stg_clean_router reventon2-3945a }
+            {8 stg_clean_router reventon2-29b }
+            {9 stg_clean_router reventon2-72a }
+            {10 stg_clean_router reventon2-19b }
+            {11 stg_clean_router reventon2-72b }
+
+        }
+    }
+}
+
+#
+# This is to allow "easyClean" to be used for loading
+# our routers.
+#
+foreach rtr $tb_devices($this_testbed) {
+    set tb_clean_cmd($rtr) stg_easyclean_router
+} ; # end foreach
+
+#
+# eArms wanted this next setting
+#
+set tb_clean_sequence($this_testbed) $tb_devices($this_testbed)
+
+#############################################################################
+# Step 19: Optional -- Uncomment the following line to tell autotest to use
+# the old (perl based) report generator instead of the default
+# $AUTOTEST/etc/reportgen program to create the autotest summary report.
+# (Note that the new reportgen program provides you with more features,
+# such as the ability to customize the autotest summary format).
+#############################################################################
+
+# set REPORTGEN old
+
+###########################################################################
+# Step 19.0: Optional - The following keyword is used to tell Autotest
+# to send Autotest results data to TIMS.  (See the Autotest Users
+# Manual for additional information.)
+
+#set POST on
+
+###########################################################################
+# Step 19.1: Optional - The following keyword is used to turn on the
+# generation of unique test ID's in the Autotest results file.  (See
+# the Autotest Users Manual for additional information.)
+
+set UNIQUE_TID 1
+
+###########################################################################
+# Step 19.2: Optional - The following keyword is used to send TIMS
+# attribute types and values to the TIMS importer.  The variable
+# TIMS_ATTRIBUTE is a Tcl array variable.  The index to each element
+# of the TIMS_ATTRIBUTE array variable must be the exact case
+# sensitive TIMS attribute type.  The TIMS_ATTRIBUTE variable will be
+# used if Autotest is exporting Autotest results data to TIMS.  (See
+# the Autotest Users Manual for additional information.)
+#
+# NOTE: If you are exporting Autotest results to TIMS you **MUST** set
+# the array variable TIMS_ATTRIBUTE(dns_name).  (See TIMS
+# documentation for additional information about the use of the TIMS
+# "dns_name" attribute.)
+############################################################################
+
+set TIMS_ATTRIBUTE(dns_name) tims.cisco.com/Tnr203p
+set TIMS_ATTRIBUTE(GROUP) IKE-IPSEC
+
+#############################################################################
+# Step 20: Optional -- The following keyword is used to customize the
+# autotest summary report format, and is supported only by the new
+# reportgen program. You need to source the file that defines your custom
+# report function, and then set the name of the custom report function to
+# the CUSTOM_REPORT_FUNC keyword. If the CUSTOM_REPORT_FUNC keyword is
+# defined, the reportgen program uses the function it points to to create
+# the autotest summary report. Look at the reportgen man page
+# ($AUTOTEST/man/manl/reportgen.l) and the file
+# $AUTOTEST/lib/reportgen/custom_report.template for more details on the
+# usage of the custom report feature.
+#############################################################################
+
+if { [ info exists env(AUTOTEST) ]} {
+    source $env(AUTOTEST)/stg_reg/utils/custom_report
+} else {
+    source /auto/stg-devtest/earms/stg_reg/utils/custom_report
+}
+set CUSTOM_REPORT_FUNC custom_report_func
+
+###############################################################################
+# Step 21. Optional -- These variables allow other testbed dependent parameters
+# like the PC addresses, BRI line phone numbers, etc to be used in a testbed
+# independent way in the suite files. The way to use them is exactly like
+# routers, i.e., simply use $option1 $option2 and so on in the order of
+# definition below.
+###############################################################################
+
+# Options in this list are:
+#  ISDN number for router7 - 3845a ($router7)
+#  ISDN number for router5 - 3845b   (3845a uses this number to call 3845b)
+#  Address of Radius server for this testbed
+# ISDN Interface type on $router7
+# ISDN Interface type on $router5
+# Ipaddress of VPN client for this testbed
+set OPTIONS($this_testbed) {51002 61004 172.19.216.102 pri bri 172.27.120.39}
+
+###############################################################################
+# Step 22. This ghastly code is a workaround for proper functioning of scripts
+# that still use coremap instead of the MAP file. The idea of the code is to
+# ensure that changes in the testbed require changes in only the MAP file and
+# not the coremap variable also.
+##############################################################################
+if { ![catch "source $MAPDIR/reventon2.MAP" errmsg] } {
+    set coremap $tb_map
+    unset tb_map
+}  else {
+    error "Error in sourcing reventon2.MAP: $errmsg"
+}
+
+###############################################################################
+# Step 23. Now run the installation script in the install directory,
+# if you havent done so already.
+###############################################################################
+#### AUTOCOOKIE
+
+
+
+set testbeds { \
+ipsecw reventon1 reventon2\
+ }
+
+
+
+set REPORT_SUMMARY_PROC myCustomSummary
+
+    package require csv
+    package require mysqltcl
+    package require Csccon
+    package require TclUtils
+
+
+proc myCustomSummary { } {
+global env 
+set data "--- THIS is my report---\n"
+append data "
+ATS Version : [ats_get_record Summary AtsVersion]
+CLI Arguments: [ats_get_record Summary CliArgs]
+Requested : [ats_get_record Summary Requested]
+Archive File : [ats_get_record Summary ArchiveFile]"
+
+#########################
+# Get basic info from ats_get_record
+#########################
+
+set testresult ""
+set Successes [ats_get_record Summary Passed]
+set Failures [ats_get_record Summary Failed]
+set Aborted [ats_get_record Summary Aborted]
+set Never [ats_get_record Summary NeverRan]
+set Crashes [ats_get_record Summary Crashes]
+set Blocked [ats_get_record Summary Blocked]
+set this_testbed [ats_get_record Summary Testbed]
+set testresult "P-$Successes F-$Failures C-$Crashes A-$Aborted B-$Blocked N-$Never"
+
+#########################
+# Ok lets do something usefull
+#########################
+
+
+
+
+    set lf [open "/tmp/eARMSReportingLogfile" a+]
+    puts $lf "Entering earms_reporting"
+# Connect to the database on trinity:
+    puts $lf "Connecting to database"
+
+    if { [catch {
+        set conn [mysqlconnect -host joao-lnx -user tie -db TIE]
+	mysqluse $conn TIE
+	puts $lf "connected to database"
+    } result] } {
+        puts $lf "Cannot connect to database: $result"
+    }
+
+
+# old version
+#   if { [catch {
+#	source /tmp/test_being_run
+#	puts $lf "able to source file   TestID=$testid AND test=$test AND tree=$tree AND Project=$project   "
+#    } result]} {
+#        puts $lf "not able to source file $result"
+#   }
+
+    if { [catch {
+	set time [clock seconds]
+	set Date [clock format $time -format "%Y-%m-%d"]
+	 puts $lf "data e $Date"
+    } result] } {
+        puts $lf "not able to get time $result"
+    }
+
+    if { [catch {
+	set query [mysqlquery $conn "SELECT testID,Project,Tree,test,epohtime,testbed FROM RUNNING WHERE testbed='$this_testbed'"]
+		while { [set row [mysqlnext $query]]!="" } {
+			set testid [lindex $row 0]
+			set project [lindex $row 1]
+			set tree [lindex $row 2]
+			set test [lindex $row 3]
+			set time_started [lindex $row 4]
+			set testbed [lindex $row 5]
+		}
+	puts $lf "$time_started was able to parse results no need for that anymore testid:$testid project:$project tree:$tree testbed:$testbed  "
+    } result] } {
+        puts $lf "not able to get time $result"
+    }
+
+if { [catch {
+	set log [ats_get_record Summary ArchiveFile]
+	if { [ regexp {([0-9][0-9])-([0-9][0-9])/(.+)} $log all month year file ] } {
+		set dash "http://earms-trade.cisco.com/tradeui/CLResults.jsp?archive="
+		set ats "&ats="
+		puts " $month $year $file "
+		if { [ regexp {([0-9][0-9][0-9][0-9])[A-Za-z]+([0-9][0-9]).([0-9][0-9]):([0-9][0-9])} $file all yearcomplete day hour minutes ] } {
+			puts "this should be it $yearcomplete/$month/$day/$hour/$minutes/$file"
+			set log2 "$dash$yearcomplete/$month/$day/$hour/$minutes/$file$ats$env(AUTOTEST)"
+		}
+	} 
+	set trade "http://earms-trade.cisco.com/tradeui/resultsviewer.faces?ats="
+	set client "&client=eclipse&host=joao-lnx&archive="
+	set empty ""
+	regsub -all "$env(AUTOTEST)" $log $empty string
+	set log "$trade$env(AUTOTEST)$client$string"
+	puts $lf "the log is $log and trade is $trade"
+    } result] } {
+        puts $lf "changing log didn't work $result"
+    }
+
+
+   if { [catch {
+        set query [mysqlquery $conn "SELECT ID FROM RESULTS WHERE ID='$testid' AND test='$test' AND Testbed='$this_testbed' AND tree='$tree' AND Date='$Date' AND Project='$project' "]
+
+       while { [set row [mysqlnext $query]]!=""} {
+               set id [lindex $row 0]
+       }
+	
+	if { [info exists id] } {
+		puts $lf "test already exit should update"
+		set UPDATE "FALSE"
+	} else { 
+		#set UPDATE "FALSE"
+		set UPDATE "FALSE"
+	}
+	puts $lf "query worked"
+    } result] } {
+        puts $lf "query didn't work $result"
+    }
+    if { $UPDATE == "FALSE" } {
+	puts $lf "test never run today lets insert"
+	if { [catch {
+		mysqlexec $conn "INSERT INTO RESULTS (ID, Test, Project, Tree, Result, Testbed, Notes, Date ,LOG, LOG2) VALUES ( '$testid' , '$test' , '$project' , '$tree', '$testresult', '$testbed', '' , '$Date', '$log', '$log2' );"
+		puts $lf "inserted results"
+		append data " LOG1 $log"
+		append data " LOG2 $log2"
+	} result] } {
+		puts $lf "not able to insert results $result"
+	}
+     } elseif { $UPDATE == "TRUE" } {
+	if { [catch {
+		mysqlexec $conn "UPDATE RESULTS SET Result='$testresult',LOG='$log',LOG2='$log2' WHERE ID='$testid' AND Date='Date' AND Tree='$tree'"
+		puts $lf "inserted results"
+	} result]} {
+		puts $lf "not able to insert results $result"
+	}
+
+     }
+
+	if { [catch {
+
+		set time_ended [clock seconds]
+		set diference [expr $time_ended - $time_started]
+		set diference [expr $diference / 60 ]
+
+		switch $tree {
+			"baseline" { mysqlexec $conn "UPDATE Testsconfig SET Baseline='$testresult',Time='$diference',Date='$Date' WHERE ID='$testid'" }
+			"solid" { mysqlexec $conn "UPDATE Testsconfig SET M='$testresult',Time='$diference',Date='$Date' WHERE ID='$testid'" }
+			"testing" { mysqlexec $conn "UPDATE Testsconfig SET Testing='$testresult',Time='$diference',Date='$Date' WHERE ID='$testid'" }
+		}
+		puts $lf "updated main table results"
+	} result] } {
+		puts $lf "not able to insert results $result"
+	}
+if { [catch {
+        mysqlclose $conn
+	puts $lf " CONFIG - able to disconnect from database"
+    } result] } {
+        puts $lf "CONFIG no able to disconnect to database: $result"
+    }
+
+	return $data
+
+}
+
+set REPORT_SUBJECT_PROC myCustomSubject
+
+proc myCustomSubject { } {
+set title "tie "
+
+#########################
+# Get basic info from ats_get_record
+#########################
+
+set testresult ""
+set Successes [ats_get_record Summary Passed]
+set Failures [ats_get_record Summary Failed]
+set Aborted [ats_get_record Summary Aborted]
+set Never [ats_get_record Summary NeverRan]
+set Crashes [ats_get_record Summary Crashes]
+set Blocked [ats_get_record Summary Blocked]
+set this_testbed [ats_get_record Summary Testbed]
+set testresult "P-$Successes F-$Failures C-$Crashes A-$Aborted B-$Blocked N-$Never"
+
+    set lf [open "/tmp/eARMSReportingLogfile" a+]
+    puts $lf "Entering earms_reporting"
+# Connect to the database on trinity:
+    puts $lf "Connecting to database"
+
+    if { [catch {
+        set conn [mysqlconnect -host joao-lnx -user tie -db TIE]
+	mysqluse $conn TIE
+	puts $lf "connected to database"
+    } result] } {
+        puts $lf "Cannot connect to database: $result"
+    }
+    if { [catch {
+	set query [mysqlquery $conn "SELECT testID,Project,Tree,test,epohtime,testbed FROM RUNNING WHERE testbed='$this_testbed'"]
+		while { [set row [mysqlnext $query]]!="" } {
+			set testid [lindex $row 0]
+			set project [lindex $row 1]
+			set tree [lindex $row 2]
+			set test [lindex $row 3]
+			set time_started [lindex $row 4]
+			set testbed [lindex $row 5]
+		}
+	puts $lf "$time_started was able to parse results no need for that anymore testid:$testid project:$project tree:$tree testbed:$testbed  "
+	set title "TIE - $project $test $tree $testbed"
+    } result] } {
+        puts $lf "not able to get time $result"
+    }
+
+
+
+return $title
+}

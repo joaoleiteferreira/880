@@ -1,0 +1,875 @@
+#!/bin/sh
+# xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+set starter { ${1:+"$@"}
+    shift
+    shift
+    export AUTOTEST
+    AUTOTEST="${AUTOTEST-/autons/autotest}"
+    exec $AUTOTEST/bin/expect -f $0 -- ${1:+"$@"}
+}
+# xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+package require Cisco
+package require TclUtils
+package require parse_dashed_args
+package require router_show
+package require rtrUtils
+package require textutil
+package require dataUtils
+
+set MAX_LINE_LENGTH 76
+
+set tcl_file_header {# $Id: bbitc.lib,v 1.5 2006/09/21 18:51:19 tennis Exp $
+    global env __IOU__CONFIG__FILE__VAR__
+
+    #
+    # The following statement is wrapped in an 'info exists env' if statement
+    # because of earms.  The config is loaded into earms offline, so the
+    # env isn't fully config'd with all env vars yet.  If we referenced
+    # AUTOTEST directly, earms would complain.
+    #
+    if {[info exists env(AUTOTEST) ]} {
+        # This loads the contents of ipsec.lib (*not* ipsec.exp) so ipsec::debug
+        # will be supported.
+        lappend ::auto_path $env(AUTOTEST)/regression/tests/functionality/ipsec
+        package require ipsec
+    } ; # end if
+
+    #
+    # The line below will contain this file's current cvs revision number. This
+    # is set automatically by cvs and requires *no* editing. The rev # will also
+    # be stuffed into "myversion" by CVS itself whenever this file is sourced.
+    #
+    if {![regexp {Revision: *([0-9.]+)} {$Revision: 1.5 $} => myversion]} {
+        set myversion "unknown"
+    }
+
+    #
+    # Return if this file has been sourced already _unless_ debug is turned on.
+    # If debug is enabled, then we may need to source this file multiple times
+    # for debugging purposes.
+    #
+    if { [ info exists __IOU__CONFIG__FILE__VAR__ ] } {
+        return -1
+    } else {
+        set __IOU__CONFIG__FILE__VAR__ 1
+    } ; # End if
+}
+
+set netmap_template {
+    /*
+        NOTE: Pagent only supports the following ports:
+        Ethernet0/0 which is lanethernet0
+        Ethernet1/0   "    " lanethernet4
+        Ethernet2/0   "    " lanethernet8
+        Ethernet3/0   "    " lanethernet12
+        Serial4/0            testbed-specific
+        Serial5/0            " "
+        Serial6/0            " "
+        Serial7/0            " "
+    */
+
+    $r6:5  $r7:5  /* Serial link between router Router-6 and router Router-7*/
+    $r5:21 $r7:21 /* Serial link between router Router-5 and router Router-7*/
+    $r5:37 $r7:37 /* Serial link between router Router-5 and router Router-7*/
+    $r5:22 $r9:22 /* Serial link between router Router-5 and router Router-9*/
+    $r5:38 $r9:38 /* Serial link between router Router-5 and router Router-9*/
+    $r7:6  $r9:6  /* Serial link between router Router-7 and router Router-9*/
+
+    /* Ethernet links around hub Hub0 - lanethernet0, ethernet0/0 */
+    $r1:0  $r2:0  $r3:0  $r4:0   $r5:0  $r6:0  $r7:0  $r8:0  $r9:0  $r10:0
+
+    /* Ethernet links around hub Hub1 - lanethernet1, ethernet0/1 */
+    $r1:16 $r2:16 $r3:16 $r4:16  $r5:16 $r6:16 $r7:16 $r8:16 $r9:16 $r10:16
+
+    /* Ethernet links around hub Hub2 - lanethernet2, ethernet0/2 */
+    $r1:32 $r2:32 $r3:32 $r4:32  $r5:32 $r6:32 $r7:32 $r8:32 $r9:32 $r10:32
+
+    /* Ethernet links around hub Hub3 - lanethernet3, ethernet0/3 */
+    $r1:48 $r2:48 $r3:48 $r4:48  $r5:48 $r6:48 $r7:48 $r8:48 $r9:48 $r10:48
+
+    /* Ethernet links around hub Hub4 - lanethernet4, ethernet1/0 */
+    $r1:1  $r2:1  $r3:1  $r4:1   $r5:1  $r6:1  $r7:1  $r8:1  $r9:1  $r10:1
+
+    /* Ethernet links around hub Hub5 - lanethernet5, ethernet1/1 */
+    $r1:17 $r2:17 $r3:17 $r4:17 $r5:17  $r6:17 $r7:17 $r8:17 $r9:17 $r10:17
+
+    /* Ethernet links around hub Hub6 - lanethernet6, ethernet1/2 */
+    $r1:2  $r2:2  $r3:2  $r4:2   $r5:2  $r6:2  $r7:2  $r8:2  $r9:2  $r10:2
+}
+
+set c_footer "\n\
+    /*\n\
+    * [::textutil::strRepeat "-" $MAX_LINE_LENGTH]\n\
+    *                            CVS MIANTENANCE LOGS\n\
+    *                            ~~~~~~~~~~~~~~~~~~~~\n\
+    * \$Log: bbitc.lib,v $
+    * \Revision 1.5  2006/09/21 18:51:19  tennis
+    * \
+    * \Various updates to some minor support utilities.
+    * \
+    * \Revision 1.4  2006/06/24 17:56:30  tennis
+    * \
+    * \Changes to make the iou netmap files more readable.
+    * \
+    *\n\
+    * [::textutil::strRepeat "-" $MAX_LINE_LENGTH]\n\
+    * Local Variables:\n\
+    * mode: c\n\
+    * End:\n\
+    */\n\
+"
+
+set globals     "global \\\n\
+        MAPDIR                 \\\n\
+        _catdevice             \\\n\
+        _device                \\\n\
+        csccon_default         \\\n\
+        env                    \\\n\
+        iou                    \\\n\
+        iou_flags              \\\n\
+        tb_clean_cmd           \\\n\
+        tb_device_configs      \\\n\
+        tb_devices             \\\n\
+        tb_passwd              \\\n\
+        tb_tftp_server_addr    \\\n\
+        tb_tftp_server_name    \\\n\
+        testbeds "
+
+
+set map_file_header "
+set tb_servers \{
+    \{default 171.69.1.129\}
+\}
+
+set tb_map \{
+
+"
+set csh_header {
+    # $Id: bbitc.lib,v 1.5 2006/09/21 18:51:19 tennis Exp $
+    #  This is a set of handy routines to open console connections to
+    #  iou routers.  It is *NOT* for starting/stopping the iou routers.
+    #  The utility "iou_testbed" in stg_reg is used for that.
+    #
+    #  Source this file in your .cshrc/.tcshrc file to enable all these
+    #  aliases
+    #
+}
+
+
+set csh_footer "\n\
+#\n\
+# [::textutil::strRepeat "-" $MAX_LINE_LENGTH]\n\
+#                            CVS MAINTENANCE LOGS\n\
+#                            ~~~~~~~~~~~~~~~~~~~~\n\
+# \$Log: bbitc.lib,v $
+# \Revision 1.5  2006/09/21 18:51:19  tennis
+# \
+# \Various updates to some minor support utilities.
+# \
+# \
+#\n\
+# [::textutil::strRepeat "-" $MAX_LINE_LENGTH]\n\
+# Local Variables:\n\
+# mode: shell-script\n\
+# End:\n\
+"
+
+set el_header {
+    ;;
+    ;; This is a set of handy shortcut routines to access the console
+    ;; of iou routers.  It is *NOT* for actually starting and stopping
+    ;; the routers.  The utility "iou_testbed" is used for that.
+    ;;
+    ;;
+    ;; load this file into emacs by adding this to your
+    ;; ".emacs" file:
+    ;;     (load-file "<your path>/alias_iou_testbed<this testbed>.el")
+    ;;
+    ;; Example:
+    ;; (load-file "/users/tennis/elisp/iou_elisp/alias_iou_testbed21.el")
+
+    ;;
+    ;; Once loaded, you can start any buffer by using the shorthand
+    ;; version of the router's name.
+    ;; For example, the short version for itb20_unix1 is i20u1. So, to start
+    ;; the console connection, do this:
+    ;;             M-x i20u1
+    ;;
+    ;;    Where:
+    ;;
+    ;;      M = the "meta" key on your keyboard.  This is generally "esc" or
+    ;;          the "alt" key or both.
+    ;;      x = just the letter 'x' key.
+    ;;
+    ;;      i20u1 = the short name for an iou router.
+    ;;
+    ;;
+
+    ;;
+    ;; This is a tiny function that will try to
+    ;; kill a buffer only if it actually exists.
+    ;; If there is a series of "kill-buffer" calls
+    ;; and one of the buffers doesn't exist, then
+    ;; the function containing the "kill-buffer"
+    ;; will error out.  This prevents that.
+    ;;
+    (defun try-kill-buffer (bufName)
+     (if (get-buffer bufName)
+      (kill-buffer bufName)))
+}
+
+set el_footer "\n\
+\n\
+;; [::textutil::strRepeat "-" $MAX_LINE_LENGTH]\n\
+;;                            CVS MAINTENANCE LOGS\n\
+;;                            ~~~~~~~~~~~~~~~~~~~~\n\
+;; \$Log: bbitc.lib,v $
+;; \Revision 1.5  2006/09/21 18:51:19  tennis
+;; \
+;; \Various updates to some minor support utilities.
+;; \
+;; \
+;;\n\
+;; [::textutil::strRepeat "-" $MAX_LINE_LENGTH]\n\
+;; Local Variables:\n\
+;; mode: emacs-lisp\n\
+;; End:\n\
+"
+
+set header "
+    # [::textutil::strRepeat "-" $MAX_LINE_LENGTH]\n\
+    # Source individual testbed config files.\n\
+    # [::textutil::strRepeat "-" $MAX_LINE_LENGTH]\n\
+"
+
+set tftp_def "\n\
+    # [::textutil::strRepeat "-" $MAX_LINE_LENGTH]\n\
+    # Testbed TFTP server name and address.\n\
+    # [::textutil::strRepeat "-" $MAX_LINE_LENGTH]\n\
+    set TFTPSERVERNAME  dirtier\n\
+    set tb_tftp_server_name(\$this_testbed) \$TFTPSERVERNAME\n\
+    set TFTPSERVERADDR  171.69.1.129\n\
+    set tb_tftp_server_addr(\$this_testbed) \$TFTPSERVERADDR\n\
+    set TFTPDIR {/tftpboot/sisu-reg}\n\
+    set BOOTDIR {}\n\
+"
+
+set passwords "\n\
+    # [::textutil::strRepeat "-" $MAX_LINE_LENGTH]\n\
+    # Passwords configured on the testbed devices. The tb_passwd array is 2\n\
+    # dimensional, where the first index is the testbed name and the second\n\
+    # the second index is the type of the password.  For IOS routers, the\n\
+    # password type can be \"enable\", \"line\", or \"tacacs\". You must\n\
+    # have the same passwords on all routers in the testbed.\n\
+    # [::textutil::strRepeat "-" $MAX_LINE_LENGTH]\n\
+    set ENABLEPW(\$this_testbed) lab\n\
+    set TACACSPW(\$this_testbed) lab\n\
+    set LINEPW(\$this_testbed) lab\n\
+    set tb_passwd(\$this_testbed,enable)   \"lab\"
+    set tb_passwd(\$this_testbed,tacacs)   \"\"
+    set tb_passwd(\$this_testbed,line)     \"\"
+"
+
+set footer "\n\
+    \n\
+    # [::textutil::strRepeat "-" $MAX_LINE_LENGTH]\n\
+    #                            CVS MAINTENANCE LOGS\n\
+    #                            ~~~~~~~~~~~~~~~~~~~~\n\
+    # \$Log: bbitc.lib,v $
+    # \Revision 1.5  2006/09/21 18:51:19  tennis
+    # \
+    # \Various updates to some minor support utilities.
+    # \
+    # \
+    #\n\
+    # [::textutil::strRepeat "-" $MAX_LINE_LENGTH]\n\
+    # Local Variables:\n\
+    # mode: tcl\n\
+    # End:\n\
+"
+
+set fakeout "\n\
+    #
+    # The preferred path for iou configs is the individual\n\
+    # user.  Default to the eArms version if necessary.\n\
+    #\n\
+    # This is mostly to fake out eArms. When eArms parses a CONFIG\n\
+    # file, it does not know about the user environment. When the CONFIG\n\
+    # is used however, it will have a user environment defined, so\n\
+    # env(ATS_USER_PATH) will be valid.\n\
+    #\n\
+    if {\[info exists env(ATS_USER_PATH)\]} {\n\
+        set path \"\$env(ATS_USER_PATH)/iou-configs/iou_testbed__TBN__\"\n\
+    } else {\n\
+        set path \"/auto/stg-devtest/eArms/iou-configs/iou_testbed__TBN__\"\n\
+    } ; # end if\n\n\
+    #\n\
+    # Where our map files live\n\
+    #\n\
+    if {\[info exists env(ATS_USER_PATH)\]} {\n\
+        set MAPDIR \$env(ATS_USER_PATH)/etc\n\
+    } else {\n\
+        set MAPDIR /ws/gicarval/sisu-reg/testbeds\n\
+    } ; # end if\n\
+
+"
+
+set easy_defs "\
+        # Use already-defined values for the easy defs \n\
+        # where possible.\n\
+        foreach dev \$ROUTERS(\$this_testbed) \{\n\
+            set TYPE(\$dev) \"unix\"\n
+            set tb_type(\$dev) \$TYPE(\$dev)\n
+            # For now, use the default configs as post configs\n\
+            # for everything too.\n\
+            set postconfig(\$dev)  \$defaultconfig(\$dev)\n\
+            set tb_device_configs(preclean,\$dev,ios-classic) \\\n\
+             \$defaultconfig(\$dev)\n\
+            set tb_device_configs(postclean,\$dev,ios-classic) \\\n\
+             \$defaultconfig(\$dev)\n\
+            set tb_clean_cmd(\$dev) stg_autoeasy_clean_router\n\
+        \} ; # end foreach\n\
+    "
+
+set device_list_vars "\n\
+    set VERSIONS(\$this_testbed) any\n\
+    set tb_devices(\$this_testbed) \$device_list\n\
+    set ROUTERS_NO_EARMS_PROBE(\$this_testbed) \$device_list\n\
+    set tb_devices_no_earms_probe(\$this_testbed) \$device_list\n\
+    set ROUTERS(\$this_testbed) \$device_list\n\
+    # Clean is not really needed for IOU instances
+    set tb_clean_sequence(\$this_testbed) {}
+    set CLEAN(\$this_testbed) {}
+    "
+
+set versions {
+    set IMAGE_TYPE(ags)  {GS Software \(GS3}
+    set IMAGE_TYPE(7k)   {GS Software \(GS7|7000 Software}
+    set IMAGE_TYPE(ts)   {CS Software \(CS500}
+    set IMAGE_TYPE(xx)   {4000 Software}
+    set IMAGE_TYPE(4500) {4500 Software}
+    set IMAGE_TYPE(2500) {3000 Software \(IGS\-|2500 Software}
+    set IMAGE_TYPE(rsp)  {RSP Software \(RSP|GS Software \(RSP}
+    set IMAGE_TYPE(3640) {3600 Software \(C3640}
+    set IMAGE_TYPE(72k)  {7200 Software \(C7200}
+    set IMAGE_TYPE(unix) {Solaris Software \(UNIX}
+
+}
+
+set earms_clean "
+        # EARMS support
+        set i 1
+        if \{ \[ info exists env(EARMS_ROUTERS_USED) \] \} \{
+            set clean_helper \[ split \$env(EARMS_ROUTERS_USED) \",\" \]
+            set clean_section \{\}
+            set CLEAN(\$this_testbed) \{\}
+            foreach rtr \$clean_helper \{
+                regsub -all -- \{-|:|\\.\} \$rtr \{_\} tmp_rtr
+                if \{ \[ info exists env(EARMS_IMAGES_\$tmp_rtr) \] \} \{
+                    lappend clean_section \"\$i stg_clean_router \$rtr\"
+                \}
+                incr i 1
+            \}
+            lappend CLEAN(\$this_testbed) \$clean_section
+        \} else \{
+            set CLEAN(\$this_testbed) \{
+                \{"
+
+global netmap_template
+
+
+proc bbitc_get_sniff_port { args } {
+    global netmap_template
+
+    set man_args {
+        -port DECIMAL
+        -testbed_number DECIMAL
+    } ; # end mandatory args
+
+    set opt_args {
+        -max_routers_per_testbed  DECIMAL
+        DEFAULT 16
+    } ; # end optional args
+
+    parse_dashed_args               \
+        -args $args                     \
+        -mandatory_args $man_args       \
+        -optional_args $opt_args
+
+    set FIND_SNIFFER_PORT {\$r_last:([0-9]+)}
+    set NO_SNIFFER_PORT {NONE}
+
+    foreach line [split $netmap_template "\n" ] {
+        if {[regexp ":$port " $line ]} {
+
+            regexp -- $FIND_SNIFFER_PORT $line => sniffer_port
+
+            if {![lempty $sniffer_port]} {
+                set device [bbitc_device_number \
+                                -testbed_number $testbed_number \
+                                -device_number $max_routers_per_testbed ]
+                ipsec::debug \
+                    "Found sniffer port for $port: $device:$sniffer_port"
+                return "$device:$sniffer_port"
+            } else {
+                puts "ERROR! Could not find correct sniffer port!"
+                return $NO_SNIFFER_PORT
+            } ; # end if
+        } ; # end if
+    } ; # end foreach
+    ipsec::debug "Could not find a sniffer port for $port"
+    return $NO_SNIFFER_PORT
+} ; # end proc bbitc_get_sniff_port
+
+proc bbitc_calc_intf { args } {
+    set mandatory_args {
+        -intf
+    } ; # end mandatory args
+
+    parse_dashed_args                   \
+        -args $args                     \
+        -mandatory_args $mandatory_args
+
+#    set INT_RIPPER {^.*([0-9])/([0-4])}
+
+    # will get "0" (port) and  "0" (bay) from "serial0/0"
+    set EXTRACT_PORT_AND_BAY_NUMBER {([\d])\/([\d])}
+    set MAX_PORTS 16
+
+    #
+    # pull out bay and port from the interface name.
+    #
+    if {[regexp $EXTRACT_PORT_AND_BAY_NUMBER $intf - bay port ]} {
+        return [expr {($port * $MAX_PORTS) + $bay}]
+    } ; # end if
+}
+
+proc bbitc_device_number { args } {
+    set mandatory_args {
+        -testbed_number NUMERIC
+        -device_number NUMERIC
+    } ; # end mandatory args
+
+    set optional_args {
+       -routers_per_testbed NUMERIC
+        DEFAULT 16
+    } ; # end optional args
+
+    parse_dashed_args               \
+        -args $args                     \
+        -mandatory_args $mandatory_args \
+        -optional_args $optional_args
+
+    return [expr {(($testbed_number * $routers_per_testbed) - \
+                       $routers_per_testbed ) + $device_number}]
+
+} ; # end proc bbitc_device_number
+
+proc bbitc_map_file_entries { args } {
+
+    set mandatory_args {
+        -testbed NUMERIC
+        -routers_per_testbed NUMERIC
+        -special_labeling ANY
+        -outfile ANY
+    } ; # end mandatory args
+
+    parse_dashed_args                   \
+        -args $args                     \
+        -mandatory_args $mandatory_args
+
+    upvar $special_labeling local_labels
+
+    set outmap {}
+    set IOU_INSTANCE_FMT {%0.4d}
+    set NUM_CARDS_PER_INTERFACE_TYPE 4
+    set FIRST_ETHERNET_CARD 0
+    set LAST_ETHERNET_CARD 3
+    set FIRST_SERIAL_CARD [expr { $LAST_ETHERNET_CARD + 1 }]
+    set LAST_SERIAL_CARD \
+        [expr { $LAST_ETHERNET_CARD + $NUM_CARDS_PER_INTERFACE_TYPE }]
+    set FIRST_PORT_NUM 0
+    set LAST_PORT_NUM 3
+
+    set first_router_number [bbitc_device_number \
+                                 -testbed_number $testbed \
+                                 -device_number 1]
+    set last_router_number [expr { $first_router_number + \
+                                       ($routers_per_testbed - 1)} ]
+    #
+    # The counter "i" is to keep track of the absolute value of
+    # each device, which is a number from 1 to 1023 spread across
+    # all iou testbeds.  The counter "j" is to track routers inside
+    # the individual testbed (unix1 to unix16, assuming 16 is the
+    # upper limit on the routers per testbed).
+    #
+    for {set i $first_router_number; set j 1 } \
+        {$i <= $last_router_number } { incr i; incr j} {
+
+        set entry [format $IOU_INSTANCE_FMT $i]
+
+        puts $outfile "\{ [cconcat itb $testbed _unix $j]"
+        puts $outfile "        \{ Area: 0 \}"
+        puts $outfile "{netmap: $entry}"
+
+        set ctr 0
+
+        for {set card $FIRST_ETHERNET_CARD} \
+            {$card <= $LAST_ETHERNET_CARD} {incr card} {
+
+            for {set port $FIRST_PORT_NUM} \
+                {$port <= $LAST_PORT_NUM} {incr port} {
+
+                set int [cconcat Ethernet $card / $port]
+
+                #
+                # A value which is made up of the router number
+                # within our testbed, plus the per-router unique
+                # port number.  This will identify any special
+                # labels needed for this port on this router.
+                #
+                set router_port "$j:[bbitc_calc_intf -intf $int]"
+
+                ipsec::debug "router_port is $router_port"
+
+                ipsec::debug "local labels:\n [array names local_labels]"
+
+                ipsec::debug "array get [array get local_labels $router_port]"
+
+                #
+                # Now use the testbed-unique value to figure out if
+                # a particular port needs special labeling.
+                #
+                if {![lempty [array get local_labels $router_port]]} {
+                    ipsec::debug "Found $router_port for special handling!"
+                    set label $local_labels($router_port)
+                } else {
+                    set label [cconcat lanethernet $ctr]
+                } ; # end if
+
+                set local_port [bbitc_calc_intf -intf $int]
+                set netmap "$entry:$local_port"
+                set sniff  [bbitc_get_sniff_port \
+                                -port $local_port \
+                                -testbed_number $testbed]
+
+                puts $outfile "\{ $int         $label
+            \{netmap:          $netmap\}
+            \{sniff:           $sniff\}
+            \}"
+                incr ctr
+            }
+        }
+
+        set ctr 0
+
+        for {set card $FIRST_SERIAL_CARD} \
+            {$card <= $LAST_SERIAL_CARD} {incr card} {
+
+            for {set port $FIRST_PORT_NUM} \
+                {$port <= $LAST_PORT_NUM} {incr port} {
+
+                set int [cconcat Serial $card / $port]
+
+                #
+                # A value which is made up of the router number
+                # within our testbed, plus the per-router unique
+                # port number.  This will identify any special
+                # labels needed for this port on this router.
+                #
+                set router_port "$j:[bbitc_calc_intf -intf $int]"
+
+                ipsec::debug  "Looking for $router_port in labels:\
+                     [array names local_labels]"
+                #
+                # Now use the testbed-unique value to figure out if
+                # a particular port needs special labeling.
+                #
+                if {![lempty [array get local_labels $router_port]]} {
+                    ipsec::debug "Found $router_port in labels:\
+                                  [array names local_labels]"
+                    set label $local_labels($router_port)
+                } else {
+                    set label [cconcat SERIAL $ctr]
+                } ; # end if
+
+                set local_port [bbitc_calc_intf -intf $int]
+                set netmap "$entry:$local_port"
+                set sniff  [bbitc_get_sniff_port \
+                                -port $local_port \
+                                -testbed_number $testbed]
+
+                puts $outfile "\{ $int           $label
+            \{netmap:          $netmap\}
+            \{sniff:           $sniff\}
+            \}"
+                incr ctr
+            }
+        }
+        puts $outfile "\}"
+    }
+
+} ; # end proc bbitc_map_file_entries
+
+proc bbitc_mac_hack { ip_addr } {
+
+    set ip2mac [string map { ".0.0." "0.0"} $ip_addr]
+
+    set mac_raw [dataUtils::ip_to_mac $ip_addr -format cisco]
+
+    ipsec::debug "Raw mac format for $ip_addr is $mac_raw"
+
+    regsub -- {0000.} $mac_raw {ee00.} mac_formatted
+
+    ipsec::debug "Returning formatted mac: $mac_formatted"
+    return $mac_formatted
+
+} ; # end proc bbitc_mac_hack
+
+proc bbitc_calc_backbone_address { args } {
+
+    set man_args {
+        -increment DECIMAL
+    } ; # end mandatory args
+
+    set opt_args {
+        -base_address IP
+        DEFAULT 223.0.0.1
+        -base_address_mask IP
+        DEFAULT 255.255.255.0
+    } ; # end optional args
+
+    parse_dashed_args               \
+        -args $args                     \
+        -mandatory_args $man_args       \
+        -optional_args $opt_args
+
+    return [::dataUtils::_next_address \
+                -ip $base_address \
+                -mask $base_address_mask \
+                -host \
+                -offset $increment]
+
+} ; # end proc bbitc_calc_backbone_address
+
+proc bbitc_bld_csh_aliases { args } {
+    global MAX_ROUTERS_PER_TESTBED
+
+    set man_args {
+        -testbed_number DECIMAL
+    } ; # end mandatory args
+
+    set opt_args {
+        -max_routers_per_testbed  DECIMAL
+        DEFAULT $MAX_ROUTERS_PER_TESTBED
+    } ; # end optional args
+
+    parse_dashed_args                      \
+        -args $args                        \
+        -optional_args [subst $opt_args ]  \
+        -mandatory_args $man_args
+
+    # Output should look something like this:
+    # alias itb40_unix12 'xterm -bg black -fg yellow -title
+    #    itb40_unix12 -sb -sl 256 -l -e ats_iou connect itb40_unix12 00412 &'
+
+    set rtr ""
+    set abbrev ""
+    set telnet_port ""
+    set alias_group ""
+    set whole_tb_group ""
+    set alias_str {
+        alias $rtr 'xterm -bg black -fg yellow -title $rtr -sb \
+            -sl 256 -l -e ats_iou connect $rtr $telnet_port &'
+        alias $abbrev $rtr
+    }
+
+#    alias i20 'i20u1 i20u2 i20u9 i20u7 i20u8 i20u6 i20u5 i20u3'
+
+    set whole_tb_group "alias i$testbed_number \'"
+
+    for { set i 1 } { $i <= $max_routers_per_testbed } { incr i } {
+
+        set telnet_port [bbitc_device_number \
+                             -testbed_number $testbed_number \
+                             -device_number $i]
+
+        set rtr [cconcat "itb" $testbed_number "_unix" $i]
+
+        set abbrev [cconcat "i" $testbed_number "u" $i]
+
+        set formatted_alias_str [subst -nocommands $alias_str]
+
+        set alias_group [cconcat $alias_group $formatted_alias_str "\n"]
+
+        append whole_tb_group "$abbrev "
+    }
+
+    append whole_tb_group "\'\n
+"
+
+    append alias_group $whole_tb_group
+
+    return $alias_group
+
+} ; # end proc bbitc_bld_csh_alias
+
+proc bbitc_bld_elisp_router_aliases { args } {
+    global MAX_ROUTERS_PER_TESTBED
+
+    set man_args {
+        -testbed_number DECIMAL
+    } ; # end mandatory args
+
+    set opt_args {
+        -max_routers_per_testbed  DECIMAL
+        DEFAULT $MAX_ROUTERS_PER_TESTBED
+    }
+
+    parse_dashed_args                     \
+        -args $args                       \
+        -optional_args [subst $opt_args]  \
+        -mandatory_args $man_args
+
+    # The idea is to create an elisp function like this:
+    #
+    # (defun i40u1 ()
+    #  "Open connection to router"
+    #  (interactive)
+    #  (shell)
+    #  (rename-buffer "i40u1")
+    #  (process-send-string nil "tcsh -c \"ats_iou connect itb40_unix1 00401\"\n")
+    #  )
+
+    set rtr ""
+    set abbrev ""
+    set telnet_port ""
+    set alias_group ""
+    set alias_str {
+        (defun $abbrev ()
+         "Open connection to $rtr"
+         (interactive)
+         (shell)
+         (rename-buffer "$abbrev")
+         (process-send-string nil "tcsh -c \
+                     \\"ats_iou connect $rtr $telnet_port\\"\\n")
+         )
+    }
+
+    set alias_group ""
+
+    for { set i 1 } { $i <= $max_routers_per_testbed } { incr i } {
+        set telnet_port [bbitc_device_number \
+                             -testbed_number $testbed_number \
+                             -device_number $i]
+        set rtr [cconcat "itb" $testbed_number "_unix" $i]
+        set abbrev [cconcat "i" $testbed_number "u" $i]
+        set formatted_alias_str [subst -nocommands $alias_str]
+        set alias_group [cconcat $alias_group $formatted_alias_str "\n"]
+    }
+
+    return $alias_group
+} ; # end proc bbitc_bld_elisp_alias
+
+proc bbitc_bld_elisp_whole_testbed_aliases { args } {
+    set man_args {
+        -testbed_number DECIMAL
+    } ; # end mandatory args
+
+    set opt_args {
+        -max_routers_per_testbed  DECIMAL
+        DEFAULT 16
+    } ; # end optional args
+
+    parse_dashed_args                   \
+        -args $args                     \
+        -optional_args $opt_args        \
+        -mandatory_args $man_args
+
+# This is an elisp function to start telnet sessions
+# to an entire testbed.
+#
+# (defun itb20 ()
+#   "Bring up iou_testbed20 in windows"
+#   (interactive)
+#   (i20u1)
+#  ...
+#   (i20u15)
+#   )
+#
+# And this is to stop all the telnet buffers
+#
+# (defun itb20-kill ()
+#   "Bring down iou_testbed20 windows"
+#   (interactive)
+#   (try-kill-buffer "i20u1")
+#   ...
+#   (try-kill-buffer "i20u15")
+#   )
+#
+
+    set rtr ""
+    set tb_abbrev ""
+    set tb_abbrev_kill ""
+    set rtr_abbrev ""
+    set tb_start ""
+    set tb_kill ""
+    set rtr_start ""
+    set rtr_kill ""
+
+    set tb_abbrev [cconcat "itb" $testbed_number]
+    set tb_abbrev_kill [cconcat "itb" $testbed_number "-kill"]
+
+    set tb_start "
+        \(defun $tb_abbrev \(\)
+         \"Bring up iou_testbed$testbed_number buffers\"
+         \(interactive\)"
+
+    set tb_kill "
+        \(defun $tb_abbrev_kill \(\)
+         \"Bring down iou_testbed$testbed_number buffers\"
+         \(interactive\)"
+
+    for { set i 1 } { $i <= $max_routers_per_testbed } { incr i } {
+        set rtr_abbrev [cconcat "i" $testbed_number "u" $i]
+        set rtr_start "\($rtr_abbrev\)"
+        set rtr_kill "\(try-kill-buffer \"$rtr_abbrev\"\)"
+        set tb_start [cconcat $tb_start "\n" $rtr_start]
+        set tb_kill [cconcat $tb_kill "\n" $rtr_kill]
+    } ; # end for
+
+    set tb_start [cconcat $tb_start "\n\)\n"]
+    set tb_kill [cconcat $tb_kill "\n\)\n"]
+    set final_tb [cconcat $tb_start "\n" $tb_kill]
+    return $final_tb
+} ; # end proc bbitc_bld_elisp_whole_testbed_aliases
+
+# -----------------------------------------------------------------------------
+#                            CVS MAINTENANCE LOGS
+#                            ~~~~~~~~~~~~~~~~~~~~
+# $Log: bbitc.lib,v $
+# Revision 1.5  2006/09/21 18:51:19  tennis
+#
+# Various updates to some minor support utilities.
+#
+# Revision 1.4  2006/06/24 17:56:30  tennis
+#
+# Changes to make the iou netmap files more readable.
+#
+# Revision 1.3  2006/05/24 13:04:29  tennis
+#
+# Updates to stop using mpexpr.
+#
+# Revision 1.2  2006/05/03 22:47:26  tennis
+#
+# Add mapdirs
+#
+# Revision 1.1  2006/03/15 17:28:02  tennis
+#
+# Initial commit
+#
+#
+# -----------------------------------------------------------------------------
+# Local Variables:
+# mode: tcl
+# End:

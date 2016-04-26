@@ -1,0 +1,146 @@
+#******************************************************************
+#*                                                                *
+#*               Cisco Systems Proprietary Software               *
+#*   Not to be distributed without consent from Test Technology   *
+#*                       Cisco Systems, Inc.                      *
+#*                                                                *
+#******************************************************************
+
+###############################################################################
+# This is an example of a custom report function that can be used to customize
+# the autotest summary output format. The report generator (reportgen) can be
+# asked to use this function instead of the default report function by sourcing
+# this file and setting the CUSTOM_REPORT_FUNC keyword to point to the name of
+# this function in the $AUTOTEST/local/CONFIG file. For example, if you copy
+# this file to $AUTOTEST/local/lib and add your customizations to the
+# custom_report_func, you would put the following in your CONFIG file:
+#
+# source $env(AUTOTEST)/local/lib/custom_report.template
+# set CUSTOM_REPORT_FUNC custom_report_func
+#
+# Notice that the report generator passes two values to this function:
+# 1. outputfd  -- This is the output file descriptor
+# 2. test      -- This is a pointer to the current test
+#
+# This function is called for every test that was run by autotest.
+#
+# Here is a list of all available variables for each test (these variables
+# can be accessed with a call to "getattr"):
+#------------------------------------------------------------------------------
+# description         - A one line description of the test
+# diags               - The diagnostic text for the test (written by test_diag)
+# id                  - The unique test id
+# imageversion        - The version of the image under test
+# logerror            - Log errors found using the error regexp
+# name                - The name of the test
+# parameters          - The list of parameters passed to the test
+# status              - The status of the test (failed, passed, aborted etc.)
+# suitelinenum        - The line number of the suitefile that this test was on
+#
+# Here is a list of all available variables for an entire run (These variables
+# are stored in the rg_globals global array)
+#------------------------------------------------------------------------------
+# cleans              - The number of times the router was "cleaned"
+# crashes             - The number of times the router crashed during this run
+# error_regexp        - The error regexp used to find log errors
+# ignore_regexp       - The ignore regexp used to ignore log file lines
+# logprefix           - The log prefix used to create individual test logs
+# pauses              - The number of times autotest was paused
+# rerunfile           - Name of the rerun file
+# suitefile           - Name of the suite file
+# aborted             - Total number of aborted tests
+# failed              - Total number of failed tests
+# never_ran           - Total number of neverRan tests
+# passed              - Total number of passed tests
+# testbed             - Name of testbed the tests were run on
+#
+# e.g.: To get the name of the test, you would have to do the following:
+# set name [getattr $test name]
+#
+#==============================================================================
+
+proc custom_report_func {outputfd test} {
+
+    global env rg_globals
+
+    #==========================================================================
+    # Get the status and log error for this test
+    #--------------------------------------------------------------------------
+    set status [getattr $test status]
+    set logerror [getattr $test logerror]
+
+    #==========================================================================
+    # If the test number is 0 (clean), and has log errors,
+    # report these as boot errors
+    #--------------------------------------------------------------------------
+    if {$test == 0} {
+        if {$logerror != ""} {
+            regsub -all "^|\n" $logerror "\n\# " logerror
+            puts $outputfd "# Boot Errors:"
+            puts $outputfd $logerror
+            puts -nonewline $outputfd "\n===================================="
+            puts $outputfd "============================================\n"
+        }
+        return
+    }
+
+    #==========================================================================
+    # If we reach this point, we will need more info on the
+    # current test. So get the image version, description,
+    # and diags.
+    #--------------------------------------------------------------------------
+    set imageversion [getattr $test imageversion]
+    set description [getattr $test description]
+    set diags [getattr $test diags]
+    set id [getattr $test id]
+    set name [getattr $test name]
+    set parameters [getattr $test parameters]
+    set suitelinenum [getattr $test suitelinenum]
+    # regsub -all "(^|\n)               " $diags "\1    " diags
+
+    #==========================================================================
+    # print out all required test info
+    #--------------------------------------------------------------------------
+    puts $outputfd "Test Id: $id"
+    puts $outputfd "Status: $status"
+    if {$logerror != ""} {
+        puts $outputfd "Logfile Errors: yes"
+    } else {
+        puts $outputfd "Logfile Errors: no"
+    }
+    puts $outputfd "Version: $imageversion"
+    puts $outputfd "Desc: $description"
+    puts $outputfd "Test name: $name"
+    puts $outputfd "Parameters: $parameters"
+    puts $outputfd "Suitefile line number: $suitelinenum"
+    puts $outputfd "Diagnostics:\n$diags"
+
+    #==========================================================================
+    # Print out the logfile errors, if any
+    #--------------------------------------------------------------------------
+    if {$logerror != ""} {
+        regsub -all "^|\n" $logerror "\n\# " logerror
+        puts $outputfd "# Logfile Errors:"
+        puts $outputfd $logerror
+    }
+
+    #==========================================================================
+    # Print a newline after each test
+    #--------------------------------------------------------------------------
+    puts -nonewline $outputfd "\n========================================"
+    puts $outputfd "========================================\n"
+}
+
+# -----------------------------------------------------------------------------
+#                            CVS MAINTENANCE LOGS
+#                            ~~~~~~~~~~~~~~~~~~~~
+# $Log: custom_report,v $
+# Revision 1.2  2006/09/21 18:51:19  tennis
+#
+# Various updates to some minor support utilities.
+#
+#
+# -----------------------------------------------------------------------------
+# Local Variables:
+# mode: tcl
+# End:

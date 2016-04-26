@@ -1,0 +1,144 @@
+
+######################  CLEAN CONFIG FILE FOR waasperf2 testbed  ##############
+#                                                                             #
+#     Header file for autotest. Follow the steps to customise as needed.      #
+#                                                                             #
+###############################################################################
+
+
+
+#####################
+## Sample config for
+##      router
+####################
+
+#to Do
+
+# Set a T train a Baseline and a Solid image for each router
+# Set a place for the start config and the post config
+# Set router type, using tftpdnld -r, normal boot or pagent
+
+
+#############################
+### waasperf2-19a
+#############################
+
+set testing(waasperf2-19a) "/auto/tftp-joaofer/waas/testing/c1900-universalk9-mz.SSA"
+set baseline(waasperf2-19a) "/auto/tftp-joaofer/waas/baseline/c1900-universalk9-mz.SSA"
+set solid(waasperf2-19a) "/auto/tftp-joaofer/waas/solid/c1900-universalk9-mz.SPA.151"
+set custom(waasperf2-19a) ""
+set post(waasperf2-19a) "flash:waasperf2.post"
+set start(waasperf2-19a) "flash:waasperf2.start"
+set routertype(waasperf2-19a) "NORMAL_TFTP"
+set router_image(waasperf2-19a-testing) "c1900-universalk9-mz.SSA" 
+set router_image(waasperf2-19a-baseline) "c1900-universalk9-mz.SSA" 
+set router_image(waasperf2-19a-solid) "c1900-universalk9-mz.SPA.151"
+set router_image(waasperf2-19a-custom) "c1900-universal"
+
+#############################
+### waasperf2-29a
+#############################
+
+set testing(waasperf2-29a) "/auto/tftp-joaofer/waas/testing/c2900-universalk9-mz.SSA"
+set baseline(waasperf2-29a) "/auto/tftp-joaofer/waas/baseline/c2900-universalk9-mz.SSA"
+set solid(waasperf2-29a) "/auto/tftp-joaofer/waas/solid/c2900-universalk9-mz.SPA.150-1.M5.2"
+set custom(waasperf2-29a) ""
+set post(waasperf2-29a) "flash:waasperf2.post"
+set start(waasperf2-29a) "flash:waasperf2.start"
+set routertype(waasperf2-29a) "NORMAL_TFTP"
+set router_image(waasperf2-29a-testing) "c2900-universalk9-mz.SSA" 
+set router_image(waasperf2-29a-baseline) "c2900-universalk9-mz.SSA" 
+set router_image(waasperf2-29a-solid) "c2900-universalk9-mz.SPA" 
+set router_image(waasperf2-29a-custom) "c2900-universal"
+
+#############################
+### waasperf2-29a
+#############################
+
+set testing(waasperf2-2951a) "/auto/tftp-joaofer/waas/testing/c2951-universalk9-mz.SSA"
+set baseline(waasperf2-2951a) "/auto/tftp-joaofer/waas/baseline/c2951-universalk9-mz.SSA"
+set solid(waasperf2-2951a) "/auto/tftp-joaofer/waas/solid/c2951-universalk9-mz.SPA.151-4.M1"
+set custom(waasperf2-2951a) ""
+set post(waasperf2-2951a) "flash:waasperf2.post"
+set start(waasperf2-2951a) "flash:waasperf2.start"
+set routertype(waasperf2-2951a) "NORMAL_TFTP"
+set router_image(waasperf2-2951a-testing) "c2951-universalk9-mz.SSA" 
+set router_image(waasperf2-2951a-baseline) "c2951-universalk9-mz.SSA" 
+set router_image(waasperf2-2951a-solid) "c2951-universalk9-mz.SPA" 
+set router_image(waasperf2-2951a-custom) "c2951-universal"
+
+#############################
+### waasperf2-800a
+#############################
+
+set testing(waasperf2-800a) "/auto/tftp-joaofer/waas/testing/c890-universalk9-mz"
+set baseline(waasperf2-800a) "/auto/tftp-joaofer/waas/baseline/c890-universalk9-mz"
+set solid(waasperf2-800a) "/auto/tftp-joaofer/waas/solid/c890-universalk9-mz"
+set custom(waasperf2-800a) ""
+set post(waasperf2-800a) "flash:waasperf2.post"
+set start(waasperf2-800a) "flash:waasperf2.start"
+set routertype(waasperf2-800a) "NORMAL_TFTP"
+set router_image(waasperf2-800a-testing) "c890-universalk9-mz" 
+set router_image(waasperf2-800a-baseline) "c890-universalk9-mz" 
+set router_image(waasperf2-800a-solid) "c890-universalk9-mz" 
+set router_image(waasperf2-800a-custom) "c890-universalk9"
+
+
+#############################
+### waasperf2-3825b
+#############################
+
+set testing(waasperf2-3825b) "/auto/tftp-joaofer/waas/testing/c3825-PAGENT"
+set baseline(waasperf2-3825b) "/auto/tftp-joaofer/waas/baseline/c3825-PAGENT"
+set solid(waasperf2-3825b) "/auto/tftp-joaofer/waas/solid/c3825-PAGENT"
+set custom(waasperf2-3825b) ""
+set post(waasperf2-3825b) "flash:waasperf2.post"
+set start(waasperf2-3825b) "flash:waasperf2.start"
+set routertype(waasperf2-3825b) "PAGENT_TFTP"
+set router_image(waasperf2-3825b-testing) "c3825-PAGENT"
+set router_image(waasperf2-3825b-baseline) "c3825-PAGENT"
+set router_image(waasperf2-3825b-solid) "c3825-PAGENT"
+set router_image(waasperf2-3825b-custom) "c3825-PAGENT"
+
+#############################
+### waasperf2-3845c
+#############################
+
+set testing(waasperf2-3845c) "/auto/tftp-joaofer/waas/testing/c3845-advsecurityk9"
+set baseline(waasperf2-3845c) "/auto/tftp-joaofer/waas/baseline/c3845-advsecurityk9"
+set solid(waasperf2-3845c) "/auto/tftp-joaofer/waas/solid/c3845-advsecurityk9"
+set custom(waasperf2-3845c) ""
+set post(waasperf2-3845c) "flash:waasperf2.post"
+set start(waasperf2-3845c) "flash:waasperf2.start"
+set routertype(waasperf2-3845c) "NORMAL_NOTFTP"
+set router_image(waasperf2-3845c-testing) "c3845-advsecurityk9"
+set router_image(waasperf2-3845c-baseline) "c3845-advsecurityk9"
+set router_image(waasperf2-3845c-solid) "c3845-advsecurityk9"
+set router_image(waasperf2-3845c-custom) "c3845-advsecurityk9"
+
+#############################
+### waasperf2-72b
+#############################
+
+set testing(waasperf2-72b) "/auto/tftp-joaofer/waas/testing/c7200p-PAGENT"
+set baseline(waasperf2-72b) "/auto/tftp-joaofer/waas/baseline/c7200p-PAGENT"
+set solid(waasperf2-72b) "/auto/tftp-joaofer/waas/solid/c7200p-PAGENT"
+set custom(waasperf2-72b) ""
+set post(waasperf2-72b) "disk2:waasperf2.post"
+set start(waasperf2-72b) "disk2:waasperf2.start"
+set routertype(waasperf2-72b) "PAGENT_NOTFTP"
+set router_image(waasperf2-72b-testing) "c7200p-PAGENT"
+set router_image(waasperf2-72b-baseline) "c7200p-PAGENT"
+set router_image(waasperf2-72b-solid) "c7200p-PAGENT"
+set router_image(waasperf2-72b-custom) "c7200p-PAGENT"
+
+
+#SET UP STUFF FOR CFLOW
+if { [info exists CFLOW] } {
+	if { $CFLOW == "TRUE" } {
+		set custom(waasperf2-3825b) "/auto/tftp-joaofer/waas/custom/c3825-PAGENT"
+		set custom(waasperf2-19a) "/auto/tftp-joaofer/waas/custom/c1900-universalk9-mz.SSA.cflow_post_sync"
+		set custom(waasperf2-3845c) "/auto/tftp-joaofer/waas/custom/c3845-advsecurityk9"
+	}
+}
+

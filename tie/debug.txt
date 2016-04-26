@@ -1,0 +1,2209 @@
+ Sample: Mandatory autotie  -testbed [testbed] -project [project] -SSH_PWD [ssh_pwd] 
+ options: -tree [testing baseline solid custom auto] default auto
+ options: -CFLOW 		[TRUE FALSE] 		default FALSE 
+ options: -TIMS  		[TRUE FALSE] 		default FALSE 
+ options: -EMAIL_WARN  	[any]  			default "none"
+ options: -DEBUG  	[ON OFF]    		default OFF   
+ options: -MODE   	[NORMAL VERTICAL]    	default NORMAL
+1: : 2011-07-21T13:48:37: %aetest-5-NOTICE: The testbed selected is waasperf2
+/auto/tftp-joaofer/waas/testing/c3845-advsecurityk9 /auto/tftp-joaofer/waas/testing/c2900-universalk9-mz.SSA07-20-11 /auto/tftp-joaofer/waas/testing/c3825-PAGENT /auto/tftp-joaofer/waas/testing/c1900-universalk9-mz.SSA07-20-11 /auto/tftp-joaofer/waas/testing/c7200p-PAGENT /auto/tftp-joaofer/waas/testing/c3845-PAGENT
+ router waasperf2-waas is not defined in clean.waasperf2 
+
+ router waasperf2-ixia is not defined in clean.waasperf2 
+
+ router waasperf2-avalanche is not defined in clean.waasperf2 
+
+ router waasperf2-reflector is not defined in clean.waasperf2 
+
+/auto/tftp-joaofer/waas/baseline/c3825-PAGENT /auto/tftp-joaofer/waas/baseline/c3845-PAGENT /auto/tftp-joaofer/waas/baseline/c3845-advsecurityk9 /auto/tftp-joaofer/waas/baseline/c1900-universalk9-mz.SSA07-17-11 /auto/tftp-joaofer/waas/baseline/c2900-universalk9-mz.SSA07-17-11 /auto/tftp-joaofer/waas/baseline/c7200p-PAGENT
+ router waasperf2-waas is not defined in clean.waasperf2 
+
+ router waasperf2-ixia is not defined in clean.waasperf2 
+
+ router waasperf2-avalanche is not defined in clean.waasperf2 
+
+ router waasperf2-reflector is not defined in clean.waasperf2 
+
+/auto/tftp-joaofer/waas/solid/c880-advsecurityk9-mz.151-4.M0.5.InternalUseOnly /auto/tftp-joaofer/waas/solid/c3825-PAGENT /auto/tftp-joaofer/waas/solid/c2900-universalk9-mz.SPA.151-4.M0.9 /auto/tftp-joaofer/waas/solid/c1900-universalk9-mz.SPA.151-4.M0.9 /auto/tftp-joaofer/waas/solid/c3845-PAGENT /auto/tftp-joaofer/waas/solid/c3845-advsecurityk9 /auto/tftp-joaofer/waas/solid/c7200p-PAGENT
+ router waasperf2-waas is not defined in clean.waasperf2 
+
+ router waasperf2-ixia is not defined in clean.waasperf2 
+
+ router waasperf2-avalanche is not defined in clean.waasperf2 
+
+ router waasperf2-reflector is not defined in clean.waasperf2 
+
+/auto/tftp-joaofer/waas/testing/c3845-advsecurityk9 /auto/tftp-joaofer/waas/testing/c2900-universalk9-mz.SSA07-20-11 /auto/tftp-joaofer/waas/testing/c3825-PAGENT /auto/tftp-joaofer/waas/testing/c1900-universalk9-mz.SSA07-20-11 /auto/tftp-joaofer/waas/testing/c7200p-PAGENT /auto/tftp-joaofer/waas/testing/c3845-PAGENT
+ Image for waasperf2-72b set to /auto/tftp-joaofer/waas/testing/c7200p-PAGENT 
+
+ Image for waasperf2-3825b set to /auto/tftp-joaofer/waas/testing/c3825-PAGENT 
+
+ Image for waasperf2-29a set to /auto/tftp-joaofer/waas/testing/c2900-universalk9-mz.SSA07-20-11 
+
+ Image for waasperf2-19a set to /auto/tftp-joaofer/waas/testing/c1900-universalk9-mz.SSA07-20-11 
+
+ Image for waasperf2-3845c set to /auto/tftp-joaofer/waas/testing/c3845-advsecurityk9 
+
+ router waasperf2-waas is not defined in clean.waasperf2, that is fine if you don't want to reload and load new images on it 
+
+ router waasperf2-ixia is not defined in clean.waasperf2, that is fine if you don't want to reload and load new images on it 
+
+ router waasperf2-avalanche is not defined in clean.waasperf2, that is fine if you don't want to reload and load new images on it 
+
+ router waasperf2-reflector is not defined in clean.waasperf2, that is fine if you don't want to reload and load new images on it 
+
+found images for all routers 
+
+/auto/tftp-joaofer/waas/baseline/c3825-PAGENT /auto/tftp-joaofer/waas/baseline/c3845-PAGENT /auto/tftp-joaofer/waas/baseline/c3845-advsecurityk9 /auto/tftp-joaofer/waas/baseline/c1900-universalk9-mz.SSA07-17-11 /auto/tftp-joaofer/waas/baseline/c2900-universalk9-mz.SSA07-17-11 /auto/tftp-joaofer/waas/baseline/c7200p-PAGENT
+ Image for waasperf2-72b set to /auto/tftp-joaofer/waas/baseline/c7200p-PAGENT 
+
+ Image for waasperf2-3825b set to /auto/tftp-joaofer/waas/baseline/c3825-PAGENT 
+
+ Image for waasperf2-29a set to /auto/tftp-joaofer/waas/baseline/c2900-universalk9-mz.SSA07-17-11 
+
+ Image for waasperf2-19a set to /auto/tftp-joaofer/waas/baseline/c1900-universalk9-mz.SSA07-17-11 
+
+ Image for waasperf2-3845c set to /auto/tftp-joaofer/waas/baseline/c3845-advsecurityk9 
+
+ router waasperf2-waas is not defined in clean.waasperf2, that is fine if you don't want to reload and load new images on it 
+
+ router waasperf2-ixia is not defined in clean.waasperf2, that is fine if you don't want to reload and load new images on it 
+
+ router waasperf2-avalanche is not defined in clean.waasperf2, that is fine if you don't want to reload and load new images on it 
+
+ router waasperf2-reflector is not defined in clean.waasperf2, that is fine if you don't want to reload and load new images on it 
+
+found images for all routers 
+
+/auto/tftp-joaofer/waas/solid/c880-advsecurityk9-mz.151-4.M0.5.InternalUseOnly /auto/tftp-joaofer/waas/solid/c3825-PAGENT /auto/tftp-joaofer/waas/solid/c2900-universalk9-mz.SPA.151-4.M0.9 /auto/tftp-joaofer/waas/solid/c1900-universalk9-mz.SPA.151-4.M0.9 /auto/tftp-joaofer/waas/solid/c3845-PAGENT /auto/tftp-joaofer/waas/solid/c3845-advsecurityk9 /auto/tftp-joaofer/waas/solid/c7200p-PAGENT
+ Image for waasperf2-72b set to /auto/tftp-joaofer/waas/solid/c7200p-PAGENT 
+
+ Image for waasperf2-3825b set to /auto/tftp-joaofer/waas/solid/c3825-PAGENT 
+
+ Image for waasperf2-29a set to /auto/tftp-joaofer/waas/solid/c2900-universalk9-mz.SPA.151-4.M0.9 
+
+ Image for waasperf2-19a set to /auto/tftp-joaofer/waas/solid/c1900-universalk9-mz.SPA.151-4.M0.9 
+
+ Image for waasperf2-3845c set to /auto/tftp-joaofer/waas/solid/c3845-advsecurityk9 
+
+ router waasperf2-waas is not defined in clean.waasperf2, that is fine if you don't want to reload and load new images on it 
+
+ router waasperf2-ixia is not defined in clean.waasperf2, that is fine if you don't want to reload and load new images on it 
+
+ router waasperf2-avalanche is not defined in clean.waasperf2, that is fine if you don't want to reload and load new images on it 
+
+ router waasperf2-reflector is not defined in clean.waasperf2, that is fine if you don't want to reload and load new images on it 
+
+found images for all routers 
+
+appmix
+ waasperf2 is inside waasperf2 
+NEW TEST ADDED appmix tree:/auto/td-devtest/joaoferixia/ats5.2.0
+appmixD
+ waasperf2 is inside waasperf2 
+NEW TEST ADDED appmixD tree:/auto/td-devtest/joaoferixia/ats5.2.0
+appmixVPN
+ waasperf2 is inside waasperf2 
+NEW TEST ADDED appmixVPN tree:/auto/td-devtest/joaoferixia/ats5.2.0
+appmixH
+ waasperf2 is inside waasperf2 
+NEW TEST ADDED appmixH tree:/auto/td-devtest/joaoferixia/ats5.2.0
+appmixHD
+ waasperf2 is inside waasperf2 
+NEW TEST ADDED appmixHD tree:/auto/td-devtest/joaoferixia/ats5.2.0
+RmixVPN
+ waasperf2 is inside waasperf2 
+NEW TEST ADDED RmixVPN tree:/auto/td-devtest/joaoferixia/ats5.2.0
+appmixVPN_MTU1500
+ waasperf2 is inside waasperf2 
+NEW TEST ADDED appmixVPN_MTU1500 tree:/auto/td-devtest/joaoferixia/ats5.2.0
+appmixVPN_ZBFW
+ waasperf2 is inside waasperf2 
+NEW TEST ADDED appmixVPN_ZBFW tree:/auto/td-devtest/joaoferixia/ats5.2.0
+appmixVPN_HD
+ waasperf2 is inside waasperf2 
+NEW TEST ADDED appmixVPN_HD tree:/auto/td-devtest/joaoferixia/ats5.2.0
+appmixVPN_ZBFW_NAT
+ waasperf2 is inside waasperf2 
+NEW TEST ADDED appmixVPN_ZBFW_NAT tree:/auto/td-devtest/joaoferixia/ats5.2.0
+appmixVPN_ZBFW_HD
+ waasperf2 is inside waasperf2 
+NEW TEST ADDED appmixVPN_ZBFW_HD tree:/auto/td-devtest/joaoferixia/ats5.2.0
+appmixVPN_ZBFW_NAT_HD
+ waasperf2 is inside waasperf2 
+NEW TEST ADDED appmixVPN_ZBFW_NAT_HD tree:/auto/td-devtest/joaoferixia/ats5.2.0
+CIFSmix
+ waasperf2 is inside waasperf2 
+NEW TEST ADDED CIFSmix tree:/auto/td-devtest/joaoferixia/ats5.2.0
+appmixVPN_VPN_ZBFW_NAT_QOS_NET
+ waasperf2 is inside waasperf2 
+NEW TEST ADDED appmixVPN_VPN_ZBFW_NAT_QOS_NET tree:/auto/td-devtest/joaoferixia/ats5.2.0
+appmixVPN_VPN_ZBFW_NAT_Q_N_HD
+ waasperf2 is inside waasperf2 
+NEW TEST ADDED appmixVPN_VPN_ZBFW_NAT_Q_N_HD tree:/auto/td-devtest/joaoferixia/ats5.2.0
+appmixVPN_FULL_HD
+ waasperf2 is inside waasperf2 
+NEW TEST ADDED appmixVPN_FULL_HD tree:/auto/td-devtest/joaoferixia/ats5.2.0
+appmixVPN_IPS
+ waasperf2 is inside waasperf2 
+NEW TEST ADDED appmixVPN_IPS tree:/auto/td-devtest/joaoferixia/ats5.2.0
+appmixVPN_FULL_NO_WAAS
+ waasperf2 is inside waasperf2 
+NEW TEST ADDED appmixVPN_FULL_NO_WAAS tree:/auto/td-devtest/joaoferixia/ats5.2.0
+CIFSmix_HDC
+ waasperf2 is inside waasperf2 
+NEW TEST ADDED CIFSmix_HDC tree:/auto/td-devtest/joaoferixia/ats5.2.0
+appmixVPN_HD_MTU700
+ waasperf2 is inside waasperf2 
+NEW TEST ADDED appmixVPN_HD_MTU700 tree:/auto/td-devtest/joaoferixia/ats5.2.0
+appmixVPN_ZBFW_NAT_HD_ML2
+ waasperf2 is inside waasperf2 
+NEW TEST ADDED appmixVPN_ZBFW_NAT_HD_ML2 tree:/auto/td-devtest/joaoferixia/ats5.2.0
+/tftpboot/joaofer/configs /tftpboot/joaofer/config.3945b.gdoi /tftpboot/joaofer/c1900-universalk9-mz.SPA.151-4.M0.9
+ looking for waasperf2-72b in suite file
+ looking up for waasperf2-72b 
+ Looking up in general folder folder
+ looking for waasperf2-3825b in suite file
+ looking up for waasperf2-3825b 
+ Looking up in general folder folder
+ looking for waasperf2-29a in suite file
+ router not part of test
+ looking for waasperf2-19a in suite file
+ looking up for waasperf2-19a 
+ Looking up in specific folder c1900-universal + 0.9  
+ Image needed not found, update dabase and return 0 
+Tree is testing and testbed match
+tests in queue, select test to run
+/tftpboot/joaofer/configs /tftpboot/joaofer/config.3945b.gdoi /tftpboot/joaofer/c1900-universalk9-mz.SPA.151-4.M0.9
+ looking for waasperf2-72b in suite file
+ looking up for waasperf2-72b 
+ Looking up in general folder folder
+ looking for waasperf2-3825b in suite file
+ looking up for waasperf2-3825b 
+ Looking up in general folder folder
+ looking for waasperf2-29a in suite file
+ router not part of test
+ looking for waasperf2-19a in suite file
+ looking up for waasperf2-19a 
+ Looking up in specific folder c1900-universal + 0.9  
+ Image needed not found, update dabase and return 0 
+Tree is testing and testbed match
+testing doesn't exist update database , please provide a valid directory
+
+/auto/tftp-joaofer/waas/testing/c3845-advsecurityk9 /auto/tftp-joaofer/waas/testing/c2900-universalk9-mz.SSA07-20-11 /auto/tftp-joaofer/waas/testing/c3825-PAGENT /auto/tftp-joaofer/waas/testing/c1900-universalk9-mz.SSA07-20-11 /auto/tftp-joaofer/waas/testing/c7200p-PAGENT /auto/tftp-joaofer/waas/testing/c3845-PAGENT
+ Image for waasperf2-72b set to /auto/tftp-joaofer/waas/testing/c7200p-PAGENT 
+
+ Image for waasperf2-3825b set to /auto/tftp-joaofer/waas/testing/c3825-PAGENT 
+
+ Image for waasperf2-29a set to /auto/tftp-joaofer/waas/testing/c2900-universalk9-mz.SSA07-20-11 
+
+ Image for waasperf2-19a set to /auto/tftp-joaofer/waas/testing/c1900-universalk9-mz.SSA07-20-11 
+
+ Image for waasperf2-3845c set to /auto/tftp-joaofer/waas/testing/c3845-advsecurityk9 
+
+ router waasperf2-waas is not defined in clean.waasperf2, that is fine if you don't want to reload and load new images on it 
+
+ router waasperf2-ixia is not defined in clean.waasperf2, that is fine if you don't want to reload and load new images on it 
+
+ router waasperf2-avalanche is not defined in clean.waasperf2, that is fine if you don't want to reload and load new images on it 
+
+ router waasperf2-reflector is not defined in clean.waasperf2, that is fine if you don't want to reload and load new images on it 
+
+found images for all routers 
+
+tie-Finish doing image update
+##### Inform database that test started #######
+##### STARTING CLEAN                    #######
+## Starting normal cleaning ## 
+ Cleaning waasperf2-72b 
+ router waasperf2-72b is not defined in clean.waasperf2 or not part of the suite 
+
+ Cleaning waasperf2-3825b 
+ Cleaning waasperf2-29a 
+ router waasperf2-29a is not defined in clean.waasperf2 or not part of the suite 
+
+ Cleaning waasperf2-19a 
+ Cleaning waasperf2-3845c 
+exp_spawn telnet waasperf2-cs 2036
+ router waasperf2-3845c is not defined in clean.waasperf2 or not part of the suite 
+
+ Cleaning waasperf2-waas 
+ router waasperf2-waas is not defined in clean.waasperf2 or not part of the suite 
+
+ Cleaning waasperf2-ixia 
+ router waasperf2-ixia is not defined in clean.waasperf2 or not part of the suite 
+
+ Cleaning waasperf2-avalanche 
+ router waasperf2-avalanche is not defined in clean.waasperf2 or not part of the suite 
+
+ Cleaning waasperf2-reflector 
+exp_spawn telnet waasperf2-cs 2038
+ router waasperf2-reflector is not defined in clean.waasperf2 or not part of the suite 
+
+##### Results coming up #####
+
+Trying 172.19.147.111...
+Connected to waasperf2-cs.cisco.com (172.19.147.111).
+Escape character is '^]'.
+Trying 172.19.147.111...
+Connected to waasperf2-cs.cisco.com (172.19.147.111).
+Escape character is '^]'.
+C
+Hostname: waasperf2-cs
+Testbed:  waasperf2
+
+FRONT
+    Line     Device                         Port
+  -------------------------------------------------
+  P0       waasperf2-19a_aux    (1900)      2034
+  P1       waasperf2-72b        (7200)      2035  working
+  P2       waasperf2-3825b      (3825)      2036  working
+  P3       waasperf2-29a        (2921)      2037  working
+  P4       waasperf2-19a        (1941)      2038  working
+  P5       waasperf2-29a_aux    (2921)      2039
+  P6       VACANT               (3945)      2040
+  P7       waasperf2-3825b-aux  (3945)      2041
+  -------------------------------------------------
+BACK
+    Line     Device                         Port
+  -------------------------------------------------
+  P0       waasperf2-3845c      (3845)      2018 workind new flash
+  P1       waasperf2-sw         (7200)      2019 working
+  P2       waasperf2-fw         (1900)      2020 working
+  P3       waasperf2-800a       (88x)       2021
+  P4       Waas application     (512c)      2022 working
+  P5       waasperf2-power      (power)     2023 working
+  P6       waasperf2-3845c_aux  (3845)      2024
+  P7       VACANT               (3945)      2025
+  -------------------------------------------------
+C
+Hostname: waasperf2-cs
+Testbed:  waasperf2
+
+FRONT
+    Line     Device                         Port
+  -------------------------------------------------
+  P0       waasperf2-19a_aux    (1900)      2034
+  P1       waasperf2-72b        (7200)      2035  working
+  P2       waasperf2-3825b      (3825)      2036  working
+  P3       waasperf2-29a        (2921)      2037  working
+  P4       waasperf2-19a        (1941)      2038  working
+  P5       waasperf2-29a_aux    (2921)      2039
+  P6       VACANT               (3945)      2040
+  P7       waasperf2-3825b-aux  (3945)      2041
+  -------------------------------------------------
+BACK
+    Line     Device                         Port
+  -------------------------------------------------
+  P0       waasperf2-3845c      (3845)      2018 workind new flash
+  P1       waasperf2-sw         (7200)      2019 working
+  P2       waasperf2-fw         (1900)      2020 working
+  P3       waasperf2-800a       (88x)       2021
+  P4       Waas application     (512c)      2022 working
+  P5       waasperf2-power      (power)     2023 working
+  P6       waasperf2-3845c_aux  (3845)      2024
+  P7       VACANT               (3945)      2025
+  -------------------------------------------------
+
+
+rommon 1 > rommon 2 > stack
+stack: kernel context state is invalid, can not proceed
+rommon 2 > stack
+stack: kernel context state is invalid, can not proceed
+rommon 3 > reset
+reset
+
+System Bootstrap, Version 12.3(11r)T1, RELEASE SOFTWARE (fc1)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 2004 by cisco Systems, Inc.
+
+System Bootstrap, Version 12.3(11r)T2, RELEASE SOFTWARE (fc1)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 2005 by cisco Systems, Inc.
+
+Total memory size = 1024 MB - DIMM0 = 512 MB, DIMM1 = 512 MB
+c3825 processor with 1048576 Kbytes of main memory
+Main memory is configured to 72/72(dimm 0/1) bit mode with ECC enabled
+
+
+Upgrade ROMMON initialized
+rommon 1 > 
+rommon 1 > boot 
+program load complete, entry point: 0x8000f000, size: 0xc0c0
+
+Initializing ATA monitor library.......
+program load complete, entry point: 0x8000f000, size: 0xc0c0
+
+Initializing ATA monitor library.......
+
+
+System Bootstrap, Version 15.0(1r)M3, RELEASE SOFTWARE (fc1)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 2009 by cisco Systems, Inc.
+
+Total memory size = 2560 MB - On-board = 512 MB, DIMM0 = 2048 MB
+CISCO1941/K9 platform with 2621440 Kbytes of main memory
+Main memory is configured to 64/72(On-board/DIMM0) bit mode with ECC disabled
+
+
+Readonly ROMMON initialized
+rommon 1 > 
+rommon 1 > boot 
+program load complete, entry point: 0x80803000, size: 0x1b340
+program load complete, entry point: 0x80803000, size: 0x1b340
+
+
+IOS Image Load Test 
+___________________ 
+Digitally Signed Release Software 
+program load complete, entry point: 0x81000000, size: 0x34d4578
+Self decompressing the image : ####################################################################################################################################################################################################################################################################################################################### [OK]
+
+Smart Init is enabled
+smart init is sizing iomem
+                 TYPE      MEMORY_REQ
+          HWIC Slot 0      0x00200000
+    Onboard devices &
+         buffer pools      0x01EF6000 
+-----------------------------------------------
+               TOTAL:      0x020F6000
+
+Extended memory present. IOMEM set to the maximum: 112Mb.
+
+Rounded IOMEM up to: 112Mb.
+Using 4 percent iomem. [112Mb/2560Mb]
+
+              Restricted Rights Legend
+
+Use, duplication, or disclosure by the Government is
+subject to restrictions as set forth in subparagraph
+(c) of the Commercial Computer Software - Restricted
+Rights clause at FAR sec. 52.227-19 and subparagraph
+(c) (1) (ii) of the Rights in Technical Data and Computer
+Software clause at DFARS sec. 252.227-7013.
+
+           cisco Systems, Inc.
+           170 West Tasman Drive
+           San Jose, California 95134-1706
+
+
+
+Cisco IOS Software, C1900 Software (C1900-UNIVERSALK9-M), Version 15.1(4)M0.9, MAINTENANCE INTERIM SOFTWARE
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2011 by Cisco Systems, Inc.
+Compiled Sun 29-May-11 01:14 by prod_rel_team
+
+program load complete, entry point: 0x80010000, size: 0x3b328cc
+Self decompressing the image : ############################################################################################################################################################################################################################################################################################################################################################# [OK]
+
+This product contains cryptographic features and is subject to United
+States and local country laws governing import, export, transfer and
+use. Delivery of Cisco cryptographic products does not imply
+third-party authority to import, export, distribute or use encryption.
+Importers, exporters, distributors and users are responsible for
+compliance with U.S. and local country laws. By using this product you
+agree to comply with applicable laws and regulations. If you are unable
+to comply with U.S. and local laws, return this product immediately.
+
+A summary of U.S. laws governing Cisco cryptographic products may be found at:
+http://www.cisco.com/wwl/export/crypto/tool/stqrg.html
+
+If you require further assistance please contact us by sending email to
+export@cisco.com.
+
+
+Smart Init is enabled
+smart init is sizing iomem
+  ID            MEMORY_REQ                 TYPE
+00042A          0X010D78F3 C3825 motherboard
+000397          0X00178610 Dual FE Combo Port Module with ISL, 2 WAN
+Installed image archive
+000443          0X0016CC00 HWIC Serial 4T
+000443          0X0016CC00 HWIC Serial 4T
+                0X00288860 Onboard PVDM2 SIMM
+                0X0027250A Onboard VPN
+                0X000021B8 Onboard USB
+                0X00660670 public buffer pools
+                0X0078F000 public particle pools
+TOTAL:          0X02815C95
+
+If any of the above Memory Requirements are 
+"UNKNOWN", you may be using an unsupported
+configuratioCisco CISCO1941/K9 (revision 1.0) with 2506688K/114688K bytes of memory.
+Processor board ID FTX1405n or there is a software problem and
+system operation may be compromised.
+Rounded IOMEM up to: 41Mb.
+Using 4 percent iomem. [41Mb/1024Mb]
+82T9
+2 Gigabit Ethernet interfaces
+2 Serial(sync/async) interfaces
+1 terminal line
+1 Virtual Private Network (VPN) Module
+DRAM configuration is 64 bits wide with parity disabled.
+255K bytes of non-volatile configuration memory.
+4099032K bytes of ATA System CompactFlash 0 (Read/Write)
+
+crypto pki trustpool policy
+                  ^
+% Invalid input detected at '^' marker.
+
+ revocation-check crl
+   ^
+% Invalid input detected at '^' marker.
+
+crypto pki certificate pool
+                       ^
+% Invalid input detected at '^' marker.
+
+ certificate ca 00D01E474000000111C38A964400000002
+   ^
+% Invalid input detected at '^' marker.
+
+  30820505 308203ED A0030201 02021100 D01E4740 00000111 C38A9644 00000002 
+  ^
+% Invalid input detected at '^' marker.
+
+  300D0609 2A864886 F70D0101 05050030 3F312430 22060355 040A131B 44696769 
+  ^
+% Invalid input detected at '^' marker.
+
+  74616C20 5369676E 61747572 65205472 75737420 436F2E31 17301506 03550403 
+  ^
+% Invalid input detected at '^' marker.
+
+  130E4453 5420526F 6F742043 41205833 301E170D 30373034 30353230 35383331 
+  ^
+% Invalid input detected at '^' marker.
+
+  5A170D31 32303430 35323035 3833315A 302D3116 30140603 55040A13 0D436973 
+  ^
+% Invalid input detected at '^' marker.
+
+  636F2053 79737465 6D733113 30110603 55040313 0A436973 636F2053 53434130 
+  ^
+% Invalid input detected at '^' marker.
+
+  82012030 0D06092A 864886F7 0D010101 05000382 010D0030 82010802 82010100 
+  ^
+% Invalid input detected at '^' marker.
+
+  BE837D49 34FA033B FA558CFD 10C16221 8604BB0A AE2A8572 ED94875B 211548BA 
+    ^
+% Invalid input detected at '^' marker.
+
+  FE627F49 AA4E1A8A 020AF93F B0F47CCC D70F2D74 CFBD4159 3C3FA4C6 2E08BA3F 
+   ^
+% Invalid input detected at '^' marker.
+
+  6D93BAA3 A1EBDB17 E4FE1C09 E93FAE42 8A0DA708 04EDED99 3EF1D545 2DE37B21 
+  ^
+% Invalid input detected at '^' marker.
+
+  537C5DA7 3DF03459 5E1764ED EEFC6383 97A5F074 DEC35712 C44CBB14 D9EFAD11 
+  ^
+% Invalid input detected at '^' marker.
+
+  9F6E49E2 4403592F 0978C8C8 561A9498 20085FFC 152247B8 4403B58A AEAB74D6 
+  ^
+% Invalid input detected at '^' marker.
+
+  1B325EAB FAE78148 37B6C7BF 37B1381D 32EE2B61 BD2AA26A F2BB56C9 6FEF7B91 
+  ^
+% Invalid input detected at '^' marker.
+
+  7BDB7225 FCAB4045
+              Restricted Rights Legend
+
+Use, duplication, or disclosure by the Government is
+su 32E1F7C7 AA232946 4474AEE9 466061B5 CDBBEA74 8C7A8FB4 
+  ^
+% Invalid input detected at '^' markerbject to restrictions as set forth in subparagraph
+(c) of the Commercial Computer Software - Restricted
+Rights clause at FAR sec. 52.227-19 and subparagraph
+(c) (1) (ii) of the Rights in Technical .
+
+  39444386 27B5186F 594300D3 FD856D7A 5C8AC77C 079A2256 908E4500 1BFB53DB 
+  ^
+% Invalid inpuData and Computer
+Software clause at DFARS sec. 252.227-7013.
+
+           cisco Systems, Inc.
+  t detected at '^' marker.
+
+  020103A3 82020E30 82020A30 0E060355 1D0F0101 FF040403 02010630 120603         170 West Tasman Drive
+           San Jose, California 95134-1706
+
+
+
+Cisco IOS Software55 
+  ^
+% Invalid input detected at '^' marker.
+
+  1D130101 FF040830 060101FF 02010030 5C060355 , 3800 Software (C3825-ADVENTERPRISEK9-M), Version 12.4(24)T1, RELEASE SOFTWARE (fc3)
+Technical Sup1D200455 30533051 060A2B06 
+  ^
+% Invalid input detected at '^' marker.
+
+  01040109 15010100 304port: http://www.cisco.com/techsupport
+Copyright (c) 1986-2009 by Cisco Systems, Inc.
+Compiled Fri33041 06082B06 01050507 02011635 68747470 3A2F2F77 
+  ^
+% Invalid input detected at '^' marker.
+ 19-Jun-09 18:40 by prod_rel_team
+
+
+  77772E63 6973636F 2E636F6D 2F736563 75726974 792F706B 692F706F 6C696369 
+  ^
+% Invalid input detected at '^' marker.
+
+  65732F69 6E646578 2E68746D 6C301D06 03551D0E 04160414 16E1B687 6A177C3A 
+  ^
+% Invalid input detected at '^' marker.
+
+  23B63EBF 700F4B98 EF575C88 30390603 551D1F04 32303030 2EA02CA0 2A862868 
+  ^
+% Invalid input detected at '^' marker.
+
+  7474703A 2F2F6372 6C2E6964 656E7472 7573742E 636F6D2F 44535452 4F4F5443 
+  ^
+% Invalid input detected at '^' marker.
+
+  4158332E 63726C30 7406082B 06010505 07010104 68306630 2706082B 06010505 
+  ^
+% Invalid input detected at '^' marker.
+
+  07300186 1B687474 703A2F2F 6F637370 74732E69 64656E74 72757374 2E636F6D 
+  ^
+% Invalid input detected at '^' marker.
+
+  303B0608 2B060105 05073002 862F6874 74703A2F 2F617070 732E6964 656E7472 
+  ^
+% Invalid input detected at '^' marker.
+
+  7573742E 636F6D2F 726F6F74 732F4453 54524F4F 54434158 332E6365 72308194 
+  ^
+% Invalid input detected at '^' marker.
+
+  0603551D 2504818C 30818906 082B0601 05050703 0106082B 06010505 07030206 
+  ^
+% Invalid input detected at '^' marker.
+
+  082B0601 05050703 0306082B 06010505 07030406 082B0601 05050703 0506082B 
+  ^
+% Invalid input detected at '^' marker.
+
+  06010505 07030606 082B0601 05050703 0706082B 06010505 07030806 082B0601 
+  ^
+% Invalid input detected at '^' marker.
+
+  05050703 09060A2B 06010401 82370A03 01060A2B 06010401 82370A03 09060A2B 
+  ^
+% Invalid input detected at '^' marker.
+
+  06010401 82371402 0106092B 06010401 82371506 301F0603 551D2304 18301680 
+  ^
+% Invalid input detected at '^' marker.
+
+  14C4A7B1 A47B2C71 FADBE14B 9075FFC4 15608589 10300D06 092A8648 86F70D01 
+  ^
+% Invalid input detected at '^' marker.
+
+  01050500 03820101 000FEB32 1C05AA20 5782E24E C442B6E4 625DED8E 0803E223 
+  ^
+% Invalid input detected at '^' marker.
+
+  369644AE 1C821554 4C06D2C4 AF434519 76A65D9E F32C7357 BD3357CA C3F13EC0 
+  ^
+% Invalid input detected at '^' marker.
+
+  B5639B0C 37B43B03 C210E95A C049D7DF 75E06ECE 2C4B1AAA 78B33B8C CF9A030C 
+   ^
+% Invalid input detected at '^' marker.
+
+  121D5BB7 C039E62D 0423469C 766FB963 A77784AF 87E216E4 FBBCC37D 6FD9C84A 
+  ^
+% Invalid input detected at '^' marker.
+
+  2DF7955C 732F2E45 D4F6E90C 78DD89D0 6E11CD8F F16AD72B 9CA082B6 B1D96418 
+  ^
+% Invalid input detected at '^' marker.
+
+  D5E3387D F8340E9A D0E5947D BFBE8D3F B4606A62 D71153CB A0CE5EC0 7144D954 
+   ^
+% Invalid input detected at '^' marker.
+
+  BB52B6CE 159017C2 89E26FC5 9FDBD61C 2F278D14 64C1FD20 C976135C 8C1FD5B9 
+    ^
+% Invalid input detected at '^' marker.
+
+  CACB56BC 1F84A47F 3DD832C9 AA3AA66B F589EED2 EF6BB7A0 CAF43BB2 1674C438 
+    ^
+% Invalid input detected at '^' marker.
+
+  31D27B30 CBC41F14 40
+  ^
+% Invalid input detected at '^' marker.
+
+  	quit
+    ^
+% Invalid input detected at '^' marker.
+
+ certificate ca 6A6967B3000000000003
+   ^
+% Invalid input detected at '^' marker.
+
+  308204D9 308203C1 A0030201 02020A6A 6967B300 00000000 03300D06 092A8648 
+  ^
+% Invalid input detected at '^' marker.
+
+  86F70D01 01050500 30353116 30140603 55040A13 0D436973 636F2053 79737465 
+  ^
+% Invalid input detected at '^' marker.
+
+  6D73311B 30190603 55040313 12436973 636F2052 6F6F7420 43412032 30343830 
+  ^
+% Invalid input detected at '^' marker.
+
+  1E170D30 35303631 30323231 3630315A 170D3239 30353134 32303235 34325A30 
+  ^
+% Invalid input detected at '^' marker.
+
+  39311630 14060355 040A130D 43697363 6F205379 7374656D 73311F30 1D060355 
+  ^
+% Invalid input detected at '^' marker.
+
+  04031316 43697363 6F204D61 6E756661 63747572 696E6720 43413082 0120300D 
+  ^
+% Invalid input detected at '^' marker.
+
+  06092A86 4886F70D 01010105 00038201 0D003082 01080282 010100A0 C5F7DC96 
+  ^
+% Invalid input detected at '^' marker.
+
+  943515F1 F4994EBB 9B41E17D DB791691 BBF354F2 414A9432 6262C923 F79AE7BB 
+  ^
+% Invalid input detected at '^' marker.
+
+  9B79E807 294E30F5 AE1BC521 5646B0F8 F4E68E81 B816CCA8 9B85D242 81DB7CCB 
+  ^
+% Invalid input detected at '^' marker.
+
+  94A91161 121C5CEA 33201C9A 16A77DDB 99066AE2 36AFECF8 0AFF9867 07F430EE 
+  ^
+% Invalid input detected at '^' marker.
+
+  A5F8881A AAE8C73C 1CCEEE48 FDCD5C37 F186939E 3D71757D 34EE4B14 A9C0297B 
+   ^
+% Invalid input detected at '^' marker.
+
+  0510EF87 9E693130 F548363F D8ABCE15 E2E8589F 3E627104 8726A415 620125AA 
+  ^
+% Invalid input detected at '^' marker.
+
+  D5DFC9C9 5BB8C9A1 077BBE68 92939320 A86CBD15 75D3445D 454BECA8 DA60C7D8 
+   ^
+% Invalid input detected at '^' marker.
+
+  C8D5C8ED 41E1F55F 578E5332 9349D5D9 0FF836AA 07C43241 C5A7AF1D 19FFF673 
+   ^
+% Invalid input detected at '^' marker.
+
+  99395A73 67621334 0D1F5E95 70526417 06EC535C 5CDB6AEA 35004102 0103A382 
+  ^
+% Invalid input detected at '^' marker.
+
+  01E73082 01E33012 0603551D 130101FF 04083006 0101FF02 0100301D 0603551D 
+  ^
+% Invalid input detected at '^' marker.
+
+  0E041604 14D0C522 26AB4F46 60ECAE05 91C7DC5A D1B047F7 6C300B06 03551D0F 
+  ^
+% Invalid input detected at '^' marker.
+
+  04040302 01863010 06092B06 01040182 37150104 03020100 30190609 2B060104 
+  ^
+% Invalid input detected at '^' marker.
+
+  01823714 02040C1E 0A005300 75006200 43004130 1F060355 1D230418 30168014 
+  ^
+% Invalid input detected at '^' marker.
+
+  27F3C815 1E6E9A02 0916AD2B A089605F DA7B2FAA 30430603 551D1F04 3C303A30 
+  ^
+% Invalid input detected at '^' marker.
+
+  38A036A0 34863268 7474703A 2F2F7777 772E6369 73636F2E 636F6D2F 73656375 
+  ^
+% Invalid input detected at '^' marker.
+
+  72697479 2F706B69 2F63726C 2F637263 61323034 382E6372 6C305006 082B0601 
+  ^
+% Invalid input detected at '^' marker.
+
+  05050701 01044430 42304006 082B0601 05050730 02863468 7474703A 2F2F7777 
+  ^
+% Invalid input detected at '^' marker.
+
+  772E6369 73636F2E 636F6D2F 73656375 72697479 2F706B69 2F636572 74732F63 
+  ^
+% Invalid input detected at '^' marker.
+
+  72636132 3034382E 63657230 5C060355 1D200455 30533051 060A2B06 01040109 
+  ^
+% Invalid input detected at '^' marker.
+
+  15010200 30433041 06082B06 01050507 02011635 68747470 3A2F2F77 77772E63 
+  ^
+% Invalid input detected at '^' marker.
+
+  6973636F 2E636F6D 2F736563 75726974 792F706B 692F706F 6C696369 65732F69 
+  ^
+% Invalid input detected at '^' marker.
+
+  6E646578 2E68746D 6C305E06 03551D25 04573055 06082B06 01050507 03010608 
+  ^
+% Invalid input detected at '^' marker.
+
+  2B060105 05070302 06082B06 01050507 03050608 2B060105 05070306 06082B06 
+  ^
+% Invalid input detected at '^' marker.
+
+  01050507 0307060A 2B060104 0182370A 0301060A 2B060104 01823714 02010609 
+  ^
+% Invalid input detected at '^' marker.
+
+  2B060104 01823715 06300D06 092A8648 86F70D01 01050500 03820101 0030F330 
+  ^
+% Invalid input detected at '^' marker.
+
+  2D8CF2CA 374A6499 24290AF2 86AA42D5 23E8A2EA 2B6F6923 7A828E1C 4C09CFA4 
+  ^
+% Invalid input detected at '^' marker.
+
+  4FAB842F 37E96560 D19AC6D8 F30BF5DE D027005C 6F1D91BD D14E5851 1DC9E3F7 
+  ^
+% Invalid input detected at '^' marker.
+
+  38E7D30B D168BE8E 22A54B06 E1E6A4AA 337D1A75 BA26F370 C66100A5 C379265B 
+  ^
+% Invalid input detected at '^' marker.
+
+  A719D193 8DAB9B10 11291FA1 82FDFD3C 4B6E65DC 934505E9 AF336B67 23070686 
+   ^
+% Invalid input detected at '^' marker.
+
+  22DAEBDC 87CF5921 421AE9CF 707588E0 243D5D7D 4E963880 97D56FF0 9B71D8BA 
+  ^
+% Invalid input detected at '^' marker.
+
+  6019A5B0 6186ADDD 6566F6B9 27A2EE2F 619BBAA1 3061FDBE AC3514F9 B82D9706 
+  ^
+% Invalid input detected at '^' marker.
+
+  AFC3EF6D CC3D3CEB 95E981D3 8A5EB6CE FA79A46B D7A25764 C43F4CC9 DBE882EC 
+   ^
+% Invalid input detected at '^' marker.
+
+  0166D410 88A256E5 3C57EDE9 02A84891 6307AB61 264B1A13 9FE4DCDA 5F
+  ^
+% Invalid input detected at '^' marker.
+
+  	quit
+    ^
+% Invalid input detected at '^' marker.
+
+ certificate ca 5FF87B282B54DC8D42A315B568C9ADFF
+   ^
+% Invalid input detected at '^' marker.
+
+  30820343 3082022B A0030201 0202105F F87B282B 54DC8D42 A315B568 C9ADFF30 
+  ^
+% Invalid input detected at '^' marker.
+
+  0D06092A 864886F7 0D010105 05003035 31163014 06035504 0A130D43 6973636F 
+  ^
+% Invalid input detected at '^' marker.
+
+  20537973 74656D73 311B3019 06035504 03131243 6973636F 20526F6F 74204341 
+  ^
+% Invalid input detected at '^' marker.
+
+  20323034 38301E17 0D303430 35313432 30313731 325A170D 32393035 31343230 
+  ^
+% Invalid input detected at '^' marker.
+
+  32353432 5A303531 16301406 0355040A 130D4369 73636F20 53797374 656D7331 
+  ^
+% Invalid input detected at '^' marker.
+
+  1B301906 03550403 13124369 73636F20 526F6F74 20434120 32303438 30820120 
+  ^
+% Invalid input detected at '^' marker.
+
+  300D0609 2A864886 F70D0101 01050003 82010D00 30820108 02820101 00B09AB9 
+  ^
+% Invalid input detected at '^' marker.
+
+  ABA7AF0A 77A7E271 B6B46662 94788847 C6625584 4032BFC0 AB2EA51C 71D6BC6E 
+   ^
+% Invalid input detected at '^' marker.
+
+  7BA8AABA 6ED21588 48459DA2 FC83D0CC B98CE026 68704A78 DF21179E F46105C9 
+  ^
+% Invalid input detected at '^' marker.
+
+  15C8CF16 DA356189 9443A884 A8319878 9BB94E6F 2C53126C CD1DAD2B 24BB31C4 
+  ^
+% Invalid input detected at '^' marker.
+
+  2BFF8344 6FB63D24 7709EABF 2AA81F6A 56F6200F 11549781 75A725CE 596A8265 
+  ^
+% Invalid input detected at '^' marker.
+
+  EFB7EAE7 E28D758B 6EF2DD4F A65E629C CF100A64 D04E6DCE 2BCC5BF5 60A52747 
+   ^
+% Invalid input detected at '^' marker.
+
+  8D69F47F CE1B70DE 701B20D6 6ECDA601 A83C12D2 A93FA06B 5EBB8E20 8B7A91E3 
+  ^
+% Invalid input detected at '^' marker.
+
+  B568EEA0 E7C40174 A8530B2B 4A9A0F65 120E824D 8E63FDEF EB9B1ADB 53A61360 
+   ^
+% Invalid input detected at '^' marker.
+
+  AFC27DD7 C76C1725 D473FB47 64508180 944CE1BF AE4B1CDF 92ED2E05 DF020103 
+   ^
+% Invalid input detected at '^' marker.
+
+  A351304F 300B0603 551D0F04 04030201 86300F06 03551D13 0101FF04 05300301 
+   ^
+% Invalid input detected at '^' marker.
+
+  01FF301D 0603551D 0E041604 1427F3C8 151E6E9A 020916AD 2BA08960 5FDA7B2F 
+  ^
+% Invalid input detected at '^' marker.
+
+  AA301006 092B0601 04018237 15010403 02010030 0D06092A 864886F7 0D010105 
+    ^
+% Invalid input detected at '^' marker.
+
+  05000382 0101009D 9D8484A3 41A97C77 0CB753CA 4E445062 EF547CD3 75171CE8 
+  ^
+% Invalid input detected at '^' marker.
+
+  E0C6484B B6FE4C3A 198156B0 56EE1996 62AA5AA3 64C1F64E 5433C677 FEC51CBA 
+   ^
+% Invalid input detected at '^' marker.
+
+  E55D25CA F5F0939A 83112EE6 CBF87445 FEE705B8 ABE7DFCB 4BE13784 DAB98B97 
+   ^
+% Invalid input detected at '^' marker.
+
+  701EF0E2 8BD7B0D8 0E9DB169 D62A917B A9494F7E E68E95D8 83273CD5 68490ED4 
+  ^
+% Invalid input detected at '^' marker.
+
+  9DF62EEB A7BEEB30 A4AC1F44 FC95AB33 06FB7D60 0ADEB48A 63B09CA9 F2A4B953 
+  ^
+% Invalid input detected at '^' marker.
+
+  0187D068 A4277FAB FFE9FAC9 40388867 B439C684 6F57C953 DBBA8EEE C043B2F8 
+  ^
+% Invalid input detected at '^' marker.
+
+  09836EFF 66CF3EEF 17B35818 2509345E E3CBD614 B6ECF292 6F74E42F 812AD592 
+  ^
+% Invalid input detected at '^' marker.
+
+  91E0E097 3C326805 854BD1F7 57E2521D 931A549F 0570C04A 71601E43 0B601EFE 
+  ^
+% Invalid input detected at '^' marker.
+
+  A3CE8119 E10B35
+   ^
+% Invalid input detected at '^' marker.
+
+  	quit
+    ^
+% Invalid input detected at '^' marker.
+
+%Error: This command applies only to DCE interfaces
+%Error: This command applies only to DCE interfaces
+
+
+Press RETURN to get started!
+
+
+waasperf2-19a>enable
+Password: 
+waasperf2-19a#terminal length 0
+waasperf2-19a#config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+waasperf2-19a(config)#no logging console
+waasperf2-19a(config)#end
+waasperf2-19a#show version
+Cisco IOS Software, C1900 Software (C1900-UNIVERSALK9-M), Version 15.1(4)M0.9, MAINTENANCE INTERIM SOFTWARE
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2011 by Cisco Systems, Inc.
+Compiled Sun 29-May-11 01:14 by prod_rel_team
+
+ROM: System Bootstrap, Version 15.0(1r)M3, RELEASE SOFTWARE (fc1)
+
+waasperf2-19a uptime is 1 minute
+System returned to ROM by reload at 13:45:58 PDT Thu Jul 21 2011
+System restarted at 13:50:15 PDT Thu Jul 21 2011
+System image file is "flash0:c1900-universalk9-mz.SPA.151-4.M0.9"
+Last reload type: Normal Reload
+Last reload reason: Reload Command
+
+
+
+This product contains cryptographic features and is subject to United
+States and local country laws governing import, export, transfer and
+use. Delivery of Cisco cryptographic products does not imply
+third-party authority to import, export, distribute or use encryption.
+Importers, exporters, distributors and users are responsible for
+compliance with U.S. and local country laws. By using this product you
+agree to comply with applicable laws and regulations. If you are unable
+to comply with U.S. and local laws, return this product immediately.
+
+A summary of U.S. laws governing Cisco cryptographic products may be found at:
+http://www.cisco.com/wwl/export/crypto/tool/stqrg.html
+
+If you require further assistance please contact us by sending email to
+export@cisco.com.
+
+Cisco CISCO1941/K9 (revision 1.0) with 2506688K/114688K bytes of memory.
+Processor board ID FTX140582T9
+2 Gigabit Ethernet interfaces
+2 Serial(sync/async) interfaces
+1 terminal line
+1 Virtual Private Network (VPN) Module
+DRAM configuration is 64 bits wide with parity disabled.
+255K bytes of non-volatile configuration memory.
+4099032K bytes of ATA System CompactFlash 0 (Read/Write)
+
+
+License Info:
+
+License UDI:
+
+-------------------------------------------------
+Device#	  PID			SN
+-------------------------------------------------
+*0  	  CISCO1941/K9          FTX140582T9     
+
+
+
+Technology Package License Information for Module:'c1900' 
+
+-----------------------------------------------------------------
+Technology    Technology-package           Technology-package
+              Current       Type           Next reboot  
+------------------------------------------------------------------
+ipbase        ipbasek9      Permanent      ipbasek9
+security      securityk9    Permanent      securityk9
+data          None          None           None
+
+Configuration register is 0x0
+
+waasperf2-19a#term width 0
+waasperf2-19a#config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+waasperf2-19a(config)# no logging console
+waasperf2-19a(config)#line con 0
+waasperf2-19a(config-line)#exec-timeout 0
+waasperf2-19a(config-line)#clock timezone PDT -7
+waasperf2-19a(config)#service timestamps debug datetime localtime show-timezone msec
+waasperf2-19a(config)#service timestamps log datetime localtime show-timezone msec
+waasperf2-19a(config)#end
+waasperf2-19a#clock set 13:50:55 21 Jul 2011
+waasperf2-19a#copy flash:waasperf2.post startup-config 
+Destination filename [startup-config]? 
+[OK]
+9664 bytes copied in 2.404 secs (4020 bytes/sec)
+
+waasperf2-19a#reload
+Proceed with reload? [confirm]
+
+System Bootstrap, Version 15.0(1r)M3, RELEASE SOFTWARE (fc1)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 2009 by cisco Systems, Inc.
+
+Total memory size = 2560 MB - On-board = 512 MB, DIMM0 = 2048 MB
+CISCO1941/K9 platform with 2621440 Kbytes of main memory
+Main memory is configured to 64/72(On-board/DIMM0) bit mode with ECC disabled
+
+
+Readonly ROMMON initialized
+rommon 1 > 
+rommon 1 > 
+This product contains cryptographic features and is subject to United
+States and local country laws governing import, export, transfer and
+use. Delivery of Cisco cryptographic products does not imply
+third-party authority to import, export, distribute or use encryption.
+Importers, exporters, distributors and users are responsible for
+compliance with U.S. and local country laws. By using this product you
+agree to comply with applicable laws and regulations. If you are unable
+to comply with U.S. and local laws, return this product immediately.
+
+A summary of U.S. laws governing Cisco cryptographic products may be found at:
+http://www.cisco.com/wwl/export/crypto/tool/stqrg.html
+
+If you require further assistance please contact us by sending email to
+export@cisco.com.
+
+Installed image archive
+Cisco 3825 (revision 1.0) with 1006591K/41984K bytes of memory.
+Processor board ID FTX1003C1WH
+2 FastEthernet interfaces
+2 Gigabit Ethernet interfaces
+8 Serial(sync/async) interfaces
+1 Virtual Private Network (VPN) Module
+DRAM configuration is 64 bits wide with parity enabled.
+479K bytes of NVRAM.
+250368K bytes of ATA System CompactFlash (Read/Write)
+
+SETUP: new interface Serial0/2/0 placed in "shutdown" state
+SETUP: new interface Serial0/2/1 placed in "shutdown" state
+SETUP: new interface Serial0/2/2 placed in "shutdown" state
+SETUP: new interface Serial0/2/3 placed in "shutdown" state
+SETUP: new interface Serial0/3/0 placed in "shutdown" state
+SETUP: new interface Serial0/3/1 placed in "shutdown" state
+SETUP: new interface Serial0/3/2 placed in "shutdown" state
+SETUP: new interface Serial0/3/3 placed in "shutdown" state
+
+
+Press RETURN to get started!
+
+
+waasperf2-3825b>enable
+Password: 
+waasperf2-3825b#terminal length 0
+waasperf2-3825b#config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+waasperf2-3825b(config)#no logging console
+waasperf2-3825b(config)#end
+waasperf2-3825b#show version
+Cisco IOS Software, 3800 Software (C3825-ADVENTERPRISEK9-M), Version 12.4(24)T1, RELEASE SOFTWARE (fc3)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2009 by Cisco Systems, Inc.
+Compiled Fri 19-Jun-09 18:40 by prod_rel_team
+
+ROM: System Bootstrap, Version 12.3(11r)T2, RELEASE SOFTWARE (fc1)
+
+waasperf2-3825b uptime is 1 minute
+System returned to ROM by reload at 13:45:55 PDT Thu Jul 21 2011
+System image file is "flash:c3825-adventerprisek9-mz.124-24.T1"
+
+
+This product contains cryptographic features and is subject to United
+States and local country laws governing import, export, transfer and
+use. Delivery of Cisco cryptographic products does not imply
+third-party authority to import, export, distribute or use encryption.
+Importers, exporters, distributors and users are responsible for
+compliance with U.S. and local country laws. By using this product you
+agree to comply with applicable laws and regulations. If you are unable
+to comply with U.S. and local laws, return this product immediately.
+
+A summary of U.S. laws governing Cisco cryptographic products may be found at:
+http://www.cisco.com/wwl/export/crypto/tool/stqrg.html
+
+If you require further assistance please contact us by sending email to
+export@cisco.com.
+
+Cisco 3825 (revision 1.0) with 1006591K/41984K bytes of memory.
+Processor board ID FTX1003C1WH
+2 FastEthernet interfaces
+2 Gigabit Ethernet interfaces
+8 Serial(sync/async) interfaces
+1 Virtual Private Network (VPN) Module
+DRAM configuration is 64 bits wide with parity enabled.
+479K bytes of NVRAM.
+250368K bytes of ATA System CompactFlash (Read/Write)
+
+Configuration register is 0x0
+
+waasperf2-3825b#term width 0
+waasperf2-3825b#config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+waasperf2-3825b(config)# no logging console
+waasperf2-3825b(config)#line con 0
+waasperf2-3825b(config-line)#exec-timeout 0
+waasperf2-3825b(config-line)#clock timezone PDT -7
+waasperf2-3825b(config)#service timestamps debug datetime localtime show-timezone msec
+waasperf2-3825b(config)#service timestamps log datetime localtime show-timezone msec
+waasperf2-3825b(config)#end
+waasperf2-3825b#clock set 13:51:54 21 Jul 2011
+waasperf2-3825b#copy flash:waasperf2.post startup-config 
+Destination filename [startup-config]? 
+[OK]
+1451 bytes copied in 1.680 secs (864 bytes/sec)
+waasperf2-3825b#reload
+Proceed with reload? [confirm]
+
+System Bootstrap, Version 12.3(11r)T1, RELEASE SOFTWARE (fc1)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 2004 by cisco Systems, Inc.
+
+System Bootstrap, Version 12.3(11r)T2, RELEASE SOFTWARE (fc1)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 2005 by cisco Systems, Inc.
+
+Total memory size = 1024 MB - DIMM0 = 512 MB, DIMM1 = 512 MB
+c3825 processor with 1048576 Kbytes of main memory
+Main memory is configured to 72/72(dimm 0/1) bit mode with ECC enabled
+
+
+Upgrade ROMMON initialized
+rommon 1 > 
+rommon 1 > TFTP_FILE=/auto/tftp-joaofer/waas/testing/c1900-universalk9-mz.SSA07-20-11
+rommon 2 > TFTP_SERVER=172.19.201.81
+rommon 3 > sync
+rommon 4 > tftpdnld -r
+
+          IP_ADDRESS: 10.1.1.5
+      IP_SUBNET_MASK: 255.255.255.0
+     DEFAULT_GATEWAY: 10.1.1.1
+         TFTP_SERVER: 172.19.201.81
+           TFTP_FILE: /auto/tftp-joaofer/waas/testing/c1900-universalk9-mz.SSA07-20-11
+        TFTP_MACADDR: c4:7d:4f:74:e9:40
+    TFTP_DESTINATION: flash0:
+             GE_PORT: Ge0/0
+     TFTP_MEDIA_TYPE: Copper
+        TFTP_VERBOSE: Progress
+    TFTP_RETRY_COUNT: 18
+        TFTP_TIMEOUT: 7200
+       TFTP_CHECKSUM: No
+       GE_SPEED_MODE: Auto Detect
+..TFTP_FILE=/auto/tftp-joaofer/waas/testing/c3825-PAGENT
+rommon 2 > TFTP_SERVER=172.19.201.81
+rommon 3 > sync
+.rommon 4 > tftpdnld -r
+
+          IP_ADDRESS: 10.1.1.3
+      IP_SUBNET_MASK: 255.255.255.0
+     DEFAULT_GATEWAY: 10.1.1.1
+         TFTP_SERVER: 172.19.201.81
+           TFTP_FILE: /auto/tftp-joaofer/waas/testing/c3825-PAGENT
+             GE_PORT: Ge0/1
+     TFTP_MEDIA_TYPE: Copper
+       GE_SPEED_MODE: Auto
+.
+Mac Address: 0016.9de6.0cf1
+
+Receiving /auto/tftp-joaofer/waas/testing/c3825-PAGENT from 172.19.201.81 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!.!!!!!!!
+Receiving /auto/tftp-joaofer/waas/testing/c1900-universalk9-mz.SSA07-20-11 from 172.19.201.81 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+File reception completed.
+IOS Image Load Test 
+___________________ 
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Digitally Signed Development Software 
+
+
+loading image /auto/tftp-joaofer/waas/testing/c1900-univ!!ersalk9-mz.SSA07-20-11 
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!program load complete, entry point: 0x81000000, size: 0x3331968
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Self decompressing the image : !#!#!!!#!!#!!#!!#!!#!!#!!#!!#!!#!#!!#!!#!!#!#!!#!!#!!#!!#!#!!##!#!!#!!#!!#!#!!#!!#!!#!!#!#!!#!!#!!#!!#!#!!#!#!#!!#!!#!!#!#!!#!!#!!#!!#!!#!!#!!#!#!#!!#!#!#!!#!#!!#!!#!#!!!#!!#!!#!!#!!#!!#!!!#!!#!!#!#!!#!!#!!#!!!#!!#!!#!!#!#!#!!##!!#!#!!#!!#!!#!#!!#!!#!!#!#!!#!!#!!!#!#!#!!#!#!#!#!!#!!#!!#!!#!!#!!#!!#!!#!!#!!#!!#!!#!!#!!#!#!!#!#!!#!!#!#!!##!!#!!#!!#!!!#!#!!#!!!#!!#!#!!#!!#!#!!#!!#!#!#!!###!#!#!!!#!!#!!#!!#!!#!!#!!#!#!!#!!#!!!!!#########!#!#!#!#!#!!#!!#!#!#!#!!##!#!#!##!!#!#!#!#!!#!!#!#!#!!#!#!#!#!!!!#!!!#!!#!!#!!#!!#!!!!#!!#!!!#!!#!!#!!!#!!!!#!!#!#!!#!#!!#!!#!##!#!#!#!#!#!##!#!#!!##!#!#!#!##!#!!##!#!#!!##!#!#!#!##!#!#!##!#!#!#!!!#####!#!!!#######!!####!!!######!#!##!#!!!!!##########!!##!#!#!#!!#!!#!!#!!#!##!!!##!#!#!!##!!#!!! [OK]
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Smart Init is enabled
+smart init is sizing iomem
+                 TYPE      MEMORY_REQ
+        !!!!!  HWIC Slot 0      0x00200000
+    Onboard devices &
+         buffer pools      0x01EF6000 
+------!!!!!-----------------------------------------
+               TOTAL:      0x020F6000
+
+Extended memory !!!!!!present. IOMEM set to the maximum: 112Mb.
+
+Rounded IOMEM up to: 112Mb.
+Using 4 percent iomem. [11!2Mb/2560Mb]
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+              Restricted Rights Legend
+
+Use, duplication, or disclosure by the Government is
+su!!!!!!bject to restrictions as set forth in subparagraph
+(c) of the Commercial Computer Software - Restri!!!!!!cted
+Rights clause at FAR sec. 52.227-19 and subparagraph
+(c) (1) (ii) of the Rights in Technical !!!!!Data and Computer
+Software clause at DFARS sec. 252.227-7013.
+
+           cisco Systems, Inc.
+  !!!!!!         170 West Tasman Drive
+           San Jose, California 95134-1706
+
+
+
+Cisco IOS Software!!!!!!, C1900 Software (C1900-UNIVERSALK9-M), Version 15.2(LAKECOMO_DT9_1_20110720), EARLY DEPLOYMENT DEVE!!!!!!LOPMENT BUILD, synced to V152_0_14_T
+Copyright (c) 1986-2011 by Cisco Systems, Inc.
+Compiled Wed 2!!0-Jul-11 17:55 by suneetha
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+This product contains cryptographic features and is subject to United
+States and local country la!!!!!!ws governing import, export, transfer and
+use. Delivery of Cisco cryptographic products does not im!!!!!!ply
+third-party authority to import, export, distribute or use encryption.
+Importers, exporters, d!!!!!istributors and users are responsible for
+compliance with U.S. and local country laws. By using thi!!!!!!s product you
+agree to comply with applicable laws and regulations. If you are unable
+to comply wi!!!th U.S. and local laws, return this product immediately.
+
+A summary of U.S. laws governing Cisco cryptographic products may be found at:
+http://www.cisco.com/wwl/export/crypto/tool/stqrg.html
+
+If you require further assistance please contact us by sending email to
+export@cisco.com.
+
+!!!!!!!!!!!!!!!!!!!!!Installed image archive
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Cisco CISCO1941/K9 (revision 1.0) with 2506688K/114688K bytes of memory.
+Processor board ID FTX1405!!!!!82T9
+2 Gigabit Ethernet interfaces
+2 Serial(sync/async) interfaces
+1 terminal line
+1 Virtual Pri!!!!!!vate Network (VPN) Module
+DRAM configuration is 64 bits wide with parity disabled.
+255K bytes of n!!!!!!on-volatile configuration memory.
+4099032K bytes of ATA System CompactFlash 0 (Read/Write)
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+%Error: This command applies only to DCE interfaces
+%Error: This command applies only to DCE inte!rfaces!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+Press RETURN to get started!
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+waasperf2-19a>!!enable!
+Password: !!!
+waasperf2-19a#!!!!terminal l!!!ength 0!!
+waasperf2-19a#!!!config ter!!!minal!!!!!!
+Enter configuration commands, one per line.  End with CNTL/Z.
+waasperf2-19a(config)#!!!no logging!!!! console!!
+waasperf2-19a(config)#!!!end
+waasperf2-19a#!!!!show versi!on!
+!!!!!!!!Cisco IOS Software, C1900 Software (C1900-UNIVERSALK9-M), Version 15.2(LAKECOMO_DT9_1_20110720), EAR!!!!!LY DEPLOYMENT DEVELOPMENT BUILD, synced to V152_0_14_T
+Copyright (c) 1986-2011 by Cisco Systems, In!!!!!!c.
+Compiled Wed 20-Jul-11 17:55 by suneetha
+
+ROM: System Bootstrap, Version 15.0(1r)M3, RELEASE S!!!!!!OFTWARE (fc1)
+
+waasperf2-19a uptime is 0 minutes
+System returned to ROM by reload at 13:50:58 PDT!!!!! Thu Jul 21 2011
+System restarted at 13:55:39 PDT Thu Jul 21 2011
+System image file is "tftp://172!!!!!!.19.201.81//auto/tftp-joaofer/waas/testing/c1900-universalk9-mz.SSA07-20-1"
+Last reload type: Norma!!!!!!l Reload
+Last reload reason: Reload Command
+
+
+
+This product contains cryptographic features and!!!!! is subject to United
+States and local country laws governing import, export, transfer and
+use. De!!!!!livery of Cisco cryptographic products does not imply
+third-party authority to import, export, dist!!!!!!ribute or use encryption.
+Importers, exporters, distributors and users are responsible for
+complia!!!!!!nce with U.S. and local country laws. By using this product you
+agree to comply with applicable law!!!!!!s and regulations. If you are unable
+to comply with U.S. and local laws, return this product immedi!!!!!ately.
+
+A summary of U.S. laws governing Cisco cryptographic products may be found at:
+http://www!!!!!!.cisco.com/wwl/export/crypto/tool/stqrg.html
+
+If you require further assistance please contact us !!!!!by sending email to
+export@cisco.com.
+
+Cisco CISCO1941/K9 (revision 1.0) with 2506688K/114688K by!!!!!!tes of memory.
+Processor board ID FTX140582T9
+2 Gigabit Ethernet interfaces
+2 Serial(sync/async) !!!!!!interfaces
+1 terminal line
+1 Virtual Private Network (VPN) Module
+DRAM configuration is 64 bits w!!!!!ide with parity disabled.
+255K bytes of non-volatile configuration memory.
+4099032K bytes of ATA S!!!!!!ystem CompactFlash 0 (Read/Write)
+
+
+License Info:
+
+License UDI:
+
+----------------------------!!!!!!---------------------
+Device#	  PID			SN
+-------------------------------------------------
+*0  	 !!!!!! CISCO1941/K9          FTX140582T9     
+
+
+
+Technology Package License Information for Module:'c1!!!!!!900' 
+
+-----------------------------------------------------------------
+Technology    Technology!!!!!-package           Technology-package
+              Current       Type           Next reboot  
+---!!!!!!---------------------------------------------------------------
+ipbase        ipbasek9      Permane!!!!!nt      ipbasek9
+security      securityk9    Permanent      securityk9
+data          None         !!!!! None           None
+
+Configuration register is 0x0
+
+waasperf2-19a#!!term width! 0!
+waasperf2-19a#!!config ter!minal!!!!!
+Enter configuration commands, one per line.  End with CNTL/Z.
+waasperf2-19a(config)#!! no loggin!g console!!
+waasperf2-19a(config)#!!line con 0!!
+waasperf2-19a(config-line)#!!exec-timeo!ut 0!!
+waasperf2-19a(config-line)#!!clock time!zone PDT -7!!
+waasperf2-19a(config)#!!service ti!!!mestamps debug datetime localtime show-timezone msec!!!
+waasperf2-19a(config)#!service ti!!!!mestamps log datetime localtime show-timezone msec!!
+waasperf2-19a(config)#!!end
+waasperf2-19a#!clock set !!13:56:04 21 Jul 2011!!
+waasperf2-19a#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! clean of waasperf2-19a was OK 
+
+File reception completed.
+
+loading image /auto/tftp-joaofer/waas/testing/c3825-PAGENT 
+program load complete, entry point: 0x80010000, size: 0x294fce4
+Self decompressing the image : #################################################################################################################################################################################################################################################################################################################################################################################################################################################################################################### [OK]
+
+Smart Init is enabled
+smart init is sizing iomem
+  ID            MEMORY_REQ                 TYPE
+00042A          0X010D78F3 C3825 motherboard
+000397          0X00178610 Dual FE Combo Port Module with ISL, 2 WAN
+000443          0X0016CC00 HWIC Serial 4T
+000443          0X0016CC00 HWIC Serial 4T
+                0X00288860 Onboard PVDM2 SIMM
+                0X0027250A Onboard VPN
+                0X000021B8 Onboard USB
+                0X00660670 public buffer pools
+                0X0078F000 public particle pools
+TOTAL:          0X02815C95
+
+If any of the above Memory Requirements are 
+"UNKNOWN", you may be using an unsupported
+configuration or there is a software problem and
+system operation may be compromised.
+Rounded IOMEM up to: 41Mb.
+Using 4 percent iomem. [41Mb/1024Mb]
+
+              Restricted Rights Legend
+
+Use, duplication, or disclosure by the Government is
+subject to restrictions as set forth in subparagraph
+(c) of the Commercial Computer Software - Restricted
+Rights clause at FAR sec. 52.227-19 and subparagraph
+(c) (1) (ii) of the Rights in Technical Data and Computer
+Software clause at DFARS sec. 252.227-7013.
+
+           cisco Systems, Inc.
+           170 West Tasman Drive
+           San Jose, California 95134-1706
+
+
+
+Cisco IOS Software, 3800 Software (C3825-TPGEN+ADVENTERPRISEK9-M), Experimental Version 12.4(20100323:103320) [shgautam-v48-reg 115]
+Copyright (c) 1986-2010 by Cisco Systems, Inc.
+Compiled Tue 23-Mar-10 16:58 by shgautam
+Image text-base: 0x60010FEC, data-base: 0x63CCE000
+
+
+******************************************************************************
+**                                                                          **
+**                Welcome to Pagent V4.8!                                   **
+**              Pagent: "Make your net work"                                **
+**                                                                          **
+**                  W  A  R  N  I  N  G                                     **
+**                                                                          **
+**          Pagent is Cisco proprietary technology. All pagent              **
+**          images use license keys which you can obtain from:              **
+**                                                                          **
+** For Cisco customers:                                                     **
+** http://www.cisco.com/kobayashi/sw-center/support/nvt/nvt-licensing.shtml **
+**                                                                          **
+** For Cisco employees:                                                     **
+** http://wwwin-pagent.cisco.com/protected-cgi/get_key.cgi                  **
+**                                                                          **
+**          Distributing pagent outside of the company without              **
+**          the appropriate permission is a serious offense.                **
+**          Only secure  Pagent images with license key may be              **
+**          run outside of Cisco facilities.                                **
+**                                                                          **
+******************************************************************************
+
+
+This product contains cryptographic features and is subject to United
+States and local country laws governing import, export, transfer and
+use. Delivery of Cisco cryptographic products does not imply
+third-party authority to import, export, distribute or use encryption.
+Importers, exporters, distributors and users are responsible for
+compliance with U.S. and local country laws. By using this product you
+agree to comply with applicable laws and regulations. If you are unable
+to comply with U.S. and local laws, return this product immediately.
+
+A summary of U.S. laws governing Cisco cryptographic products may be found at:
+http://www.cisco.com/wwl/export/crypto/tool/stqrg.html
+
+If you require further assistance please contact us by sending email to
+export@cisco.com.
+
+Installed image archive
+Cisco 3825 (revision 1.0) with 1006592K/41984K bytes of memory.
+Processor board ID FTX1003C1WH
+2 FastEthernet interfaces
+2 Gigabit Ethernet interfaces
+8 Serial(sync/async) interfaces
+1 Virtual Private Network (VPN) Module
+DRAM configuration is 64 bits wide with parity enabled.
+479K bytes of NVRAM.
+250368K bytes of ATA System CompactFlash (Read/Write)
+
+SETUP: new interface Serial0/2/0 placed in "shutdown" state
+SETUP: new interface Serial0/2/1 placed in "shutdown" state
+SETUP: new interface Serial0/2/2 placed in "shutdown" state
+SETUP: new interface Serial0/2/3 placed in "shutdown" state
+SETUP: new interface Serial0/3/0 placed in "shutdown" state
+SETUP: new interface Serial0/3/1 placed in "shutdown" state
+SETUP: new interface Serial0/3/2 placed in "shutdown" state
+SETUP: new interface Serial0/3/3 placed in "shutdown" state
+
+
+Press RETURN to get started!
+
+
+waasperf2-3825b>enable
+Password: 
+waasperf2-3825b#terminal length 0
+waasperf2-3825b#config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+waasperf2-3825b(config)#no logging console
+waasperf2-3825b(config)#end
+waasperf2-3825b#show version
+Cisco IOS Software, 3800 Software (C3825-TPGEN+ADVENTERPRISEK9-M), Experimental Version 12.4(20100323:103320) [shgautam-v48-reg 115]
+Copyright (c) 1986-2010 by Cisco Systems, Inc.
+Compiled Tue 23-Mar-10 16:58 by shgautam
+
+ROM: System Bootstrap, Version 12.3(11r)T2, RELEASE SOFTWARE (fc1)
+
+waasperf2-3825b uptime is 0 minutes
+System returned to ROM by reload at 13:51:56 PDT Thu Jul 21 2011
+System image file is "tftp://172.19.201.81//auto/tftp-joaofer/waas/testing/c3825-PAGENT"
+
+
+This product contains cryptographic features and is subject to United
+States and local country laws governing import, export, transfer and
+use. Delivery of Cisco cryptographic products does not imply
+third-party authority to import, export, distribute or use encryption.
+Importers, exporters, distributors and users are responsible for
+compliance with U.S. and local country laws. By using this product you
+agree to comply with applicable laws and regulations. If you are unable
+to comply with U.S. and local laws, return this product immediately.
+
+A summary of U.S. laws governing Cisco cryptographic products may be found at:
+http://www.cisco.com/wwl/export/crypto/tool/stqrg.html
+
+If you require further assistance please contact us by sending email to
+export@cisco.com.
+
+Cisco 3825 (revision 1.0) with 1006592K/41984K bytes of memory.
+Processor board ID FTX1003C1WH
+2 FastEthernet interfaces
+2 Gigabit Ethernet interfaces
+8 Serial(sync/async) interfaces
+1 Virtual Private Network (VPN) Module
+DRAM configuration is 64 bits wide with parity enabled.
+479K bytes of NVRAM.
+250368K bytes of ATA System CompactFlash (Read/Write)
+
+Configuration register is 0x0
+
+waasperf2-3825b#term width 0
+waasperf2-3825b#config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+waasperf2-3825b(config)# no logging console
+waasperf2-3825b(config)#line con 0
+waasperf2-3825b(config-line)#exec-timeout 0
+waasperf2-3825b(config-line)#clock timezone PDT -7
+waasperf2-3825b(config)#service timestamps debug datetime localtime show-timezone msec
+waasperf2-3825b(config)#service timestamps log datetime localtime show-timezone msec
+waasperf2-3825b(config)#end
+waasperf2-3825b#clock set 13:57:19 21 Jul 2011
+waasperf2-3825b# clean of waasperf2-3825b was OK 
+##### Clean completed #####
+
+ If you got errors, do the router individualy so debug is active 
+## Starting quick cleaning ## 
+ Cleaning waasperf2-72b 
+ Cleaning waasperf2-3825b 
+ Cleaning waasperf2-29a 
+ Cleaning waasperf2-19a 
+ Cleaning waasperf2-3845c 
+ Cleaning waasperf2-waas 
+ router waasperf2-waas is not defined in clean.waasperf2 or not part of the suite 
+
+ Cleaning waasperf2-ixia 
+ router waasperf2-ixia is not defined in clean.waasperf2 or not part of the suite 
+
+ Cleaning waasperf2-avalanche 
+ router waasperf2-avalanche is not defined in clean.waasperf2 or not part of the suite 
+
+ Cleaning waasperf2-reflector 
+ router waasperf2-reflector is not defined in clean.waasperf2 or not part of the suite 
+
+##### Results coming up #####
+
+exp_spawn telnet waasperf2-cs 2035
+exp_spawn telnet waasperf2-cs 2036
+exp_spawn telnet waasperf2-cs 2037
+exp_spawn telnet waasperf2-cs 2038
+exp_spawn telnet waasperf2-cs 2018
+Trying 172.19.147.111...
+Connected to waasperf2-cs.cisco.com (172.19.147.111).
+Escape character is '^]'.
+Trying 172.19.147.111...
+Connected to waasperf2-cs.cisco.com (172.19.147.111).
+Escape character is '^]'.
+Trying 172.19.147.111...
+Connected to waasperf2-cs.cisco.com (172.19.147.111).
+Escape character is '^]'.
+Trying 172.19.147.111...
+Connected to waasperf2-cs.cisco.com (172.19.147.111).
+Escape character is '^]'.
+Trying 172.19.147.111...
+Connected to waasperf2-cs.cisco.com (172.19.147.111).
+Escape character is '^]'.
+C
+Hostname: waasperf2-cs
+Testbed:  waasperf2
+
+FRONT
+    Line     Device                         Port
+  -------------------------------------------------
+  P0       waasperf2-19a_aux    (1900)      2034
+  P1       waasperf2-72b        (7200)      2035  working
+  P2       waasperf2-3825b      (3825)      2036  working
+  P3       waasperf2-29a        (2921)      2037  working
+  P4       waasperf2-19a        (1941)      2038  working
+  P5       waasperf2-29a_aux    (2921)      2039
+  P6       VACANT               (3945)      2040
+  P7       waasperf2-3825b-aux  (3945)      2041
+  -------------------------------------------------
+BACK
+    Line     Device                         Port
+  -------------------------------------------------
+  P0       waasperf2-3845c      (3845)      2018 workind new flash
+  P1       waasperf2-sw         (7200)      2019 working
+  P2       waasperf2-fw         (1900)      2020 working
+  P3       waasperf2-800a       (88x)       2021
+  P4       Waas application     (512c)      2022 working
+  P5       waasperf2-power      (power)     2023 working
+  P6       waasperf2-3845c_aux  (3845)      2024
+  P7       VACANT               (3945)      2025
+  -------------------------------------------------
+C
+Hostname: waasperf2-cs
+Testbed:  waasperf2
+
+FRONT
+    Line     Device                         Port
+  -------------------------------------------------
+  P0       waasperf2-19a_aux    (1900)      2034
+  P1       waasperf2-72b        (7200)      2035  working
+  P2       waasperf2-3825b      (3825)      2036  working
+  P3       waasperf2-29a        (2921)      2037  working
+  P4       waasperf2-19a        (1941)      2038  working
+  P5       waasperf2-29a_aux    (2921)      2039
+  P6       VACANT               (3945)      2040
+  P7       waasperf2-3825b-aux  (3945)      2041
+  -------------------------------------------------
+BACK
+    Line     Device                         Port
+  -------------------------------------------------
+  P0       waasperf2-3845c      (3845)      2018 workind new flash
+  P1       waasperf2-sw         (7200)      2019 working
+  P2       waasperf2-fw         (1900)      2020 working
+  P3       waasperf2-800a       (88x)       2021
+  P4       Waas application     (512c)      2022 working
+  P5       waasperf2-power      (power)     2023 working
+  P6       waasperf2-3845c_aux  (3845)      2024
+  P7       VACANT               (3945)      2025
+  -------------------------------------------------
+C
+Hostname: waasperf2-cs
+Testbed:  waasperf2
+
+FRONT
+    Line     Device                         Port
+  -------------------------------------------------
+  P0       waasperf2-19a_aux    (1900)      2034
+  P1       waasperf2-72b        (7200)      2035  working
+  P2       waasperf2-3825b      (3825)      2036  working
+  P3       waasperf2-29a        (2921)      2037  working
+  P4       waasperf2-19a        (1941)      2038  working
+  P5       waasperf2-29a_aux    (2921)      2039
+  P6       VACANT               (3945)      2040
+  P7       waasperf2-3825b-aux  (3945)      2041
+  -------------------------------------------------
+BACK
+    Line     Device                         Port
+  -------------------------------------------------
+  P0       waasperf2-3845c      (3845)      2018 workind new flash
+  P1       waasperf2-sw         (7200)      2019 working
+  P2       waasperf2-fw         (1900)      2020 working
+  P3       waasperf2-800a       (88x)       2021
+  P4       Waas application     (512c)      2022 working
+  P5       waasperf2-power      (power)     2023 working
+  P6       waasperf2-3845c_aux  (3845)      2024
+  P7       VACANT               (3945)      2025
+  -------------------------------------------------
+35  working
+  P2       waasperf2-3825b      (3825)      2036  working
+  P3       waasperf2-29a        (2921)      2037  working
+  P4       waasperf2-19a        (1941)      2038  working
+  P5       waasperf2-29a_aux    (2921)      2039
+  P6       VACANT               (3945)      2040
+  P7       waasperf2-3825b-aux  (3945)      2041
+  -------------------------------------------------
+BACK
+    Line     Device                         Port
+  -------------------------------------------------
+  P0       waasperf2-3845c      (3845)      2018 workind new flash
+  P1       waasperf2-sw         (7200)      2019 working
+  P2       waasperf2-fw         (1900)      2020 working
+  P3       waasperf2-800a       (88x)       2021
+  P4       Waas application     (512c)      2022 working
+  P5       waasperf2-power      (power)     2023 working
+  P6       waasperf2-3845c_aux  (3845)      2024
+  P7       VACANT               (3945)      2025
+  -------------------------------------------------
+C
+Hostname: waasperf2-cs
+Testbed:  waasperf2
+
+FRONT
+    Line     Device                         Port
+  -------------------------------------------------
+  P0       waasperf2-19a_aux    (1900)      2034
+  P1       waasperf2-72b        (7200)      2035  working
+  P2       waasperf2-3825b      (3825)      2036  working
+  P3       waasperf2-29a        (2921)      2037  working
+  P4       waasperf2-19a        (1941)      2038  working
+  P5       waasperf2-29a_aux    (2921)      2039
+  P6       VACANT               (3945)      2040
+  P7       waasperf2-3825b-aux  (3945)      2041
+  -------------------------------------------------
+BACK
+    Line     Device                         Port
+  -------------------------------------------------
+  P0       waasperf2-3845c      (3845)      2018 workind new flash
+  P1       waasperf2-sw         (7200)      2019 working
+  P2       waasperf2-fw         (1900)      2020 working
+  P3       waasperf2-800a       (88x)       2021
+  P4       Waas application     (512c)      2022 working
+  P5       waasperf2-power      (power)     2023 working
+  P6       waasperf2-3845c_aux  (3845)      2024
+  P7       VACANT               (3945)      2025
+  -------------------------------------------------
+
+waasperf2-72b(boot)#
+rommon 1 > 
+waasperf2-3825b>enableterminal length 0
+Password: 
+waasperf2-72b(boot)#stack
+stack: kernel context state is invalid, can not proceed
+rommon 2 > 
+waasperf2-3825b#reset
+config terterminal lminalength 0
+waasperf2-3825b#config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+waasperf2-72b(boot)(config)#no logging console
+Enter configuration commands, one per line.  End with CNTL/Z.
+waasperf2-3825b(config)#
+waasperf2-72b(boot)(config)#
+waasperf2-19a>no loggingenable consoleend
+waasperf2-72b(boot)#
+Password: 
+waasperf2-3825b(config)#show versionend
+waasperf2-3825b#
+waasperf2-19a#show versionterminal l
+Cisco IOS Software, 7200 Software (C7200P-KBOOT-M), Version 12.4(4)XD5, RELEASE SOFTWARE (fc1)
+Teength 0
+Cisco IOS Software, 3800 Software (C3825-TPGEN+ADVENTERPRISEK9-M), Experimental Version 12.4(20100
+waasperf2-19a#chnical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2006 by Cisco Systems, Inc.
+Cconfig ter323:103320) [shgautam-v48-reg 115]
+Copyright (c) 1986-2010 by Cisco Systems, Inc.
+Compiled Tue 23-
+waasperf2-29a>minalompiled Tue 19-Dec-06 16:07 by alnguyen
+
+ROM: System Bootstrap, Version 12.4(4r)XD5, RELEASE SOFTWenable
+waasperf2-29a#Mar-10 16:58 by shgautam
+
+ROM: System Bootstrap, Version 12.3(11r)T2, RELEASE SOFTWARE (fc1)
+
+waterminal length 0ARE (fc1)
+
+waasperf2-72b uptime is 1 hour, 2 minutes
+System returned to ROM by reload at 12:48:41
+Enter configuration commands, one per line.  End with CNTL/Z.
+waasperf2-19a(config)#
+waasperf2-29a#config terasperf2-3825b uptime is 0 minutes
+System returned to ROM by reload at 13:51:56 PDT Thu Jul 21 2011minalno logging PDT Thu Jul 21 2011
+System restarted at 11:54:46 PDT Thu Jul 21 2011
+System image file is "bootfl console
+System restarted at 13:56:37 PDT Thu Jul 21 2011
+System image file is "tftp://172.19.201.81//auto/
+Enter configuration commands, one per line.  End with CNTL/Z.
+waasperf2-29a(config)#
+waasperf2-19a(config)#ash:c7200p-kboot-mz.124-4.XD5.bin"
+Last reload reason: Reload Command
+
+
+Cisco 7206VXR (NPE-G2) pno logging consoleend
+waasperf2-19a#tftp-joaofer/waas/testing/c3825-PAGENT"
+
+
+This product contains cryptographic features and is sub
+waasperf2-29a(config)#rocessor (revision A) with 917504K/65536K bytes of memory.
+Processor board ID 34850032
+MPC7448 CPUend
+waasperf2-29a#show versishow versiononject to United
+States and local country laws governing import, export, transfer and
+use. Delivery 
+ at 1666Mhz, Implementation 0, Rev 2.2
+6 slot VXR midplane, Version 2.11
+
+Last reset from power-oof Cisco cryptographic products does not imply
+third-party authority to import, export, distribute 
+Cisco IOS Software, C2900 Software (C2900-UNIVERSALK9-M), Version 15.0(1)M4, RELEASE SOFTWARE (fc1n
+
+PCI bus mb1 (Slots 1, 3 and 5) has a capacity of 600 bandwidth points.
+Current configuration oCisco IOS Software, C1900 Software (C1900-UNIVERSALK9-M), Version 15.2(LAKECOMO_DT9_1_20110720), EARor use encryption.
+Importers, exporters, distributors and users are responsible for
+compliance wit)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2010 by Cisco Systems, Inn bus mb1 has a total of 0 bandwidth points. 
+This configuration is within the PCI bus capacity andLY DEPLOYMENT DEVELOPMENT BUILD, synced to V152_0_14_T
+Copyright (c) 1986-2011 by Cisco Systems, Inh U.S. and local country laws. By using this product you
+agree to comply with applicable laws and rc.
+Compiled Thu 28-Oct-10 18:32 by prod_rel_team
+
+ROM: System Bootstrap, Version 15.0(1r)M9, RELE is supported. 
+
+PCI bus mb2 (Slots 2, 4 and 6) has a capacity of 600 bandwidth points.
+Current cc.
+Compiled Wed 20-Jul-11 17:55 by suneetha
+
+ROM: System Bootstrap, Version 15.0(1r)M3, RELEASE Segulations. If you are unable
+to comply with U.S. and local laws, return this product immediately.ASE SOFTWARE (fc1)
+
+waasperf2-29a uptime is 15 hours, 34 minutes
+System returned to ROM by reloadonfiguration on bus mb2 has a total of 300 bandwidth points.
+This configuration is within the PCI bOFTWARE (fc1)
+
+waasperf2-19a uptime is 2 minutes
+System returned to ROM by reload at 13:50:58 PDT
+
+A summary of U.S. laws governing Cisco cryptographic products may be found at:
+http://www.cisco.us capacity and is supported. 
+
+Please refer to the following document "Cisco 7200 Series Port Ada at 18:32:15 PDT Wed Jul 20 2011
+System restarted at 22:22:57 PDT Wed Jul 20 2011
+System image fil Thu Jul 21 2011
+System restarted at 13:55:14 PDT Thu Jul 21 2011
+System image file is "tftp://172com/wwl/export/crypto/tool/stqrg.html
+
+If you require further assistance please contact us by sendptor
+Hardware Configuration Guidelines" on Cisco.com <http://www.cisco.com>
+for c7200 bandwidth poe is "flash0:c2900-universalk9-mz.SPA.150-1.M4.bin"
+Last reload type: Normal Reload
+Last reload reing email to
+export@cisco.com.
+
+Cisco 3825 (revision 1.0) with 1006592K/41984K bytes of memory.
+.19.201.81//auto/tftp-joaofer/waas/testing/c1900-universalk9-mz.SSA07-20-1"
+Last reload type: Normaints oversubscription and usage guidelines.
+
+
+1 FastEthernet interface
+3 Gigabit Ethernet interfason: Reload Command
+
+
+
+This product contains cryptographic features and is subject to United
+SProcessor board ID FTX1003C1WH
+2 FastEthernet interfaces
+2 Gigabit Ethernet interfaces
+8 Serial(sl Reload
+Last reload reason: Reload Command
+
+
+
+This product contains cryptographic features andaces
+1 ATM interface
+2045K bytes of NVRAM.
+
+250880K bytes of ATA PCMCIA card at slot 2 (Sector states and local country laws governing import, export, transfer and
+use. Delivery of Cisco cryptogrync/async) interfaces
+1 Virtual Private Network (VPN) Module
+DRAM configuration is 64 bits wide wi is subject to United
+States and local country laws governing import, export, transfer and
+use. Deize 512 bytes).
+65536K bytes of Flash internal SIMM (Sector size 512K).
+Configuration register is 0x0
+
+waasperf2-72b(boot)#aphic products does not imply
+third-party authority to import, export, distribute or use encryptionth parity enabled.
+479K bytes of NVRAM.
+250368K bytes of ATA System CompactFlash (Read/Write)
+
+Cterm widthlivery of Cisco cryptographic products does not imply
+third-party authority to import, export, dist 0onfiguration register is 0x0
+
+waasperf2-3825b#
+waasperf2-72b(boot)#term width.
+Importers, exporters, distributors and users are responsible for
+compliance with U.S. and local config ter 0minalribute or use encryption.
+Importers, exporters, distributors and users are responsible for
+complia
+waasperf2-3825b#config terminalcountry laws. By using this product you
+agree to comply with applicable laws and regulations. If yo
+Enter configuration commands, one per line.  End with CNTL/Z.
+waasperf2-72b(boot)(config)#nce with U.S. and local country laws. By using this product you
+agree to comply with applicable law no logging console
+Enter configuration commands, one per line.  End with CNTL/Z.
+waasperf2-3825b(config)#u are unable
+to comply with U.S. and local laws, return this product immediately.
+
+A summary of U no loggin
+waasperf2-72b(boot)(config)#g consoles and regulations. If you are unable
+to comply with U.S. and local laws, return this product immediline con 0
+waasperf2-3825b(config)#
+waasperf2-72b(boot)(config-line)#line con 0.S. laws governing Cisco cryptographic products may be found at:
+http://www.cisco.com/wwl/export/crexec-timeoately.
+
+A summary of U.S. laws governing Cisco cryptographic products may be found at:
+http://www
+waasperf2-3825b(config-line)#ut 0exec-timeout 0
+waasperf2-72b(boot)(config-line)#ypto/tool/stqrg.html
+
+If you require further assistance please contact us by sending email to
+expclock time
+waasperf2-3825b(config-line)#.cisco.com/wwl/export/crypto/tool/stqrg.html
+
+If you require further assistance please contact us zone PDT -7clock timezone PDT -7
+waasperf2-72b(boot)(config)#ort@cisco.com.
+
+Cisco CISCO2921/K9 (revision 1.0) with 2580479K/40960K bytes of memory.
+Processorservice ti
+waasperf2-3825b(config)#by sending email to
+export@cisco.com.
+
+Cisco CISCO1941/K9 (revision 1.0) with 2506688K/114688K byservice timestamps debug datetime localtime show-timezone msec board ID FTX1504AHQX
+3 Gigabit Ethernet interfaces
+4 Serial(sync/async) interfaces
+DRAM configurmestamps debug datetime localtime show-timezone msec
+waasperf2-72b(boot)(config)#tes of memory.
+Processor board ID FTX140582T9
+2 Gigabit Ethernet interfaces
+2 Serial(sync/async) 
+System Bootstrap, Version 12.4(13r)T, RELEASE SOFTWARE (fc1)
+Technical Support: http://www.cisco.
+waasperf2-3825b(config)#service tiservice tiation is 64 bits wide with parity enabled.
+255K bytes of non-volatile configuration memory.
+100094com/techsupport
+Copyright (c) 2006 by cisco Systems, Inc.
+mestamps log datetime localtime show-timezone msecmestamps log datetime localtime show-timezone msecinterfaces
+1 terminal line
+1 Virtual Private Network (VPN) Module
+DRAM configuration is 64 bits w
+waasperf2-72b(boot)(config)#
+waasperf2-3825b(config)#end
+waasperf2-72b(boot)#4K bytes of ATA System CompactFlash 0 (Read/Write)
+
+
+License Info:
+
+License UDI:
+
+-----------end
+waasperf2-3825b#clock set clock set ide with parity disabled.
+255K bytes of non-volatile configuration memory.
+4099032K bytes of ATA S13:57:28 21 Jul 201113:57:28 21 Jul 2011
+waasperf2-3825b#
+waasperf2-72b(boot)#--------------------------------------
+Device#	  PID			SN
+----------------------------------------config repconfig repystem CompactFlash 0 (Read/Write)
+
+
+License Info:
+
+License UDI:
+
+----------------------------lace flash:waasperf2.postlace disk2:waasperf2.post
+---------
+*0  	  CISCO2921/K9          FTX1504AHQX     
+
+
+
+Technology Package License Informati---------------------
+Device#	  PID			SN
+-------------------------------------------------
+*0  	 
+This will apply all necessary additions and deletions
+to replace the current running configuratioThis will apply all necessary additions and deletions
+to replace the current running configuration on for Module:'c2900' 
+
+----------------------------------------------------------------
+Technolo CISCO1941/K9          FTX140582T9     
+
+
+
+Technology Package License Information for Module:'c1n with the
+contents of the specified configuration file, which is
+assumed to be a complete configuwith the
+contents of the specified configuration file, which is
+assumed to be a complete configuragy    Technology-package          Technology-package
+              Current       Type          Next900' 
+
+-----------------------------------------------------------------
+Technology    Technologyration, not a partial
+configuration. Enter Y if you are sure you want to proceed. ? [no]: Ytion, not a partial
+configuration. Enter Y if you are sure you want to proceed. ? [no]: Y reboot  
+-----------------------------------------------------------------
+ipbase        ipbasek9-package           Technology-package
+              Current       Type           Next reboot  
+---      Permanent     ipbasek9
+security      None          None          None
+uc            None    
+ Cannot remove rmi manager at the top level
+Translating "alarm"
+
+ Cannot remove rmi manager at ---------------------------------------------------------------
+ipbase        ipbasek9      Permane      None          None
+data          None          None          None
+
+Configuration register is 0x0
+
+waasperf2-29a#nt      ipbasek9
+security      securityk9    Permanent      securityk9
+data          None         term width 0
+waasperf2-29a# None           None
+
+Configuration register is 0x0
+
+waasperf2-19a#config terterm widthminal 0
+waasperf2-19a#config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+waasperf2-29a(config)# no logging console
+
+Enter configuration commands, one per line.  End with CNTL/Z.
+waasperf2-19a(config)#
+waasperf2-29a(config)# no logginline con 0g console
+waasperf2-29a(config-line)#
+waasperf2-19a(config)#exec-timeoline con 0ut 0
+waasperf2-19a(config-line)#
+waasperf2-29a(config-line)#exec-timeoclock timeut 0zone PDT -7
+waasperf2-19a(config-line)#
+waasperf2-29a(config)#clock timeservice tizone PDT -7
+waasperf2-19a(config)#mestamps debug datetime localtime show-timezone msecservice ti
+waasperf2-29a(config)#service timestamps debug datetime localtime show-timezone msec
+waasperf2-19a(config)#mestamps log datetime localtime show-timezone msecservice ti
+waasperf2-29a(config)#end
+waasperf2-29a#mestamps log datetime localtime show-timezone msec
+System Bootstrap, Version 12.4(13r)T11, RELEASE SOFTWARE (fc1)
+Technical Support: http://www.ciscclock set 
+waasperf2-19a(config)#13:57:30 21 Jul 2011end
+waasperf2-19a#o.com/techsupport
+Copyright (c) 2008 by cisco Systems, Inc.
+
+waasperf2-29a#clock set config rep13:57:30 21 Jul 2011lace flash:waasperf2.post
+waasperf2-19a#config replace flash:waasperf2.post
+This will apply all necessary additions and deletions
+to replace the current running configuratio
+This will apply all necessary additions and deletions
+to replace the current running configuration with the
+contents of the specified configuration file, which is
+assumed to be a complete configun with the
+contents of the specified configuration file, which is
+assumed to be a complete configuration, not a partial
+configuration. Enter Y if you are sure you want to proceed. ? [no]: Yration, not a partial
+configuration. Enter Y if you are sure you want to proceed. ? [no]: Y
+Error: Could not open file flash:waasperf2.post for reading
+
+waasperf2-29a#
+ clean of waasperf2-72b was OK 
+ clean of waasperf2-3825b was OK 
+ clean of waasperf2-29a was OK 
+ clean of waasperf2-19a was OK 
+
+Total memory size = 1024 MB - DIMM0 = 512 MB, DIMM1 = 512 MB
+c3845 platform with 1048576 Kbytes of main memory
+Main memory is configured to 72/72(dimm 0/1) bit mode with ECC enabled
+
+
+Upgrade ROMMON initialized
+rommon 1 > 
+rommon 1 > boot 
+program load complete, entry point: 0x8000f000, size: 0xcb40
+program load complete, entry point: 0x8000f000, size: 0xcb40
+
+program load complete, entry point: 0x80010000, size: 0x2d7c964
+Self decompressing the image : ################################################################################################################################################################################################################################################################################# [OK]
+
+Smart Init is enabled
+smart init is sizing iomem
+  ID            MEMORY_REQ                 TYPE
+00042C          0X010D78F3 C3845 motherboard
+000397          0X00178610 Dual FE Combo Port Module with ISL, 2 WAN
+                0X001E0000 OIR memory
+                0X00288860 Onboard PVDM2 SIMM
+                0X00281F0A Onboard VPN
+                0X000021B8 Onboard USB
+                0X00660670 public buffer pools
+                0X0078F000 public particle pools
+-----------------------------------------------
+TOTAL:          0X0272BE95
+
+If any of the above Memory Requirements are 
+"UNKNOWN", you may be using an unsupported
+configuration or there is a software problem and
+system operation may be compromised.
+Rounded IOMEM up to: 40Mb.
+Using 3 percent iomem. [40Mb/1024Mb]
+
+              Restricted Rights Legend
+
+Use, duplication, or disclosure by the Government is
+subject to restrictions as set forth in subparagraph
+(c) of the Commercial Computer Software - Restricted
+Rights clause at FAR sec. 52.227-19 and subparagraph
+(c) (1) (ii) of the Rights in Technical Data and Computer
+Software clause at DFARS sec. 252.227-7013.
+
+           cisco Systems, Inc.
+           170 West Tasman Drive
+           San Jose, California 95134-1706
+
+
+
+Cisco IOS Software, 3800 Software (C3845-ADVSECURITYK9-M), Version 15.1(4)M0.1, MAINTENANCE INTERIM SOFTWARE
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2011 by Cisco Systems, Inc.
+Compiled Sun 10-Apr-11 13:47 by prod_rel_team
+
+
+This product contains cryptographic features and is subject to United
+States and local country laws governing import, export, transfer and
+use. Delivery of Cisco cryptographic products does not imply
+third-party authority to import, export, distribute or use encryption.
+Importers, exporters, distributors and users are responsible for
+compliance with U.S. and local country laws. By using this product you
+agree to comply with applicable laws and regulations. If you are unable
+to comply with U.S. and local laws, return this product immediately.
+
+A summary of U.S. laws governing Cisco cryptographic products may be found at:
+http://www.cisco.com/wwl/export/crypto/tool/stqrg.html
+
+If you require further assistance please contact us by sending email to
+export@cisco.com.
+
+Installed image archive
+Cisco 3845 (revision 1.0) with 1007616K/40960K bytes of memory.
+Processor board ID FTX1340AJJT
+2 FastEthernet interfaces
+2 Gigabit Ethernet interfaces
+1 Virtual Private Network (VPN) Module
+DRAM configuration is 64 bits wide with parity enabled.
+479K bytes of NVRAM.
+62720K bytes of ATA System CompactFlash (Read/Write)
+
+
+
+Press RETURN to get started!
+
+
+waasperf2-3845c>enable
+Password: 
+waasperf2-3845c#terminal length 0
+waasperf2-3845c#config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+waasperf2-3845c(config)#no logging console
+waasperf2-3845c(config)#end
+waasperf2-3845c#show version
+Cisco IOS Software, 3800 Software (C3845-ADVSECURITYK9-M), Version 15.1(4)M0.1, MAINTENANCE INTERIM SOFTWARE
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2011 by Cisco Systems, Inc.
+Compiled Sun 10-Apr-11 13:47 by prod_rel_team
+
+ROM: System Bootstrap, Version 12.4(13r)T11, RELEASE SOFTWARE (fc1)
+
+waasperf2-3845c uptime is 0 minutes
+System returned to ROM by reload at 13:45:56 PDT Thu Jul 21 2011
+System image file is "flash:c3845-advsecurityk9-mz.151-4.M0.1"
+Last reload type: Normal Reload
+
+
+This product contains cryptographic features and is subject to United
+States and local country laws governing import, export, transfer and
+use. Delivery of Cisco cryptographic products does not imply
+third-party authority to import, export, distribute or use encryption.
+Importers, exporters, distributors and users are responsible for
+compliance with U.S. and local country laws. By using this product you
+agree to comply with applicable laws and regulations. If you are unable
+to comply with U.S. and local laws, return this product immediately.
+
+A summary of U.S. laws governing Cisco cryptographic products may be found at:
+http://www.cisco.com/wwl/export/crypto/tool/stqrg.html
+
+If you require further assistance please contact us by sending email to
+export@cisco.com.
+
+Cisco 3845 (revision 1.0) with 1007616K/40960K bytes of memory.
+Processor board ID FTX1340AJJT
+2 FastEthernet interfaces
+2 Gigabit Ethernet interfaces
+1 Virtual Private Network (VPN) Module
+DRAM configuration is 64 bits wide with parity enabled.
+479K bytes of NVRAM.
+62720K bytes of ATA System CompactFlash (Read/Write)
+
+
+License Info:
+
+License UDI:
+
+-------------------------------------------------
+Device#	  PID			SN
+-------------------------------------------------
+*0  	  CISCO3845-MB          FOC13374FEZ     
+
+
+
+Configuration register is 0x0
+
+waasperf2-3845c#term width 0
+waasperf2-3845c#config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+waasperf2-3845c(config)# no logging console
+waasperf2-3845c(config)#line con 0
+waasperf2-3845c(config-line)#exec-timeout 0
+waasperf2-3845c(config-line)#clock timezone PDT -7
+waasperf2-3845c(config)#service timestamps debug datetime localtime show-timezone msec
+waasperf2-3845c(config)#service timestamps log datetime localtime show-timezone msec
+waasperf2-3845c(config)#end
+waasperf2-3845c#clock set 13:59:23 21 Jul 2011
+waasperf2-3845c#config replace flash:waasperf2.post
+This will apply all necessary additions and deletions
+to replace the current running configuration with the
+contents of the specified configuration file, which is
+assumed to be a complete configuration, not a partial
+configuration. Enter Y if you are sure you want to proceed. ? [no]: Y
+ clean of waasperf2-3845c was OK 
+##### Clean completed #####
+
+ If you got errors, do the router individualy so debug is active 
+tie_load_test_settings:Loading custom setting for test
+ This test runs in a different tree set it up
+tie_load_test_settings:Loaded custom test for Avalanche
+SUBMIT TEST -testID 97 -testbed waasperf2 -tree testing server 
+ Starting test  appmixVPN_VPN_ZBFW_NAT_QOS_NET with testing tree
+ lets do this /auto/td-devtest/joaoferixia/ats5.2.0 puts /auto/td-devtest/joaoferixia/ats5.2.0 
+autoeasy -ni -nc -i appmixVPN_VPN_ZBFW_NAT_QOS_NET -t waasperf2 -cf /auto/td-devtest/joaoferixia/ats5.2.0/stg_reg/utils/tie/config/CONFIG.waasperf2

@@ -1,0 +1,179 @@
+#!/nfs/engweb/bin/perl
+
+#==============================================================================
+# Find the basename on the command name and initialize valiables
+#------------------------------------------------------------------------------
+($self = $0) =~ s:.*/::;
+($vers = '$Revision: 1.1 $') =~ s/.*Revision:\s(\S+)\s.*/$self v$1 by Kuntal/;
+
+#==============================================================================
+# Options defaults initialization
+#------------------------------------------------------------------------------
+$optList = 1;
+$optShow = 0;
+
+#==============================================================================
+# Basic options parsing
+#------------------------------------------------------------------------------
+while (@ARGV) {
+    if (($word = shift) =~ s/^-//) {
+        if ($word =~ /^he?l?p?$/) {
+            &help;
+        } elsif ($word =~ /^ve?r?s?i?o?n?$/) {
+	    die "$vers\n";
+        } elsif ($word =~ /^pa?g?e?r?$/) {
+	    die "$self: Missing pager command name\n" unless $pager = shift;
+        } elsif ($word =~ /^sh?o?w?$/) {
+	    $optShow = 1;
+	    $optList = 0;
+        } else {
+            die "$self: -$word: unknown switch\n";
+        }
+    } else {
+        push (@files, $word);
+    }
+}
+
+#==============================================================================
+# Options validation
+#------------------------------------------------------------------------------
+if ($optList) {
+    die "$self: Too many arguments\n" if ($#files > 0);
+    die "$self: Missing filename\n" if ($#files < 0);
+}
+if ($optShow) {
+    die "$self: Too many arguments\n" if ($#files > 1);
+    die "$self: Missing filename\n" if ($#files < 1);
+    $pager = $ENV{PAGER} if (! defined $pager || $pager !~ /\S/);
+    $pager = "less"      if (! defined $pager || $pager !~ /\S/);
+}
+
+#==============================================================================
+# Initialize variables
+#------------------------------------------------------------------------------
+$hSize = 512;
+$hForm = "A100 A8 A8 A8 A12 A12 A8 A A100 A6 A2 A32 A32 A8 A8 A155 x12";
+$pForm = "a100 a8 a8 a8 a12 a12 a8 a a100 a6 a2 a32 a32 a8 a8 a155 x12";
+$nullB = "\0" x $hSize;
+
+#==============================================================================
+# Find out window size
+#------------------------------------------------------------------------------
+# eval 'sub _TIOC () {(ord(\'T\')<<8);}';
+# eval 'sub TIOC () { &_TIOC;}';
+# eval 'sub TIOCGWINSZ () {( &_TIOC|104);}';
+# ioctl(STDIN, &TIOCGWINSZ, $winsz);
+# @winsz = unpack("ssss", $winsz);
+#==============================================================================
+
+#==============================================================================
+# Start
+#------------------------------------------------------------------------------
+open(TAR, $files[0]) || die "$self: $files[0]: $!\n";
+open(TAR, '-|') || exec('gunzip', '-c', $files[0])
+    || die "$self: $files[0]: $!\n" if ($files[0] =~ /\.([Zz]|t?gz)$/);
+if ($optShow) {
+    pipe(R, W);
+    if (($pid = fork) == 0) {
+        open (STDIN, "<&R") || die "$self: dup: R: $!\n";
+        close(R);
+        close(W);
+	exec ($pager) || die "$self: $pager: Command not found\n";
+    } else {
+	die "$self: fork: $!\n" if ($pid == -1);
+        open (STDOUT, ">&W") || die "$self: dup: W: $!\n";
+        close(R);
+        close(W);
+        select(STDOUT); $| = 1;
+    }
+}
+while (($s = read(TAR, $h, $hSize)) == $hSize) {
+    $nullC = 0;
+    if ($h eq $nullB) { last if (++$nullC == 2); next; }
+    @h = unpack($hForm, $h);
+    for (1 .. 6) { $h[$_] = oct($h[$_]); }
+
+    if ($optList) {
+        @a = @h;
+
+	print <<eoHeader if (! $headerDone++);
+===============================================================================
+Permission UsrId GrpId       Size Date      Time  OK File
+-------------------------------------------------------------------------------
+eoHeader
+        @fType = ("-", "h", "l", "c", "b", "d", "p", "#");
+        $a[7] = 0 if $a[7] eq "\0";
+	print "$fType[$a[7]]";
+
+	$a[1] = sprintf("%o", $a[1]);
+	@sn = ("t","s","s");    @sf = ("T","l","S");
+	@on = ("x","w","r","x","w","r","x","w","r");
+	@of = ("-","-","-","-","-","-","-","-","-");
+	$smod = oct(substr($a[1], -4, 1));
+	$mode = oct(substr($a[1], -3, 3));
+	for ($i = 2; $i >= 0; --$i) {
+	  eval (($mode >> ($i*3)) ?  '$on[$i*3]=$sn[$i]' : '$of[$i*3]=$sf[$i]')
+	    if ( ($smod >> $i) & 0001 );
+	}
+	for ($i = 8; $i >= 0; --$i) {
+	    print ( ( ($mode >> $i) & 0001 ) ? $on[$i] : $of[$i] );
+	}
+
+	printf " %5d %5d", $a[2], $a[3];
+	printf " %10d", $a[4];
+	print  " ", &fmtTime(localtime($a[5]));
+        $cksum = &checksum($h);
+	print  ($a[6] == $cksum ? "  Y" : "  N" );
+	print  " $a[0]\n";
+	print  "  >> $a[8]\n" if ($a[7] == 2);
+    } elsif ($optEdit && $h[0] eq $files[1]) {
+        ($tempfile = $h[0]) =~ s:.*/::; $tempfile = "/tmp/tark.$$.$temp";
+        open(TEMP, ">$tempfile")
+	    || die "$self: $tempfile: $!\n";
+    }
+
+    $bSize = 8192; $size = $h[4]; $size = 0 if ($h[7] =~ /1/);
+    while ($size > 0) {
+	$bSize = 512 if ($size < $bSize);
+	if (($s = read(TAR, $buf, $bSize)) != $bSize) {
+	    warn "bSize=$bSize, size=$size, s=$s, $h[0]\nIllegal EOF!\n";
+	}
+	$buf = substr($buf, 0, $size) if ($size < $bSize);
+	print $buf if ($optShow && $h[0] eq $files[1]);
+	print TEMP $buf if ($optEdit && $h[0] eq $files[1]);
+	$size -= $bSize;
+    }
+}
+close(TAR);
+close(TEMP)        if ($optEdit);
+close(STDOUT)      if ($optShow);
+wait               if ($optShow);
+print "="x79, "\n" if ($optList);
+
+sub fmtTime {
+    local(@t) = @_;
+    @m = ("Jan", "Feb", "Mar", "Apr", "May", "Jun",
+          "Jul", "Aug", "Sep", "Oct", "Nov", "Dec");
+    return sprintf("%3s-%02d-%02d %2d:%02d", $m[$t[4]],$t[3],$t[5],$t[2],$t[1]);
+                              
+}
+
+sub checksum {
+    local($header) = @_;
+    local(@header) = unpack($hForm, $header);
+    $header[6] =~ s/./ /g; $header = join("", @header);
+    $cksum = 32; $cksum += unpack("%16a*", $header); $cksum %= 65536;
+    return $cksum;
+}
+
+sub printHeaderInfo {
+    local($header) = @_;
+    local(@header) = unpack($hForm, $header);
+    for (1 .. 6) { $header[$_] = oct($header[$_]); }
+    print "Name:  $header[0]\n";
+    print "Mode:  $header[1]\n";
+    print "Uid :  $header[2]\n";
+    print "Gid :  $header[3]\n";
+    print "Size:  $header[4]\n";
+    return;
+}
