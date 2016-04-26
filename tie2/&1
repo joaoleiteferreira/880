@@ -1,4 +1,4 @@
-can't read "_aereport(root)": no such element in array
+scan't read "_aereport(root)": no such element in array
     while executing
 "$_aereport(root) selectNodes  "//aereport/testsuite/initinfo/name""
     (procedure "::aereport::stopTestSuite" line 38)
